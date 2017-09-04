@@ -1,5 +1,6 @@
 package in.novopay.velocity;
 
+import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -20,12 +21,13 @@ import com.google.common.base.CaseFormat;
 import in.novopay.velocity.input.InputEntity;
 import in.novopay.velocity.input.InputEntityFields;
 
-
 public class Main {
+	// TODO
+	static String ROOT_DIR = "/Users/anandparmar/Documents/Novopay-Server/CodeGenerator/src/in/novopay/velocity";
 
-	static String TEMPLATES_DIR = "/Users/navaneet/office/eclipse-workspace/platformv3/CodeGeneration/src/in/novopay/velocity/templates";
-	static String OUTPUT_DIR = "/Users/navaneet/office/eclipse-workspace/platformv3/CodeGeneration/src/in/novopay/velocity/output/";
-	static String INPUT_DIR = "/Users/navaneet/office/eclipse-workspace/platformv3/CodeGeneration/src/in/novopay/velocity/input";
+	static String TEMPLATES_DIR = ROOT_DIR + "/templates";
+	static String OUTPUT_DIR = ROOT_DIR + "/output";
+	static String INPUT_DIR = ROOT_DIR + "/input";
 	
 	public static void main(String[] args) throws IOException {
 		VelocityContext context = new VelocityContext();
@@ -33,40 +35,49 @@ public class Main {
 		context.put("entity", entity);
 		VelocityEngine velocityEngine = new VelocityEngine();
 		Properties velocityProperties = new Properties();
-		velocityProperties.setProperty("file.resource.loader.path",TEMPLATES_DIR);
+		velocityProperties.setProperty("file.resource.loader.path", TEMPLATES_DIR);
 		velocityEngine.init(velocityProperties);
+		
+		// TODO 
+		String[] inputTemplateFileArray = { 
+				"entity.vm", 
+				"repo.vm", 
+				"dao.vm" };
+		
+		String[] outputDir = {
+				"in/novopay/" + entity.getService() + "/" + entity.getUserStory() + "/entity",
+				"in/novopay/" + entity.getService() + "/" + entity.getUserStory() + "/repository",
+				"in/novopay/" + entity.getService() + "/" + entity.getUserStory() + "/daoservice"};
+		
+		String[] outputFileExtentionArray = { 
+				"Entity.java", 
+				"Repository.java", 
+				"DAOService.java" };
 
-		Template t = velocityEngine.getTemplate("entity.vm");
-		StringWriter writer = new StringWriter();
-		t.merge(context, writer);
-		System.out.println(writer);
-		PrintWriter pw = new PrintWriter(OUTPUT_DIR+ entity.getClassName() + "Entity.java","UTF-8");
-		pw.print(writer.toString());
-		pw.close();
-
-		t = velocityEngine.getTemplate("repo.vm");
-		writer = new StringWriter();
-		t.merge(context, writer);
-		System.out.println(writer);
-		pw = new PrintWriter(OUTPUT_DIR+ entity.getClassName() + "Repository.java");
-		pw.print(writer.toString());
-		pw.close();
-
-		t = velocityEngine.getTemplate("dao.vm");
-		writer = new StringWriter();
-		t.merge(context, writer);
-		System.out.println(writer);
-		pw = new PrintWriter(OUTPUT_DIR+ entity.getClassName() + "DAOService.java");
-		pw.print(writer.toString());
-		pw.close();
-
+		createOutputDirectories(outputDir);
+		
+		if (inputTemplateFileArray.length == outputDir.length 
+				&& inputTemplateFileArray.length == outputFileExtentionArray.length) {
+			
+			for (int i = 0; i < inputTemplateFileArray.length; i++) {
+				Template t = velocityEngine.getTemplate(inputTemplateFileArray[i]);
+				StringWriter writer = new StringWriter();
+				t.merge(context, writer);
+				System.out.println(writer);
+				PrintWriter pw = new PrintWriter(OUTPUT_DIR + "/" + outputDir[i] + "/" + entity.getClassName() + outputFileExtentionArray[i]);
+				pw.print(writer.toString());
+				pw.close();
+			}
+		} else {
+			System.out.println("Array size is not matching.");
+		}
 	}
 
 	public static InputEntity getEntity() {
 		JSONParser parser = new JSONParser();
 		InputEntity entity = new InputEntity();
 		try {
-			Object obj = parser.parse(new FileReader(INPUT_DIR+"/input.json"));
+			Object obj = parser.parse(new FileReader(INPUT_DIR + "/input.json"));
 			JSONObject jsonObject = (JSONObject) obj;
 			String table = (String) jsonObject.get("table");
 			entity.setTable(table);
@@ -97,6 +108,27 @@ public class Main {
 			e.printStackTrace();
 		}
 		return entity;
+	}
+
+	private static void deleteRecursive(File fileOrDirectory) {
+		if (fileOrDirectory.exists() && fileOrDirectory.isDirectory())
+			for (File child : fileOrDirectory.listFiles())
+				deleteRecursive(child);
+
+		if (fileOrDirectory.exists()) {
+			fileOrDirectory.delete();
+		}
+	}
+
+	private static void createOutputDirectories(String[] outputDirectories) {
+		File rootFile = new File(OUTPUT_DIR);
+		deleteRecursive(rootFile);
+		rootFile.mkdirs();
+
+		for (int i = 0; i < outputDirectories.length; i++) {
+			File file = new File(OUTPUT_DIR + "/" + outputDirectories[i]);
+			file.mkdirs();
+		}
 	}
 
 }
