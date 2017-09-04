@@ -1,0 +1,14 @@
+package in.novopay.${entity.service}.${entity.userStory}.repository;
+
+
+import in.novopay.${entity.service}.${entity.userStory}.entity.${entity.className}Entity;
+import org.springframework.data.repository.CrudRepository;
+
+import java.util.List;
+
+interface ${entity.className}Repository extends CrudRepository<${entity.className}Entity, Integer> {
+
+	List<${entity.className}Entity> findAll();
+	${entity.className}Entity findOneById(Integer id);
+	
+}

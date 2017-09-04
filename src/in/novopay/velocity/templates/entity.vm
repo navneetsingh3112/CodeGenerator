@@ -1,0 +1,32 @@
+package in.novopay.${entity.service}.${entity.userStory}.entity;
+
+import java.util.Date;
+
+import javax.persistence.Entity;
+import javax.persistence.Table;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+
+@Entity
+@Table(name = "${entity.table}")
+public class ${entity.className}Entity {
+
+
+	@Id
+	@GeneratedValue(strategy = GenerationType.AUTO)
+	private Integer id;
+#foreach ($field in $entity.fieldList)
+	private ${field.type} ${field.lowerCamelCaseName};
+#end
+
+#foreach ($field in $entity.fieldList)
+
+	public void set${field.upperCamelCaseName}(${field.type} ${field.lowerCamelCaseName}){
+		this.${field.lowerCamelCaseName}=${field.lowerCamelCaseName};
+	}
+	public ${field.type} get${field.upperCamelCaseName}(){
+		return ${field.lowerCamelCaseName};
+	}
+#end
+}

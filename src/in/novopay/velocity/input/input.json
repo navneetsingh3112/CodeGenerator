@@ -1,0 +1,28 @@
+{
+	"table": "internal_account_template",
+	"userStory": "internalaccount",
+	"service": "accounting",
+	"fields": [
+		{
+			"name": "description",
+			"type": "String",
+			"length": 256
+		},
+		{
+			"name": "name",
+			"type": "String",
+			"length": 64,
+			"notNull": true
+		},
+		{
+			"name": "created_by",
+			"type": "String",
+			"length": 50
+		},
+		{
+			"name": "created_on",
+			"type": "Date",
+			"notNull": true
+		}
+	]
+}

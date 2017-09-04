@@ -1,0 +1,46 @@
+package in.novopay.${entity.service}.${entity.userStory}.daoservice;
+
+
+import in.novopay.${entity.service}.${entity.userStory}.entity.${entity.className}Entity;
+import in.novopay.infra.platform.exception.NovopayFatalException;
+import in.novopay.infra.platform.navigation.ExecutionContext;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import java.util.List;
+import java.util.Map;
+
+import static in.novopay.accounting.constants.NovopayAccountingCommonConstants.PAGE_SIZE;
+
+@Service
+public class ${entity.className}DAOService {
+
+	@Autowired
+	private ${entity.className}Repository ${entity.lowerCamelCaseClassName}Repository;
+		
+	@Autowired
+	private ${entity.className}RowMapper ${entity.lowerCamelCaseClassName}Mapper;
+
+	public List<${entity.className}Entity> getAll${entity.className}() {
+		return ${entity.lowerCamelCaseClassName}Repository.findAll();
+	}
+	
+	public List<Map<String, Object>> getAll${entity.className}(ExecutionContext executionContext) throws NovopayFatalException {
+		List<Map<String, Object>> ${entity.lowerCamelCaseClassName}List = ${entity.lowerCamelCaseClassName}Mapper.getDetails(executionContext);
+		executionContext.put(PAGE_SIZE, ${entity.lowerCamelCaseClassName}List.size());
+		return ${entity.lowerCamelCaseClassName}List;
+	}
+
+	public ${entity.className}Entity save${entity.className}(${entity.className}Entity templateEntity) {
+		return ${entity.lowerCamelCaseClassName}Repository.save(templateEntity);
+	}
+	
+	public ${entity.className}Entity getOneWithId(Integer templateId){
+		return ${entity.lowerCamelCaseClassName}Repository.findOneById(templateId);
+	}
+	
+	
+	public Long get${entity.className}Count(ExecutionContext executionContext){
+		return ${entity.lowerCamelCaseClassName}Mapper.getCount(executionContext);
+	}
+}
