@@ -3,6 +3,7 @@
    "userStory":"heirarchylevel",
    "service":"heirarchymanagement",
    "table_comment " : "Heirarchy level information for various purposes spanning various departements",
+   "author":"Manoj",
    "fields":[
       {
          "name":"level_name",
@@ -63,7 +64,7 @@
          "type":"String",
          "length":64,
          "is_mandatory" :true,
-         "comment" : "Updated on"
+         "comment" : "Updated by"
       }
    ]
 }

@@ -59,7 +59,7 @@ public class Main {
 				t.merge(context, writer);
 				System.out.println(writer);
 				PrintWriter pw = new PrintWriter(
-						OUTPUT_DIR + "/" + outputDir[i] + "/" + entity.getClassName() + outputFileExtentionArray[i]);
+						OUTPUT_DIR + "/" + outputDir[i] + "/" + entity.getUpperCamelCaseClassName() + outputFileExtentionArray[i]);
 				pw.print(writer.toString());
 				pw.close();
 			}
@@ -89,10 +89,12 @@ public class Main {
 			JSONObject jsonObject = (JSONObject) obj;
 			String table = (String) jsonObject.get("table");
 			entity.setTable(table);
-			entity.setClassName(CaseFormat.UPPER_UNDERSCORE.to(CaseFormat.UPPER_CAMEL, table));
 			entity.setLowerCamelCaseClassName(CaseFormat.UPPER_UNDERSCORE.to(CaseFormat.LOWER_CAMEL, table));
 			entity.setUpperCamelCaseClassName(CaseFormat.UPPER_UNDERSCORE.to(CaseFormat.UPPER_CAMEL, table));
 
+			String author = (String) jsonObject.get("author");
+			entity.setAuthor(author);
+			
 			String userStory = (String) jsonObject.get("userStory");
 			entity.setUserStory(userStory);
 

@@ -1,7 +1,7 @@
 package in.novopay.${entity.service}.${entity.userStory}.daoservice;
 
 
-import in.novopay.${entity.service}.${entity.userStory}.entity.${entity.className}Entity;
+import in.novopay.${entity.service}.${entity.userStory}.entity.${entity.upperCamelCaseClassName}Entity;
 import in.novopay.infra.platform.exception.NovopayFatalException;
 import in.novopay.infra.platform.navigation.ExecutionContext;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,35 +12,42 @@ import java.util.Map;
 
 import static in.novopay.accounting.constants.NovopayAccountingCommonConstants.PAGE_SIZE;
 
+/***
+ * 
+ * @author ${entity.author}
+ *
+ */
+
 @Service
-public class ${entity.className}DAOService {
+public class ${entity.upperCamelCaseClassName}DAOService {
 
 	@Autowired
-	private ${entity.className}Repository ${entity.lowerCamelCaseClassName}Repository;
+	private ${entity.upperCamelCaseClassName}Repository ${entity.lowerCamelCaseClassName}Repository;
 		
 	@Autowired
-	private ${entity.className}RowMapper ${entity.lowerCamelCaseClassName}Mapper;
+	private ${entity.upperCamelCaseClassName}RowMapper ${entity.lowerCamelCaseClassName}Mapper;
 
-	public List<${entity.className}Entity> getAll${entity.className}() {
+	public ${entity.upperCamelCaseClassName}Entity save${entity.upperCamelCaseClassName}(${entity.upperCamelCaseClassName}Entity templateEntity) {
+		return ${entity.lowerCamelCaseClassName}Repository.save(templateEntity);
+	}
+
+	public List<${entity.upperCamelCaseClassName}Entity> get${entity.upperCamelCaseClassName}List() {
 		return ${entity.lowerCamelCaseClassName}Repository.findAll();
 	}
 	
-	public List<Map<String, Object>> getAll${entity.className}(ExecutionContext executionContext) throws NovopayFatalException {
+	public List<Map<String, Object>> get${entity.upperCamelCaseClassName}PaginatedList(ExecutionContext executionContext) throws NovopayFatalException {
 		List<Map<String, Object>> ${entity.lowerCamelCaseClassName}List = ${entity.lowerCamelCaseClassName}Mapper.getDetails(executionContext);
 		executionContext.put(PAGE_SIZE, ${entity.lowerCamelCaseClassName}List.size());
 		return ${entity.lowerCamelCaseClassName}List;
 	}
 
-	public ${entity.className}Entity save${entity.className}(${entity.className}Entity templateEntity) {
-		return ${entity.lowerCamelCaseClassName}Repository.save(templateEntity);
-	}
-	
-	public ${entity.className}Entity getOneWithId(Integer templateId){
-		return ${entity.lowerCamelCaseClassName}Repository.findOneById(templateId);
-	}
-	
-	
-	public Long get${entity.className}Count(ExecutionContext executionContext){
+	public Long get${entity.upperCamelCaseClassName}Count(ExecutionContext executionContext){
 		return ${entity.lowerCamelCaseClassName}Mapper.getCount(executionContext);
 	}
+	
+	public ${entity.upperCamelCaseClassName}Entity get${entity.upperCamelCaseClassName}Details(Integer id){
+		return ${entity.lowerCamelCaseClassName}Repository.findOneById(id);
+	}
+	
+	
 }

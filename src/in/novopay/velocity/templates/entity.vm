@@ -8,25 +8,34 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 
+/***
+ * 
+ * @author ${entity.author}
+ *
+ */
+
 @Entity
 @Table(name = "${entity.table}")
-public class ${entity.className}Entity {
+public class ${entity.upperCamelCaseClassName}Entity {
 
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private Integer id;
 #foreach ($field in $entity.fieldList)
+#if( ${field.lowerCamelCaseName} != "createdOn" && ${field.lowerCamelCaseName} != "createdBy" && ${field.lowerCamelCaseName} != "updatedOn" && ${field.lowerCamelCaseName} != "updatedBy")
 	private ${field.type} ${field.lowerCamelCaseName};
+#end	
 #end
 
 #foreach ($field in $entity.fieldList)
-
+#if( ${field.lowerCamelCaseName} != "createdOn" && ${field.lowerCamelCaseName} != "createdBy" && ${field.lowerCamelCaseName} != "updatedOn" && ${field.lowerCamelCaseName} != "updatedBy")
 	public void set${field.upperCamelCaseName}(${field.type} ${field.lowerCamelCaseName}){
 		this.${field.lowerCamelCaseName}=${field.lowerCamelCaseName};
 	}
 	public ${field.type} get${field.upperCamelCaseName}(){
 		return ${field.lowerCamelCaseName};
 	}
+#end
 #end
 }
