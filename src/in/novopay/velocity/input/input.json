@@ -1,70 +1,88 @@
 {
-   "table":"heirarchy_level",
-   "userStory":"heirarchylevel",
-   "service":"heirarchymanagement",
-   "table_comment " : "Heirarchy level information for various purposes spanning various departements",
-   "author":"Manoj",
-   "fields":[
-      {
-         "name":"level_name",
-         "type":"String",
-         "length":16,
-         "is_mandatory" :true,
-         "comment" : "Name of heirarchy level"
-      },
-      {
-         "name":"level_code",
-         "type":"String",
-         "length":8,
-         "is_mandatory" :true,
-         "comment" : "Heirarchy level code",
-         "is_unique" : true
-      },
-      {
-         "name":"description",
-         "type":"String",
-         "length":256,
-         "comment" : "Heirarchy level description"
-      },
-      {
-         "name":"department_name",
-         "type":"String",
-         "length":256,
-         "is_mandatory" :true,
-         "comment" : "Heirarchy level department name"
-      },
-      {
-         "name":"heirarchy_level_type",
-         "type":"String",
-         "length":256,
-         "is_mandatory" :true,
-         "comment" : "Type of heirarchy level"
-      },
-      {
-         "name":"created_on",
-         "type":"Datetime",
-         "is_mandatory" :true,
-         "comment" : "Created on"
-      },
-      {
-         "name":"created_by",
-         "type":"String",
-         "length":64,
-         "is_mandatory" :true,
-         "comment" : "Created by"
-      },
-      {
-         "name":"updated_on",
-         "type":"Datetime",
-         "is_mandatory" :true,
-         "comment" : "Updated on"
-      },
-      {
-         "name":"updated_by",
-         "type":"String",
-         "length":64,
-         "is_mandatory" :true,
-         "comment" : "Updated by"
-      }
-   ]
+	"table":"heirarchy_level",
+	"userStory":"heirarchylevel",
+	"service":"heirarchymanagement",
+	"table_comment" : "Heirarchy level information for various purposes spanning various departements",
+	"author":"Manoj",
+	"fields": [
+		{
+			"name": "level_name",
+			"java_type": "String",
+			"sql_type": "VARCHAR",
+			"length": 16,
+			"is_mandatory": true,
+			"comment": "Name of heirarchy level"
+		},
+		{
+			"name": "level_code",
+			"java_type": "String",
+			"sql_type": "VARCHAR",
+			"length": 8,
+			"is_mandatory": true,
+			"comment": "Heirarchy level code"
+		},
+		{
+			"name": "description",
+			"java_type": "String",
+			"sql_type": "VARCHAR",
+			"length": 256,
+			"comment": "Heirarchy level description"
+		},
+		{
+			"name": "department_name",
+			"java_type": "String",
+			"sql_type": "VARCHAR",
+			"length": 256,
+			"is_mandatory": true,
+			"comment": "Heirarchy level department name"
+		},
+		{
+			"name": "heirarchy_level_type",
+			"java_type": "String",
+			"sql_type": "VARCHAR",
+			"length": 256,
+			"is_mandatory": true,
+			"comment": "Type of heirarchy level"
+		},
+		{
+			"name": "created_on",
+			"java_type": "Date",
+			"sql_type": "DATETIME",
+			"is_mandatory": true,
+			"comment": "Created on"
+		},
+		{
+			"name": "created_by",
+			"java_type": "String",
+			"sql_type": "VARCHAR",
+			"length": 64,
+			"is_mandatory": true,
+			"comment": "Created by"
+		},
+		{
+			"name": "updated_on",
+			"java_type": "Date",
+			"sql_type": "DATETIME",
+			"is_mandatory": true,
+			"comment": "Updated on"
+		},
+		{
+			"name": "updated_by",
+			"java_type": "String",
+			"sql_type": "VARCHAR",
+			"length": 64,
+			"is_mandatory": true,
+			"comment": "Updated on"
+		}
+	],
+	"table_indices": [
+		{
+			"name": "hl_level_code",
+			"type": "UNIQUE",
+			"keys": [
+				"level_code"
+			],
+			"order": "ASC"
+		}
+	]
 }

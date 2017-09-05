@@ -1,13 +1,20 @@
 package in.novopay.velocity.input;
 
+import org.apache.commons.lang.StringUtils;
+
 public class InputEntityFields {
 	private String name;
 	private String lowerCamelCaseName;
 	private String upperCamelCaseName;
-	private String type;
+	
 	private Integer length;
-	private Boolean notNull;
 	private String lowerSnakeCaseName;
+	private Boolean isMandatory;
+	
+	private String javaType;
+	private String sqlType;
+	
+	private String comment;
 	
 	public String getName() {
 		return name;
@@ -16,15 +23,7 @@ public class InputEntityFields {
 	public void setName(String name) {
 		this.name = name;
 	}
-
-	public String getType() {
-		return type;
-	}
-
-	public void setType(String type) {
-		this.type = type;
-	}
-
+	
 	public String getLowerCamelCaseName() {
 		return lowerCamelCaseName;
 	}
@@ -49,16 +48,39 @@ public class InputEntityFields {
 		this.length = length;
 	}
 
-	public Boolean getNotNull() {
-		return notNull;
+	public Boolean getIsMandatory() {
+		return isMandatory;
 	}
 
-	public void setNotNull(Boolean notNull) {
-		this.notNull = notNull;
+	public void setIsMandatory(Boolean isMandatory) {
+		this.isMandatory = isMandatory;
 	}
 
+	public String getSqlType() {
+		return sqlType;
+	}
+
+	public void setSqlType(String sqlType) {
+		this.sqlType = sqlType;
+	}
+
+	public String getJavaType() {
+		return javaType;
+	}
+
+	public void setJavaType(String javaType) {
+		this.javaType = javaType;
+	}
+
+	public String getComment() {
+		return comment;
+	}
+
+	public void setComment(String comment) {
+		this.comment = comment;
+	}
 	public String addNotNull(){
-        if(this.notNull) return " NOT NULL";
+        if(this.isMandatory) return " NOT NULL";
         else return "";
     }
 	
@@ -79,4 +101,10 @@ public class InputEntityFields {
 	public void setLowerSnakeCaseName(String lowerSnakeCaseName) {
 		this.lowerSnakeCaseName = lowerSnakeCaseName;
 	}
+	
+	public String addComment(){
+		if(StringUtils.isNotBlank(comment)) return " COMMENT '"+ comment + "'";
+        else return "";
+	}
+
 }

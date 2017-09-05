@@ -24,16 +24,16 @@ public class ${entity.upperCamelCaseClassName}Entity {
 	private Integer id;
 #foreach ($field in $entity.fieldList)
 #if( ${field.lowerCamelCaseName} != "createdOn" && ${field.lowerCamelCaseName} != "createdBy" && ${field.lowerCamelCaseName} != "updatedOn" && ${field.lowerCamelCaseName} != "updatedBy")
-	private ${field.type} ${field.lowerCamelCaseName};
+	private ${field.javaType} ${field.lowerCamelCaseName};
 #end	
 #end
 
 #foreach ($field in $entity.fieldList)
 #if( ${field.lowerCamelCaseName} != "createdOn" && ${field.lowerCamelCaseName} != "createdBy" && ${field.lowerCamelCaseName} != "updatedOn" && ${field.lowerCamelCaseName} != "updatedBy")
-	public void set${field.upperCamelCaseName}(${field.type} ${field.lowerCamelCaseName}){
+	public void set${field.upperCamelCaseName}(${field.javaType} ${field.lowerCamelCaseName}){
 		this.${field.lowerCamelCaseName}=${field.lowerCamelCaseName};
 	}
-	public ${field.type} get${field.upperCamelCaseName}(){
+	public ${field.javaType} get${field.upperCamelCaseName}(){
 		return ${field.lowerCamelCaseName};
 	}
 #end

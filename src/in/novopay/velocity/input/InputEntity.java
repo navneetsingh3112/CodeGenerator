@@ -2,6 +2,8 @@ package in.novopay.velocity.input;
 
 import java.util.ArrayList;
 
+import org.apache.commons.lang.StringUtils;
+
 public class InputEntity {
 	private String table;
 	private String author;
@@ -9,6 +11,7 @@ public class InputEntity {
 	private String upperCamelCaseClassName;
 	private String service;
 	private String userStory;
+	private String tableComment;
 
 	ArrayList<InputEntityFields> fieldList = new ArrayList<>();
 
@@ -66,6 +69,19 @@ public class InputEntity {
 
 	public void setAuthor(String author) {
 		this.author = author;
+	}
+
+	public String getTableComment() {
+		return tableComment;
+	}
+
+	public void setTableComment(String tableComment) {
+		this.tableComment = tableComment;
+	}
+	
+	public String addTableComment(){
+		if(StringUtils.isNotBlank(tableComment)) return " COMMENT = '"+ tableComment + "'";
+        else return "";
 	}
 
 }
