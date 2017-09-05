@@ -100,6 +100,8 @@ public class Main {
 
 			String service = (String) jsonObject.get("service");
 			entity.setService(service);
+			
+			entity.setTableComment((String) jsonObject.get("table_comment"));
 
 			JSONArray fields = (JSONArray) jsonObject.get("fields");
 			Iterator<JSONObject> iterator = fields.iterator();
@@ -111,17 +113,19 @@ public class Main {
 						CaseFormat.UPPER_UNDERSCORE.to(CaseFormat.LOWER_CAMEL, (String) fobj.get("name")));
 				f.setUpperCamelCaseName(
 						CaseFormat.UPPER_UNDERSCORE.to(CaseFormat.UPPER_CAMEL, (String) fobj.get("name")));
-				f.setType((String) fobj.get("type"));
+				f.setJavaType((String) fobj.get("java_type"));
+				f.setSqlType((String) fobj.get("sql_type"));
 				Long length = (Long) fobj.get("length");
 				if (length != null) {
 					f.setLength(length.intValue());
 				}
-				Boolean notNull = (Boolean) fobj.get("notNull");
-				if (notNull != null) {
-					f.setNotNull(notNull);
+				Boolean isMandatory = (Boolean) fobj.get("is_mandatory");
+				if (isMandatory != null) {
+					f.setIsMandatory(isMandatory);
 				} else {
-					f.setNotNull(false);
+					f.setIsMandatory(false);
 				}
+				f.setComment((String) fobj.get("comment"));
 				entity.addFields(f);
 			}
 		} catch (IOException | ParseException e) {
