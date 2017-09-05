@@ -1,28 +1,69 @@
 {
-	"table": "internal_account_template",
-	"userStory": "internalaccount",
-	"service": "accounting",
-	"fields": [
-		{
-			"name": "description",
-			"type": "String",
-			"length": 256
-		},
-		{
-			"name": "name",
-			"type": "String",
-			"length": 64,
-			"notNull": true
-		},
-		{
-			"name": "created_by",
-			"type": "String",
-			"length": 50
-		},
-		{
-			"name": "created_on",
-			"type": "Date",
-			"notNull": true
-		}
-	]
+   "table":"heirarchy_level",
+   "userStory":"heirarchylevel",
+   "service":"heirarchymanagement",
+   "table_comment " : "Heirarchy level information for various purposes spanning various departements",
+   "fields":[
+      {
+         "name":"level_name",
+         "type":"String",
+         "length":16,
+         "is_mandatory" :true,
+         "comment" : "Name of heirarchy level"
+      },
+      {
+         "name":"level_code",
+         "type":"String",
+         "length":8,
+         "is_mandatory" :true,
+         "comment" : "Heirarchy level code",
+         "is_unique" : true
+      },
+      {
+         "name":"description",
+         "type":"String",
+         "length":256,
+         "comment" : "Heirarchy level description"
+      },
+      {
+         "name":"department_name",
+         "type":"String",
+         "length":256,
+         "is_mandatory" :true,
+         "comment" : "Heirarchy level department name"
+      },
+      {
+         "name":"heirarchy_level_type",
+         "type":"String",
+         "length":256,
+         "is_mandatory" :true,
+         "comment" : "Type of heirarchy level"
+      },
+      {
+         "name":"created_on",
+         "type":"Datetime",
+         "is_mandatory" :true,
+         "comment" : "Created on"
+      },
+      {
+         "name":"created_by",
+         "type":"String",
+         "length":64,
+         "is_mandatory" :true,
+         "comment" : "Created by"
+      },
+      {
+         "name":"updated_on",
+         "type":"Datetime",
+         "is_mandatory" :true,
+         "comment" : "Updated on"
+      },
+      {
+         "name":"updated_by",
+         "type":"String",
+         "length":64,
+         "is_mandatory" :true,
+         "comment" : "Updated on"
+      }
+   ]
 }

@@ -22,14 +22,15 @@ import in.novopay.velocity.input.InputEntity;
 import in.novopay.velocity.input.InputEntityFields;
 
 public class Main {
-	// TODO
-	static String ROOT_DIR = "/Users/vishalgoel/Documents/workspace-platform-common/CodeGenerator/src/in/novopay/velocity";
 
-	static String TEMPLATES_DIR = ROOT_DIR + "/templates";
-	static String OUTPUT_DIR = ROOT_DIR + "/output";
-	static String INPUT_DIR = ROOT_DIR + "/input";
-	
+	static String ROOT_DIR = "";
+
+	static String TEMPLATES_DIR = "";
+	static String OUTPUT_DIR = "";
+	static String INPUT_DIR = "";
+
 	public static void main(String[] args) throws IOException {
+		constructDirctoryPath(args);
 		VelocityContext context = new VelocityContext();
 		InputEntity entity = getEntity();
 		context.put("entity", entity);
@@ -37,37 +38,28 @@ public class Main {
 		Properties velocityProperties = new Properties();
 		velocityProperties.setProperty("file.resource.loader.path", TEMPLATES_DIR);
 		velocityEngine.init(velocityProperties);
-		
-		// TODO 
-		String[] inputTemplateFileArray = { 
-				"entity.vm", 
-				"repo.vm", 
-				"dao.vm",
-				"schema.vm"};
-		
-		String[] outputDir = {
-				"in/novopay/" + entity.getService() + "/" + entity.getUserStory() + "/entity",
+
+		String[] inputTemplateFileArray = { "entity.vm", "repo.vm", "dao.vm","schema.vm" };
+
+		String[] outputDir = { "in/novopay/" + entity.getService() + "/" + entity.getUserStory() + "/entity",
 				"in/novopay/" + entity.getService() + "/" + entity.getUserStory() + "/repository",
 				"in/novopay/" + entity.getService() + "/" + entity.getUserStory() + "/daoservice",
-				"in/novopay/" + entity.getService() + "/" + entity.getUserStory() + "/sql"};
-		
-		String[] outputFileExtentionArray = { 
-				"Entity.java", 
-				"Repository.java", 
-				"DAOService.java",
-				"_schema.sql"};
+				"sql" };
+
+		String[] outputFileExtentionArray = { "Entity.java", "Repository.java", "DAOService.java",".sql" };
 
 		createOutputDirectories(outputDir);
-		
-		if (inputTemplateFileArray.length == outputDir.length 
+
+		if (inputTemplateFileArray.length == outputDir.length
 				&& inputTemplateFileArray.length == outputFileExtentionArray.length) {
-			
+
 			for (int i = 0; i < inputTemplateFileArray.length; i++) {
 				Template t = velocityEngine.getTemplate(inputTemplateFileArray[i]);
 				StringWriter writer = new StringWriter();
 				t.merge(context, writer);
 				System.out.println(writer);
-				PrintWriter pw = new PrintWriter(OUTPUT_DIR + "/" + outputDir[i] + "/" + entity.getClassName() + outputFileExtentionArray[i]);
+				PrintWriter pw = new PrintWriter(
+						OUTPUT_DIR + "/" + outputDir[i] + "/" + entity.getClassName() + outputFileExtentionArray[i]);
 				pw.print(writer.toString());
 				pw.close();
 			}
@@ -75,6 +67,18 @@ public class Main {
 			System.out.println("Array size is not matching.");
 		}
 
+	}
+
+	private static void constructDirctoryPath(String args[]) {
+		if (args == null || args.length < 1) {
+			System.out.println("Missing root directory path");
+			System.exit(0);
+		} else {
+			ROOT_DIR = args[0];
+			TEMPLATES_DIR = ROOT_DIR + "/templates";
+			OUTPUT_DIR = ROOT_DIR + "/output";
+			INPUT_DIR = ROOT_DIR + "/input";
+		}
 	}
 
 	public static InputEntity getEntity() {
@@ -107,9 +111,15 @@ public class Main {
 						CaseFormat.UPPER_UNDERSCORE.to(CaseFormat.UPPER_CAMEL, (String) fobj.get("name")));
 				f.setType((String) fobj.get("type"));
 				Long length = (Long) fobj.get("length");
-				if (length != null) f.setLength(length.intValue());
+				if (length != null) {
+					f.setLength(length.intValue());
+				}
 				Boolean notNull = (Boolean) fobj.get("notNull");
-				if(notNull != null) f.setNotNull(notNull); else f.setNotNull(false);
+				if (notNull != null) {
+					f.setNotNull(notNull);
+				} else {
+					f.setNotNull(false);
+				}
 				entity.addFields(f);
 			}
 		} catch (IOException | ParseException e) {
@@ -119,10 +129,11 @@ public class Main {
 	}
 
 	private static void deleteRecursive(File fileOrDirectory) {
-		if (fileOrDirectory.exists() && fileOrDirectory.isDirectory())
-			for (File child : fileOrDirectory.listFiles())
+		if (fileOrDirectory.exists() && fileOrDirectory.isDirectory()) {
+			for (File child : fileOrDirectory.listFiles()) {
 				deleteRecursive(child);
-
+			}
+		}
 		if (fileOrDirectory.exists()) {
 			fileOrDirectory.delete();
 		}
