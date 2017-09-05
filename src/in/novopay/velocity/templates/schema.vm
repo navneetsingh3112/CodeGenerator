@@ -1,0 +1,14 @@
+CREATE TABLE `${entity.table}` (
+  `id` int(11) NOT NULL AUTO_INCREMENT COMMENT 'Auto generated unique identifier. Will be the primary key of the table.',
+#foreach ($field in $entity.fieldList)
+#if( ${field.type} == "String" )
+  `${field.name}` VARCHAR($field.getOrDefaultStringLength())$field.addNotNull(),
+#elseif( ${field.type} == "Integer" )
+  `${field.name}` INT($field.getOrDefaultIntegerLength())$field.addNotNull(),
+#elseif( ${field.type} == "Date" )
+  `${field.name}` INT($field.getOrDefaultIntegerLength())$field.addNotNull(),
+#else
+#end
+#end
+  PRIMARY KEY (`id`)
+);

@@ -23,7 +23,7 @@ import in.novopay.velocity.input.InputEntityFields;
 
 public class Main {
 	// TODO
-	static String ROOT_DIR = "/Users/anandparmar/Documents/Novopay-Server/CodeGenerator/src/in/novopay/velocity";
+	static String ROOT_DIR = "/Users/vishalgoel/Documents/workspace-platform-common/CodeGenerator/src/in/novopay/velocity";
 
 	static String TEMPLATES_DIR = ROOT_DIR + "/templates";
 	static String OUTPUT_DIR = ROOT_DIR + "/output";
@@ -42,17 +42,20 @@ public class Main {
 		String[] inputTemplateFileArray = { 
 				"entity.vm", 
 				"repo.vm", 
-				"dao.vm" };
+				"dao.vm",
+				"schema.vm"};
 		
 		String[] outputDir = {
 				"in/novopay/" + entity.getService() + "/" + entity.getUserStory() + "/entity",
 				"in/novopay/" + entity.getService() + "/" + entity.getUserStory() + "/repository",
-				"in/novopay/" + entity.getService() + "/" + entity.getUserStory() + "/daoservice"};
+				"in/novopay/" + entity.getService() + "/" + entity.getUserStory() + "/daoservice",
+				"in/novopay/" + entity.getService() + "/" + entity.getUserStory() + "/sql"};
 		
 		String[] outputFileExtentionArray = { 
 				"Entity.java", 
 				"Repository.java", 
-				"DAOService.java" };
+				"DAOService.java",
+				"_schema.sql"};
 
 		createOutputDirectories(outputDir);
 		
@@ -71,6 +74,7 @@ public class Main {
 		} else {
 			System.out.println("Array size is not matching.");
 		}
+
 	}
 
 	public static InputEntity getEntity() {
@@ -102,6 +106,10 @@ public class Main {
 				f.setUpperCamelCaseName(
 						CaseFormat.UPPER_UNDERSCORE.to(CaseFormat.UPPER_CAMEL, (String) fobj.get("name")));
 				f.setType((String) fobj.get("type"));
+				Long length = (Long) fobj.get("length");
+				if (length != null) f.setLength(length.intValue());
+				Boolean notNull = (Boolean) fobj.get("notNull");
+				if(notNull != null) f.setNotNull(notNull); else f.setNotNull(false);
 				entity.addFields(f);
 			}
 		} catch (IOException | ParseException e) {

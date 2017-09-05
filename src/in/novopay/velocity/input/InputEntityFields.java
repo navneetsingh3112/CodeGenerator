@@ -5,6 +5,8 @@ public class InputEntityFields {
 	private String lowerCamelCaseName;
 	private String upperCamelCaseName;
 	private String type;
+	private Integer length;
+	private Boolean notNull;
 	
 	public String getName() {
 		return name;
@@ -38,6 +40,35 @@ public class InputEntityFields {
 		this.upperCamelCaseName = upperCamelCaseName;
 	}
 
+	public Integer getLength() {
+		return length;
+	}
+
+	public void setLength(Integer length) {
+		this.length = length;
+	}
+
+	public Boolean getNotNull() {
+		return notNull;
+	}
+
+	public void setNotNull(Boolean notNull) {
+		this.notNull = notNull;
+	}
+
+	public String addNotNull(){
+        if(this.notNull) return " NOT NULL";
+        else return "";
+    }
 	
+	public String getOrDefaultStringLength(){
+        if(null != this.length) return this.length.toString();
+        else return "64";
+    }
+	
+	public String getOrDefaultIntegerLength(){
+        if(null != this.length) return this.length.toString();
+        else return "10";
+    }
 	
 }
