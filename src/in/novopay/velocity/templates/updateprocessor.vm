@@ -37,7 +37,7 @@ public class Update${entity.upperCamelCaseClassName}Processor extends AbstractPr
 		Integer intId = Integer.parseInt(id);
 #foreach ($field in $entity.fieldList)
 #if( ${field.lowerCamelCaseName} != "createdOn" && ${field.lowerCamelCaseName} != "createdBy" && ${field.lowerCamelCaseName} != "updatedOn" && ${field.lowerCamelCaseName} != "updatedBy")
-		${field.type} ${field.lowerCamelCaseName} = executionContext.getValue("${field.lowerSnakeCaseName}", ${field.type}.class);
+		${field.javaType} ${field.lowerCamelCaseName} = executionContext.getValue("${field.lowerSnakeCaseName}", ${field.javaType}.class);
 #end
 #end
 		${entity.lowerCamelCaseClassName}Entity.setId(intId);
