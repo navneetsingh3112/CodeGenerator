@@ -10,7 +10,6 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 import java.util.Map;
 
-import static in.novopay.accounting.constants.NovopayAccountingCommonConstants.PAGE_SIZE;
 
 /***
  * 
@@ -27,8 +26,8 @@ public class ${entity.upperCamelCaseClassName}DAOService {
 	@Autowired
 	private ${entity.upperCamelCaseClassName}RowMapper ${entity.lowerCamelCaseClassName}Mapper;
 
-	public ${entity.upperCamelCaseClassName}Entity save${entity.upperCamelCaseClassName}(${entity.upperCamelCaseClassName}Entity templateEntity) {
-		return ${entity.lowerCamelCaseClassName}Repository.save(templateEntity);
+	public ${entity.upperCamelCaseClassName}Entity save${entity.upperCamelCaseClassName}(${entity.upperCamelCaseClassName}Entity entity) {
+		return ${entity.lowerCamelCaseClassName}Repository.save(entity);
 	}
 
 	public List<${entity.upperCamelCaseClassName}Entity> get${entity.upperCamelCaseClassName}List() {
@@ -37,7 +36,7 @@ public class ${entity.upperCamelCaseClassName}DAOService {
 	
 	public List<Map<String, Object>> get${entity.upperCamelCaseClassName}PaginatedList(ExecutionContext executionContext) throws NovopayFatalException {
 		List<Map<String, Object>> ${entity.lowerCamelCaseClassName}List = ${entity.lowerCamelCaseClassName}Mapper.getDetails(executionContext);
-		executionContext.put(PAGE_SIZE, ${entity.lowerCamelCaseClassName}List.size());
+		executionContext.put("page_size", ${entity.lowerCamelCaseClassName}List.size());
 		return ${entity.lowerCamelCaseClassName}List;
 	}
 

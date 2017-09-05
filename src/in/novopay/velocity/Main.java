@@ -39,27 +39,40 @@ public class Main {
 		velocityProperties.setProperty("file.resource.loader.path", TEMPLATES_DIR);
 		velocityEngine.init(velocityProperties);
 
-		String[] inputTemplateFileArray = { "entity.vm", "repo.vm", "dao.vm","schema.vm" };
+		String[] inputTemplateFileArray = { "entity.vm", "repo.vm", "dao.vm", "schema.vm", "createprocessor.vm",
+				"updateprocessor.vm", "listprocessor.vm", "detailsprocessor.vm" };
 
 		String[] outputDir = { "in/novopay/" + entity.getService() + "/" + entity.getUserStory() + "/entity",
 				"in/novopay/" + entity.getService() + "/" + entity.getUserStory() + "/repository",
-				"in/novopay/" + entity.getService() + "/" + entity.getUserStory() + "/daoservice",
-				"sql" };
+				"in/novopay/" + entity.getService() + "/" + entity.getUserStory() + "/daoservice", "sql",
+				"in/novopay/" + entity.getService() + "/" + entity.getUserStory() + "/processors",
+				"in/novopay/" + entity.getService() + "/" + entity.getUserStory() + "/processors",
+				"in/novopay/" + entity.getService() + "/" + entity.getUserStory() + "/processors",
+				"in/novopay/" + entity.getService() + "/" + entity.getUserStory() + "/processors" };
 
-		String[] outputFileExtentionArray = { "Entity.java", "Repository.java", "DAOService.java",".sql" };
+		String[] outputFileExtentionSuffixArray = { "Entity.java", "Repository.java", "DAOService.java", ".sql",
+				"Processor.java", "Processor.java", "ListProcessor.java", "DetailsProcessor.java" };
+		String[] outputFileExtentionPrefixArray = { "", "", "", "", "Create", "Update", "Get", "Get" };
 
 		createOutputDirectories(outputDir);
 
 		if (inputTemplateFileArray.length == outputDir.length
-				&& inputTemplateFileArray.length == outputFileExtentionArray.length) {
+				&& inputTemplateFileArray.length == outputFileExtentionSuffixArray.length) {
 
 			for (int i = 0; i < inputTemplateFileArray.length; i++) {
 				Template t = velocityEngine.getTemplate(inputTemplateFileArray[i]);
 				StringWriter writer = new StringWriter();
 				t.merge(context, writer);
 				System.out.println(writer);
-				PrintWriter pw = new PrintWriter(
-						OUTPUT_DIR + "/" + outputDir[i] + "/" + entity.getUpperCamelCaseClassName() + outputFileExtentionArray[i]);
+				String filePath = "";
+				if (outputFileExtentionPrefixArray[i].isEmpty()) {
+					filePath = OUTPUT_DIR + "/" + outputDir[i] + "/" + entity.getUpperCamelCaseClassName()
+							+ outputFileExtentionSuffixArray[i];
+				} else {
+					filePath = OUTPUT_DIR + "/" + outputDir[i] + "/" + outputFileExtentionPrefixArray[i]
+							+ entity.getUpperCamelCaseClassName() + outputFileExtentionSuffixArray[i];
+				}
+				PrintWriter pw = new PrintWriter(filePath);
 				pw.print(writer.toString());
 				pw.close();
 			}
@@ -94,7 +107,7 @@ public class Main {
 
 			String author = (String) jsonObject.get("author");
 			entity.setAuthor(author);
-			
+
 			String userStory = (String) jsonObject.get("userStory");
 			entity.setUserStory(userStory);
 
@@ -122,6 +135,8 @@ public class Main {
 				} else {
 					f.setNotNull(false);
 				}
+				f.setLowerSnakeCaseName(
+						CaseFormat.UPPER_UNDERSCORE.to(CaseFormat.UPPER_UNDERSCORE, (String) fobj.get("name")));
 				entity.addFields(f);
 			}
 		} catch (IOException | ParseException e) {

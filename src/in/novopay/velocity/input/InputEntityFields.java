@@ -7,6 +7,7 @@ public class InputEntityFields {
 	private String type;
 	private Integer length;
 	private Boolean notNull;
+	private String lowerSnakeCaseName;
 	
 	public String getName() {
 		return name;
@@ -70,5 +71,12 @@ public class InputEntityFields {
         if(null != this.length) return this.length.toString();
         else return "10";
     }
-	
+
+	public String getLowerSnakeCaseName() {
+		return lowerSnakeCaseName;
+	}
+
+	public void setLowerSnakeCaseName(String lowerSnakeCaseName) {
+		this.lowerSnakeCaseName = lowerSnakeCaseName;
+	}
 }

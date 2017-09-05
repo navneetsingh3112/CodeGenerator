@@ -1,0 +1,56 @@
+package in.novopay.${entity.service}.${entity.userStory}.processor;
+
+import in.novopay.${entity.service}.${entity.userStory}.entity.${entity.upperCamelCaseClassName}Entity;
+import in.novopay.${entity.service}.${entity.userStory}.daoservice.${entity.upperCamelCaseClassName}DAOService;
+import in.novopay.infra.platform.annotations.Processor;
+import in.novopay.infra.platform.exception.NovopayFatalException;
+import in.novopay.infra.platform.exception.NovopayNonFatalException;
+import in.novopay.infra.platform.navigation.AbstractProcessor;
+import in.novopay.infra.platform.navigation.ExecutionContext;
+import org.springframework.beans.factory.annotation.Autowired;
+
+import java.math.BigDecimal;
+import java.util.Date;
+
+
+/***
+ * 
+ * @author ${entity.author}
+ *
+ */
+
+@Processor
+public class Create${entity.upperCamelCaseClassName}Processor extends AbstractProcessor {
+
+	
+	@Autowired
+	private ${entity.upperCamelCaseClassName}DAOService ${entity.lowerCamelCaseClassName}Service;
+
+	@Autowired
+	private ${entity.upperCamelCaseClassName}Entity ${entity.lowerCamelCaseClassName}Entity;
+
+	@SuppressWarnings("unchecked")
+	@Override
+	protected void process(ExecutionContext executionContext) throws NovopayFatalException, NovopayNonFatalException {
+	
+#foreach ($field in $entity.fieldList)
+#if( ${field.lowerCamelCaseName} != "createdOn" && ${field.lowerCamelCaseName} != "createdBy" && ${field.lowerCamelCaseName} != "updatedOn" && ${field.lowerCamelCaseName} != "updatedBy")
+		${field.type} ${field.lowerCamelCaseName} = executionContext.getValue("${field.lowerSnakeCaseName}", ${field.type}.class);
+#end
+#end
+#foreach ($field in $entity.fieldList)
+#if( ${field.lowerCamelCaseName} == "createdOn")
+		${entity.lowerCamelCaseClassName}Entity.set${field.upperCamelCaseName}(new Date());
+#elseif( ${field.lowerCamelCaseName} == "createdBy")
+		${entity.lowerCamelCaseClassName}Entity.set${field.upperCamelCaseName}("");
+#elseif( ${field.lowerCamelCaseName} == "updatedOn")
+		${entity.lowerCamelCaseClassName}Entity.set${field.upperCamelCaseName}(new Date());
+#elseif( ${field.lowerCamelCaseName} == "updatedBy")
+		${entity.lowerCamelCaseClassName}Entity.set${field.upperCamelCaseName}("");
+#else
+		${entity.lowerCamelCaseClassName}Entity.set${field.upperCamelCaseName}(${field.lowerCamelCaseName});
+#end
+#end
+		${entity.lowerCamelCaseClassName}Entity = ${entity.lowerCamelCaseClassName}Service.save${entity.upperCamelCaseClassName}(${entity.lowerCamelCaseClassName}Entity);		
+	}
+}
