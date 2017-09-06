@@ -42,22 +42,37 @@ public class Main {
 		// --------------TODO-----------------
 		// -----------------------------------
 		String[] inputTemplateFileArray = { 
-				"entity.vm", 
-				"repo.vm", 
-				"dao.vm",
-				"schema.vm" };
+				"CreateComponent.vm",
+				"CreateTypeScript.vm",
+				"ListComponent.vm",
+				"ListTypeScript.vm",
+				"ViewComponent.vm",
+				"ViewTypeScript.vm",
+				"EditComponent.vm",
+				"EditTypeScript.vm",
+				"Module.vm" };
 
 		String[] outputDir = { 
-				"in/novopay/" + entity.getService() + "/" + entity.getUserStory() + "/entity",
-				"in/novopay/" + entity.getService() + "/" + entity.getUserStory() + "/repository",
-				"in/novopay/" + entity.getService() + "/" + entity.getUserStory() + "/daoservice",
-				"sql" };
+				"app/" + entity.getLowerTrainCaseClassName() + "/create",
+				"app/" + entity.getLowerTrainCaseClassName() + "/create",
+				"app/" + entity.getLowerTrainCaseClassName() + "/list",
+				"app/" + entity.getLowerTrainCaseClassName() + "/list",
+				"app/" + entity.getLowerTrainCaseClassName() + "/view",
+				"app/" + entity.getLowerTrainCaseClassName() + "/view",
+				"app/" + entity.getLowerTrainCaseClassName() + "/edit",
+				"app/" + entity.getLowerTrainCaseClassName() + "/edit",
+				"app/" + entity.getLowerTrainCaseClassName() };
 
 		String[] outputFileExtentionArray = { 
-				"Entity.java", 
-				"Repository.java", 
-				"DAOService.java",
-				".sql" };
+				"-create.component.html",
+				"-create.component.ts",
+				"-list.component.html",
+				"-list.component.ts",
+				"-view.component.html",
+				"-view.component.ts",
+				"-edit.component.html",
+				"-edit.component.ts",
+				"-module.ts" };
 		// -----------------------------------
 		// -----------------------------------
 		
@@ -72,7 +87,7 @@ public class Main {
 				t.merge(context, writer);
 				System.out.println(writer);
 				PrintWriter pw = new PrintWriter(
-						OUTPUT_DIR + "/" + outputDir[i] + "/" + entity.getUpperCamelCaseClassName() + outputFileExtentionArray[i]);
+						OUTPUT_DIR + "/" + outputDir[i] + "/" + entity.getLowerTrainCaseClassName() + outputFileExtentionArray[i]);
 				pw.print(writer.toString());
 				pw.close();
 			}
@@ -146,8 +161,8 @@ public class Main {
 
 				f.setPlaceholder((String) fobj.get("placeholder"));
 				f.setDisplayName((String) fobj.get("display_name"));
-				f.setMinLength((Integer) fobj.get("min_length"));
-				f.setMaxLength((Integer) fobj.get("max_length"));
+				f.setMinLength((Long) fobj.get("min_length"));
+				f.setMaxLength((Long) fobj.get("max_length"));
 				f.setValidationPattern((String) fobj.get("validation_pattern"));
 				f.setApiKey((String) fobj.get("api_key"));
 				f.setSearchable((Boolean) fobj.get("is_searchable"));

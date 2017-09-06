@@ -15,8 +15,8 @@ public class InputEntityFields {
 	private String comment;
 	private String placeholder;
 	private String displayName;
-	private Integer minLength;
-	private Integer maxLength;
+	private Long minLength;
+	private Long maxLength;
 	private String validationPattern;
 	private String apiKey;
 	private Boolean isSearchable;
@@ -146,19 +146,19 @@ public class InputEntityFields {
 		this.displayName = displayName;
 	}
 
-	public Integer getMinLength() {
+	public Long getMinLength() {
 		return minLength;
 	}
 
-	public void setMinLength(Integer minLength) {
+	public void setMinLength(Long minLength) {
 		this.minLength = minLength;
 	}
 
-	public Integer getMaxLength() {
+	public Long getMaxLength() {
 		return maxLength;
 	}
 
-	public void setMaxLength(Integer maxLength) {
+	public void setMaxLength(Long maxLength) {
 		this.maxLength = maxLength;
 	}
 
