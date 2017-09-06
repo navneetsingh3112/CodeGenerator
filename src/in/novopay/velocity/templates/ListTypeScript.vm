@@ -1,0 +1,54 @@
+import {Component, ViewEncapsulation} from '@angular/core';
+import {Location} from "@angular/common";
+import {ActivatedRoute, Router} from '@angular/router';
+
+import {CommonHttpService} from "../../services/common-http.service";
+import {CommonUtilityService} from "../../services/common-utility.service";
+import {App} from "../../app.component";
+import {AppConstants} from "../../app.constants";
+import {BaseComponent} from "../../base-module/create/base-create.component";
+import {BaseService} from "../../base-module/base.service";
+import {BaseListComponent} from "../../base-module/list/base-list.component";
+
+declare var jQuery:any;
+
+@Component({
+    selector: '[${entity.lowerTrainCaseClassName}-list]',
+    templateUrl: './${entity.lowerTrainCaseClassName}-list.component.html',
+    encapsulation: ViewEncapsulation.None,
+})
+export class ${entity.upperCamelCaseClassName}ListComponent extends BaseListComponent {
+    constructor(private router:Router,
+                private location:Location,
+                private mainApp: App,
+                private commonUtilityService: CommonUtilityService,
+                private appConstants: AppConstants,
+                private baseService: BaseService,
+                private commonHttpService:CommonHttpService) {
+        super(router, location, mainApp, commonUtilityService, appConstants,
+            baseService, commonHttpService);
+
+        let searchModel = [
+        #set($counter=1)
+        #foreach ($field in $entity.fieldList)
+            {
+                id: '${counter}',
+                type: '${field.lowerCamelCaseName}',
+                field: '${field.apiKey}',
+                value: '',
+                placeholder: '${field.placeholder}',
+                isSelected: false,
+                isSorted: false,
+                currentSortingOrder: 'DESC'
+            },
+            #set($counter=$counter+1)
+          #end
+        ];
+        
+        super.setComponentProperties(searchModel,"${entity.table}_list","${entity.table}_details","http://192.168.150.18:8080/api-gateway/api/v1/get${entity.upperCamelCaseClassName}List");
+    }
+    ngOnInit(): void {
+        super.ngOnInit();
+        console.log("dummy list ngOnInit()");
+    }
+}
