@@ -40,7 +40,7 @@ public class Main {
 		velocityEngine.init(velocityProperties);
 
 		String[] inputTemplateFileArray = { "entity.vm", "repo.vm", "dao.vm", "schema.vm", "createprocessor.vm",
-				"updateprocessor.vm", "listprocessor.vm", "detailsprocessor.vm","requestjson.vm" };
+				"updateprocessor.vm", "listprocessor.vm", "detailsprocessor.vm","CreateOrUpdateRequestjson.vm" };
 
 		String[] outputDir = { "in/novopay/" + entity.getService() + "/" + entity.getUserStory() + "/entity",
 				"in/novopay/" + entity.getService() + "/" + entity.getUserStory() + "/repository",
