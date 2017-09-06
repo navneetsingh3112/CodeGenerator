@@ -9,11 +9,21 @@ public class InputEntity {
 	private String author;
 	private String lowerCamelCaseClassName;
 	private String upperCamelCaseClassName;
+	private String lowerTrainCaseClassName;
 	private String service;
 	private String userStory;
 	private String tableComment;
 
 	ArrayList<InputEntityFields> fieldList = new ArrayList<>();
+	ArrayList<InputEntityButtons> buttonList = new ArrayList<>();
+
+	public void addButton(InputEntityButtons button) {
+		buttonList.add(button);
+	}
+
+	public ArrayList<InputEntityButtons> getButtonList() {
+		return buttonList;
+	}
 
 	public void addFields(InputEntityFields field) {
 		fieldList.add(field);
@@ -61,6 +71,14 @@ public class InputEntity {
 
 	public void setUpperCamelCaseClassName(String upperCamelCaseClassName) {
 		this.upperCamelCaseClassName = upperCamelCaseClassName;
+	}
+
+	public String getLowerTrainCaseClassName() {
+		return lowerTrainCaseClassName;
+	}
+
+	public void setLowerTrainCaseClassName(String lowerTrainCaseClassName) {
+		this.lowerTrainCaseClassName = lowerTrainCaseClassName;
 	}
 
 	public String getAuthor() {

@@ -8,6 +8,7 @@ import java.io.StringWriter;
 import java.util.Iterator;
 import java.util.Properties;
 
+import in.novopay.velocity.input.InputEntityButtons;
 import org.apache.velocity.Template;
 import org.apache.velocity.VelocityContext;
 import org.apache.velocity.app.VelocityEngine;
@@ -22,9 +23,7 @@ import in.novopay.velocity.input.InputEntity;
 import in.novopay.velocity.input.InputEntityFields;
 
 public class Main {
-
 	static String ROOT_DIR = "";
-
 	static String TEMPLATES_DIR = "";
 	static String OUTPUT_DIR = "";
 	static String INPUT_DIR = "";
@@ -39,15 +38,29 @@ public class Main {
 		velocityProperties.setProperty("file.resource.loader.path", TEMPLATES_DIR);
 		velocityEngine.init(velocityProperties);
 
-		String[] inputTemplateFileArray = { "entity.vm", "repo.vm", "dao.vm","schema.vm" };
+		// -----------------------------------
+		// --------------TODO-----------------
+		// -----------------------------------
+		String[] inputTemplateFileArray = { 
+				"entity.vm", 
+				"repo.vm", 
+				"dao.vm",
+				"schema.vm" };
 
-		String[] outputDir = { "in/novopay/" + entity.getService() + "/" + entity.getUserStory() + "/entity",
+		String[] outputDir = { 
+				"in/novopay/" + entity.getService() + "/" + entity.getUserStory() + "/entity",
 				"in/novopay/" + entity.getService() + "/" + entity.getUserStory() + "/repository",
 				"in/novopay/" + entity.getService() + "/" + entity.getUserStory() + "/daoservice",
 				"sql" };
 
-		String[] outputFileExtentionArray = { "Entity.java", "Repository.java", "DAOService.java",".sql" };
-
+		String[] outputFileExtentionArray = { 
+				"Entity.java", 
+				"Repository.java", 
+				"DAOService.java",
+				".sql" };
+		// -----------------------------------
+		// -----------------------------------
+		
 		createOutputDirectories(outputDir);
 
 		if (inputTemplateFileArray.length == outputDir.length
@@ -91,6 +104,7 @@ public class Main {
 			entity.setTable(table);
 			entity.setLowerCamelCaseClassName(CaseFormat.UPPER_UNDERSCORE.to(CaseFormat.LOWER_CAMEL, table));
 			entity.setUpperCamelCaseClassName(CaseFormat.UPPER_UNDERSCORE.to(CaseFormat.UPPER_CAMEL, table));
+			entity.setLowerTrainCaseClassName(CaseFormat.UPPER_UNDERSCORE.to(CaseFormat.LOWER_HYPHEN, table));
 
 			String author = (String) jsonObject.get("author");
 			entity.setAuthor(author);
@@ -113,7 +127,10 @@ public class Main {
 						CaseFormat.UPPER_UNDERSCORE.to(CaseFormat.LOWER_CAMEL, (String) fobj.get("name")));
 				f.setUpperCamelCaseName(
 						CaseFormat.UPPER_UNDERSCORE.to(CaseFormat.UPPER_CAMEL, (String) fobj.get("name")));
+				f.setLowerTrainCaseName(
+						CaseFormat.LOWER_UNDERSCORE.to(CaseFormat.LOWER_HYPHEN, (String) fobj.get("name")));
 				f.setJavaType((String) fobj.get("java_type"));
+				f.setWebType((String) fobj.get("web_type"));
 				f.setSqlType((String) fobj.get("sql_type"));
 				Long length = (Long) fobj.get("length");
 				if (length != null) {
@@ -126,8 +143,35 @@ public class Main {
 					f.setIsMandatory(false);
 				}
 				f.setComment((String) fobj.get("comment"));
+
+				f.setPlaceholder((String) fobj.get("placeholder"));
+				f.setDisplayName((String) fobj.get("display_name"));
+				f.setMinLength((Integer) fobj.get("min_length"));
+				f.setMaxLength((Integer) fobj.get("max_length"));
+				f.setValidationPattern((String) fobj.get("validation_pattern"));
+				f.setApiKey((String) fobj.get("api_key"));
+				f.setSearchable((Boolean) fobj.get("is_searchable"));
+				f.setSortable((Boolean) fobj.get("is_sortable"));
+				f.setEditable((Boolean) fobj.get("is_editable"));
 				entity.addFields(f);
 			}
+
+			JSONArray buttons = (JSONArray) jsonObject.get("buttons");
+			Iterator<JSONObject> iterator1 = buttons.iterator();
+			while (iterator1.hasNext()) {
+				JSONObject fobj = iterator1.next();
+
+				InputEntityButtons b = new InputEntityButtons();
+				b.setName((String) fobj.get("name"));
+				b.setLowerCamelCaseName(
+						CaseFormat.UPPER_UNDERSCORE.to(CaseFormat.LOWER_CAMEL, (String) fobj.get("name")));
+				b.setUpperCamelCaseName(
+						CaseFormat.UPPER_UNDERSCORE.to(CaseFormat.UPPER_CAMEL, (String) fobj.get("name")));
+				b.setLowerTrainCaseName(
+						CaseFormat.UPPER_UNDERSCORE.to(CaseFormat.LOWER_HYPHEN, (String) fobj.get("name")));
+				entity.addButton(b);
+			}
+
 		} catch (IOException | ParseException e) {
 			e.printStackTrace();
 		}
