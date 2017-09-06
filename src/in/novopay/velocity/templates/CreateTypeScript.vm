@@ -1,0 +1,54 @@
+import {Component, ViewEncapsulation} from '@angular/core';
+import {Location} from "@angular/common";
+import {ActivatedRoute, Router} from '@angular/router';
+
+import {CommonHttpService} from "../../services/common-http.service";
+import {CommonUtilityService} from "../../services/common-utility.service";
+import {App} from "../../app.component";
+import {AppConstants} from "../../app.constants";
+import {BaseComponent} from "../../base-module/create/base-create.component";
+import {BaseService} from "../../base-module/base.service";
+
+declare var jQuery:any;
+/**
+* ${entity.lowerTrainCaseClassName} Create component
+* @author ${entity.author}
+*/
+@Component({
+    selector: '[${entity.lowerTrainCaseClassName}-create]',
+    templateUrl: './${entity.lowerTrainCaseClassName}-create.component.html',
+    encapsulation: ViewEncapsulation.None,
+})
+export class ${entity.upperCamelCaseClassName}CreateComponent extends BaseComponent {
+    constructor(private location:Location,
+                private mainApp: App,
+                private appConstants: AppConstants,
+                private commonHttpService:CommonHttpService,
+                private commonUtilityService:CommonUtilityService,
+                private baseService: BaseService,
+                private router:Router,
+                private route:ActivatedRoute) {
+        super(location, mainApp, appConstants, commonHttpService, commonUtilityService,
+            baseService, router, route);
+
+        let componentProperty : ICreateComponentProperty = {
+            componentPermissionKey: 'PERMISSION_KEY',
+            formHtmlId: '${entity.lowerTrainCaseClassName}-create-form',
+            createComponentAPI: '/create',
+            listComponentUrl: '/list',
+            entity: {
+            #foreach ($field in $entity.fieldList)
+                ${field.lowerCamelCaseName}: {
+                    value: '',
+                    type: '${field.webType}',
+                    apiKey: '${field.apiKey}'
+                },
+            #end
+            }
+        };
+        super.setComponentProperties(componentProperty);
+    }
+    ngOnInit(): void {
+        super.ngOnInit();
+    }
+}

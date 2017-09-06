@@ -13,6 +13,7 @@ public class InputEntity {
 	private String service;
 	private String userStory;
 	private String tableComment;
+	private String fetchApiKey;
 
 	ArrayList<InputEntityFields> fieldList = new ArrayList<>();
 	ArrayList<InputEntityButtons> buttonList = new ArrayList<>();
