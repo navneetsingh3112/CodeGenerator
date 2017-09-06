@@ -1,0 +1,27 @@
+<!-- 
+	@author	:${entity.author}
+ -->
+<Request name="createOrUpdate${entity.upperCamelCaseClassName}">
+	<Validators>
+		<Validator bean="mandatoryFieldValidator">
+			#foreach ($field in $entity.fieldList)
+			#if( ${field.isMandatory} )
+				<IParam fieldName="${field.lowerSnakeCaseName}" errorCode="" defaultMessage="${field.lowerSnakeCaseName} is mandatory."/>
+			#end	
+			#end
+			
+		</Validator>
+		<Validator bean="patternFieldValidator">
+		</Validator>
+		<Validator bean="stringLengthValidator">
+		</Validator>
+	</Validators>
+	<Processors>
+		<Control method="regExp" pattern="${function_code}" condition="=" value="CREATE">
+			<Processor bean="create${entity.upperCamelCaseClassName}Processor" />
+		</Control>
+		<Control method="regExp" pattern="${function_code}" condition="=" value="UPDATE">
+			<Processor bean="update${entity.upperCamelCaseClassName}Processor" />
+		</Control>
+	</Processors>
+</Request>

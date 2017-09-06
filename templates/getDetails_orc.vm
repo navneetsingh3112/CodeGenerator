@@ -1,0 +1,13 @@
+<!-- 
+	@author	:${entity.author}
+ -->
+<Request name="get${entity.upperCamelCaseClassName}DetailsProcessor">
+	<Validators>
+		<Validator bean = "mandatoryFieldValidator">
+			<IParam fieldName="id" errorCode="" defaultMessage="Id is mandatory."/>
+		</Validator>
+	</Validators>
+	<Processors>
+		<Processor bean="get${entity.upperCamelCaseClassName}DetailsProcessor" />
+	</Processors>
+</Request>
