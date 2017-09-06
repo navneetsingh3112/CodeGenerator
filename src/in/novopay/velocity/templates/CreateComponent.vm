@@ -14,96 +14,150 @@
 
                             #foreach ($field in $entity.fieldList)
                                 #if ($field.webType.equals('Textbox'))
-                            <!-- TextBox -->
+                            <!-- Textbox -->
                             <div class="form-group row">
                                 <label for="${entity.lowerTrainCaseClassName}-${field.lowerTrainCaseName}"
                                        class="col-md-4  col-form-label text-md-right">{{'${entity.lowerTrainCaseClassName}-create-field-${field.lowerTrainCaseName}'
-                                    | translate}}*</label>
+                                    | translate}}
+                                    #if ($field.isMandatory)
+                                        *
+                                    #end
+                                </label>
+
                                 <div class="col-md-8 ">
                                     <input *ngIf="!readOnly" type="text" name="${entity.lowerTrainCaseClassName}-${field.lowerTrainCaseName}"
-                                           data-parsley-pattern="^[a-zA-Z][a-zA-Z0-9 ()_-]*$"
-                                           [(ngModel)]="schemeName"
-                                           minLength="3"
-                                           maxlength="20"
-                                           id="${entity.lowerTrainCaseClassName}-${field.lowerTrainCaseName}"
-                                           class="form-control"
-                                           placeholder="{{'${entity.lowerTrainCaseClassName}-create-placeholder-${field.lowerTrainCaseName}' | translate}}"
-                                           data-parsley-trigger="change" required="true">
+                                        #if ($field.validationPattern)
+                                            data-parsley-pattern="${field.validationPattern}"
+                                        #end
+                                            [(ngModel)]="entity.${field.lowerCamelCaseName}.value"
+                                        #if ($field.minLength)
+                                            minLength="${field.minLength}"
+                                        #end
+                                        #if ($field.maxLength)
+                                            maxlength="${field.maxLength}"
+                                        #end
+                                            id="${entity.lowerTrainCaseClassName}-${field.lowerTrainCaseName}"
+                                            class="form-control"
+                                        #if ($field.placeholder)
+                                            placeholder="${field.placeholder}"
+                                        #end
+                                            data-parsley-trigger="change"
+                                        #if ($field.isMandatory)
+                                            required="true"
+                                        #end
+                                            >
 
                                     <label *ngIf="readOnly" for="${entity.lowerTrainCaseClassName}-${field.lowerTrainCaseName}"
-                                           title="{{schemeName}}"
-                                           class="read-only-view-label col-form-label wrap-long-text">{{schemeName}}</label>
+                                           title="{{entity.${field.lowerCamelCaseName}.value}}"
+                                           class="read-only-view-label col-form-label wrap-long-text">{{entity.${field.lowerCamelCaseName}.value}}</label>
                                 </div>
                             </div>
 
                                 #elseif ($field.webType.equals('Textarea'))
-                            <!-- Scheme Description-->
+                            <!-- TextArea -->
                             <div class="form-group row">
                                 <label for="${entity.lowerTrainCaseClassName}-${field.lowerTrainCaseName}"
                                        class="col-md-4  col-form-label text-md-right">{{'${entity.lowerTrainCaseClassName}-create-field-${field.lowerTrainCaseName}'
-                                    | translate}}*</label>
+                                    | translate}}
+                                    #if ($field.isMandatory)
+                                        *
+                                    #end
+                                </label>
+
                                 <div class="col-md-8 ">
                                     <textarea *ngIf="!readOnly" type="text" name="${entity.lowerTrainCaseClassName}-${field.lowerTrainCaseName}"
-                                              rows="4"
-                                              data-parsley-pattern="^[a-zA-Z0-9][a-zA-Z0-9 ()_/.-]*$"
-                                              [(ngModel)]="schemeDescription"
-                                              minLength="3"
-                                              maxlength="20"
-                                              id="${entity.lowerTrainCaseClassName}-${field.lowerTrainCaseName}"
-                                              class="form-control"
-                                              placeholder="{{'${entity.lowerTrainCaseClassName}-create-placeholder-${field.lowerTrainCaseName}' | translate}}"
-                                              data-parsley-trigger="change"
-                                              required="true">
+                                            rows="4"
+                                        #if ($field.validationPattern)
+                                            data-parsley-pattern="${field.validationPattern}"
+                                        #end
+                                            [(ngModel)]="entity.${field.lowerCamelCaseName}.value"
+                                        #if ($field.minLength)
+                                            minLength="${field.minLength}"
+                                        #end
+                                        #if ($field.maxLength)
+                                            maxlength="${field.maxLength}"
+                                        #end
+                                            id="${entity.lowerTrainCaseClassName}-${field.lowerTrainCaseName}"
+                                            class="form-control"
+                                        #if ($field.placeholder)
+                                            placeholder="${field.placeholder}"
+                                        #end
+                                            data-parsley-trigger="change"
+                                        #if ($field.isMandatory)
+                                            required="true"
+                                        #end
+                                            >
                                     </textarea>
+
                                     <label *ngIf="readOnly" for="${entity.lowerTrainCaseClassName}-${field.lowerTrainCaseName}"
-                                           title="{{schemeDescription}}"
-                                           class="read-only-view-label col-form-label wrap-long-text">{{schemeDescription}}</label>
+                                           title="{{entity.${field.lowerCamelCaseName}.value}}"
+                                           class="read-only-view-label col-form-label wrap-long-text">{{entity.${field.lowerCamelCaseName}.value}}</label>
                                 </div>
                             </div>
 
                                 #elseif ($field.webType.equals('Dropdown'))
-                            <!-- dropdown -->
+                            <!-- Dropdown -->
                             <div class="form-group row">
-                                <label class="col-md-4 col-form-label text-md-right" for="${entity.lowerTrainCaseClassName}-${field.lowerTrainCaseName}">{{'${entity.lowerTrainCaseClassName}-create-field-${field.lowerTrainCaseName}'
-                                    | translate}}*</label>
-                                <div class="col-md-8 " *ngIf="dropDownList.product.dataList.length>0">
+                                <label class="col-md-4 col-form-label text-md-right" for="${entity.lowerTrainCaseClassName}-${field.lowerTrainCaseName}">
+                                    {{'${entity.lowerTrainCaseClassName}-create-field-${field.lowerTrainCaseName}' | translate}}
+                                    #if ($field.isMandatory)
+                                        *
+                                    #end
+                                </label>
+
+                                <div class="col-md-8 " *ngIf="dropDownList.${field.lowerCamelCaseName}.dataList.length>0">
                                     <select2 *ngIf="!readOnly"
                                              id="${entity.lowerTrainCaseClassName}-${field.lowerTrainCaseName}"
                                              name="${entity.lowerTrainCaseClassName}-${field.lowerTrainCaseName}"
-                                             (valueChanged)="dropDownValueChange($event,'product','${entity.lowerTrainCaseClassName}-${field.lowerTrainCaseName}')"
-                                             [value]="dropDownList.product.initialValues"
-                                             [data]="dropDownList.product.dataList"
-                                             [options]="dropDownList.product.options"
-                                             ngDefaultControl required="true"></select2>
-                                    <ul *ngIf="!dropDownList.product.isValid" class="parsley-errors-list filled">
+                                             (valueChanged)="dropDownValueChange($event,'${field.lowerCamelCaseName}','${entity.lowerTrainCaseClassName}-${field.lowerTrainCaseName}')"
+                                             [value]="dropDownList.${field.lowerCamelCaseName}.initialValues"
+                                             [data]="dropDownList.${field.lowerCamelCaseName}.dataList"
+                                             [options]="dropDownList.${field.lowerCamelCaseName}.options"
+                                             ngDefaultControl
+                                        #if ($field.isMandatory)
+                                             required="true"
+                                        #end
+                                             >
+                                    </select2>
+
+                                    <ul *ngIf="!dropDownList.${field.lowerCamelCaseName}.isValid" class="parsley-errors-list filled">
                                         <li class="parsley-pattern">{{'form-error-required-msg' | translate}}</li>
                                     </ul>
-                                    <label *ngIf="readOnly" for="name-field"
-                                           title="{{dropDownList.product.selectedValue}}"
-                                           class="read-only-view-label col-form-label wrap-long-text">{{dropDownList.product.selectedValue}}</label>
+
+                                    <label *ngIf="readOnly" for="${entity.lowerTrainCaseClassName}-${field.lowerTrainCaseName}"
+                                           title="{{dropDownList.${field.lowerCamelCaseName}.selectedValue}}"
+                                           class="read-only-view-label col-form-label wrap-long-text">{{dropDownList.${field.lowerCamelCaseName}.selectedValue}}</label>
                                 </div>
                             </div>
 
                                 #elseif ($field.webType.equals('Date'))
-                            <!-- Start date -->
+                            <!-- Date -->
                             <div class="form-group row">
                                 <label for="${entity.lowerTrainCaseClassName}-${field.lowerTrainCaseName}"
-                                       class="col-md-4  col-form-label text-md-right">{{'${entity.lowerTrainCaseClassName}-create-field-start-date'
-                                    | translate}}*</label>
+                                       class="col-md-4  col-form-label text-md-right">{{'${entity.lowerTrainCaseClassName}-create-field-${field.lowerTrainCaseName}'
+                                    | translate}}
+                                    #if ($field.isMandatory)
+                                        *
+                                    #end
+                                </label>
+
                                 <div class="col-md-8 ">
                                     <input *ngIf="!readOnly" name="${entity.lowerTrainCaseClassName}-${field.lowerTrainCaseName}"
                                            id="${entity.lowerTrainCaseClassName}-${field.lowerTrainCaseName}"
                                            type="date"
                                            min="{{todayDate}}"
                                            max="9999-12-31"
-                                           [(ngModel)]="schemeStartDate"
+                                           [(ngModel)]="entity.${field.lowerCamelCaseName}.value"
                                            class="form-control"
-                                           (change)="validStartDateYear = true"
                                            data-parsley-trigger="change"
-                                           required="true">
+                                        #if ($field.isMandatory)
+                                             required="true"
+                                        #end
+                                        >
+
                                     <label *ngIf="readOnly" for="${entity.lowerTrainCaseClassName}-${field.lowerTrainCaseName}"
-                                           title="{{schemeStartDate}}"
-                                           class="read-only-view-label col-form-label wrap-long-text">{{schemeStartDate}}</label>
+                                           title="{{entity.${field.lowerCamelCaseName}.value}}"
+                                           class="read-only-view-label col-form-label wrap-long-text">{{entity.${field.lowerCamelCaseName}.value}}</label>
                                 </div>
                             </div>
                                     #end
