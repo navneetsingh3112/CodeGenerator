@@ -1,0 +1,47 @@
+
+{
+	"get${entity.upperCamelCaseClassName}List": {
+		"search_criteria": {
+			"class": "CMPLX",
+			"type": "MAP",
+			"search_criteria": {
+#foreach ($field in $entity.fieldList)
+#if($field.isSearchable)
+				"${field.lowerSnakeCaseName}": {
+					"class": "SMPL",
+					"type": "String"
+				},
+#end
+#end			
+			}
+		},
+		"sort_criteria": {
+			"class": "CMPLX",
+			"type": "MAP",
+			"sort_criteria": {
+				"order": {
+					"class": "SMPL",
+					"type": "String"
+				},
+				"fields": {
+					"class": "SMPL",
+					"type": "ARR",
+					"fields": {
+						"field_name": {
+							"class": "SMPL",
+							"type": "String"
+						}
+					}
+				}
+			}
+		},
+		"page_size": {
+			"class": "SMPL",
+			"type": "String"
+		},
+		"offset": {
+			"class": "SMPL",
+			"type": "String"
+		}
+	}
+}

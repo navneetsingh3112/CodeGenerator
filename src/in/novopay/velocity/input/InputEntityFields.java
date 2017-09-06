@@ -15,6 +15,7 @@ public class InputEntityFields {
 	private String sqlType;
 	
 	private String comment;
+	private Boolean isSearchable;
 	
 	public String getName() {
 		return name;
@@ -105,6 +106,14 @@ public class InputEntityFields {
 	public String addComment(){
 		if(StringUtils.isNotBlank(comment)) return " COMMENT '"+ comment + "'";
         else return "";
+	}
+
+	public Boolean getIsSearchable() {
+		return isSearchable;
+	}
+
+	public void setIsSearchable(Boolean isSearchable) {
+		this.isSearchable = isSearchable;
 	}
 
 }

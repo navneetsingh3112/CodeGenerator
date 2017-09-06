@@ -40,7 +40,8 @@ public class Main {
 		velocityEngine.init(velocityProperties);
 
 		String[] inputTemplateFileArray = { "entity.vm", "repo.vm", "dao.vm", "schema.vm", "createprocessor.vm",
-				"updateprocessor.vm", "listprocessor.vm", "detailsprocessor.vm","CreateOrUpdateRequestjson.vm" };
+				"updateprocessor.vm", "listprocessor.vm", "detailsprocessor.vm","CreateOrUpdateRequestjson.vm",
+				"GetPaginatedListRequestjson.vm" };
 
 		String[] outputDir = { "in/novopay/" + entity.getService() + "/" + entity.getUserStory() + "/entity",
 				"in/novopay/" + entity.getService() + "/" + entity.getUserStory() + "/repository",
@@ -49,12 +50,13 @@ public class Main {
 				"in/novopay/" + entity.getService() + "/" + entity.getUserStory() + "/processors",
 				"in/novopay/" + entity.getService() + "/" + entity.getUserStory() + "/processors",
 				"in/novopay/" + entity.getService() + "/" + entity.getUserStory() + "/processors",
-				"request"};
+				"request","request"};
 
-		String[] outputFileExtentionPrefixArray = { "", "", "", "", "Create", "Update", "Get", "Get","createOrUpdate" };
+		String[] outputFileExtentionPrefixArray = { "", "", "", "", "Create", "Update", "Get", "Get","createOrUpdate","get" };
 
 		String[] outputFileExtentionSuffixArray = { "Entity.java", "Repository.java", "DAOService.java", ".sql",
-				"Processor.java", "Processor.java", "ListProcessor.java", "DetailsProcessor.java","_requestTemplate.json" };
+				"Processor.java", "Processor.java", "ListProcessor.java", "DetailsProcessor.java","_requestTemplate.json",
+				"_requestTemplate.json" };
 
 		createOutputDirectories(outputDir);
 
@@ -180,6 +182,12 @@ public class Main {
 				f.setLowerSnakeCaseName(
 						CaseFormat.UPPER_UNDERSCORE.to(CaseFormat.UPPER_UNDERSCORE, (String) fobj.get("name")));
 				f.setComment((String) fobj.get("comment"));
+				Boolean isSearchable = (Boolean) fobj.get("is_searchable");
+				if (isSearchable != null) {
+					f.setIsSearchable(isSearchable);
+				} else {
+					f.setIsSearchable(false);
+				}
 				entity.addFields(f);
 			}
 		} catch (IOException | ParseException e) {

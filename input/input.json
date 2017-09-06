@@ -11,6 +11,7 @@
 			"sql_type": "VARCHAR",
 			"length": 16,
 			"is_mandatory": true,
+			"is_searchable": true,
 			"comment": "Name of heirarchy level"
 		},
 		{
@@ -19,6 +20,7 @@
 			"sql_type": "VARCHAR",
 			"length": 8,
 			"is_mandatory": true,
+			"is_searchable": true,
 			"comment": "Heirarchy level code"
 		},
 		{
@@ -34,6 +36,7 @@
 			"sql_type": "VARCHAR",
 			"length": 256,
 			"is_mandatory": true,
+			"is_searchable": true,
 			"comment": "Heirarchy level department name"
 		},
 		{
@@ -42,6 +45,7 @@
 			"sql_type": "VARCHAR",
 			"length": 256,
 			"is_mandatory": true,
+			"is_searchable": true,
 			"comment": "Type of heirarchy level"
 		},
 		{
