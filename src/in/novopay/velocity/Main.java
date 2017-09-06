@@ -40,7 +40,7 @@ public class Main {
 		velocityEngine.init(velocityProperties);
 
 		String[] inputTemplateFileArray = { "entity.vm", "repo.vm", "dao.vm", "schema.vm", "createprocessor.vm",
-				"updateprocessor.vm", "listprocessor.vm", "detailsprocessor.vm" };
+				"updateprocessor.vm", "listprocessor.vm", "detailsprocessor.vm","requestjson.vm" };
 
 		String[] outputDir = { "in/novopay/" + entity.getService() + "/" + entity.getUserStory() + "/entity",
 				"in/novopay/" + entity.getService() + "/" + entity.getUserStory() + "/repository",
@@ -48,11 +48,13 @@ public class Main {
 				"in/novopay/" + entity.getService() + "/" + entity.getUserStory() + "/processors",
 				"in/novopay/" + entity.getService() + "/" + entity.getUserStory() + "/processors",
 				"in/novopay/" + entity.getService() + "/" + entity.getUserStory() + "/processors",
-				"in/novopay/" + entity.getService() + "/" + entity.getUserStory() + "/processors" };
+				"in/novopay/" + entity.getService() + "/" + entity.getUserStory() + "/processors",
+				"request"};
+
+		String[] outputFileExtentionPrefixArray = { "", "", "", "", "Create", "Update", "Get", "Get","createOrUpdate" };
 
 		String[] outputFileExtentionSuffixArray = { "Entity.java", "Repository.java", "DAOService.java", ".sql",
-				"Processor.java", "Processor.java", "ListProcessor.java", "DetailsProcessor.java" };
-		String[] outputFileExtentionPrefixArray = { "", "", "", "", "Create", "Update", "Get", "Get" };
+				"Processor.java", "Processor.java", "ListProcessor.java", "DetailsProcessor.java","_requestTemplate.json" };
 
 		createOutputDirectories(outputDir);
 
@@ -140,7 +142,8 @@ public class Main {
 			entity.setTable(table);
 			entity.setLowerCamelCaseClassName(CaseFormat.UPPER_UNDERSCORE.to(CaseFormat.LOWER_CAMEL, table));
 			entity.setUpperCamelCaseClassName(CaseFormat.UPPER_UNDERSCORE.to(CaseFormat.UPPER_CAMEL, table));
-
+			entity.setLowerSnakeCaseClassName(CaseFormat.UPPER_UNDERSCORE.to(CaseFormat.UPPER_UNDERSCORE, table));
+			
 			String author = (String) jsonObject.get("author");
 			entity.setAuthor(author);
 

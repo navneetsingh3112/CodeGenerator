@@ -12,7 +12,8 @@ public class InputEntity {
 	private String service;
 	private String userStory;
 	private String tableComment;
-
+	private String lowerSnakeCaseClassName;
+	
 	ArrayList<InputEntityFields> fieldList = new ArrayList<>();
 
 	public void addFields(InputEntityFields field) {
@@ -82,6 +83,14 @@ public class InputEntity {
 	public String addTableComment(){
 		if(StringUtils.isNotBlank(tableComment)) return " COMMENT = '"+ tableComment + "'";
         else return "";
+	}
+
+	public String getLowerSnakeCaseClassName() {
+		return lowerSnakeCaseClassName;
+	}
+
+	public void setLowerSnakeCaseClassName(String lowerSnakeCaseClassName) {
+		this.lowerSnakeCaseClassName = lowerSnakeCaseClassName;
 	}
 
 }
