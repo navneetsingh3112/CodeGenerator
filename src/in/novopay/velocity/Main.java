@@ -40,8 +40,10 @@ public class Main {
 		velocityEngine.init(velocityProperties);
 
 		String[] inputTemplateFileArray = { "entity.vm", "repo.vm", "dao.vm", "schema.vm", "createprocessor.vm",
-				"updateprocessor.vm", "listprocessor.vm", "detailsprocessor.vm","CreateOrUpdateRequestjson.vm",
-				"GetPaginatedListRequestjson.vm" };
+				"updateprocessor.vm", "listprocessor.vm", "detailsprocessor.vm", "CreateOrUpdateRequestjson.vm",
+				"GetPaginatedListRequestjson.vm", "GetDetailsRequestjson.vm", "CreateOrUpdateResponse.vm",
+				"GetDetailsResponsejson.vm", "GetPaginatedListResponsejson.vm", "create_orc_.vm", "getDetails_orc.vm",
+				"getList_orc.vm" };
 
 		String[] outputDir = { "in/novopay/" + entity.getService() + "/" + entity.getUserStory() + "/entity",
 				"in/novopay/" + entity.getService() + "/" + entity.getUserStory() + "/repository",
@@ -49,14 +51,17 @@ public class Main {
 				"in/novopay/" + entity.getService() + "/" + entity.getUserStory() + "/processors",
 				"in/novopay/" + entity.getService() + "/" + entity.getUserStory() + "/processors",
 				"in/novopay/" + entity.getService() + "/" + entity.getUserStory() + "/processors",
-				"in/novopay/" + entity.getService() + "/" + entity.getUserStory() + "/processors",
-				"request","request"};
+				"in/novopay/" + entity.getService() + "/" + entity.getUserStory() + "/processors", "request", "request",
+				"request", "response", "response", "response","orc","orc","orc" };
 
-		String[] outputFileExtentionPrefixArray = { "", "", "", "", "Create", "Update", "Get", "Get","createOrUpdate","get" };
+		String[] outputFileExtentionPrefixArray = { "", "", "", "", "Create", "Update", "Get", "Get", "createOrUpdate",
+				"get", "get", "createOrUpdate", "get", "get","createOrUpdate","details","list" };
 
 		String[] outputFileExtentionSuffixArray = { "Entity.java", "Repository.java", "DAOService.java", ".sql",
-				"Processor.java", "Processor.java", "ListProcessor.java", "DetailsProcessor.java","_requestTemplate.json",
-				"_requestTemplate.json" };
+				"Processor.java", "Processor.java", "ListProcessor.java", "DetailsProcessor.java",
+				"_requestTemplate.json", "List_requestTemplate.json", "Details_requestTemplate.json",
+				"_responseTemplate.json", "Details_responseTemplate.json", "List_responseTemplate.json", ".xml", ".xml",
+				".xml" };
 
 		createOutputDirectories(outputDir);
 
@@ -145,7 +150,7 @@ public class Main {
 			entity.setLowerCamelCaseClassName(CaseFormat.UPPER_UNDERSCORE.to(CaseFormat.LOWER_CAMEL, table));
 			entity.setUpperCamelCaseClassName(CaseFormat.UPPER_UNDERSCORE.to(CaseFormat.UPPER_CAMEL, table));
 			entity.setLowerSnakeCaseClassName(CaseFormat.UPPER_UNDERSCORE.to(CaseFormat.UPPER_UNDERSCORE, table));
-			
+
 			String author = (String) jsonObject.get("author");
 			entity.setAuthor(author);
 
@@ -169,9 +174,9 @@ public class Main {
 						CaseFormat.UPPER_UNDERSCORE.to(CaseFormat.UPPER_CAMEL, (String) fobj.get("name")));
 				f.setJavaType((String) fobj.get("java_type"));
 				f.setSqlType((String) fobj.get("sql_type"));
-				Long length = (Long) fobj.get("length");
-				if (length != null) {
-					f.setLength(length.intValue());
+				Long maxLength = (Long) fobj.get("max_length");
+				if (maxLength != null) {
+					f.setMaxLength(maxLength.intValue());
 				}
 				Boolean isMandatory = (Boolean) fobj.get("is_mandatory");
 				if (isMandatory != null) {

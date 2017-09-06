@@ -7,7 +7,7 @@ public class InputEntityFields {
 	private String lowerCamelCaseName;
 	private String upperCamelCaseName;
 	
-	private Integer length;
+	private Integer maxLength;
 	private String lowerSnakeCaseName;
 	private Boolean isMandatory;
 	
@@ -39,14 +39,6 @@ public class InputEntityFields {
 
 	public void setUpperCamelCaseName(String upperCamelCaseName) {
 		this.upperCamelCaseName = upperCamelCaseName;
-	}
-
-	public Integer getLength() {
-		return length;
-	}
-
-	public void setLength(Integer length) {
-		this.length = length;
 	}
 
 	public Boolean getIsMandatory() {
@@ -81,18 +73,27 @@ public class InputEntityFields {
 		this.comment = comment;
 	}
 	public String addNotNull(){
-        if(this.isMandatory) return " NOT NULL";
-        else return "";
+        if(this.isMandatory){
+        	return " NOT NULL";
+        } else {
+        	return "";
+        }
     }
 	
 	public String getOrDefaultStringLength(){
-        if(null != this.length) return this.length.toString();
-        else return "64";
+        if(null != this.maxLength){
+        	return this.maxLength.toString();
+        } else {
+        	return "64";
+        }
     }
 	
 	public String getOrDefaultIntegerLength(){
-        if(null != this.length) return this.length.toString();
-        else return "10";
+        if(null != this.maxLength){
+        	return this.maxLength.toString();
+        } else {
+        	return "10";
+        }
     }
 
 	public String getLowerSnakeCaseName() {
@@ -104,8 +105,11 @@ public class InputEntityFields {
 	}
 	
 	public String addComment(){
-		if(StringUtils.isNotBlank(comment)) return " COMMENT '"+ comment + "'";
-        else return "";
+		if(StringUtils.isNotBlank(comment)) {
+			return " COMMENT '"+ comment + "'";
+		} else {
+			return "";
+		}
 	}
 
 	public Boolean getIsSearchable() {
@@ -116,4 +120,11 @@ public class InputEntityFields {
 		this.isSearchable = isSearchable;
 	}
 
+	public Integer getMaxLength() {
+		return maxLength;
+	}
+
+	public void setMaxLength(Integer maxLength) {
+		this.maxLength = maxLength;
+	}
 }

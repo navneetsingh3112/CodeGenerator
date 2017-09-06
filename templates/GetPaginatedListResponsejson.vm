@@ -1,0 +1,52 @@
+{
+	"get${entity.upperCamelCaseClassName}List": {
+		"page_size": {
+			"class": "SMPL",
+			"type": "String"
+		},
+		"offset": {
+			"class": "SMPL",
+			"type": "String"
+		},
+		"number_of_records": {
+			"class": "SMPL",
+			"type": "String"
+		},
+		"${entity.lowerSnakeCaseClassName}_list": {
+			"class": "SMPL",
+			"type": "ARR",
+			"${entity.lowerSnakeCaseClassName}_list": {
+				"id": {
+					"class": "SMPL",
+					"type": "String"
+				},
+#foreach ($field in $entity.fieldList)
+#if( ${field.lowerCamelCaseName} != "createdOn" && ${field.lowerCamelCaseName} != "createdBy" && ${field.lowerCamelCaseName} != "updatedOn" && ${field.lowerCamelCaseName} != "updatedBy")
+				"${field.lowerSnakeCaseName}": {
+					"class": "SMPL",
+					"type": "String"
+				},
+#end
+#end			
+			}
+		},
+		"response_status": {
+			"class": "CMPLX",
+			"type": "MAP",
+			"response_status": {
+				"status": {
+					"class": "SMPL",
+					"type": "String"
+				},
+				"code": {
+					"class": "SMPL",
+					"type": "String"
+				},
+				"message": {
+					"class": "SMPL",
+					"type": "String"
+				}
+			}
+		}
+	}
+}

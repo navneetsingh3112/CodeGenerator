@@ -1,0 +1,8 @@
+{
+	"get${entity.upperCamelCaseClassName}Details": {
+		"id": {
+			"class": "SMPL",
+			"type": "String"
+		}
+	}
+}

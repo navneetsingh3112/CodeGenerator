@@ -4,12 +4,13 @@
 <Request name="createOrUpdate${entity.upperCamelCaseClassName}">
 	<Validators>
 		<Validator bean="mandatoryFieldValidator">
-			#foreach ($field in $entity.fieldList)
-			#if( ${field.isMandatory} )
-				<IParam fieldName="${field.lowerSnakeCaseName}" errorCode="" defaultMessage="${field.lowerSnakeCaseName} is mandatory."/>
-			#end	
-			#end
-			
+#foreach ($field in $entity.fieldList)
+#if( ${field.isMandatory})
+#if( ${field.lowerCamelCaseName} != "createdOn" && ${field.lowerCamelCaseName} != "createdBy" && ${field.lowerCamelCaseName} != "updatedOn" && ${field.lowerCamelCaseName} != "updatedBy")
+			<IParam fieldName="${field.lowerSnakeCaseName}" errorCode="" defaultMessage="${field.lowerSnakeCaseName} is mandatory."/>
+#end
+#end	
+#end
 		</Validator>
 		<Validator bean="patternFieldValidator">
 		</Validator>
@@ -17,10 +18,10 @@
 		</Validator>
 	</Validators>
 	<Processors>
-		<Control method="regExp" pattern="${function_code}" condition="=" value="CREATE">
+		<Control method="regExp" pattern="${function_sub_code}" condition="=" value="CREATE">
 			<Processor bean="create${entity.upperCamelCaseClassName}Processor" />
 		</Control>
-		<Control method="regExp" pattern="${function_code}" condition="=" value="UPDATE">
+		<Control method="regExp" pattern="${function_sub_code}" condition="=" value="UPDATE">
 			<Processor bean="update${entity.upperCamelCaseClassName}Processor" />
 		</Control>
 	</Processors>

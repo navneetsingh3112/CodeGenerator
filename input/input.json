@@ -9,7 +9,7 @@
 			"name": "level_name",
 			"java_type": "String",
 			"sql_type": "VARCHAR",
-			"length": 16,
+			"max_length": 16,
 			"is_mandatory": true,
 			"is_searchable": true,
 			"comment": "Name of heirarchy level"
@@ -18,7 +18,7 @@
 			"name": "level_code",
 			"java_type": "String",
 			"sql_type": "VARCHAR",
-			"length": 8,
+			"max_length": 8,
 			"is_mandatory": true,
 			"is_searchable": true,
 			"comment": "Heirarchy level code"
@@ -27,14 +27,14 @@
 			"name": "description",
 			"java_type": "String",
 			"sql_type": "VARCHAR",
-			"length": 256,
+			"max_length": 256,
 			"comment": "Heirarchy level description"
 		},
 		{
 			"name": "department_name",
 			"java_type": "String",
 			"sql_type": "VARCHAR",
-			"length": 256,
+			"max_length": 256,
 			"is_mandatory": true,
 			"is_searchable": true,
 			"comment": "Heirarchy level department name"
@@ -43,7 +43,7 @@
 			"name": "heirarchy_level_type",
 			"java_type": "String",
 			"sql_type": "VARCHAR",
-			"length": 256,
+			"max_length": 256,
 			"is_mandatory": true,
 			"is_searchable": true,
 			"comment": "Type of heirarchy level"
@@ -59,7 +59,7 @@
 			"name": "created_by",
 			"java_type": "String",
 			"sql_type": "VARCHAR",
-			"length": 64,
+			"max_length": 64,
 			"is_mandatory": true,
 			"comment": "Created by"
 		},
@@ -74,7 +74,7 @@
 			"name": "updated_by",
 			"java_type": "String",
 			"sql_type": "VARCHAR",
-			"length": 64,
+			"max_length": 64,
 			"is_mandatory": true,
 			"comment": "Updated on"
 		}

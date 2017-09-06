@@ -4,7 +4,7 @@
 <Request name="get${entity.upperCamelCaseClassName}DetailsProcessor">
 	<Validators>
 		<Validator bean = "mandatoryFieldValidator">
-			<IParam fieldName="id" errorCode="" defaultMessage="Id is mandatory."/>
+			<IParam fieldName="id" errorCode="" defaultMessage="id is mandatory."/>
 		</Validator>
 	</Validators>
 	<Processors>
