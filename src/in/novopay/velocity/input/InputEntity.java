@@ -103,4 +103,11 @@ public class InputEntity {
         else return "";
 	}
 
+	public String getFetchApiKey() {
+		return fetchApiKey;
+	}
+
+	public void setFetchApiKey(String fetchApiKey) {
+		this.fetchApiKey = fetchApiKey;
+	}
 }
