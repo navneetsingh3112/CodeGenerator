@@ -1,0 +1,16 @@
+{
+	"file_paths": [
+		{
+			"dir_name": "INPUT_DIR",
+			"path": "/Users/navaneet/office/git-workspace/CodeGenerator/input"
+		},
+		{
+			"dir_name": "OUTPUT_DIR",
+			"path": "/Users/navaneet/office/git-workspace/CodeGenerator/output"
+		},
+		{
+			"dir_name": "TEMPLATES_DIR",
+			"path": "/Users/navaneet/office/git-workspace/CodeGenerator/templates"
+		}
+	]
+}

@@ -1,6 +1,7 @@
 package in.novopay.velocity;
 
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -23,14 +24,13 @@ import in.novopay.velocity.input.InputEntityFields;
 
 public class Main {
 
-	static String ROOT_DIR = "";
-
 	static String TEMPLATES_DIR = "";
 	static String OUTPUT_DIR = "";
 	static String INPUT_DIR = "";
 
 	public static void main(String[] args) throws IOException {
 		constructDirctoryPath(args);
+		verifyProgramArgs();
 		VelocityContext context = new VelocityContext();
 		InputEntity entity = getEntity();
 		context.put("entity", entity);
@@ -84,13 +84,49 @@ public class Main {
 
 	private static void constructDirctoryPath(String args[]) {
 		if (args == null || args.length < 1) {
-			System.out.println("Missing root directory path");
+			System.out.println("Missing config directory file path");
 			System.exit(0);
 		} else {
-			ROOT_DIR = args[0];
-			TEMPLATES_DIR = ROOT_DIR + "/templates";
-			OUTPUT_DIR = ROOT_DIR + "/output";
-			INPUT_DIR = ROOT_DIR + "/input";
+			JSONParser parser = new JSONParser();
+			try {
+				JSONObject obj = (JSONObject) parser.parse(new FileReader(args[0]));
+				JSONArray filePaths = (JSONArray) obj.get("file_paths");
+				for (Object object : filePaths) {
+					JSONObject jsonObj = (JSONObject) object;
+					String dirName = (String) jsonObj.get("dir_name");
+					if ("INPUT_DIR".equalsIgnoreCase(dirName)) {
+						INPUT_DIR = (String) jsonObj.get("path");
+					} else if ("OUTPUT_DIR".equalsIgnoreCase(dirName)) {
+						OUTPUT_DIR = (String) jsonObj.get("path");
+					} else if ("TEMPLATES_DIR".equalsIgnoreCase(dirName)) {
+						TEMPLATES_DIR = (String) jsonObj.get("path");
+					}
+				}
+			} catch (FileNotFoundException e) {
+				e.printStackTrace();
+				System.exit(0);
+			} catch (IOException e) {
+				e.printStackTrace();
+				System.exit(0);
+			} catch (ParseException e) {
+				e.printStackTrace();
+				System.exit(0);
+			}
+		}
+	}
+
+	private static void verifyProgramArgs() {
+		if (INPUT_DIR.isEmpty()) {
+			System.out.println("INPUT_DIR path is missing");
+			System.exit(0);
+		}
+		if (OUTPUT_DIR.isEmpty()) {
+			System.out.println("OUTPUT_DIR path is missing");
+			System.exit(0);
+		}
+		if (TEMPLATES_DIR.isEmpty()) {
+			System.out.println("TEMPLATES_DIR path is missing");
+			System.exit(0);
 		}
 	}
 
@@ -113,7 +149,7 @@ public class Main {
 
 			String service = (String) jsonObject.get("service");
 			entity.setService(service);
-			
+
 			entity.setTableComment((String) jsonObject.get("table_comment"));
 
 			JSONArray fields = (JSONArray) jsonObject.get("fields");
