@@ -12,7 +12,7 @@ import java.util.List;
  *
  */
 
-interface ${entity.upperCamelCaseClassName}Repository extends JpaRepository<${entity.upperCamelCaseClassName}Entity, Integer> {
+public interface ${entity.upperCamelCaseClassName}Repository extends JpaRepository<${entity.upperCamelCaseClassName}Entity, Integer> {
 
 	List<${entity.upperCamelCaseClassName}Entity> findAll();
 	${entity.upperCamelCaseClassName}Entity findOneById(Integer id);

@@ -4,9 +4,7 @@ import java.util.Date;
 
 import javax.persistence.Entity;
 import javax.persistence.Table;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import in.novopay.actor.AbstractIntegerBaseEntity;
 
 /***
  * 
@@ -16,12 +14,9 @@ import javax.persistence.Id;
 
 @Entity
 @Table(name = "${entity.table}")
-public class ${entity.upperCamelCaseClassName}Entity {
-
-
-	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
-	private Integer id;
+public class ${entity.upperCamelCaseClassName}Entity extends AbstractIntegerBaseEntity {
+	private static final long serialVersionUID = 1L;
+	
 #foreach ($field in $entity.fieldList)
 #if( ${field.lowerCamelCaseName} != "createdOn" && ${field.lowerCamelCaseName} != "createdBy" && ${field.lowerCamelCaseName} != "updatedOn" && ${field.lowerCamelCaseName} != "updatedBy")
 	private ${field.javaType} ${field.lowerCamelCaseName};

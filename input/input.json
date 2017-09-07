@@ -78,15 +78,5 @@
 			"is_mandatory": true,
 			"comment": "Updated on"
 		}
-	],
-	"table_indices": [
-		{
-			"name": "hl_level_code",
-			"type": "UNIQUE",
-			"keys": [
-				"level_code"
-			],
-			"order": "ASC"
-		}
 	]
 }

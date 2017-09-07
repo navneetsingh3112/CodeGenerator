@@ -9,7 +9,6 @@ import in.novopay.infra.platform.navigation.AbstractProcessor;
 import in.novopay.infra.platform.navigation.ExecutionContext;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import java.math.BigDecimal;
 import java.util.Date;
 
 
@@ -26,10 +25,8 @@ public class Update${entity.upperCamelCaseClassName}Processor extends AbstractPr
 	@Autowired
 	private ${entity.upperCamelCaseClassName}DAOService ${entity.lowerCamelCaseClassName}Service;
 
-	@Autowired
 	private ${entity.upperCamelCaseClassName}Entity ${entity.lowerCamelCaseClassName}Entity;
 
-	@SuppressWarnings("unchecked")
 	@Override
 	protected void process(ExecutionContext executionContext) throws NovopayFatalException, NovopayNonFatalException {
 	
@@ -40,6 +37,7 @@ public class Update${entity.upperCamelCaseClassName}Processor extends AbstractPr
 		${field.javaType} ${field.lowerCamelCaseName} = executionContext.getValue("${field.lowerSnakeCaseName}", ${field.javaType}.class);
 #end
 #end
+		${entity.lowerCamelCaseClassName}Entity = new ${entity.upperCamelCaseClassName}Entity();
 		${entity.lowerCamelCaseClassName}Entity.setId(intId);
 #foreach ($field in $entity.fieldList)
 #if( ${field.lowerCamelCaseName} == "createdOn")

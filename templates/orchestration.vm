@@ -12,10 +12,6 @@
 #end	
 #end
 		</Validator>
-		<Validator bean="patternFieldValidator">
-		</Validator>
-		<Validator bean="stringLengthValidator">
-		</Validator>
 	</Validators>
 	<Processors>
 		<Control method="regExp" pattern="${function_sub_code}" condition="=" value="CREATE">
@@ -24,5 +20,28 @@
 		<Control method="regExp" pattern="${function_sub_code}" condition="=" value="UPDATE">
 			<Processor bean="update${entity.upperCamelCaseClassName}Processor" />
 		</Control>
+	</Processors>
+</Request>
+
+<!-- 
+	@author	:${entity.author}
+ -->
+<Request name="get${entity.upperCamelCaseClassName}Details">
+	<Validators>
+		<Validator bean = "mandatoryFieldValidator">
+			<IParam fieldName="id" errorCode="" defaultMessage="id is mandatory."/>
+		</Validator>
+	</Validators>
+	<Processors>
+		<Processor bean="get${entity.upperCamelCaseClassName}DetailsProcessor" />
+	</Processors>
+</Request>
+
+<!-- 
+	@author	:${entity.author}
+ -->
+<Request name="get${entity.upperCamelCaseClassName}List">
+	<Processors>
+		<Processor bean="get${entity.upperCamelCaseClassName}ListProcessor" />
 	</Processors>
 </Request>

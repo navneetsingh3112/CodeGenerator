@@ -23,7 +23,6 @@ public class Get${entity.upperCamelCaseClassName}ListProcessor extends AbstractP
 	private ${entity.upperCamelCaseClassName}DAOService ${entity.lowerCamelCaseClassName}Service;
 
 
-	@SuppressWarnings("unchecked")
 	@Override
 	protected void process(ExecutionContext executionContext) throws NovopayFatalException, NovopayNonFatalException {
 	
@@ -32,5 +31,6 @@ public class Get${entity.upperCamelCaseClassName}ListProcessor extends AbstractP
 			throw new NovopayNonFatalException("TODO", "No records found");
 		}
 		executionContext.put("number_of_records", count);
-		executionContext.put("record_list", ${entity.lowerCamelCaseClassName}Service.get${entity.upperCamelCaseClassName}PaginatedList(executionContext));
+		executionContext.put("${entity.lowerSnakeCaseClassName}_list", ${entity.lowerCamelCaseClassName}Service.get${entity.upperCamelCaseClassName}PaginatedList(executionContext));
+	}	
 }

@@ -2,6 +2,8 @@ package in.novopay.${entity.service}.${entity.userStory}.daoservice;
 
 
 import in.novopay.${entity.service}.${entity.userStory}.entity.${entity.upperCamelCaseClassName}Entity;
+import in.novopay.${entity.service}.${entity.userStory}.repository.${entity.upperCamelCaseClassName}Repository;
+import in.novopay.${entity.service}.${entity.userStory}.repository.${entity.upperCamelCaseClassName}RowMapper;
 import in.novopay.infra.platform.exception.NovopayFatalException;
 import in.novopay.infra.platform.navigation.ExecutionContext;
 import org.springframework.beans.factory.annotation.Autowired;

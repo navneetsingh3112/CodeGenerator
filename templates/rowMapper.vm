@@ -1,0 +1,90 @@
+package in.novopay.${entity.service}.${entity.userStory}.repository;
+
+
+import in.novopay.infra.platform.exception.NovopayFatalException;
+import in.novopay.infra.platform.navigation.ExecutionContext;
+import org.json.simple.JSONArray;
+import org.json.simple.JSONObject;
+import org.springframework.stereotype.Service;
+
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.HashMap;
+import java.util.Map;
+
+
+/***
+ * 
+ * @author ${entity.author}
+ *
+ */
+@Service
+public class ${entity.upperCamelCaseClassName}RowMapper extends AbstractRowMapper {
+	
+	public void populateQueryParameter(ExecutionContext executionContext){	
+		executionContext.put("query", "FROM ${entity.table} WHERE 1=1 ");
+#set($fieldList = "id")
+#foreach ($field in $entity.fieldList)
+#if( ${field.lowerCamelCaseName} != "createdOn" && ${field.lowerCamelCaseName} != "createdBy" && ${field.lowerCamelCaseName} != "updatedOn" && ${field.lowerCamelCaseName} != "updatedBy")
+#set($fieldList = "#if($StringUtils.isEmpty(${fieldList}))${field.lowerSnakeCaseName} #{else}${fieldList} , ${field.lowerSnakeCaseName}#end") 	
+#end
+#end
+		executionContext.put("select_creteria", "SELECT ${fieldList} ");		
+	}
+
+	public StringBuilder buildSearchCriteria(ExecutionContext executionContext, Map<String, Object> paramMap) {
+		return extractCriteriaKeyValue(paramMap, executionContext, "");
+	}
+
+	public StringBuilder buildSortCriteria(JSONArray sortFields) throws NovopayFatalException {
+		StringBuilder sortQueryBuilder = new StringBuilder();
+		JSONObject sortField;
+		String fieldName;
+		
+		for (Object sortFieldObj : sortFields) {
+			sortField = (JSONObject) sortFieldObj;
+			fieldName = (String) sortField.get("field_name");
+			if(fieldName.contains(".")) {
+				fieldName = fieldName.split("\\.")[1];
+			}
+#set($counter = 1)
+#foreach ($field in $entity.fieldList)
+#if($field.isSearchable)
+#if($counter == 1)
+			if ("${field.lowerSnakeCaseName}".equals(fieldName)) {
+				sortQueryBuilder.append("${field.lowerSnakeCaseName} ,");
+#else
+			} else if ("${field.lowerSnakeCaseName}".equals(fieldName)) {
+				sortQueryBuilder.append("${field.lowerSnakeCaseName} ,");
+#end
+#set($counter = $counter + 1)
+#end
+#end
+			} else {
+				throw new NovopayFatalException("", "Invalid field_name");
+			}
+		}
+		return sortQueryBuilder;
+	}
+
+	@Override
+	public Map<String, Object> mapRow(ResultSet rs, int rowNum) throws SQLException {
+		Map<String, Object> recordDetailsMap = new HashMap<>();
+		Map<String, Object> dataMap = new HashMap<>();
+		dataMap.put("id", rs.getInt("id"));
+#foreach ($field in $entity.fieldList)
+#if( ${field.lowerCamelCaseName} != "createdOn" && ${field.lowerCamelCaseName} != "createdBy" && ${field.lowerCamelCaseName} != "updatedOn" && ${field.lowerCamelCaseName} != "updatedBy")
+#if( ${field.javaType} == "String")
+		dataMap.put("${field.lowerSnakeCaseName}", rs.getString("${field.lowerSnakeCaseName}"));
+#elseif( ${field.javaType} == "Integer")
+		dataMap.put("${field.lowerSnakeCaseName}", rs.getInt("${field.lowerSnakeCaseName}"));
+#elseif( ${field.javaType} == "Date")		
+		dataMap.put("${field.lowerSnakeCaseName}", rs.getDate("${field.lowerSnakeCaseName}"));
+#end
+#end
+#end		
+		recordDetailsMap.put("${entity.lowerSnakeCaseClassName}_details", dataMap);
+		return recordDetailsMap;
+	}
+	
+}

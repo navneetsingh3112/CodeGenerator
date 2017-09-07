@@ -15,19 +15,23 @@
 		"${entity.lowerSnakeCaseClassName}_list": {
 			"class": "SMPL",
 			"type": "ARR",
-			"${entity.lowerSnakeCaseClassName}_list": {
-				"id": {
-					"class": "SMPL",
-					"type": "String"
-				},
+			"${entity.lowerSnakeCaseClassName}_details": {
+				"class": "CMPLX",
+				"type": "MAP",			
+				"${entity.lowerSnakeCaseClassName}_details": {
+					"id": {
+						"class": "SMPL",
+						"type": "String"
+					},
 #foreach ($field in $entity.fieldList)
 #if( ${field.lowerCamelCaseName} != "createdOn" && ${field.lowerCamelCaseName} != "createdBy" && ${field.lowerCamelCaseName} != "updatedOn" && ${field.lowerCamelCaseName} != "updatedBy")
-				"${field.lowerSnakeCaseName}": {
-					"class": "SMPL",
-					"type": "String"
-				},
+					"${field.lowerSnakeCaseName}": {
+						"class": "SMPL",
+						"type": "String"
+					},
 #end
 #end			
+				}
 			}
 		},
 		"response_status": {

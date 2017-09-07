@@ -1,8 +1,0 @@
-<!-- 
-	@author	:${entity.author}
- -->
-<Request name="get${entity.upperCamelCaseClassName}List">
-	<Processors>
-		<Processor bean="get${entity.upperCamelCaseClassName}ListProcessor" />
-	</Processors>
-</Request>

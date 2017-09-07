@@ -17,6 +17,24 @@
 #end
 #end			
 			}
+		},
+		"response_status": {
+			"class": "CMPLX",
+			"type": "MAP",
+			"response_status":{
+				"status":{
+					"class": "SMPL",
+					"type": "String"
+				},
+				"code":{
+					"class": "SMPL",
+					"type": "String"
+				},
+				"message":{
+					"class": "SMPL",
+					"type": "String"
+				}
+			}
 		}
 	}
 }

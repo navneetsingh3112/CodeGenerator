@@ -1,6 +1,7 @@
 package in.novopay.${entity.service}.${entity.userStory}.processor;
 
 import in.novopay.${entity.service}.${entity.userStory}.daoservice.${entity.upperCamelCaseClassName}DAOService;
+import in.novopay.${entity.service}.${entity.userStory}.entity.${entity.upperCamelCaseClassName}Entity;
 import in.novopay.infra.platform.annotations.Processor;
 import in.novopay.infra.platform.exception.NovopayFatalException;
 import in.novopay.infra.platform.exception.NovopayNonFatalException;
@@ -22,10 +23,8 @@ public class Get${entity.upperCamelCaseClassName}DetailsProcessor extends Abstra
 	@Autowired
 	private ${entity.upperCamelCaseClassName}DAOService ${entity.lowerCamelCaseClassName}Service;
 
-	@Autowired
 	private ${entity.upperCamelCaseClassName}Entity ${entity.lowerCamelCaseClassName}Entity;
 
-	@SuppressWarnings("unchecked")
 	@Override
 	protected void process(ExecutionContext executionContext) throws NovopayFatalException, NovopayNonFatalException {
 	
@@ -35,10 +34,10 @@ public class Get${entity.upperCamelCaseClassName}DetailsProcessor extends Abstra
 		if(${entity.lowerCamelCaseClassName}Entity == null){
 			throw new NovopayNonFatalException("", "No records found");
 		}
-		populateResponseDetails(${entity.lowerCamelCaseClassName}Entity);
+		populateResponseDetails(${entity.lowerCamelCaseClassName}Entity,executionContext);
 	}
 	
-	private void populateResponseDetails(${entity.upperCamelCaseClassName}Entity ${entity.lowerCamelCaseClassName}Entity){
+	private void populateResponseDetails(${entity.upperCamelCaseClassName}Entity ${entity.lowerCamelCaseClassName}Entity,ExecutionContext executionContext){
 #foreach ($field in $entity.fieldList)
 #if( ${field.lowerCamelCaseName} != "createdOn" && ${field.lowerCamelCaseName} != "createdBy" && ${field.lowerCamelCaseName} != "updatedOn" && ${field.lowerCamelCaseName} != "updatedBy")
 		executionContext.put("${field.lowerSnakeCaseName}", ${entity.lowerCamelCaseClassName}Entity.get${field.upperCamelCaseName}());

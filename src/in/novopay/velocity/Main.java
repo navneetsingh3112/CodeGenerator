@@ -9,6 +9,7 @@ import java.io.StringWriter;
 import java.util.Iterator;
 import java.util.Properties;
 
+import org.apache.commons.lang.StringUtils;
 import org.apache.velocity.Template;
 import org.apache.velocity.VelocityContext;
 import org.apache.velocity.app.VelocityEngine;
@@ -34,34 +35,34 @@ public class Main {
 		VelocityContext context = new VelocityContext();
 		InputEntity entity = getEntity();
 		context.put("entity", entity);
+		context.put("StringUtils", new StringUtils());
 		VelocityEngine velocityEngine = new VelocityEngine();
 		Properties velocityProperties = new Properties();
 		velocityProperties.setProperty("file.resource.loader.path", TEMPLATES_DIR);
 		velocityEngine.init(velocityProperties);
 
-		String[] inputTemplateFileArray = { "entity.vm", "repo.vm", "dao.vm", "schema.vm", "createprocessor.vm",
-				"updateprocessor.vm", "listprocessor.vm", "detailsprocessor.vm", "CreateOrUpdateRequestjson.vm",
+		String[] inputTemplateFileArray = { "entity.vm", "repo.vm", "dao.vm", "createprocessor.vm",
+				"updateprocessor.vm", "listprocessor.vm", "detailsprocessor.vm", "rowMapper.vm","CreateOrUpdateRequestjson.vm",
 				"GetPaginatedListRequestjson.vm", "GetDetailsRequestjson.vm", "CreateOrUpdateResponse.vm",
-				"GetDetailsResponsejson.vm", "GetPaginatedListResponsejson.vm", "create_orc_.vm", "getDetails_orc.vm",
-				"getList_orc.vm" };
+				"GetDetailsResponsejson.vm", "GetPaginatedListResponsejson.vm", "orchestration.vm", "schema.vm" };
 
 		String[] outputDir = { "in/novopay/" + entity.getService() + "/" + entity.getUserStory() + "/entity",
 				"in/novopay/" + entity.getService() + "/" + entity.getUserStory() + "/repository",
-				"in/novopay/" + entity.getService() + "/" + entity.getUserStory() + "/daoservice", "sql",
-				"in/novopay/" + entity.getService() + "/" + entity.getUserStory() + "/processors",
-				"in/novopay/" + entity.getService() + "/" + entity.getUserStory() + "/processors",
-				"in/novopay/" + entity.getService() + "/" + entity.getUserStory() + "/processors",
-				"in/novopay/" + entity.getService() + "/" + entity.getUserStory() + "/processors", "request", "request",
-				"request", "response", "response", "response","orc","orc","orc" };
+				"in/novopay/" + entity.getService() + "/" + entity.getUserStory() + "/daoservice",
+				"in/novopay/" + entity.getService() + "/" + entity.getUserStory() + "/processor",
+				"in/novopay/" + entity.getService() + "/" + entity.getUserStory() + "/processor",
+				"in/novopay/" + entity.getService() + "/" + entity.getUserStory() + "/processor",
+				"in/novopay/" + entity.getService() + "/" + entity.getUserStory() + "/processor",
+				"in/novopay/" + entity.getService() + "/" + entity.getUserStory() + "/repository", "request", "request",
+				"request", "response", "response", "response", "orchestration","sql" };
 
-		String[] outputFileExtentionPrefixArray = { "", "", "", "", "Create", "Update", "Get", "Get", "createOrUpdate",
-				"get", "get", "createOrUpdate", "get", "get","createOrUpdate","details","list" };
+		String[] outputFileExtentionPrefixArray = { "", "", "", "Create", "Update", "Get", "Get", "","createOrUpdate",
+				"get", "get", "createOrUpdate", "get", "get", "", "" };
 
-		String[] outputFileExtentionSuffixArray = { "Entity.java", "Repository.java", "DAOService.java", ".sql",
-				"Processor.java", "Processor.java", "ListProcessor.java", "DetailsProcessor.java",
+		String[] outputFileExtentionSuffixArray = { "Entity.java", "Repository.java", "DAOService.java",
+				"Processor.java", "Processor.java", "ListProcessor.java", "DetailsProcessor.java","RowMapper.java",
 				"_requestTemplate.json", "List_requestTemplate.json", "Details_requestTemplate.json",
-				"_responseTemplate.json", "Details_responseTemplate.json", "List_responseTemplate.json", ".xml", ".xml",
-				".xml" };
+				"_responseTemplate.json", "Details_responseTemplate.json", "List_responseTemplate.json", ".xml",".sql" };
 
 		createOutputDirectories(outputDir);
 
