@@ -60,11 +60,11 @@
                 #foreach ($field in $entity.fieldList)
                 <th *ngIf="showSearchBlocks">
                     #if(${field.Sortable})
-                        <mfDefaultSorter (click)="sortFormData($counter)" by="${field.apiKey}1">{{'${entity.lowerTrainCaseClassName}-list-header-${field.apiKey}' | translate}}</mfDefaultSorter>
+                        <mfDefaultSorter (click)="sortFormData($counter)" by="${field.apiKey}1">{{'${entity.lowerTrainCaseClassName}-list-header-${field.lowerTrainCaseName}' | translate}}</mfDefaultSorter>
                     </th>
                     #else
                         <th>
-                            {{'${entity.lowerTrainCaseClassName}-list-header-name' | translate}}
+                            {{'${entity.lowerTrainCaseClassName}-list-header-${field.lowerTrainCaseName}' | translate}}
                         </th>
                     #end
                     #set($counter = $counter+1)

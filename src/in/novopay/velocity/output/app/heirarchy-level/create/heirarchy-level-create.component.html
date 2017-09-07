@@ -1,4 +1,4 @@
-<h1 class="page-title"><span class="fw-semi-bold">{{'heirarchy-level-create-header-creation' | translate}}</span></h1>
+<h1 class="page-title"><span class="fw-semi-bold">{{'heirarchy-level-create-page-header' | translate}}</span></h1>
 
 <form id="heirarchy-level-create-form" class="parsleyjs" method="post" data-parsley-priority-enabled="false"
       novalidate="novalidate" [ngBusy]="busy">
@@ -158,10 +158,10 @@
         </div>
     </div>
     <div *ngIf="!reviewMode" class="form-actions">
-                            <button type="submit" (click)="saveFormData()" class="btn btn-primary btn-rounded">{{'form-btn-$(button.lowerTrainCaseName)' |
+                            <button type="submit" (click)="submitForm()" class="btn btn-primary btn-rounded">{{'form-btn-create-save-save' |
             translate}}
         </button>
-                                        <button type="button" (click)="cancelForm()" class="btn btn-default btn-rounded">{{'form-btn-$(button.lowerTrainCaseName)' |
+                                        <button type="button" (click)="cancelForm()" class="btn btn-default btn-rounded">{{'form-btn-create-cancel-cancel' |
             translate}}
         </button>
                         </div>

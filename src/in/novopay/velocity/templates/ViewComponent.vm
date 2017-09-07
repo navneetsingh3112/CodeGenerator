@@ -1,4 +1,4 @@
-<h1 class="page-title"><span class="fw-semi-bold">{{'${entity.lowerTrainCaseClassName}-view-header' | translate}}</span></h1>
+<h1 class="page-title"><span class="fw-semi-bold">{{'${entity.lowerTrainCaseClassName}-view-page-header' | translate}}</span></h1>
 
 <form id="${entity.lowerTrainCaseClassName}-view-form" class="parsleyjs" method="post" data-parsley-priority-enabled="false"
       novalidate="novalidate" [ngBusy]="busy">
@@ -8,8 +8,8 @@
                 <div class="widget-body">
                     <form class="form-horizontal" role="form">
                         <fieldset>
-                            <legend><strong>{{'${entity.lowerTrainCaseClassName}-create-form-product' | translate}}</strong>
-                                {{'${entity.lowerTrainCaseClassName}-create-form-product-details' | translate}}
+                            <legend><strong>{{'${entity.lowerTrainCaseClassName}-create-form-basic' | translate}}</strong>
+                                {{'${entity.lowerTrainCaseClassName}-create-form-details' | translate}}
                             </legend>
                             #foreach ($field in $entity.fieldList)
                             <div class="form-group row">

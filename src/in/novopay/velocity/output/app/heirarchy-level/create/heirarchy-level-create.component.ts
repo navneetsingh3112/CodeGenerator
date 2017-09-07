@@ -35,7 +35,7 @@ export class HeirarchyLevelCreateComponent extends BaseComponent {
             componentPermissionKey: 'PERMISSION_KEY',
             formHtmlId: 'heirarchy-level-create-form',
             createComponentAPI: 'http://192.168.150.18:8080/api-gateway/api/v1/createOrUpdateHeirarchyLevel',
-            listComponentUrl: '/list',
+            listComponentUrl: '/app/heirarchy-level/list',
             entity: {
                             levelName: {
                     value: '',

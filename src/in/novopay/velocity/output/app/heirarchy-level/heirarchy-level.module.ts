@@ -49,7 +49,7 @@ import {BaseService} from "../base-module/base.service";
 import {HeirarchyLevelCreateComponent} from "./create/heirarchy-level-create.component";
 import {HeirarchyLevelListComponent} from "./list/heirarchy-level-list.component";
 import {HeirarchyLevelViewComponent} from "./view/heirarchy-level-view.component";
-import {HeirarchyLevelEditComponent} from "./view/heirarchy-level-view.component";
+import {HeirarchyLevelEditComponent} from "./edit/heirarchy-level-edit.component";
 
 export const routes = [
     {path: '', redirectTo: 'list', pathMatch: 'full'},

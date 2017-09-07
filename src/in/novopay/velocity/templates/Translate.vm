@@ -1,0 +1,23 @@
+export const LANG_EN_NAME = 'en';
+
+export const ${entity.upperCamelCaseClassName}_LANG_EN_TRANS = {
+  '${entity.lowerTrainCaseClassName}-create-page-header' : 'Create ${entity.upperCamelCaseClassName}',
+  '${entity.lowerTrainCaseClassName}-create-form-header-basic' : 'Basic',
+  '${entity.lowerTrainCaseClassName}-create-form-header-details' : 'Details',
+  #foreach ($field in $entity.fieldList)
+  '${entity.lowerTrainCaseClassName}-create-field-${field.lowerTrainCaseName}': '${field.displayName}',
+  '${entity.lowerTrainCaseClassName}-list-header-${field.lowerTrainCaseName}': '${field.displayName}',
+  #end
+  'form-btn-create-cancel-${button.lowerTrainCaseName}': 'Cancel',
+  'form-btn-create-save-${button.lowerTrainCaseName}': 'Save',
+  '${entity.lowerTrainCaseClassName}-edit-page-header': 'Edit ${entity.upperCamelCaseClassName}',
+  '${entity.lowerTrainCaseClassName}-edit-form-header-basic': 'Basic',
+  '${entity.lowerTrainCaseClassName}-edit-form-header-details': 'Details',
+  'form-btn-edit-cancel-$(button.lowerTrainCaseName)': 'Cancel',
+  'form-btn-edit-save-$(button.lowerTrainCaseName)': 'Save',
+  '${entity.lowerTrainCaseClassName}-list-page-header': 'List ${entity.upperCamelCaseClassName}',
+  '${entity.lowerTrainCaseClassName}-view-page-header': '${entity.upperCamelCaseClassName} Details',
+  '${entity.lowerTrainCaseClassName}-create-form-basic' : 'Basic',
+  '${entity.lowerTrainCaseClassName}-create-form-details': 'Details',
+  '${entity.lowerTrainCaseClassName}-list-header-actions': 'Actions'
+};

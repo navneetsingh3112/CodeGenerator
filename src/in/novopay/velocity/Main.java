@@ -50,7 +50,8 @@ public class Main {
 				"ViewTypeScript.vm",
 				"EditComponent.vm",
 				"EditTypeScript.vm",
-				"Module.vm" };
+				"Module.vm",
+				"Translate.vm"};
 
 		String[] outputDir = { 
 				"app/" + entity.getLowerTrainCaseClassName() + "/create",
@@ -61,7 +62,8 @@ public class Main {
 				"app/" + entity.getLowerTrainCaseClassName() + "/view",
 				"app/" + entity.getLowerTrainCaseClassName() + "/edit",
 				"app/" + entity.getLowerTrainCaseClassName() + "/edit",
-				"app/" + entity.getLowerTrainCaseClassName() };
+				"app/" + entity.getLowerTrainCaseClassName(),
+				"app/" + entity.getLowerTrainCaseClassName()};
 
 		String[] outputFileExtentionArray = { 
 				"-create.component.html",
@@ -72,7 +74,8 @@ public class Main {
 				"-view.component.ts",
 				"-edit.component.html",
 				"-edit.component.ts",
-				".module.ts" };
+				".module.ts",
+				".translate.ts"};
 		// -----------------------------------
 		// -----------------------------------
 		
