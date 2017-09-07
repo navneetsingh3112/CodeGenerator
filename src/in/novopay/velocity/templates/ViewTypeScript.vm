@@ -1,0 +1,56 @@
+import {Component, ViewEncapsulation} from '@angular/core';
+import {Location} from "@angular/common";
+import {ActivatedRoute, Router} from '@angular/router';
+
+import {CommonHttpService} from "../../services/common-http.service";
+import {CommonUtilityService} from "../../services/common-utility.service";
+import {App} from "../../app.component";
+import {AppConstants} from "../../app.constants";
+import {BaseComponent} from "../../base-module/create/base-create.component";
+import {BaseService} from "../../base-module/base.service";
+import {BaseViewComponent} from "../../base-module/view/base-view.component";
+
+declare var jQuery:any;
+
+@Component({
+    selector: '[${entity.lowerTrainCaseClassName}-view]',
+    templateUrl: './${entity.lowerTrainCaseClassName}-view.component.html',
+    encapsulation: ViewEncapsulation.None,
+})
+export class ${entity.upperCamelCaseClassName}ViewComponent extends BaseViewComponent {
+    constructor(private location:Location,
+                private mainApp: App,
+                private appConstants: AppConstants,
+                private commonHttpService:CommonHttpService,
+                private baseService: BaseService,
+                private commonUtilityService:CommonUtilityService,
+                private router:Router,
+                private route:ActivatedRoute) {
+        super(location, mainApp, appConstants, commonHttpService, baseService,
+            commonUtilityService, router, route);
+
+        let componentProperty : IViewComponentProperty = {
+            componentPermissionKey: "PERMISSION_KEY",
+            componentDeletePermissionKey: "DELETE_PERMISSION_KEY",
+            componentEditPermissionKey: "EDIT_PERMISSION_KEY",
+            componentIdRequestBodyKey: "${entity.fetchApiKey}",
+            componentDetailsResponseBodyKey: "${table}_details",
+            viewComponentAPI: "http://192.168.150.18:8080/api-gateway/api/v1/get${entity.upperCamelCaseClassName}Details",
+            deleteComponentAPI: "/delete",
+            editComponentAPI: "/edit",
+            entity: {
+            #foreach ($field in $entity.fieldList)
+                "${field.lowerCamelCaseName}": {
+                    value: '',
+                    displayName: '${field.displayName}',
+                    apiKey: '${field.apiKey}'
+                },
+            #end
+            }
+        };
+        super.setComponentProperties(componentProperty);
+    }
+    ngOnInit(): void {
+        super.ngOnInit();
+    }
+}

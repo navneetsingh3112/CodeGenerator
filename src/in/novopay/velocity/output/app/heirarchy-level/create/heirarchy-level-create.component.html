@@ -12,26 +12,26 @@
                                 {{'heirarchy-level-create-form-header-details' | translate}}
                             </legend>
 
-                            <!-- Textbox -->
+                                                                                        <!-- Textbox -->
                             <div class="form-group row">
                                 <label for="heirarchy-level-level-name"
                                        class="col-md-4  col-form-label text-md-right">{{'heirarchy-level-create-field-level-name'
                                     | translate}}
-                                    *
-                                </label>
+                                                                            *
+                                                                    </label>
 
                                 <div class="col-md-8 ">
                                     <input *ngIf="!readOnly" type="text" name="heirarchy-level-level-name"
-                                           data-parsley-pattern="^[a-zA-Z0-9][a-zA-Z0-9 ()_/.-]*$"
-                                           [(ngModel)]="entity.levelName.value"
-                                           minLength="2"
-                                           maxlength="16"
-                                           id="heirarchy-level-level-name"
-                                           class="form-control"
-                                           placeholder="eg. Country"
-                                           data-parsley-trigger="change"
-                                           required="true"
-                                    >
+                                                                                    data-parsley-pattern="^[a-zA-Z0-9][a-zA-Z0-9 ()_/.-]*$"
+                                                                                    [(ngModel)]="entity.levelName.value"
+                                                                                    minLength="2"
+                                                                                                                            maxlength="16"
+                                                                                    id="heirarchy-level-level-name"
+                                            class="form-control"
+                                                                                    placeholder="eg. Country"
+                                                                                    data-parsley-trigger="change"
+                                                                                    required="true"
+                                                                                    >
 
                                     <label *ngIf="readOnly" for="heirarchy-level-level-name"
                                            title="{{entity.levelName.value}}"
@@ -39,25 +39,25 @@
                                 </div>
                             </div>
 
-                            <!-- Textbox -->
+                                                                                                                            <!-- Textbox -->
                             <div class="form-group row">
                                 <label for="heirarchy-level-level-code"
                                        class="col-md-4  col-form-label text-md-right">{{'heirarchy-level-create-field-level-code'
                                     | translate}}
-                                    *
-                                </label>
+                                                                            *
+                                                                    </label>
 
                                 <div class="col-md-8 ">
                                     <input *ngIf="!readOnly" type="text" name="heirarchy-level-level-code"
-                                           [(ngModel)]="entity.levelCode.value"
-                                           minLength="2"
-                                           maxlength="8"
-                                           id="heirarchy-level-level-code"
-                                           class="form-control"
-                                           placeholder="eg. GIS10"
-                                           data-parsley-trigger="change"
-                                           required="true"
-                                    >
+                                                                                    [(ngModel)]="entity.levelCode.value"
+                                                                                    minLength="2"
+                                                                                                                            maxlength="8"
+                                                                                    id="heirarchy-level-level-code"
+                                            class="form-control"
+                                                                                    placeholder="eg. GIS10"
+                                                                                    data-parsley-trigger="change"
+                                                                                    required="true"
+                                                                                    >
 
                                     <label *ngIf="readOnly" for="heirarchy-level-level-code"
                                            title="{{entity.levelCode.value}}"
@@ -65,24 +65,24 @@
                                 </div>
                             </div>
 
-                            <!-- TextArea -->
+                                                                                                                            <!-- TextArea -->
                             <div class="form-group row">
                                 <label for="heirarchy-level-description"
                                        class="col-md-4  col-form-label text-md-right">{{'heirarchy-level-create-field-description'
                                     | translate}}
-                                </label>
+                                                                    </label>
 
                                 <div class="col-md-8 ">
                                     <textarea *ngIf="!readOnly" type="text" name="heirarchy-level-description"
-                                              rows="4"
-                                              [(ngModel)]="entity.description.value"
-                                              minLength="2"
-                                              maxlength="256"
-                                              id="heirarchy-level-description"
-                                              class="form-control"
-                                              placeholder="eg. Country"
-                                              data-parsley-trigger="change"
-                                    >
+                                            rows="4"
+                                                                                    [(ngModel)]="entity.description.value"
+                                                                                    minLength="2"
+                                                                                                                            maxlength="256"
+                                                                                    id="heirarchy-level-description"
+                                            class="form-control"
+                                                                                    placeholder="eg. Country"
+                                                                                    data-parsley-trigger="change"
+                                                                                    >
                                     </textarea>
 
                                     <label *ngIf="readOnly" for="heirarchy-level-description"
@@ -91,13 +91,12 @@
                                 </div>
                             </div>
 
-                            <!-- Dropdown -->
+                                                                                                                            <!-- Dropdown -->
                             <div class="form-group row">
-                                <label class="col-md-4 col-form-label text-md-right"
-                                       for="heirarchy-level-department-name">
+                                <label class="col-md-4 col-form-label text-md-right" for="heirarchy-level-department-name">
                                     {{'heirarchy-level-create-field-department-name' | translate}}
-                                    *
-                                </label>
+                                                                            *
+                                                                    </label>
 
                                 <div class="col-md-8 " *ngIf="dropDownList.departmentName.dataList.length>0">
                                     <select2 *ngIf="!readOnly"
@@ -108,8 +107,8 @@
                                              [data]="dropDownList.departmentName.dataList"
                                              [options]="dropDownList.departmentName.options"
                                              ngDefaultControl
-                                             required="true"
-                                    >
+                                                                                     required="true"
+                                                                                     >
                                     </select2>
 
                                     <ul *ngIf="!dropDownList.departmentName.isValid" class="parsley-errors-list filled">
@@ -122,13 +121,12 @@
                                 </div>
                             </div>
 
-                            <!-- Dropdown -->
+                                                                                                                            <!-- Dropdown -->
                             <div class="form-group row">
-                                <label class="col-md-4 col-form-label text-md-right"
-                                       for="heirarchy-level-heirarchy-level-type">
+                                <label class="col-md-4 col-form-label text-md-right" for="heirarchy-level-heirarchy-level-type">
                                     {{'heirarchy-level-create-field-heirarchy-level-type' | translate}}
-                                    *
-                                </label>
+                                                                            *
+                                                                    </label>
 
                                 <div class="col-md-8 " *ngIf="dropDownList.heirarchyLevelType.dataList.length>0">
                                     <select2 *ngIf="!readOnly"
@@ -139,12 +137,11 @@
                                              [data]="dropDownList.heirarchyLevelType.dataList"
                                              [options]="dropDownList.heirarchyLevelType.options"
                                              ngDefaultControl
-                                             required="true"
-                                    >
+                                                                                     required="true"
+                                                                                     >
                                     </select2>
 
-                                    <ul *ngIf="!dropDownList.heirarchyLevelType.isValid"
-                                        class="parsley-errors-list filled">
+                                    <ul *ngIf="!dropDownList.heirarchyLevelType.isValid" class="parsley-errors-list filled">
                                         <li class="parsley-pattern">{{'form-error-required-msg' | translate}}</li>
                                     </ul>
 
@@ -154,20 +151,18 @@
                                 </div>
                             </div>
 
-                        </fieldset>
+                                                                                        </fieldset>
                     </form>
                 </div>
             </section>
         </div>
     </div>
     <div *ngIf="!reviewMode" class="form-actions">
-        <button type="submit" (click)="saveFormData()" class="btn btn-primary btn-rounded">
-            {{'form-btn-$(button.lowerTrainCaseName)' |
+                            <button type="submit" (click)="saveFormData()" class="btn btn-primary btn-rounded">{{'form-btn-$(button.lowerTrainCaseName)' |
             translate}}
         </button>
-        <button type="button" (click)="cancelForm()" class="btn btn-default btn-rounded">
-            {{'form-btn-$(button.lowerTrainCaseName)' |
+                                        <button type="button" (click)="cancelForm()" class="btn btn-default btn-rounded">{{'form-btn-$(button.lowerTrainCaseName)' |
             translate}}
         </button>
-    </div>
+                        </div>
 </form>
