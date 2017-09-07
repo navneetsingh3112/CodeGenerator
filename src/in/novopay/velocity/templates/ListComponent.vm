@@ -1,6 +1,6 @@
 <section class="widget" widget>
     <header>
-        <h4><span class="fw-semi-bold">{{'${entity.lowerTrainCaseClassName}-list-page-header'} | translate}</span></h4>
+        <h4><span class="fw-semi-bold">{{'${entity.lowerTrainCaseClassName}-list-page-header' | translate}</span></h4>
         <div class="widget-controls">
             <button type="button" class="btn btn-gray mb-xs list-view-search-filter"
                     (click)="toggleShowSearchBlocks()"
