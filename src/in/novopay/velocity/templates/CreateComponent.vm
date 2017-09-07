@@ -169,16 +169,11 @@
         </div>
     </div>
     <div *ngIf="!reviewMode" class="form-actions">
-        #foreach ($button in $entity.buttonList)
-            #if ($button.name == 'cancel')
-        <button type="button" (click)="cancelForm()" class="btn btn-default btn-rounded">{{'form-btn-create-cancel-${button.lowerTrainCaseName}' |
+        <button type="button" (click)="cancelForm()" class="btn btn-default btn-rounded">{{'form-btn-create-cancel-${entity.lowerTrainCaseName}' |
             translate}}
         </button>
-            #elseif ($button.name == 'save')
-        <button type="submit" (click)="submitForm()" class="btn btn-primary btn-rounded">{{'form-btn-create-save-${button.lowerTrainCaseName}' |
+        <button type="submit" (click)="submitForm()" class="btn btn-primary btn-rounded">{{'form-btn-create-save-${entity.lowerTrainCaseName}' |
             translate}}
         </button>
-            #end
-        #end
     </div>
 </form>

@@ -8,8 +8,8 @@ export const ${entity.upperCamelCaseClassName}_LANG_EN_TRANS = {
   '${entity.lowerTrainCaseClassName}-create-field-${field.lowerTrainCaseName}': '${field.displayName}',
   '${entity.lowerTrainCaseClassName}-list-header-${field.lowerTrainCaseName}': '${field.displayName}',
   #end
-  'form-btn-create-cancel-${button.lowerTrainCaseName}': 'Cancel',
-  'form-btn-create-save-${button.lowerTrainCaseName}': 'Save',
+  'form-btn-create-cancel-${entity.lowerTrainCaseName}': 'Cancel',
+  'form-btn-create-save-${entity.lowerTrainCaseName}': 'Save',
   '${entity.lowerTrainCaseClassName}-edit-page-header': 'Edit ${entity.upperCamelCaseClassName}',
   '${entity.lowerTrainCaseClassName}-edit-form-header-basic': 'Basic',
   '${entity.lowerTrainCaseClassName}-edit-form-header-details': 'Details',
