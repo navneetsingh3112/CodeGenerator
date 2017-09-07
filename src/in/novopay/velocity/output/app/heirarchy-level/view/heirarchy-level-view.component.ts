@@ -30,11 +30,12 @@ export class HeirarchyLevelViewComponent extends BaseViewComponent {
             commonUtilityService, router, route);
 
         let componentProperty : IViewComponentProperty = {
+        	moduleName: "heirarchy-level",
             componentPermissionKey: "PERMISSION_KEY",
             componentDeletePermissionKey: "DELETE_PERMISSION_KEY",
             componentEditPermissionKey: "EDIT_PERMISSION_KEY",
-            componentIdRequestBodyKey: "level_code",
-            componentDetailsResponseBodyKey: "${table}_details",
+            componentIdRequestBodyKey: "id",
+            componentDetailsResponseBodyKey: "heirarchy_level_details",
             viewComponentAPI: "http://192.168.150.18:8080/api-gateway/api/v1/getHeirarchyLevelDetails",
             deleteComponentAPI: "/delete",
             editComponentAPI: "/edit",

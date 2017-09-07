@@ -91,63 +91,51 @@
                                 </div>
                             </div>
 
-                                                                                                                            <!-- Dropdown -->
+                                                                                                                            <!-- Textbox -->
                             <div class="form-group row">
-                                <label class="col-md-4 col-form-label text-md-right" for="heirarchy-level-department-name">
-                                    {{'heirarchy-level-create-field-department-name' | translate}}
+                                <label for="heirarchy-level-department-name"
+                                       class="col-md-4  col-form-label text-md-right">{{'heirarchy-level-create-field-department-name'
+                                    | translate}}
                                                                             *
                                                                     </label>
 
-                                <div class="col-md-8 " *ngIf="dropDownList.departmentName.dataList.length>0">
-                                    <select2 *ngIf="!readOnly"
-                                             id="heirarchy-level-department-name"
-                                             name="heirarchy-level-department-name"
-                                             (valueChanged)="dropDownValueChange($event,'departmentName','heirarchy-level-department-name')"
-                                             [value]="dropDownList.departmentName.initialValues"
-                                             [data]="dropDownList.departmentName.dataList"
-                                             [options]="dropDownList.departmentName.options"
-                                             ngDefaultControl
-                                                                                     required="true"
-                                                                                     >
-                                    </select2>
-
-                                    <ul *ngIf="!dropDownList.departmentName.isValid" class="parsley-errors-list filled">
-                                        <li class="parsley-pattern">{{'form-error-required-msg' | translate}}</li>
-                                    </ul>
+                                <div class="col-md-8 ">
+                                    <input *ngIf="!readOnly" type="text" name="heirarchy-level-department-name"
+                                                                                    [(ngModel)]="entity.departmentName.value"
+                                                                                                                            id="heirarchy-level-department-name"
+                                            class="form-control"
+                                                                                    placeholder="eg. Business"
+                                                                                    data-parsley-trigger="change"
+                                                                                    required="true"
+                                                                                    >
 
                                     <label *ngIf="readOnly" for="heirarchy-level-department-name"
-                                           title="{{dropDownList.departmentName.selectedValue}}"
-                                           class="read-only-view-label col-form-label wrap-long-text">{{dropDownList.departmentName.selectedValue}}</label>
+                                           title="{{entity.departmentName.value}}"
+                                           class="read-only-view-label col-form-label wrap-long-text">{{entity.departmentName.value}}</label>
                                 </div>
                             </div>
 
-                                                                                                                            <!-- Dropdown -->
+                                                                                                                            <!-- Textbox -->
                             <div class="form-group row">
-                                <label class="col-md-4 col-form-label text-md-right" for="heirarchy-level-heirarchy-level-type">
-                                    {{'heirarchy-level-create-field-heirarchy-level-type' | translate}}
+                                <label for="heirarchy-level-heirarchy-level-type"
+                                       class="col-md-4  col-form-label text-md-right">{{'heirarchy-level-create-field-heirarchy-level-type'
+                                    | translate}}
                                                                             *
                                                                     </label>
 
-                                <div class="col-md-8 " *ngIf="dropDownList.heirarchyLevelType.dataList.length>0">
-                                    <select2 *ngIf="!readOnly"
-                                             id="heirarchy-level-heirarchy-level-type"
-                                             name="heirarchy-level-heirarchy-level-type"
-                                             (valueChanged)="dropDownValueChange($event,'heirarchyLevelType','heirarchy-level-heirarchy-level-type')"
-                                             [value]="dropDownList.heirarchyLevelType.initialValues"
-                                             [data]="dropDownList.heirarchyLevelType.dataList"
-                                             [options]="dropDownList.heirarchyLevelType.options"
-                                             ngDefaultControl
-                                                                                     required="true"
-                                                                                     >
-                                    </select2>
-
-                                    <ul *ngIf="!dropDownList.heirarchyLevelType.isValid" class="parsley-errors-list filled">
-                                        <li class="parsley-pattern">{{'form-error-required-msg' | translate}}</li>
-                                    </ul>
+                                <div class="col-md-8 ">
+                                    <input *ngIf="!readOnly" type="text" name="heirarchy-level-heirarchy-level-type"
+                                                                                    [(ngModel)]="entity.heirarchyLevelType.value"
+                                                                                                                            id="heirarchy-level-heirarchy-level-type"
+                                            class="form-control"
+                                                                                    placeholder="eg. Administrative"
+                                                                                    data-parsley-trigger="change"
+                                                                                    required="true"
+                                                                                    >
 
                                     <label *ngIf="readOnly" for="heirarchy-level-heirarchy-level-type"
-                                           title="{{dropDownList.heirarchyLevelType.selectedValue}}"
-                                           class="read-only-view-label col-form-label wrap-long-text">{{dropDownList.heirarchyLevelType.selectedValue}}</label>
+                                           title="{{entity.heirarchyLevelType.value}}"
+                                           class="read-only-view-label col-form-label wrap-long-text">{{entity.heirarchyLevelType.value}}</label>
                                 </div>
                             </div>
 

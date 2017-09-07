@@ -20,6 +20,14 @@ export class HeirarchyLevelEditComponent extends BaseComponent {
     protected componentIdRequestBodyKey: string;
     protected componentDetailsAPI: string;
     protected componentDetailsResponseBodyKey: string;
+    
+    protected saveFormData():void {
+        jQuery('body').scrollTop(0);
+        this.populateRequestBody();
+        this.requestBody['id'] = this.route.snapshot.params['id'];
+        this.busy = this.baseService.updateComponent(this.requestBody,this.createComponentAPI)
+            .then(resp=> this.handleCreateComponentResponse(resp));
+    }
 
     constructor(private location:Location,
                 private mainApp: App,
@@ -32,32 +40,42 @@ export class HeirarchyLevelEditComponent extends BaseComponent {
         super(location, mainApp, appConstants, commonHttpService, commonUtilityService,
             baseService, router, route);
 
-        this.componentIdRequestBodyKey = "level_code";
+        this.componentIdRequestBodyKey = "id";
         this.componentDetailsAPI = "http://192.168.150.18:8080/api-gateway/api/v1/getHeirarchyLevelDetails";
-        this.componentDetailsResponseBodyKey = "${table}_details";
+        this.componentDetailsResponseBodyKey = "heirarchy_level_details";
 
         let componentProperty : ICreateComponentProperty = {
             componentPermissionKey: 'EDIT_PERMISSION_KEY',
             formHtmlId: 'product-scheme-edit-form',
-            createComponentAPI: '/edit',
-            listComponentUrl: '/list',
+            createComponentAPI: 'http://192.168.150.18:8080/api-gateway/api/v1/createOrUpdateHeirarchyLevel',
+            listComponentUrl: '/app/heirarchy-level/list',
             entity: {
-                firstName: {
+                            levelName: {
                     value: '',
-                    type: 'TEXT',
-                    apiKey: 'first_name'
+                    type: 'Textbox',
+                    apiKey: 'level_name'
                 },
-                lastName: {
+                            levelCode: {
                     value: '',
-                    type: 'TEXT',
-                    apiKey: 'last_name'
+                    type: 'Textbox',
+                    apiKey: 'level_code'
                 },
-                dob: {
+                            description: {
                     value: '',
-                    type: 'DATE',
-                    apiKey: 'date_of_birth'
-                }
-            }
+                    type: 'Textarea',
+                    apiKey: 'description'
+                },
+                            departmentName: {
+                    value: '',
+                    type: 'Textbox',
+                    apiKey: 'department_name'
+                },
+                            heirarchyLevelType: {
+                    value: '',
+                    type: 'Textbox',
+                    apiKey: 'heirarchy_level_type'
+                },
+                        }
         };
         super.setComponentProperties(componentProperty);
     }

@@ -1,6 +1,6 @@
 <section class="widget" widget>
     <header>
-        <h4><span class="fw-semi-bold">{{'heirarchy-level-list-page-header' | translate}</span></h4>
+        <h4><span class="fw-semi-bold">{{'heirarchy-level-list-page-header' | translate}}</span></h4>
         <div class="widget-controls">
             <button type="button" class="btn btn-gray mb-xs list-view-search-filter"
                     (click)="toggleShowSearchBlocks()"
@@ -34,7 +34,7 @@
                                                (ngModelChange)="onSearchFieldChange(0)"
                                                maxlength="16"
                                                class="form-control form-control-sm"
-                                               type="text" placeholder="{{eg. Country}}">
+                                               type="text" placeholder="eg. Country">
                                     </div>
                                 </div>
                             </div>
@@ -55,7 +55,7 @@
                                                (ngModelChange)="onSearchFieldChange(1)"
                                                maxlength="16"
                                                class="form-control form-control-sm"
-                                               type="text" placeholder="{{eg. GIS10}}">
+                                               type="text" placeholder="eg. GIS10">
                                     </div>
                                 </div>
                             </div>
@@ -76,7 +76,7 @@
                                                (ngModelChange)="onSearchFieldChange(2)"
                                                maxlength="16"
                                                class="form-control form-control-sm"
-                                               type="text" placeholder="{{eg. Country}}">
+                                               type="text" placeholder="eg. Country">
                                     </div>
                                 </div>
                             </div>
@@ -97,7 +97,7 @@
                                                (ngModelChange)="onSearchFieldChange(3)"
                                                maxlength="16"
                                                class="form-control form-control-sm"
-                                               type="text" placeholder="{{eg. Business}}">
+                                               type="text" placeholder="eg. Business">
                                     </div>
                                 </div>
                             </div>
@@ -118,7 +118,7 @@
                                                (ngModelChange)="onSearchFieldChange(4)"
                                                maxlength="16"
                                                class="form-control form-control-sm"
-                                               type="text" placeholder="{{eg. Administrative}}">
+                                               type="text" placeholder="eg. Administrative">
                                     </div>
                                 </div>
                             </div>
@@ -134,19 +134,19 @@
                     </th>
                 </tr>
                 <tr>
-                                                    <th *ngIf="showSearchBlocks">
+                                                    	<th>
                                             <mfDefaultSorter (click)="sortFormData(0)" by="level_name1">{{'heirarchy-level-list-header-level-name' | translate}}</mfDefaultSorter>
                     </th>
-                                                        <th *ngIf="showSearchBlocks">
+                                                        	<th>
                                             <mfDefaultSorter (click)="sortFormData(1)" by="level_code1">{{'heirarchy-level-list-header-level-code' | translate}}</mfDefaultSorter>
                     </th>
-                                                        <th *ngIf="showSearchBlocks">
+                                                        	<th>
                                             <mfDefaultSorter (click)="sortFormData(2)" by="description1">{{'heirarchy-level-list-header-description' | translate}}</mfDefaultSorter>
                     </th>
-                                                        <th *ngIf="showSearchBlocks">
+                                                        	<th>
                                             <mfDefaultSorter (click)="sortFormData(3)" by="department_name1">{{'heirarchy-level-list-header-department-name' | translate}}</mfDefaultSorter>
                     </th>
-                                                        <th *ngIf="showSearchBlocks">
+                                                        	<th>
                                             <mfDefaultSorter (click)="sortFormData(4)" by="heirarchy_level_type1">{{'heirarchy-level-list-header-heirarchy-level-type' | translate}}</mfDefaultSorter>
                     </th>
                                                             <th class="no-sort">
@@ -155,7 +155,7 @@
                 </tr>
                 </thead>
                 <tbody>
-                <tr class="table-row" *ngFor="let item of mf.data" (click)="viewFormData(item.level_code)">
+                <tr class="table-row" *ngFor="let item of mf.data" (click)="viewFormData(item.id)">
                                        <td class="wrap-long-text" title="{{item.level_name}}"><span class="fw-semi-bold">{{item.level_name}}</span></td>
                                        <td class="wrap-long-text" title="{{item.level_code}}"><span class="fw-semi-bold">{{item.level_code}}</span></td>
                                        <td class="wrap-long-text" title="{{item.description}}"><span class="fw-semi-bold">{{item.description}}</span></td>

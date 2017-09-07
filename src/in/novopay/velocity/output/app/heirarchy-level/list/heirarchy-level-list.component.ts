@@ -81,7 +81,7 @@ export class HeirarchyLevelListComponent extends BaseListComponent {
             },
                               ];
         
-        super.setComponentProperties(searchModel,"heirarchy_level_list","heirarchy_level_details","http://192.168.150.18:8080/api-gateway/api/v1/getHeirarchyLevelList");
+        super.setComponentProperties("heirarchy-level",searchModel,"heirarchy_level_list","heirarchy_level_details","http://192.168.150.18:8080/api-gateway/api/v1/getHeirarchyLevelList");
     }
     ngOnInit(): void {
         super.ngOnInit();

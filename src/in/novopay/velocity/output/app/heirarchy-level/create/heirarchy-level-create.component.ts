@@ -54,12 +54,12 @@ export class HeirarchyLevelCreateComponent extends BaseComponent {
                 },
                             departmentName: {
                     value: '',
-                    type: 'Dropdown',
+                    type: 'Textbox',
                     apiKey: 'department_name'
                 },
                             heirarchyLevelType: {
                     value: '',
-                    type: 'Dropdown',
+                    type: 'Textbox',
                     apiKey: 'heirarchy_level_type'
                 },
                         }

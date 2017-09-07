@@ -45,7 +45,7 @@ export class ${entity.upperCamelCaseClassName}ListComponent extends BaseListComp
           #end
         ];
         
-        super.setComponentProperties(searchModel,"${entity.table}_list","${entity.table}_details","http://192.168.150.18:8080/api-gateway/api/v1/get${entity.upperCamelCaseClassName}List");
+        super.setComponentProperties("${entity.lowerTrainCaseClassName}",searchModel,"${entity.table}_list","${entity.table}_details","http://192.168.150.18:8080/api-gateway/api/v1/get${entity.upperCamelCaseClassName}List");
     }
     ngOnInit(): void {
         super.ngOnInit();

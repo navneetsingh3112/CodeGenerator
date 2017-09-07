@@ -66,10 +66,10 @@
         <button type="button" (click)="cancelForm()" class="btn btn-default btn-rounded">{{'form-btn-back' |
             translate}}
         </button>
-        <button *ngIf="permissionForDelete" type="submit" (click)="deleteRecord()" class="btn btn-danger btn-rounded disabled">{{'form-btn-delete' |
+        <button *ngIf="permissionForDelete" type="submit" (click)="deleteRecord()" class="btn btn-danger btn-rounded ">{{'form-btn-delete' |
             translate}}
         </button>
-        <button *ngIf="permissionForEdit" type="submit" (click)="editRecord()" class="btn btn-primary btn-rounded disabled">{{'form-btn-edit' |
+        <button *ngIf="permissionForEdit" type="submit" (click)="editRecord()" class="btn btn-primary btn-rounded">{{'form-btn-edit' |
             translate}}
         </button>
     </div>

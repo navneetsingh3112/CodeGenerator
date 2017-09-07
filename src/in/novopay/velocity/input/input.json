@@ -4,7 +4,7 @@
 	"service":"heirarchymanagement",
 	"table_comment" : "Heirarchy level information for various purposes spanning various departements",
 	"author":"Manoj",
-	"fetch_api_key": "level_code",
+	"fetch_api_key": "id",
 	"fields": [
 		{
 			"name": "level_name",
@@ -64,7 +64,7 @@
 			"length": 256,
 			"is_mandatory": true,
 			"comment": "Heirarchy level department name",
-			"web_type": "Dropdown",
+			"web_type": "Textbox",
 			"placeholder": "eg. Business",
 			"display_name": "Department Name",
 			"api_key": "department_name",
@@ -79,7 +79,7 @@
 			"length": 256,
 			"is_mandatory": true,
 			"comment": "Type of heirarchy level",
-			"web_type": "Dropdown",
+			"web_type": "Textbox",
 			"placeholder": "eg. Administrative",
 			"display_name": "Type of Hierarchy Level",
 			"api_key": "heirarchy_level_type",

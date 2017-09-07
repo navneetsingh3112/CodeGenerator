@@ -20,6 +20,14 @@ export class ${entity.upperCamelCaseClassName}EditComponent extends BaseComponen
     protected componentIdRequestBodyKey: string;
     protected componentDetailsAPI: string;
     protected componentDetailsResponseBodyKey: string;
+    
+    protected saveFormData():void {
+        jQuery('body').scrollTop(0);
+        this.populateRequestBody();
+        this.requestBody['${entity.fetchApiKey}'] = this.route.snapshot.params['id'];
+        this.busy = this.baseService.updateComponent(this.requestBody,this.createComponentAPI)
+            .then(resp=> this.handleCreateComponentResponse(resp));
+    }
 
     constructor(private location:Location,
                 private mainApp: App,
@@ -34,29 +42,21 @@ export class ${entity.upperCamelCaseClassName}EditComponent extends BaseComponen
 
         this.componentIdRequestBodyKey = "${entity.fetchApiKey}";
         this.componentDetailsAPI = "http://192.168.150.18:8080/api-gateway/api/v1/get${entity.upperCamelCaseClassName}Details";
-        this.componentDetailsResponseBodyKey = "${table}_details";
+        this.componentDetailsResponseBodyKey = "${entity.table}_details";
 
         let componentProperty : ICreateComponentProperty = {
             componentPermissionKey: 'EDIT_PERMISSION_KEY',
             formHtmlId: 'product-scheme-edit-form',
-            createComponentAPI: '/edit',
-            listComponentUrl: '/list',
+            createComponentAPI: 'http://192.168.150.18:8080/api-gateway/api/v1/createOrUpdate${entity.upperCamelCaseClassName}',
+            listComponentUrl: '/app/${entity.lowerTrainCaseClassName}/list',
             entity: {
-                firstName: {
+            #foreach ($field in $entity.fieldList)
+                ${field.lowerCamelCaseName}: {
                     value: '',
-                    type: 'TEXT',
-                    apiKey: 'first_name'
+                    type: '${field.webType}',
+                    apiKey: '${field.apiKey}'
                 },
-                lastName: {
-                    value: '',
-                    type: 'TEXT',
-                    apiKey: 'last_name'
-                },
-                dob: {
-                    value: '',
-                    type: 'DATE',
-                    apiKey: 'date_of_birth'
-                }
+            #end
             }
         };
         super.setComponentProperties(componentProperty);
