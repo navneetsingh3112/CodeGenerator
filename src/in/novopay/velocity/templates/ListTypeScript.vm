@@ -49,6 +49,5 @@ export class ${entity.upperCamelCaseClassName}ListComponent extends BaseListComp
     }
     ngOnInit(): void {
         super.ngOnInit();
-        console.log("dummy list ngOnInit()");
     }
 }

@@ -34,7 +34,7 @@ export class ${entity.upperCamelCaseClassName}CreateComponent extends BaseCompon
         let componentProperty : ICreateComponentProperty = {
             componentPermissionKey: 'PERMISSION_KEY',
             formHtmlId: '${entity.lowerTrainCaseClassName}-create-form',
-            createComponentAPI: '/create',
+            createComponentAPI: 'http://192.168.150.18:8080/api-gateway/api/v1/createOrUpdate${entity.upperCamelCaseClassName}',
             listComponentUrl: '/list',
             entity: {
             #foreach ($field in $entity.fieldList)
