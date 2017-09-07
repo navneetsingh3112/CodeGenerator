@@ -72,7 +72,7 @@ public class Main {
 				"-view.component.ts",
 				"-edit.component.html",
 				"-edit.component.ts",
-				"-module.ts" };
+				".module.ts" };
 		// -----------------------------------
 		// -----------------------------------
 		

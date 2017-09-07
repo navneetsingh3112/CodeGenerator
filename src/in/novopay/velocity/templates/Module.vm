@@ -49,7 +49,7 @@ import {BaseService} from "../base-module/base.service";
 import {${entity.upperCamelCaseClassName}CreateComponent} from "./create/${entity.lowerTrainCaseClassName}-create.component";
 import {${entity.upperCamelCaseClassName}ListComponent} from "./list/${entity.lowerTrainCaseClassName}-list.component";
 import {${entity.upperCamelCaseClassName}ViewComponent} from "./view/${entity.lowerTrainCaseClassName}-view.component";
-import {${entity.upperCamelCaseClassName}EditComponent} from "./view/${entity.lowerTrainCaseClassName}-view.component";
+import {${entity.upperCamelCaseClassName}EditComponent} from "./edit/${entity.lowerTrainCaseClassName}-edit.component";
 
 export const routes = [
     {path: '', redirectTo: 'list', pathMatch: 'full'},
