@@ -85,6 +85,5 @@ export class HeirarchyLevelListComponent extends BaseListComponent {
     }
     ngOnInit(): void {
         super.ngOnInit();
-        console.log("dummy list ngOnInit()");
     }
 }
