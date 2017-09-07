@@ -35,7 +35,7 @@ export class ${entity.upperCamelCaseClassName}CreateComponent extends BaseCompon
             componentPermissionKey: 'PERMISSION_KEY',
             formHtmlId: '${entity.lowerTrainCaseClassName}-create-form',
             createComponentAPI: 'http://192.168.150.18:8080/api-gateway/api/v1/createOrUpdate${entity.upperCamelCaseClassName}',
-            listComponentUrl: '/list',
+            listComponentUrl: '/app/${entity.lowerTrainCaseClassName}/list',
             entity: {
             #foreach ($field in $entity.fieldList)
                 ${field.lowerCamelCaseName}: {

@@ -175,7 +175,7 @@
             translate}}
         </button>
             #elseif ($button.name == 'save')
-        <button type="submit" (click)="saveFormData()" class="btn btn-primary btn-rounded">{{'form-btn-$(button.lowerTrainCaseName)' |
+        <button type="submit" (click)="submitForm()" class="btn btn-primary btn-rounded">{{'form-btn-$(button.lowerTrainCaseName)' |
             translate}}
         </button>
             #end
