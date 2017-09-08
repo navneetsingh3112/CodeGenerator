@@ -1,0 +1,19 @@
+import {Component, Injectable, Inject} from '@angular/core';
+import {AppConfig} from "../app.config";
+import {AppSettings} from '../services/app-settings';
+
+@Injectable()
+export class ${entity.upperCamelCaseClassName}ResourceFactoryConstants {
+    apiGateway = AppSettings.API_GATEWAY;
+    documentHost = AppSettings.DOCUMENT_HOST;
+
+    constants = {
+        ${entity.lowerCamelCaseClassName}: {
+            getList: this.apiGateway + '/api-gateway/api/v1/get${entity.upperCamelCaseClassName}List',
+            getDetails: this.apiGateway + '/api-gateway/api/v1/get${entity.upperCamelCaseClassName}Details',
+            create: this.apiGateway + '/api-gateway/api/v1/createOrUpdate${entity.upperCamelCaseClassName}',
+            update: this.apiGateway + '/api-gateway/api/v1/createOrUpdate${entity.upperCamelCaseClassName}',
+            delete: this.apiGateway + '/api-gateway/api/v1/delete${entity.upperCamelCaseClassName}'
+        }
+    };
+}

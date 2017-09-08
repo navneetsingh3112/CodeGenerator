@@ -51,7 +51,8 @@ public class Main {
 				"EditComponent.vm",
 				"EditTypeScript.vm",
 				"Module.vm",
-				"Translate.vm"};
+				"Translate.vm",
+				"ResourceFactoryConstants.vm"};
 
 		String[] outputDir = { 
 				"app/" + entity.getLowerTrainCaseClassName() + "/create",
@@ -62,6 +63,7 @@ public class Main {
 				"app/" + entity.getLowerTrainCaseClassName() + "/view",
 				"app/" + entity.getLowerTrainCaseClassName() + "/edit",
 				"app/" + entity.getLowerTrainCaseClassName() + "/edit",
+				"app/" + entity.getLowerTrainCaseClassName(),
 				"app/" + entity.getLowerTrainCaseClassName(),
 				"app/" + entity.getLowerTrainCaseClassName()};
 
@@ -75,7 +77,8 @@ public class Main {
 				"-edit.component.html",
 				"-edit.component.ts",
 				".module.ts",
-				".translate.ts"};
+				".translate.ts",
+				"-resource-factory.constants.ts"};
 		// -----------------------------------
 		// -----------------------------------
 		
