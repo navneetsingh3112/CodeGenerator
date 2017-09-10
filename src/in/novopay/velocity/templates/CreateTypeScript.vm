@@ -50,7 +50,7 @@ apiKey: '${field.apiKey}'
     radioEntity: {
         ${field.lowerCamelCaseName}: {
     value: '',
-    groupName: '${field.lowerCamelCaseName}-option',
+    groupName: '${field.lowerTrainCaseName}-grp',
     options : [
         #foreach ($element in $field.radioList)
         {
