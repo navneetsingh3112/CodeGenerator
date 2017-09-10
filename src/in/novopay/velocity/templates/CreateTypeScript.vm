@@ -15,41 +15,57 @@ declare var jQuery:any;
 * @author ${entity.author}
 */
 @Component({
-    selector: '[${entity.lowerTrainCaseClassName}-create]',
-    templateUrl: './${entity.lowerTrainCaseClassName}-create.component.html',
-    encapsulation: ViewEncapsulation.None,
+selector: '[${entity.lowerTrainCaseClassName}-create]',
+templateUrl: './${entity.lowerTrainCaseClassName}-create.component.html',
+encapsulation: ViewEncapsulation.None,
 })
 export class ${entity.upperCamelCaseClassName}CreateComponent extends BaseComponent {
-    constructor(private location:Location,
-                protected mainApp: App,
-                protected appConstants: AppConstants,
-                protected commonHttpService:CommonHttpService,
-                protected commonUtilityService:CommonUtilityService,
-                protected baseService: BaseService,
-                protected router:Router,
-                protected route:ActivatedRoute,
-                protected resourceFactoryConstants:ResourceFactoryConstants) {
-        super(location, mainApp, appConstants, commonHttpService, commonUtilityService,
-            baseService, router, route);
+constructor(private location:Location,
+protected mainApp: App,
+protected appConstants: AppConstants,
+protected commonHttpService:CommonHttpService,
+protected commonUtilityService:CommonUtilityService,
+protected baseService: BaseService,
+protected router:Router,
+protected route:ActivatedRoute,
+protected resourceFactoryConstants:ResourceFactoryConstants) {
+super(location, mainApp, appConstants, commonHttpService, commonUtilityService,
+baseService, router, route);
 
-        let componentProperty : ICreateComponentProperty = {
-            componentPermissionKey: 'PERMISSION_KEY',
-            formHtmlId: '${entity.lowerTrainCaseClassName}-create-form',
-            createComponentAPI: this.resourceFactoryConstants.constants.${entity.lowerCamelCaseClassName}.create,
-            listComponentUrl: '/app/${entity.lowerTrainCaseClassName}/list',
-            entity: {
-            #foreach ($field in $entity.fieldList)
-                ${field.lowerCamelCaseName}: {
-                    value: '',
-                    type: '${field.webType}',
-                    apiKey: '${field.apiKey}'
-                },
-            #end
-            }
-        };
-        super.setComponentProperties(componentProperty);
-    }
-    ngOnInit(): void {
-        super.ngOnInit();
-    }
+let componentProperty : ICreateComponentProperty = {
+componentPermissionKey: 'PERMISSION_KEY',
+formHtmlId: '${entity.lowerTrainCaseClassName}-create-form',
+createComponentAPI: this.resourceFactoryConstants.constants.${entity.lowerCamelCaseClassName}.create,
+listComponentUrl: '/app/${entity.lowerTrainCaseClassName}/list',
+entity: {
+#foreach ($field in $entity.fieldList)
+    ${field.lowerCamelCaseName}: {
+value: '',
+type: '${field.webType}',
+apiKey: '${field.apiKey}'
+},
+#end
+}, #foreach ($field in $entity.fieldList)
+    #if ($field.webType.equals('Radio'))
+    radioEntity: {
+        ${field.lowerCamelCaseName}: {
+    value: '',
+    groupName: '${field.lowerCamelCaseName}-option',
+    options : [
+        #foreach ($element in $field.radioList)
+        {
+        "id": "${element.id}",
+        "code": "${element.code}",
+        "text": "${element.text}"
+        },
+        #end
+    ]}},
+    #end
+#end
+};
+super.setComponentProperties(componentProperty);
+}
+ngOnInit(): void {
+super.ngOnInit();
+}
 }

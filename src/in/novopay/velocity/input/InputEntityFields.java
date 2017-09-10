@@ -1,6 +1,6 @@
 package in.novopay.velocity.input;
-
 import org.apache.commons.lang.StringUtils;
+import java.util.ArrayList;
 
 public class InputEntityFields {
 	private String name;
@@ -22,6 +22,7 @@ public class InputEntityFields {
 	private Boolean isSearchable;
 	private Boolean isSortable;
 	private Boolean isEditable;
+	private ArrayList<RadioList> radioList = new ArrayList<>();
 	
 	public String getName() {
 		return name;
@@ -102,6 +103,7 @@ public class InputEntityFields {
 	public void setComment(String comment) {
 		this.comment = comment;
 	}
+
 	public String addNotNull(){
         if(this.isMandatory) return " NOT NULL";
         else return "";
@@ -200,5 +202,13 @@ public class InputEntityFields {
 
 	public void setEditable(Boolean editable) {
 		isEditable = editable;
+	}
+
+	public void addFields(RadioList field) {
+		radioList.add(field);
+	}
+
+	public ArrayList<RadioList> getRadioList() {
+		return radioList;
 	}
 }

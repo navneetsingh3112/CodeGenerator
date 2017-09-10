@@ -13,7 +13,19 @@
 			"length": 16,
 			"is_mandatory": true,
 			"comment": "Name of heirarchy level",
-			"web_type": "Textbox",
+			"web_type": "Radio",
+			"data_list": [
+				{
+					"id": "0",
+					"code": "Y",
+					"text": "yes"
+				},{
+					"id": "1",
+					"code": "N",
+					"text": "no"
+				}
+			],
+			"is_code_included_in_display": true,
 			"placeholder": "eg. Country",
 			"display_name": "Level Name",
 			"min_length": 2,
@@ -31,7 +43,10 @@
 			"length": 8,
 			"is_mandatory": true,
 			"comment": "Heirarchy level code",
-			"web_type": "Textbox",
+			"web_type": "Dropdown",
+			"master_data_type": "GIS",
+			"master_data_sub_type": "ADMIN",
+			"is_code_included_in_display": true,
 			"placeholder": "eg. GIS10",
 			"display_name": "Level Code",
 			"min_length": 2,

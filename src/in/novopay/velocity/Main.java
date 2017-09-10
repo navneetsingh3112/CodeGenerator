@@ -21,6 +21,7 @@ import com.google.common.base.CaseFormat;
 
 import in.novopay.velocity.input.InputEntity;
 import in.novopay.velocity.input.InputEntityFields;
+import in.novopay.velocity.input.RadioList;
 
 public class Main {
 	static String ROOT_DIR = "";
@@ -175,6 +176,23 @@ public class Main {
 				f.setSearchable((Boolean) fobj.get("is_searchable"));
 				f.setSortable((Boolean) fobj.get("is_sortable"));
 				f.setEditable((Boolean) fobj.get("is_editable"));
+				JSONArray dataList = (JSONArray) fobj.get("data_list");
+
+				if(dataList != null){
+					Iterator<JSONObject> dataListIterator = dataList.iterator();
+					while (dataListIterator.hasNext()) {
+                        RadioList radioList1 = new RadioList();
+                        JSONObject dataListObj = dataListIterator.next();
+						radioList1.setId((String) dataListObj.get("id"));
+						radioList1.setCode((String) dataListObj.get("code"));
+						radioList1.setText((String) dataListObj.get("text"));
+
+                        f.addFields(radioList1);
+                        System.out.println(f.getRadioList());
+					};
+
+				}
+				System.out.println(f);
 				entity.addFields(f);
 			}
 
