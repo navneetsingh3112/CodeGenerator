@@ -187,7 +187,7 @@
                                         <div class="col-md-7 ">
                                             <div *ngIf="!readOnly">
                                                 #set($counter = 0)
-                                                #foreach ($element in $field.radioList)
+                                                #foreach ($element in $field.dataList)
                                                     <div class="abc-radio">
                                                         <input type="radio" name="${field.lowerTrainCaseName}-grp"
                                                                id="${field.lowerTrainCaseName}-${element.text}"
@@ -208,7 +208,7 @@
                                                    [ngSwitch]="radioEntity.${field.lowerCamelCaseName}.value"
                                                    class="read-only-view-label col-form-label wrap-long-text">
                                                 #set($counter = 0)
-                                                #foreach ($element in $field.radioList)
+                                                #foreach ($element in $field.dataList)
                                                     <i ng-switch-when="radioEntity.${field.lowerCamelCaseName}.options[$counter].code">
                                                         radioEntity.${field.lowerCamelCaseName}.options[$counter].text</i>
                                                     #set($counter = $counter + 1)

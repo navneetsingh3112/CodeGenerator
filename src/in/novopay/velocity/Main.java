@@ -21,7 +21,7 @@ import com.google.common.base.CaseFormat;
 
 import in.novopay.velocity.input.InputEntity;
 import in.novopay.velocity.input.InputEntityFields;
-import in.novopay.velocity.input.RadioList;
+import in.novopay.velocity.input.DataList;
 
 public class Main {
 	static String ROOT_DIR = "";
@@ -177,22 +177,23 @@ public class Main {
 				f.setSortable((Boolean) fobj.get("is_sortable"));
 				f.setEditable((Boolean) fobj.get("is_editable"));
 				JSONArray dataList = (JSONArray) fobj.get("data_list");
+                if(f.getWebType().equals("Radio")){
+                    if(dataList != null){
+                        Iterator<JSONObject> dataListIterator = dataList.iterator();
+                        while (dataListIterator.hasNext()) {
+                            DataList dataListJson = new DataList();
+                            JSONObject dataListObj = dataListIterator.next();
+                            dataListJson.setId((String) dataListObj.get("id"));
+                            dataListJson.setCode((String) dataListObj.get("code"));
+                            dataListJson.setText((String) dataListObj.get("text"));
+                            f.addFields(dataListJson);
+                        };
 
-				if(dataList != null){
-					Iterator<JSONObject> dataListIterator = dataList.iterator();
-					while (dataListIterator.hasNext()) {
-                        RadioList radioList1 = new RadioList();
-                        JSONObject dataListObj = dataListIterator.next();
-						radioList1.setId((String) dataListObj.get("id"));
-						radioList1.setCode((String) dataListObj.get("code"));
-						radioList1.setText((String) dataListObj.get("text"));
-
-                        f.addFields(radioList1);
-                        System.out.println(f.getRadioList());
-					};
-
-				}
-				System.out.println(f);
+                    } else{
+                        f.setMasterDataType((String) fobj.get("master_data_type"));
+                        f.setMasterDataSubType((String) fobj.get("master_data_sub_type"));
+                    }
+                }
 				entity.addFields(f);
 			}
 

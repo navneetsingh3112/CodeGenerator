@@ -51,19 +51,27 @@ apiKey: '${field.apiKey}'
         ${field.lowerCamelCaseName}: {
     value: '',
     groupName: '${field.lowerTrainCaseName}-grp',
-    options : [
-        #foreach ($element in $field.radioList)
+    dataList : [
+        #if ($!{field.dataList} )
+        #foreach ($element in $field.dataList)
         {
         "id": "${element.id}",
         "code": "${element.code}",
         "text": "${element.text}"
         },
+            #end
         #end
     ]}},
     #end
 #end
 };
 super.setComponentProperties(componentProperty);
+
+#foreach ($field in $entity.fieldList)
+    #if ($field.webType.equals('Radio') && $field.dataList.equals([])) super.getRadioElementList(this.radioEntity.${field.lowerCamelCaseName},${field.masterDataType},${field.masterDataSubType});
+    #end
+#end
+
 }
 ngOnInit(): void {
 super.ngOnInit();

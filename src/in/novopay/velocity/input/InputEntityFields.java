@@ -22,7 +22,9 @@ public class InputEntityFields {
 	private Boolean isSearchable;
 	private Boolean isSortable;
 	private Boolean isEditable;
-	private ArrayList<RadioList> radioList = new ArrayList<>();
+	private String masterDataType;
+	private String masterDataSubType;
+	private ArrayList<DataList> dataList = new ArrayList<>();
 	
 	public String getName() {
 		return name;
@@ -204,11 +206,27 @@ public class InputEntityFields {
 		isEditable = editable;
 	}
 
-	public void addFields(RadioList field) {
-		radioList.add(field);
+	public String getMasterDataType() {
+		return masterDataType;
 	}
 
-	public ArrayList<RadioList> getRadioList() {
-		return radioList;
+	public void setMasterDataType(String masterDataType) {
+		this.masterDataType = masterDataType;
+	}
+
+	public String getMasterDataSubType() {
+		return masterDataSubType;
+	}
+
+	public void setMasterDataSubType(String masterDataSubType) {
+		this.masterDataSubType = masterDataSubType;
+	}
+
+	public void addFields(DataList list) {
+		dataList.add(list);
+	}
+
+	public ArrayList<DataList> getDataList() {
+		return dataList;
 	}
 }
