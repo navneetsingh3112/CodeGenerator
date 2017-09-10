@@ -178,7 +178,7 @@
 
                                 #elseif ($field.webType.equals('Radio'))
                                     <!-- Radio -->
-                                    <div class="form-group row111111">
+                                    <div class="form-group row">
                                         <label class="col-md-4  col-form-label text-md-right">{{radioEntity.${field.lowerCamelCaseName}.displayName
                                             | translate}}#if ($field.isMandatory)
                                                 *

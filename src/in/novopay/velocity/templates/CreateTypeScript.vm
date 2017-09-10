@@ -39,26 +39,29 @@ createComponentAPI: this.resourceFactoryConstants.constants.${entity.lowerCamelC
 listComponentUrl: '/app/${entity.lowerTrainCaseClassName}/list',
 entity: {
 #foreach ($field in $entity.fieldList)
-    ${field.lowerCamelCaseName}: {
-value: '',
-type: '${field.webType}',
-apiKey: '${field.apiKey}'
-},
+    #if (!$field.webType.equals('Radio'))
+        ${field.lowerCamelCaseName}: {
+    value: '',
+    type: '${field.webType}',
+    apiKey: '${field.apiKey}'
+    },
+    #end
 #end
-}, #foreach ($field in $entity.fieldList)
+},
+radioEntity: {
+#foreach ($field in $entity.fieldList)
     #if ($field.webType.equals('Radio'))
-    radioEntity: {
         ${field.lowerCamelCaseName}: {
     value: '',
     groupName: '${field.lowerTrainCaseName}-grp',
     dataList : [
         #if ($!{field.dataList} )
-        #foreach ($element in $field.dataList)
-        {
-        "id": "${element.id}",
-        "code": "${element.code}",
-        "text": "${element.text}"
-        },
+            #foreach ($element in $field.dataList)
+            {
+            "id": "${element.id}",
+            "code": "${element.code}",
+            "text": "${element.text}"
+            },
             #end
         #end
     ]}},
@@ -68,7 +71,8 @@ apiKey: '${field.apiKey}'
 super.setComponentProperties(componentProperty);
 
 #foreach ($field in $entity.fieldList)
-    #if ($field.webType.equals('Radio') && $field.dataList.equals([])) super.getRadioElementList(this.radioEntity.${field.lowerCamelCaseName},${field.masterDataType},${field.masterDataSubType});
+    #if ($field.webType.equals(
+        'Radio') && $field.dataList.equals([])) super.getRadioElementList(this.radioEntity.${field.lowerCamelCaseName},${field.masterDataType},${field.masterDataSubType});
     #end
 #end
 
