@@ -103,3 +103,14 @@ public Subscription createOrUpdate${entity.upperCamelCaseClassName}(Subscriber s
                 })
                 .subscribe(subscriber);
 }
+
+
+
+/////////////////////////
+File: Preferences.java
+/////////////////////////
+****** Change IP here in this funstion ******
+
+public static String getDomainURL(Context context) {
+        return getSharedPref(context).getString(PREF_DOMAIN_URL, "https://192.168.150.21:8443" + "/novobank-core/api/v1");
+}

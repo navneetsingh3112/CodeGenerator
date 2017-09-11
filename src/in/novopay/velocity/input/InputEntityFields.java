@@ -16,7 +16,8 @@ public class InputEntityFields {
 	
 	private String comment;
 	private Boolean isSearchable;
-	
+	private Boolean isPrimary;
+	private Boolean isSecondary;
 	private String displayName;
 	
 	
@@ -26,6 +27,22 @@ public class InputEntityFields {
 
 	public void setDisplayName(String displayName) {
 		this.displayName = displayName;
+	}
+	
+	public Boolean getIsPrimary() {
+		return isPrimary;
+	}
+
+	public void setIsPrimary(Boolean isPrimary) {
+		this.isPrimary = isPrimary;
+	}
+
+	public Boolean getIsSecondary() {
+		return isSecondary;
+	}
+
+	public void setIsSecondary(Boolean isSecondary) {
+		this.isSecondary = isSecondary;
 	}
 
 	public String getName() {

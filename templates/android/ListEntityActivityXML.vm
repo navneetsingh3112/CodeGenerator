@@ -1,5 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
@@ -12,9 +14,27 @@
         android:orientation="vertical"
         android:layout_above="@+id/action_button"
         android:layout_below="@+id/appbar">
+        
+        <ImageView
+            android:id="@+id/no_records_found_image_view"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:src="@drawable/ic_no_records_found"
+            android:visibility="gone"/>
 
+        <ImageView
+            android:id="@+id/network_failure_image_view"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:src="@drawable/ic_network_failure"
+            android:visibility="gone"/>
 
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/list_${entity.lowerSnakeCaseClassName}_recycle_view"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            app:layoutManager="LinearLayoutManager"
+            app:layout_behavior="@string/appbar_scrolling_view_behavior"
+            tools:listitem="@layout/item_view_list_${entity.lowerSnakeCaseClassName}" />
     </LinearLayout>
-
-    <include layout="@layout/template_action_button"/>
 </RelativeLayout>

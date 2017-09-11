@@ -10,7 +10,7 @@ import java.util.ArrayList;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import in.novopay.network.responses.Get${entity.upperCamelCaseClassName}Response;
+import in.novopay.network.responses.Get${entity.upperCamelCaseClassName}ListResponse;
 import in.novopay.services.R;
 import in.novopay.services.activities.List${entity.upperCamelCaseClassName}Activity;
 
@@ -43,11 +43,11 @@ public class List${entity.upperCamelCaseClassName}Adapter extends RecyclerView.A
     	#if( $velocityCount == $entity.secondaryUIFieldList.size() )
     		subHeading = subHeading + ${entity.lowerCamelCaseClassName}List.get(position).get${field.upperCamelCaseName}();
     	#else
-    		subHeading = subHeading + ${entity.lowerCamelCaseClassName}List.get(position).get${field.upperCamelCaseName}() + " | "
+    		subHeading = subHeading + ${entity.lowerCamelCaseClassName}List.get(position).get${field.upperCamelCaseName}() + " | ";
     	#end	
     	#end
     	
-        holder.subHeadingTextView.setText(${entity.lowerCamelCaseClassName}List.get(position).getHeirarchyLevelType() + " | " + ${entity.lowerCamelCaseClassName}List.get(position).getDepartmentName());
+        holder.subHeadingTextView.setText(subHeading);
     }
 
     @Override

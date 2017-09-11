@@ -1,5 +1,6 @@
 package in.novopay.services.views;
 
+import in.novopay.network.responses.Get${entity.upperCamelCaseClassName}ListResponse;
 import in.novopay.services.base.IBaseView;
 
 /**
@@ -7,4 +8,6 @@ import in.novopay.services.base.IBaseView;
  */
 
 public interface List${entity.upperCamelCaseClassName}View extends IBaseView {
+	void onSuccessResponse(Get${entity.upperCamelCaseClassName}ListResponse response);
+    void OnFailureResponse();
 }

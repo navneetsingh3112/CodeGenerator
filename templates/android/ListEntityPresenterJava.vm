@@ -1,9 +1,15 @@
 package in.novopay.services.presenters;
 
+import com.google.gson.Gson;
+
 import in.novopay.network.networking.Service;
 import in.novopay.network.objects.TxnCompletionEvent;
 import in.novopay.services.base.BasePresenter;
 import in.novopay.services.views.List${entity.upperCamelCaseClassName}View;
+import in.novopay.network.requests.Get${entity.upperCamelCaseClassName}ListRequest;
+import in.novopay.network.responses.Get${entity.upperCamelCaseClassName}ListResponse;
+import rx.Subscription;
+import rx.subscriptions.CompositeSubscription;
 
 /**
  * Created by ${entity.author} on ${entity.date}.
@@ -17,15 +23,36 @@ public class List${entity.upperCamelCaseClassName}Presenter extends BasePresente
         this.service = service;
         this.view = view;
     }
+    
+    public void get${entity.upperCamelCaseClassName}List(){
+        view.showProgress(null);
+        Subscription subscription = service.get${entity.upperCamelCaseClassName}List(getNewSubscriber(), get${entity.upperCamelCaseClassName}ListRequest());
+        subscriptions = new CompositeSubscription();
+        subscriptions.add(subscription);
+    }
+
+    public Get${entity.upperCamelCaseClassName}ListRequest get${entity.upperCamelCaseClassName}ListRequest() {
+        Get${entity.upperCamelCaseClassName}ListRequest get${entity.upperCamelCaseClassName}ListRequest = new Get${entity.upperCamelCaseClassName}ListRequest(view.getContext());
+
+        get${entity.upperCamelCaseClassName}ListRequest.getRequest().setOffset("0");
+        get${entity.upperCamelCaseClassName}ListRequest.getRequest().setPageSize("100");
+        
+        return get${entity.upperCamelCaseClassName}ListRequest;
+    }
 
     @Override
     public void onResultReceived(TxnCompletionEvent event) {
         view.hideProgress();
+        if(event.getUrl().equals("get${entity.upperCamelCaseClassName}List")){
+            Get${entity.upperCamelCaseClassName}ListResponse response = new Gson().fromJson(event.getResponseString(), Get${entity.upperCamelCaseClassName}ListResponse.class);
+            view.onSuccessResponse(response);
+        }
     }
 
     @Override
     public void onErrorReceived(TxnCompletionEvent event) {
         view.hideProgress();
         view.showMessage(event.getFailureMsg());
+        view.OnFailureResponse();
     }
 }

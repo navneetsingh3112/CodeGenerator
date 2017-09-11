@@ -287,6 +287,22 @@ public class Main {
 				}
 				f.setDisplayName((String) fobj.get("display_name"));
 				entity.addFields(f);
+				
+				Boolean isPrimary = (Boolean) fobj.get("is_primary");
+				if(isPrimary != null){
+					f.setIsPrimary(isPrimary);
+					if(isPrimary){
+						entity.setPrimaryUIField(f);
+					}
+				}
+				
+				Boolean isSecondary = (Boolean) fobj.get("is_secondary");
+				if(isSecondary != null){
+					f.setIsSecondary(isSecondary);
+					if(isSecondary){
+						entity.addSecondaryUIField(f);
+					}
+				}
 			}
 			
 			SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/YY");

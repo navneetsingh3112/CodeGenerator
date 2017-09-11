@@ -2,15 +2,21 @@ package in.novopay.services.activities;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.os.SystemClock;
+import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.ImageView;
 import android.widget.TextView;
+
+import java.util.ArrayList;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import in.novopay.network.responses.Get${entity.upperCamelCaseClassName}ListResponse;
 import in.novopay.services.R;
+import in.novopay.services.adapters.List${entity.upperCamelCaseClassName}Adapter;
 import in.novopay.services.base.NovopayBaseActivity;
 import in.novopay.services.presenters.List${entity.upperCamelCaseClassName}Presenter;
 import in.novopay.services.utils.AppConstant;
@@ -27,12 +33,23 @@ public class List${entity.upperCamelCaseClassName}Activity extends NovopayBaseAc
 
     @BindView(R.id.activity_title)
     TextView activityTitle;
+    
+    @BindView(R.id.right_logo)
+    ImageView appBarRightLogo;
+    
+    @BindView(R.id.no_records_found_image_view)
+    ImageView noRecordFoundImageView;
 
-    @BindView(R.id.action_button)
-    TextView actionButton;
+    @BindView(R.id.network_failure_image_view)
+    ImageView networkFailureImageView;
+
+    @BindView(R.id.list_${entity.lowerSnakeCaseClassName}_recycle_view)
+    RecyclerView recycleView;
 
     private String title;
     private List${entity.upperCamelCaseClassName}Presenter presenter;
+    private List${entity.upperCamelCaseClassName}Adapter adapter;
+    private ArrayList<GetHierarchyLevelListResponse.GetHierarchyLevelDetails> responseList;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,6 +64,7 @@ public class List${entity.upperCamelCaseClassName}Activity extends NovopayBaseAc
 
         getIntentExtras();
         setTitle(title);
+        appBarRightLogo.setImageResource(R.drawable.ic_plus_white);
         initView();
     }
 
@@ -59,20 +77,23 @@ public class List${entity.upperCamelCaseClassName}Activity extends NovopayBaseAc
     }
 
     private void initView() {
-        actionButton.setText("View Screen");
+        hideEveryThing();
+        presenter.get${entity.upperCamelCaseClassName}List();
     }
-
-    @OnClick(R.id.action_button)
-    protected void actionButtonOnClick() {
-        if (SystemClock.elapsedRealtime() - mLastClickTime < 3000) {
-            mLastClickTime = SystemClock.elapsedRealtime();
-        } else {
-            mLastClickTime = SystemClock.elapsedRealtime();
-            Intent intent = new Intent(this, View${entity.upperCamelCaseClassName}Activity.class);
-            intent.putExtra(AppConstant.INTENT_EXTRA_TITLE, title);
-            startActivity(intent);
-            GUIUtils.overridePendingTransitionForEnter(this);
-        }
+    
+    @OnClick(R.id.right_logo)
+    protected void appBarRightLogoOnClick(){
+        Intent intent = new Intent(this, Create${entity.upperCamelCaseClassName}Activity.class);
+        intent.putExtra(AppConstant.INTENT_EXTRA_TITLE, title);
+        startActivity(intent);
+        GUIUtils.overridePendingTransitionForEnter(this);
+    }
+    
+    
+    @OnClick(R.id.network_failure_image_view)
+    protected void networkFailureOnClick(){
+        hideEveryThing();
+        presenter.get${entity.upperCamelCaseClassName}List();
     }
 
     @Override
@@ -89,5 +110,66 @@ public class List${entity.upperCamelCaseClassName}Activity extends NovopayBaseAc
     public void onBackPressed() {
         finish();
         GUIUtils.overridePendingTransitionForExit(this);
+    }
+    
+    public void onItemClick(int position) {
+    	Intent intent = new Intent(this, View${entity.upperCamelCaseClassName}Activity.class);
+        intent.putExtra(AppConstant.INTENT_EXTRA_TITLE, title);
+        intent.putExtra(AppConstant.INTENT_EXTRA_ENTITY_ID, responseList.get(position).getId());
+        startActivity(intent);
+        GUIUtils.overridePendingTransitionForEnter(this);
+    }
+    
+    @Override
+    public void onSuccessResponse(Get${entity.upperCamelCaseClassName}ListResponse response) {
+        if(response != null){
+            if(response.get${entity.upperCamelCaseClassName}List() != null){
+                if(response.get${entity.upperCamelCaseClassName}List().size() == 0){
+                    showNoRecordFound();
+                } else {
+                	responseList = response.get${entity.upperCamelCaseClassName}List();
+                    setAdapter(response.get${entity.upperCamelCaseClassName}List());
+                }
+            } else {
+                showNoRecordFound();
+            }
+        } else {
+            showNetworkFailure();
+        }
+    }
+    
+    private void setAdapter(ArrayList<Get${entity.upperCamelCaseClassName}ListResponse.Get${entity.upperCamelCaseClassName}Details> list){
+        adapter = new List${entity.upperCamelCaseClassName}Adapter(this, list);
+        recycleView.setAdapter(adapter);
+        showRecycleView();
+    }
+
+    @Override
+    public void OnFailureResponse() {
+    	showNetworkFailure();
+    }
+    
+    public void showNetworkFailure(){
+        networkFailureImageView.setVisibility(View.VISIBLE);
+        noRecordFoundImageView.setVisibility(View.GONE);
+        recycleView.setVisibility(View.GONE);
+    }
+    
+    public void showNoRecordFound(){
+        networkFailureImageView.setVisibility(View.GONE);
+        noRecordFoundImageView.setVisibility(View.VISIBLE);
+        recycleView.setVisibility(View.GONE);
+    }
+    
+    public void showRecycleView(){
+        networkFailureImageView.setVisibility(View.GONE);
+        noRecordFoundImageView.setVisibility(View.GONE);
+        recycleView.setVisibility(View.VISIBLE);
+    }
+    
+    public void hideEveryThing(){
+        networkFailureImageView.setVisibility(View.GONE);
+        noRecordFoundImageView.setVisibility(View.GONE);
+        recycleView.setVisibility(View.GONE);
     }
 }
