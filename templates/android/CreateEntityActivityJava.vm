@@ -77,11 +77,10 @@ public class Create${entity.upperCamelCaseClassName}Activity extends NovopayBase
 
     private void initView() {
     	if(AppConstant.INTENT_EXTRA_EDIT.equals(activityType)) {
-    		actionButton.setText("View Screen");
+    		actionButton.setText("Save");
     	} else {
-    		actionButton.setText("List Screen");
-    	}
-        
+    		actionButton.setText("Create");
+    	}   
     }
 
     @OnClick(R.id.action_button)

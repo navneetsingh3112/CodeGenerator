@@ -7,6 +7,8 @@ import in.novopay.services.base.BasePresenter;
 import in.novopay.network.requests.CreateOrUpdateHierarchyLevelRequest;
 import in.novopay.services.views.Create${entity.upperCamelCaseClassName}View;
 import in.novopay.network.responses.CreateOrUpdate${entity.upperCamelCaseClassName}Response;
+import rx.Subscription;
+import rx.subscriptions.CompositeSubscription;
 
 /**
  * Created by ${entity.author} on ${entity.date}.
