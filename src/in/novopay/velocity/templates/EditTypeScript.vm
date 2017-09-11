@@ -43,7 +43,7 @@ export class ${entity.upperCamelCaseClassName}EditComponent extends BaseComponen
             baseService, router, route, resourceFactoryConstants);
 
         this.componentIdRequestBodyKey = "${entity.fetchApiKey}";
-        this.componentDetailsAPI = "http://192.168.150.18:8080/api-gateway/api/v1/get${entity.upperCamelCaseClassName}Details";
+        this.componentDetailsAPI = this.resourceFactoryConstants.constants.${entity.lowerCamelCaseClassName}.getDetails;
         this.componentDetailsResponseBodyKey = "${entity.table}_details";
 
         let componentProperty : ICreateComponentProperty = {
@@ -89,7 +89,7 @@ radioEntity: {
     },
     #end
 #end
-
+},
 dropdownEntity: {
 #foreach ($field in $entity.fieldList)
     #if ($field.webType.equals('Dropdown'))

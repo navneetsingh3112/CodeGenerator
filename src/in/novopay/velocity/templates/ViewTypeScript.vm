@@ -9,6 +9,7 @@ import {AppConstants} from "../../app.constants";
 import {BaseComponent} from "../../base-module/create/base-create.component";
 import {BaseService} from "../../base-module/base.service";
 import {BaseViewComponent} from "../../base-module/view/base-view.component";
+import {ResourceFactoryConstants} from "../../services/resource-factory.constants";
 
 declare var jQuery:any;
 
@@ -25,7 +26,8 @@ export class ${entity.upperCamelCaseClassName}ViewComponent extends BaseViewComp
                 private baseService: BaseService,
                 private commonUtilityService:CommonUtilityService,
                 private router:Router,
-                private route:ActivatedRoute) {
+                private route:ActivatedRoute,
+                private resourceFactoryConstants:ResourceFactoryConstants) {
         super(location, mainApp, appConstants, commonHttpService, baseService,
             commonUtilityService, router, route);
 
