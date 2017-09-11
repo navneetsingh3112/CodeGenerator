@@ -1,0 +1,10 @@
+package in.novopay.services.views;
+
+import in.novopay.services.base.IBaseView;
+
+/**
+ * Created by ${entity.author} on ${entity.date}.
+ */
+
+public interface Create${entity.upperCamelCaseClassName}View extends IBaseView {
+}

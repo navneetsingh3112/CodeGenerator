@@ -1,0 +1,37 @@
+package in.novopay.network.requests;
+
+import android.content.Context;
+
+import java.io.Serializable;
+
+/**
+ * Created by ${entity.author} on ${entity.date}.
+ */
+
+public class Get${entity.upperCamelCaseClassName}DetailsRequest extends GenericRequest implements Serializable{
+    private Request request = new Request();
+
+    public Get${entity.upperCamelCaseClassName}DetailsRequest(Context context) {
+        setStaticHeaders(context);
+    }
+
+    public Request getRequest() {
+        return request;
+    }
+
+    public void setRequest(Request request) {
+        this.request = request;
+    }
+
+    public class Request{
+		private String id;
+   		
+		public String getId() {
+            return id;
+        }
+
+        public void setId(String id) {
+            this.id = id;
+        }
+    }
+}

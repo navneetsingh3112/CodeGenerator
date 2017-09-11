@@ -1,0 +1,105 @@
+/////////////////////////
+File: AndroidManiFest.xml
+/////////////////////////
+
+<activity
+            android:name="in.novopay.services.activities.List${entity.upperCamelCaseClassName}Activity"
+            android:configChanges="keyboard|keyboardHidden|orientation|screenSize"
+            android:screenOrientation="portrait"
+            android:theme="@style/SLIAppTheme.NoActionbar"
+            android:windowSoftInputMode="adjustPan" />
+            
+<activity
+            android:name="in.novopay.services.activities.Create${entity.upperCamelCaseClassName}Activity"
+            android:configChanges="keyboard|keyboardHidden|orientation|screenSize"
+            android:screenOrientation="portrait"
+            android:theme="@style/SLIAppTheme.NoActionbar"
+            android:windowSoftInputMode="adjustPan" />
+
+<activity
+            android:name="in.novopay.services.activities.View${entity.upperCamelCaseClassName}Activity"
+            android:configChanges="keyboard|keyboardHidden|orientation|screenSize"
+            android:screenOrientation="portrait"
+            android:theme="@style/SLIAppTheme.NoActionbar"
+            android:windowSoftInputMode="adjustPan" />   
+            
+
+
+/////////////////////////
+File: ServiceAndUserStoryUtils.java
+/////////////////////////
+
+// ${entity.serviceDisplayName}
+ArrayList<HomeFragmentActionsData.UserStory> ${entity.service}UserStories = new ArrayList<>();
+${entity.service}UserStories.add(new HomeFragmentActionsData.UserStory("${entity.tableDisplayName}", List${entity.upperCamelCaseClassName}Activity.class));
+homeFragmentActionsData.add(new HomeFragmentActionsData(R.drawable.ic_dummy_action, "${entity.serviceDisplayName}", ${entity.service}UserStories));
+
+
+
+/////////////////////////
+File: AppComponent.java
+/////////////////////////
+
+void inject(List${entity.upperCamelCaseClassName}Activity activity);
+void inject(Create${entity.upperCamelCaseClassName}Activity activity);
+void inject(View${entity.upperCamelCaseClassName}Activity activity);
+
+
+
+/////////////////////////
+File: NetworkService.java
+/////////////////////////
+
+@POST("get${entity.upperCamelCaseClassName}List")
+Observable<Response<ResponseBody>> get${entity.upperCamelCaseClassName}List(@Body Get${entity.upperCamelCaseClassName}ListRequest request);
+
+@POST("get${entity.upperCamelCaseClassName}Details")
+Observable<Response<ResponseBody>> get${entity.upperCamelCaseClassName}Details(@Body Get${entity.upperCamelCaseClassName}DetailsRequest request);
+
+@POST("createOrUpdate${entity.upperCamelCaseClassName}")
+Observable<Response<ResponseBody>> createOrUpdate${entity.upperCamelCaseClassName}(@Body CreateOrUpdate${entity.upperCamelCaseClassName}Request request);
+
+
+
+/////////////////////////
+File: Service.java
+/////////////////////////
+
+public Subscription get${entity.upperCamelCaseClassName}List(Subscriber subscriber, Get${entity.upperCamelCaseClassName}ListRequest request) {
+        return networkService.get${entity.upperCamelCaseClassName}List(request)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .onErrorResumeNext(new Func1<Throwable, Observable<? extends Response<ResponseBody>>>() {
+                    @Override
+                    public Observable<? extends Response<ResponseBody>> call(Throwable throwable) {
+                        return Observable.error(throwable);
+                    }
+                })
+                .subscribe(subscriber);
+}
+
+public Subscription get${entity.upperCamelCaseClassName}Details(Subscriber subscriber, Get${entity.upperCamelCaseClassName}DetailsRequest request) {
+        return networkService.get${entity.upperCamelCaseClassName}Details(request)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .onErrorResumeNext(new Func1<Throwable, Observable<? extends Response<ResponseBody>>>() {
+                    @Override
+                    public Observable<? extends Response<ResponseBody>> call(Throwable throwable) {
+                        return Observable.error(throwable);
+                    }
+                })
+                .subscribe(subscriber);
+}
+
+public Subscription createOrUpdate${entity.upperCamelCaseClassName}(Subscriber subscriber, CreateOrUpdate${entity.upperCamelCaseClassName}Request request) {
+        return networkService.createOrUpdate${entity.upperCamelCaseClassName}(request)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .onErrorResumeNext(new Func1<Throwable, Observable<? extends Response<ResponseBody>>>() {
+                    @Override
+                    public Observable<? extends Response<ResponseBody>> call(Throwable throwable) {
+                        return Observable.error(throwable);
+                    }
+                })
+                .subscribe(subscriber);
+}

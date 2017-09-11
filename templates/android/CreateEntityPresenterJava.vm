@@ -1,0 +1,31 @@
+package in.novopay.services.presenters;
+
+import in.novopay.network.networking.Service;
+import in.novopay.network.objects.TxnCompletionEvent;
+import in.novopay.services.base.BasePresenter;
+import in.novopay.services.views.Create${entity.upperCamelCaseClassName}View;
+
+/**
+ * Created by ${entity.author} on ${entity.date}.
+ */
+
+public class Create${entity.upperCamelCaseClassName}Presenter extends BasePresenter {
+    private Create${entity.upperCamelCaseClassName}View view;
+
+    public Create${entity.upperCamelCaseClassName}Presenter(Service service, Create${entity.upperCamelCaseClassName}View view) {
+        super.onCreate(service, view);
+        this.service = service;
+        this.view = view;
+    }
+
+    @Override
+    public void onResultReceived(TxnCompletionEvent event) {
+        view.hideProgress();
+    }
+
+    @Override
+    public void onErrorReceived(TxnCompletionEvent event) {
+        view.hideProgress();
+        view.showMessage(event.getFailureMsg());
+    }
+}

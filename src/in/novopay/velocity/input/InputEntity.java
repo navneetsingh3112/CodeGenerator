@@ -6,15 +6,35 @@ import org.apache.commons.lang.StringUtils;
 
 public class InputEntity {
 	private String table;
+	private String tableDisplayName;
 	private String author;
 	private String lowerCamelCaseClassName;
 	private String upperCamelCaseClassName;
 	private String service;
+	private String serviceDisplayName;
 	private String userStory;
 	private String tableComment;
 	private String lowerSnakeCaseClassName;
+	private String date;
+	private InputEntityFields primaryUIField;
+	private ArrayList<InputEntityFields> secondaryUIFieldList = new ArrayList<>();
+	private ArrayList<InputEntityFields> fieldList = new ArrayList<>();
 	
-	ArrayList<InputEntityFields> fieldList = new ArrayList<>();
+	public InputEntityFields getPrimaryUIField() {
+		return primaryUIField;
+	}
+
+	public void setPrimaryUIField(InputEntityFields primaryUIField) {
+		this.primaryUIField = primaryUIField;
+	}
+
+	public ArrayList<InputEntityFields> getSecondaryUIFieldList() {
+		return secondaryUIFieldList;
+	}
+
+	public void addSecondaryUIField(InputEntityFields secondaryUIField) {
+		secondaryUIFieldList.add(secondaryUIField);
+	}
 
 	public void addFields(InputEntityFields field) {
 		fieldList.add(field);
@@ -93,4 +113,27 @@ public class InputEntity {
 		this.lowerSnakeCaseClassName = lowerSnakeCaseClassName;
 	}
 
+	public String getTableDisplayName() {
+		return tableDisplayName;
+	}
+
+	public void setTableDisplayName(String tableDisplayName) {
+		this.tableDisplayName = tableDisplayName;
+	}
+
+	public String getServiceDisplayName() {
+		return serviceDisplayName;
+	}
+
+	public void setServiceDisplayName(String serviceDisplayName) {
+		this.serviceDisplayName = serviceDisplayName;
+	}
+
+	public String getDate() {
+		return date;
+	}
+
+	public void setDate(String date) {
+		this.date = date;
+	}
 }

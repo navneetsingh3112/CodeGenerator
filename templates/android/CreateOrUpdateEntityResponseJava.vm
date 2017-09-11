@@ -1,0 +1,10 @@
+package in.novopay.network.responses;
+
+import java.io.Serializable;
+
+/**
+ * Created by ${entity.author} on ${entity.date}.
+ */
+
+public class CreateOrUpdate${entity.upperCamelCaseClassName}Response extends GenericResponse implements Serializable{
+}

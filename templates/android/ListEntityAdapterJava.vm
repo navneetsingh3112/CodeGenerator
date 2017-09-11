@@ -1,0 +1,76 @@
+package in.novopay.services.adapters;
+
+import android.support.v7.widget.RecyclerView;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.TextView;
+
+import java.util.ArrayList;
+
+import butterknife.BindView;
+import butterknife.ButterKnife;
+import in.novopay.network.responses.Get${entity.upperCamelCaseClassName}Response;
+import in.novopay.services.R;
+import in.novopay.services.activities.List${entity.upperCamelCaseClassName}Activity;
+
+/**
+ * Created by ${entity.author} on ${entity.date}.
+ */
+
+public class List${entity.upperCamelCaseClassName}Adapter extends RecyclerView.Adapter<List${entity.upperCamelCaseClassName}Adapter.List${entity.upperCamelCaseClassName}ViewHolder> {
+	private List${entity.upperCamelCaseClassName}Activity activity;
+    private ArrayList<Get${entity.upperCamelCaseClassName}ListResponse.Get${entity.upperCamelCaseClassName}Details> ${entity.lowerCamelCaseClassName}List;
+
+    public List${entity.upperCamelCaseClassName}Adapter(List${entity.upperCamelCaseClassName}Activity activity, 
+    													ArrayList<Get${entity.upperCamelCaseClassName}ListResponse.Get${entity.upperCamelCaseClassName}Details> ${entity.lowerCamelCaseClassName}List) {
+        this.activity = activity;
+        this.${entity.lowerCamelCaseClassName}List = ${entity.lowerCamelCaseClassName}List;
+    }
+    
+    @Override
+    public List${entity.upperCamelCaseClassName}ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_view_list_${entity.lowerSnakeCaseClassName}, parent, false);
+        return new List${entity.upperCamelCaseClassName}ViewHolder(view);
+    }
+
+    @Override
+    public void onBindViewHolder(List${entity.upperCamelCaseClassName}ViewHolder holder, int position) {
+    	holder.headingTextView.setText(${entity.lowerCamelCaseClassName}List.get(position).get${entity.primaryUIField.upperCamelCaseName}());
+    	
+    	String subHeading = "";
+    	#foreach ($field in $entity.secondaryUIFieldList)
+    	#if( $velocityCount == $entity.secondaryUIFieldList.size() )
+    		subHeading = subHeading + ${entity.lowerCamelCaseClassName}List.get(position).get${field.upperCamelCaseName}();
+    	#else
+    		subHeading = subHeading + ${entity.lowerCamelCaseClassName}List.get(position).get${field.upperCamelCaseName}() + " | "
+    	#end	
+    	#end
+    	
+        holder.subHeadingTextView.setText(${entity.lowerCamelCaseClassName}List.get(position).getHeirarchyLevelType() + " | " + ${entity.lowerCamelCaseClassName}List.get(position).getDepartmentName());
+    }
+
+    @Override
+    public int getItemCount() {
+        return ${entity.lowerCamelCaseClassName}List.size();
+    }
+
+    public class List${entity.upperCamelCaseClassName}ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
+    	@BindView(R.id.entity_list_item_view_heading)
+        TextView headingTextView;
+
+        @BindView(R.id.entity_list_item_view_sub_heading)
+        TextView subHeadingTextView;
+    	
+        public List${entity.upperCamelCaseClassName}ViewHolder(View itemView) {
+            super(itemView);
+            ButterKnife.bind(this, itemView);
+            itemView.setOnClickListener(this);
+        }
+
+        @Override
+        public void onClick(View view) {
+        	activity.onItemClick(getAdapterPosition());
+        }
+    }
+}

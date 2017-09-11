@@ -2,15 +2,15 @@
 	"file_paths": [
 		{
 			"dir_name": "INPUT_DIR",
-			"path": "/Users/navaneet/office/git-workspace/CodeGenerator/input"
+			"path": "/Users/anandparmar/Documents/Novopay-Server/CodeGenerator/input"
 		},
 		{
 			"dir_name": "OUTPUT_DIR",
-			"path": "/Users/navaneet/office/git-workspace/CodeGenerator/output"
+			"path": "/Users/anandparmar/Documents/Novopay-Server/CodeGenerator/output"
 		},
 		{
 			"dir_name": "TEMPLATES_DIR",
-			"path": "/Users/navaneet/office/git-workspace/CodeGenerator/templates"
+			"path": "/Users/anandparmar/Documents/Novopay-Server/CodeGenerator/templates/android"
 		}
 	]
 }

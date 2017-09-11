@@ -1,0 +1,112 @@
+package in.novopay.network.requests;
+
+import android.content.Context;
+
+import java.io.Serializable;
+import java.util.ArrayList;
+
+/**
+ * Created by ${entity.author} on ${entity.date}.
+ */
+
+public class Get${entity.upperCamelCaseClassName}ListRequest extends GenericRequest implements Serializable{
+	private Request request = new Request();
+
+    public Get${entity.upperCamelCaseClassName}ListRequest(Context context) {
+        setStaticHeaders(context);
+    }
+
+    public Request getRequest() {
+        return request;
+    }
+
+    public void setRequest(Request request) {
+        this.request = request;
+    }
+
+    public class Request{
+    	private SortCriteria sortCriteria;
+    	private SearchCriteria searchCriteria;
+    	private String pageSize;
+    	private String offset;
+    	
+        public SortCriteria getSortCriteria() {
+            if(sortCriteria == null){
+                sortCriteria = new SortCriteria();
+            }
+            return sortCriteria;
+        }
+
+        public void setSortCriteria(SortCriteria sortCriteria) {
+            this.sortCriteria = sortCriteria;
+        }
+        
+        public SearchCriteria getSearchCriteria() {
+            if(searchCriteria == null){
+                searchCriteria = new SearchCriteria();
+            }
+            return searchCriteria;
+        }
+
+        public void setSearchCriteria(SearchCriteria searchCriteria) {
+            this.searchCriteria = searchCriteria;
+        }
+    	
+    	public String getPageSize() {
+            return pageSize;
+        }
+
+        public void setPageSize(String pageSize) {
+            this.pageSize = pageSize;
+        }
+
+        public String getOffset() {
+            return offset;
+        }
+
+        public void setOffset(String offset) {
+            this.offset = offset;
+        }
+    }
+    
+    public class SortCriteria implements Serializable{
+        private String order;
+        private ArrayList<String> fields = new ArrayList<>();
+
+        public String getOrder() {
+            return order;
+        }
+
+        public void setOrder(String order) {
+            this.order = order;
+        }
+
+        public ArrayList<String> getFields() {
+            return fields;
+        }
+
+        public void setFields(ArrayList<String> fields) {
+            this.fields = fields;
+        }
+    }
+    
+    public class SearchCriteria implements Serializable{
+#foreach ($field in $entity.fieldList)
+#if($field.isSearchable)
+		private String ${field.lowerCamelCaseName};
+#end
+#end
+
+#foreach ($field in $entity.fieldList)
+#if($field.isSearchable)
+		public String get${field.upperCamelCaseName}(){
+			return ${field.lowerCamelCaseName};
+		}
+		
+		public void set${field.upperCamelCaseName}(String ${field.lowerCamelCaseName}){
+			this.${field.lowerCamelCaseName} = ${field.lowerCamelCaseName};
+		}
+#end
+#end
+    }
+}

@@ -6,6 +6,8 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.io.StringWriter;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.Iterator;
 import java.util.Properties;
 
@@ -29,6 +31,11 @@ public class Main {
 	static String OUTPUT_DIR = "";
 	static String INPUT_DIR = "";
 
+	static String ANDROID_ROOT_PATH = "AndroidApp";
+	static String SCREEN_JAVA_FILES_BASE_PATH = ANDROID_ROOT_PATH + "/storm/NovopayPlatformServices/app/src/main/java/in/novopay/services";
+	static String SCREEN_XML_FILES_BASE_PATH = ANDROID_ROOT_PATH + "/storm/NovopayPlatformServices/app/src/main/res/layout";
+	static String API_JAVA_FILES_BASE_PATH = ANDROID_ROOT_PATH + "/storm/NovopayPlatformServices/network/src/main/java/in/novopay/network";
+
 	public static void main(String[] args) throws IOException {
 		constructDirctoryPath(args);
 		verifyProgramArgs();
@@ -41,28 +48,101 @@ public class Main {
 		velocityProperties.setProperty("file.resource.loader.path", TEMPLATES_DIR);
 		velocityEngine.init(velocityProperties);
 
-		String[] inputTemplateFileArray = { "entity.vm", "repo.vm", "dao.vm", "createprocessor.vm",
-				"updateprocessor.vm", "listprocessor.vm", "detailsprocessor.vm", "rowMapper.vm","CreateOrUpdateRequestjson.vm",
-				"GetPaginatedListRequestjson.vm", "GetDetailsRequestjson.vm", "CreateOrUpdateResponse.vm",
-				"GetDetailsResponsejson.vm", "GetPaginatedListResponsejson.vm", "orchestration.vm", "schema.vm" };
+		String[] inputTemplateFileArray = {
+				"ListEntityActivityJava.vm",
+				"ListEntityPresenterJava.vm",
+				"ListEntityViewJava.vm",
+				"ListEntityActivityXML.vm",
+				"ListEntityAdapterJava.vm",
+				"ItemViewListEntityXML.vm",
+				"CreateEntityActivityJava.vm",
+				"CreateEntityPresenterJava.vm",
+				"CreateEntityViewJava.vm",
+				"CreateEntityActivityXML.vm",
+				"ViewEntityActivityJava.vm",
+				"ViewEntityPresenterJava.vm",
+				"ViewEntityViewJava.vm",
+				"ViewEntityActivityXML.vm",
+				"GetEntityListRequestJava.vm",
+				"GetEntityListResponseJava.vm",
+				"GetEntityDetailsRequestJava.vm",
+				"GetEntityDetailsResponseJava.vm",
+				"CreateOrUpdateEntityRequestJava.vm",
+				"CreateOrUpdateEntityResponseJava.vm",
+				"EntityCommon.vm"
+		};
 
-		String[] outputDir = { "in/novopay/" + entity.getService() + "/" + entity.getUserStory() + "/entity",
-				"in/novopay/" + entity.getService() + "/" + entity.getUserStory() + "/repository",
-				"in/novopay/" + entity.getService() + "/" + entity.getUserStory() + "/daoservice",
-				"in/novopay/" + entity.getService() + "/" + entity.getUserStory() + "/processor",
-				"in/novopay/" + entity.getService() + "/" + entity.getUserStory() + "/processor",
-				"in/novopay/" + entity.getService() + "/" + entity.getUserStory() + "/processor",
-				"in/novopay/" + entity.getService() + "/" + entity.getUserStory() + "/processor",
-				"in/novopay/" + entity.getService() + "/" + entity.getUserStory() + "/repository", "request", "request",
-				"request", "response", "response", "response", "orchestration","sql" };
+		String[] outputDir = {
+				SCREEN_JAVA_FILES_BASE_PATH + "/activities",
+				SCREEN_JAVA_FILES_BASE_PATH + "/presenters",
+				SCREEN_JAVA_FILES_BASE_PATH + "/views",
+				SCREEN_XML_FILES_BASE_PATH,
+				SCREEN_JAVA_FILES_BASE_PATH + "/adapters",
+				SCREEN_XML_FILES_BASE_PATH,
+				SCREEN_JAVA_FILES_BASE_PATH + "/activities",
+				SCREEN_JAVA_FILES_BASE_PATH + "/presenters",
+				SCREEN_JAVA_FILES_BASE_PATH + "/views",
+				SCREEN_XML_FILES_BASE_PATH,
+				SCREEN_JAVA_FILES_BASE_PATH + "/activities",
+				SCREEN_JAVA_FILES_BASE_PATH + "/presenters",
+				SCREEN_JAVA_FILES_BASE_PATH + "/views",
+				SCREEN_XML_FILES_BASE_PATH,
+				API_JAVA_FILES_BASE_PATH + "/requests",
+				API_JAVA_FILES_BASE_PATH + "/responses",
+				API_JAVA_FILES_BASE_PATH + "/requests",
+				API_JAVA_FILES_BASE_PATH + "/responses",
+				API_JAVA_FILES_BASE_PATH + "/requests",
+				API_JAVA_FILES_BASE_PATH + "/responses",
+				ANDROID_ROOT_PATH
+		};
 
-		String[] outputFileExtentionPrefixArray = { "", "", "", "Create", "Update", "Get", "Get", "","createOrUpdate",
-				"get", "get", "createOrUpdate", "get", "get", "", "" };
+		String[] outputFileExtentionPrefixArray = {
+				"List",
+				"List",
+				"List",
+				"activity_list_",
+				"List",
+				"item_view_list_",
+				"Create",
+				"Create",
+				"Create",
+				"activity_create_",
+				"View",
+				"View",
+				"View",
+				"activity_view_",
+				"Get",
+				"Get",
+				"Get",
+				"Get",
+				"CreateOrUpdate",
+				"CreateOrUpdate",
+				""
+			  };
 
-		String[] outputFileExtentionSuffixArray = { "Entity.java", "Repository.java", "DAOService.java",
-				"Processor.java", "Processor.java", "ListProcessor.java", "DetailsProcessor.java","RowMapper.java",
-				"_requestTemplate.json", "List_requestTemplate.json", "Details_requestTemplate.json",
-				"_responseTemplate.json", "Details_responseTemplate.json", "List_responseTemplate.json", ".xml",".sql" };
+		String[] outputFileExtentionSuffixArray = {
+				"Activity.java",
+				"Presenter.java",
+				"View.java",
+				".xml",
+				"Adapter.java",
+				".xml",
+				"Activity.java",
+				"Presenter.java",
+				"View.java",
+				".xml",
+				"Activity.java",
+				"Presenter.java",
+				"View.java",
+				".xml",
+				"ListRequest.java",
+				"ListResponse.java",
+				"DetailsRequest.java",
+				"DetailsResponse.java",
+				"Request.java",
+				"Response.java",
+				"Common.txt"
+		};
 
 		createOutputDirectories(outputDir);
 
@@ -79,8 +159,13 @@ public class Main {
 					filePath = OUTPUT_DIR + "/" + outputDir[i] + "/" + entity.getUpperCamelCaseClassName()
 							+ outputFileExtentionSuffixArray[i];
 				} else {
-					filePath = OUTPUT_DIR + "/" + outputDir[i] + "/" + outputFileExtentionPrefixArray[i]
-							+ entity.getUpperCamelCaseClassName() + outputFileExtentionSuffixArray[i];
+					if(outputFileExtentionSuffixArray[i].contains(".xml")){
+						filePath = OUTPUT_DIR + "/" + outputDir[i] + "/" + outputFileExtentionPrefixArray[i]
+								+ entity.getTable() + outputFileExtentionSuffixArray[i];
+					} else {
+						filePath = OUTPUT_DIR + "/" + outputDir[i] + "/" + outputFileExtentionPrefixArray[i]
+								+ entity.getUpperCamelCaseClassName() + outputFileExtentionSuffixArray[i];
+					}
 				}
 				PrintWriter pw = new PrintWriter(filePath);
 				pw.print(writer.toString());
@@ -152,6 +237,9 @@ public class Main {
 			entity.setUpperCamelCaseClassName(CaseFormat.UPPER_UNDERSCORE.to(CaseFormat.UPPER_CAMEL, table));
 			entity.setLowerSnakeCaseClassName(CaseFormat.UPPER_UNDERSCORE.to(CaseFormat.UPPER_UNDERSCORE, table));
 
+			String tableDisplayName = (String) jsonObject.get("table_display_Name");
+			entity.setTableDisplayName(tableDisplayName);
+			
 			String author = (String) jsonObject.get("author");
 			entity.setAuthor(author);
 
@@ -161,6 +249,9 @@ public class Main {
 			String service = (String) jsonObject.get("service");
 			entity.setService(service);
 
+			String serviceDisplayName = (String) jsonObject.get("service_display_name");
+			entity.setServiceDisplayName(serviceDisplayName);
+			
 			entity.setTableComment((String) jsonObject.get("table_comment"));
 
 			JSONArray fields = (JSONArray) jsonObject.get("fields");
@@ -196,6 +287,10 @@ public class Main {
 				}
 				entity.addFields(f);
 			}
+			
+			SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/YY");
+			entity.setDate(sdf.format(new Date()));
+			
 		} catch (IOException | ParseException e) {
 			e.printStackTrace();
 		}
@@ -223,5 +318,4 @@ public class Main {
 			file.mkdirs();
 		}
 	}
-
 }

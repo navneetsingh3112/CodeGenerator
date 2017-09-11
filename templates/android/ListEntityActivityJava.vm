@@ -1,0 +1,93 @@
+package in.novopay.services.activities;
+
+import android.content.Intent;
+import android.os.Bundle;
+import android.os.SystemClock;
+import android.support.v7.widget.Toolbar;
+import android.view.MenuItem;
+import android.widget.TextView;
+
+import butterknife.BindView;
+import butterknife.ButterKnife;
+import butterknife.OnClick;
+import in.novopay.services.R;
+import in.novopay.services.base.NovopayBaseActivity;
+import in.novopay.services.presenters.List${entity.upperCamelCaseClassName}Presenter;
+import in.novopay.services.utils.AppConstant;
+import in.novopay.services.utils.GUIUtils;
+import in.novopay.services.views.List${entity.upperCamelCaseClassName}View;
+
+/**
+ * Created by ${entity.author} on ${entity.date}.
+ */
+
+public class List${entity.upperCamelCaseClassName}Activity extends NovopayBaseActivity implements List${entity.upperCamelCaseClassName}View {
+    @BindView(R.id.toolbar)
+    Toolbar toolbar;
+
+    @BindView(R.id.activity_title)
+    TextView activityTitle;
+
+    @BindView(R.id.action_button)
+    TextView actionButton;
+
+    private String title;
+    private List${entity.upperCamelCaseClassName}Presenter presenter;
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_list_${entity.lowerSnakeCaseClassName});
+        getAppComponent().inject(this);
+        ButterKnife.bind(this);
+        setSupportActionBar(toolbar);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
+        presenter = new List${entity.upperCamelCaseClassName}Presenter(service, this);
+
+        getIntentExtras();
+        setTitle(title);
+        initView();
+    }
+
+    public void getIntentExtras() {
+        title = getIntent().getStringExtra(AppConstant.INTENT_EXTRA_TITLE);
+    }
+
+    private void setTitle(String title) {
+        activityTitle.setText(title);
+    }
+
+    private void initView() {
+        actionButton.setText("View Screen");
+    }
+
+    @OnClick(R.id.action_button)
+    protected void actionButtonOnClick() {
+        if (SystemClock.elapsedRealtime() - mLastClickTime < 3000) {
+            mLastClickTime = SystemClock.elapsedRealtime();
+        } else {
+            mLastClickTime = SystemClock.elapsedRealtime();
+            Intent intent = new Intent(this, View${entity.upperCamelCaseClassName}Activity.class);
+            intent.putExtra(AppConstant.INTENT_EXTRA_TITLE, title);
+            startActivity(intent);
+            GUIUtils.overridePendingTransitionForEnter(this);
+        }
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                onBackPressed();
+                return true;
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public void onBackPressed() {
+        finish();
+        GUIUtils.overridePendingTransitionForExit(this);
+    }
+}

@@ -1,1 +1,1 @@
-java  -classpath ./lib/CodeGenrator.jar:./lib/guava.jar:./lib/velocity-1.7.jar:./lib/json-simple-1.1.jar:./lib/commons-collections-3.0.jar:./lib/apache-commons-lang.jar in.novopay.velocity.Main /Users/navaneet/office/git-workspace/CodeGenerator/config/config.json
+java  -classpath ./lib/CodeGenrator.jar:./lib/guava.jar:./lib/velocity-1.7.jar:./lib/json-simple-1.1.jar:./lib/commons-collections-3.0.jar:./lib/apache-commons-lang.jar in.novopay.velocity.Main /Users/anandparmar/Documents/Novopay-Server/CodeGenerator/config/config.json

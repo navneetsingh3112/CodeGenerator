@@ -1,9 +1,11 @@
 {
-	"table":"heirarchy_level",
-	"userStory":"heirarchylevel",
-	"service":"heirarchymanagement",
-	"table_comment" : "Heirarchy level information for various purposes spanning various departements",
-	"author":"Manoj",
+	"table":"hierarchy_level",
+	"table_display_Name": "Hierarchy Level",
+	"service_display_name": "Hierarchy Management",
+	"userStory":"hierarchylevel",
+	"service":"hierarchymanagement",
+	"table_comment" : "Hierarchy level information for various purposes spanning various departements",
+	"author":"anandparmar",
 	"fields": [
 		{
 			"name": "level_name",
@@ -12,7 +14,8 @@
 			"max_length": 16,
 			"is_mandatory": true,
 			"is_searchable": true,
-			"comment": "Name of heirarchy level"
+			"comment": "Name of heirarchy level",
+			"is_primary": true
 		},
 		{
 			"name": "level_code",
@@ -37,7 +40,8 @@
 			"max_length": 256,
 			"is_mandatory": true,
 			"is_searchable": true,
-			"comment": "Heirarchy level department name"
+			"comment": "Heirarchy level department name",
+			"is_secondary": true
 		},
 		{
 			"name": "heirarchy_level_type",
@@ -46,7 +50,8 @@
 			"max_length": 256,
 			"is_mandatory": true,
 			"is_searchable": true,
-			"comment": "Type of heirarchy level"
+			"comment": "Type of heirarchy level",
+			"is_secondary": true
 		},
 		{
 			"name": "created_on",
