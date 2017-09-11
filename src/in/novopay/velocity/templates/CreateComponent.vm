@@ -179,7 +179,7 @@
                                 #elseif ($field.webType.equals('Radio'))
                                     <!-- Radio -->
                                     <div class="form-group row">
-                                        <label class="col-md-4  col-form-label text-md-right">{{radioEntity.${field.lowerCamelCaseName}.displayName
+                                        <label class="col-md-4  col-form-label text-md-right">{{radioList.${field.lowerCamelCaseName}.displayName
                                             | translate}}#if ($field.isMandatory)
                                                 *
                                             #end
@@ -190,28 +190,48 @@
                                                 #foreach ($element in $field.dataList)
                                                     <div class="abc-radio">
                                                         <input type="radio" name="${field.lowerTrainCaseName}-grp"
-                                                               id="${field.lowerTrainCaseName}-${element.text}"
-                                                               value="{{radioEntity.${field.lowerCamelCaseName}.dataList[$counter].code}}"
-                                                               [(ngModel)]="radioEntity.${field.lowerCamelCaseName}.value"
+                                                               id="${field.lowerTrainCaseName}-${element.code}"
+                                                               value="{{radioList.${field.lowerCamelCaseName}.dataList[$counter].code}}"
+                                                               [(ngModel)]="radioList.${field.lowerCamelCaseName}.value"
                                                             #if ($field.isMandatory)
                                                                required="true"
                                                             #end>
-                                                        <label for="${field.lowerTrainCaseName}-${element.text}">
-                                                            {{radioEntity.${field.lowerCamelCaseName}.dataList[$counter].text}}
+                                                        <label for="${field.lowerTrainCaseName}-${element.code}">
+                                                            {{radioList.${field.lowerCamelCaseName}.dataList[$counter].text}}
                                                         </label>
                                                     </div>
                                                     #set($counter = $counter + 1)
                                                 #end
+                                                #if ($field.dataList.equals([]) )
+                                                    <div class="abc-radio"
+                                                         *ngFor=" let data of radioList.${field.lowerCamelCaseName}.dataList ; let i = index">
+                                                        <input type="radio" name="${field.lowerTrainCaseName}-grp"
+                                                               id="${field.lowerTrainCaseName}-{{data.code}}"
+                                                               value="{{radioList.${field.lowerCamelCaseName}.dataList[i].code}}"
+                                                               [(ngModel)]="radioList.${field.lowerCamelCaseName}.value"
+                                                            #if ($field.isMandatory)
+                                                               required="true"
+                                                            #end>
+                                                        <label for="${field.lowerTrainCaseName}-{{data.code}}">
+                                                            {{radioList.${field.lowerCamelCaseName}.dataList[i].text}}
+                                                        </label>
+                                                    </div>
+                                                #end
                                             </div>
 
                                             <label *ngIf="readOnly"
-                                                   [ngSwitch]="radioEntity.${field.lowerCamelCaseName}.value"
+                                                   [ngSwitch]="radioList.${field.lowerCamelCaseName}.value"
                                                    class="read-only-view-label col-form-label wrap-long-text">
                                                 #set($counter = 0)
                                                 #foreach ($element in $field.dataList)
-                                                    <a *ngSwitchCase="radioEntity.${field.lowerCamelCaseName}.dataList[$counter].code">
-                                                        {{radioEntity.${field.lowerCamelCaseName}.dataList[$counter].text}}</a>
+                                                    <a *ngSwitchCase="radioList.${field.lowerCamelCaseName}.dataList[$counter].code">
+                                                        {{radioList.${field.lowerCamelCaseName}.dataList[$counter].text}}</a>
                                                     #set($counter = $counter + 1)
+                                                #end
+                                                #if ($field.dataList.equals([]) )
+                                                    <a *ngFor=" let data of radioList.${field.lowerCamelCaseName}.dataList ; let i = index">
+                                                        <a *ngSwitchCase="radioList.${field.lowerCamelCaseName}.dataList[i].code">
+                                                            {{radioList.${field.lowerCamelCaseName}.dataList[i].text}}</a></a>
                                                 #end
                                             </label>
                                         </div>

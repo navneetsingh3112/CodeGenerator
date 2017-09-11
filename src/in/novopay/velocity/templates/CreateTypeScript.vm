@@ -53,12 +53,13 @@ radioEntity: {
 #foreach ($field in $entity.fieldList)
     #if ($field.webType.equals('Radio'))
         ${field.lowerCamelCaseName}: {
+    displayName: '${field.displayName}',
     value: '',
     groupName: '${field.lowerTrainCaseName}-grp',
     apiKey: '${field.apiKey}',
     populateFromMasterData: ${field.populateFromMasterData},
     masterDataType: '${field.masterDataType}',
-    masterDataSubType: '${field.masterDataSubType}',
+    masterDataSubType: null,
     isCodeIncludedInDisplay: ${field.isCodeIncludedInDisplay},
         #if ($field.dataList.equals([]) )
         input: {
