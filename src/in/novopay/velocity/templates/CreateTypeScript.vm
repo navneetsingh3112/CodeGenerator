@@ -54,6 +54,12 @@ radioEntity: {
         ${field.lowerCamelCaseName}: {
     value: '',
     groupName: '${field.lowerTrainCaseName}-grp',
+    apiKey: '${field.apiKey}',
+        #if ($field.dataList.equals([]) )
+        input: {
+        inputApi: "${field.inputApi}" },
+        populateFromMasterData:  "${field.populateFromMasterData}",
+        #end
     dataList : [
         #if ($!{field.dataList} )
             #foreach ($element in $field.dataList)
@@ -63,16 +69,18 @@ radioEntity: {
             "text": "${element.text}"
             },
             #end
+        ]
         #end
-    ]}},
+    },
     #end
 #end
-};
+
+}};
 super.setComponentProperties(componentProperty);
 
 #foreach ($field in $entity.fieldList)
     #if ($field.webType.equals(
-        'Radio') && $field.dataList.equals([])) super.getRadioElementList(this.radioEntity.${field.lowerCamelCaseName},${field.masterDataType},${field.masterDataSubType});
+        'Radio') && $field.dataList.equals([])) super.getRadioElementList(this.radioEntity.${field.lowerCamelCaseName},'${field.masterDataType}','${field.masterDataSubType}');
     #end
 #end
 

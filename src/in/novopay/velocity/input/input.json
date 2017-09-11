@@ -55,7 +55,8 @@
 			"is_searchable": true,
 			"is_sortable": true,
 			"is_editable": true,
-			"input_api": "google.com"
+			"input_api": "google.com",
+			"populate_from_master_data": true
 		},
 		{
 			"name": "description",

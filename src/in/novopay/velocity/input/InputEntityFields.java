@@ -24,6 +24,8 @@ public class InputEntityFields {
 	private Boolean isEditable;
 	private String masterDataType;
 	private String masterDataSubType;
+	private String inputApi;
+	private Boolean populateFromMasterData;
 	private ArrayList<DataList> dataList = new ArrayList<>();
 	
 	public String getName() {
@@ -220,6 +222,22 @@ public class InputEntityFields {
 
 	public void setMasterDataSubType(String masterDataSubType) {
 		this.masterDataSubType = masterDataSubType;
+	}
+
+	public String getInputApi() {
+		return inputApi;
+	}
+
+	public void setInputApi(String inputApi) {
+		this.inputApi = inputApi;
+	}
+
+	public Boolean getPopulateFromMasterData() {
+		return populateFromMasterData;
+	}
+
+	public void setPopulateFromMasterData(Boolean populateFromMasterData) {
+		this.populateFromMasterData = populateFromMasterData;
 	}
 
 	public void addFields(DataList list) {

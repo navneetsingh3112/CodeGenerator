@@ -192,6 +192,8 @@ public class Main {
                     } else{
                         f.setMasterDataType((String) fobj.get("master_data_type"));
                         f.setMasterDataSubType((String) fobj.get("master_data_sub_type"));
+                        f.setInputApi((String) fobj.get("input_api"));
+                        f.setPopulateFromMasterData((Boolean) fobj.get("populate_from_master_data"));
                     }
                 }
 				entity.addFields(f);
