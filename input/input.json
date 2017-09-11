@@ -9,6 +9,7 @@
 	"fields": [
 		{
 			"name": "level_name",
+			"display_name" : "Level Name",
 			"java_type": "String",
 			"sql_type": "VARCHAR",
 			"max_length": 16,
@@ -19,38 +20,42 @@
 		},
 		{
 			"name": "level_code",
+			"display_name" : "Level Code",
 			"java_type": "String",
 			"sql_type": "VARCHAR",
 			"max_length": 8,
 			"is_mandatory": true,
 			"is_searchable": true,
-			"comment": "Heirarchy level code"
+			"comment": "Hierarchy level code"
 		},
 		{
 			"name": "description",
+			"display_name" : "Description",
 			"java_type": "String",
 			"sql_type": "VARCHAR",
 			"max_length": 256,
-			"comment": "Heirarchy level description"
+			"comment": "Hierarchy level description"
 		},
 		{
 			"name": "department_name",
 			"java_type": "String",
+			"display_name" : "Department Name",
 			"sql_type": "VARCHAR",
 			"max_length": 256,
 			"is_mandatory": true,
 			"is_searchable": true,
-			"comment": "Heirarchy level department name",
+			"comment": "Hierarchy level department name",
 			"is_secondary": true
 		},
 		{
-			"name": "heirarchy_level_type",
+			"name": "hierarchy_level_type",
 			"java_type": "String",
+			"display_name" : "Hiearchy Level Type",
 			"sql_type": "VARCHAR",
 			"max_length": 256,
 			"is_mandatory": true,
 			"is_searchable": true,
-			"comment": "Type of heirarchy level",
+			"comment": "Type of hierarchy level",
 			"is_secondary": true
 		},
 		{

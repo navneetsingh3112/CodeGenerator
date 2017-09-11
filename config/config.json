@@ -2,15 +2,15 @@
 	"file_paths": [
 		{
 			"dir_name": "INPUT_DIR",
-			"path": "/Users/anandparmar/Documents/Novopay-Server/CodeGenerator/input"
+			"path": "/Users/Castiel/Documents/CodeGenrator/CodeGenerator/input"
 		},
 		{
 			"dir_name": "OUTPUT_DIR",
-			"path": "/Users/anandparmar/Documents/Novopay-Server/CodeGenerator/output"
+			"path": "/Users/Castiel/Documents/CodeGenrator/CodeGenerator/output"
 		},
 		{
 			"dir_name": "TEMPLATES_DIR",
-			"path": "/Users/anandparmar/Documents/Novopay-Server/CodeGenerator/templates/android"
+			"path": "/Users/Castiel/Documents/CodeGenrator/CodeGenerator/templates/android"
 		}
 	]
 }

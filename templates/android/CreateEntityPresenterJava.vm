@@ -1,9 +1,12 @@
 package in.novopay.services.presenters;
 
 import in.novopay.network.networking.Service;
+import com.google.gson.Gson;
 import in.novopay.network.objects.TxnCompletionEvent;
 import in.novopay.services.base.BasePresenter;
+import in.novopay.network.requests.CreateOrUpdateHierarchyLevelRequest;
 import in.novopay.services.views.Create${entity.upperCamelCaseClassName}View;
+import in.novopay.network.responses.CreateOrUpdate${entity.upperCamelCaseClassName}Response;
 
 /**
  * Created by ${entity.author} on ${entity.date}.
@@ -17,10 +20,31 @@ public class Create${entity.upperCamelCaseClassName}Presenter extends BasePresen
         this.service = service;
         this.view = view;
     }
+    
+    public void createOrUpdate${entity.upperCamelCaseClassName}() {
+    		view.showProgress(null);
+        Subscription subscription = service.createOrUpdate${entity.upperCamelCaseClassName}(getNewSubscriber(), create${entity.upperCamelCaseClassName}Request());
+        subscriptions = new CompositeSubscription();
+        subscriptions.add(subscription);
+    }
+
+	public CreateOrUpdate${entity.upperCamelCaseClassName}Request create${entity.upperCamelCaseClassName}Request() {
+    	CreateOrUpdate${entity.upperCamelCaseClassName}Request createOrUpdate${entity.upperCamelCaseClassName}Request = new CreateOrUpdate${entity.upperCamelCaseClassName}Request(view.getContext());
+#foreach ($field in $entity.fieldList)
+#if( ${field.lowerCamelCaseName} != "createdOn" && ${field.lowerCamelCaseName} != "createdBy" && ${field.lowerCamelCaseName} != "updatedOn" && ${field.lowerCamelCaseName} != "updatedBy")
+    	createOrUpdate${entity.upperCamelCaseClassName}Request.getRequest().set${field.upperCamelCaseName}(view.get${field.lowerCamelCaseName}());
+#end
+#end
+		return createOrUpdate${entity.upperCamelCaseClassName}Request;
+    }
 
     @Override
     public void onResultReceived(TxnCompletionEvent event) {
         view.hideProgress();
+        if(event.getUrl().equalsIgnoreCase("createOrUpdate${entity.upperCamelCaseClassName}")) {
+            CreateOrUpdate${entity.upperCamelCaseClassName}Response createOrUpdate${entity.upperCamelCaseClassName}Response = new Gson().fromJson(event.getResponseString(),CreateOrUpdate${entity.upperCamelCaseClassName}Response.class);
+            view.handleCreateOrUpdate${entity.upperCamelCaseClassName}Response(createOrUpdate${entity.upperCamelCaseClassName}Response);
+        }
     }
 
     @Override

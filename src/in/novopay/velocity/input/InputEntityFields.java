@@ -17,6 +17,17 @@ public class InputEntityFields {
 	private String comment;
 	private Boolean isSearchable;
 	
+	private String displayName;
+	
+	
+	public String getDisplayName() {
+		return displayName;
+	}
+
+	public void setDisplayName(String displayName) {
+		this.displayName = displayName;
+	}
+
 	public String getName() {
 		return name;
 	}

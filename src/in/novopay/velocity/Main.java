@@ -285,6 +285,7 @@ public class Main {
 				} else {
 					f.setIsSearchable(false);
 				}
+				f.setDisplayName((String) fobj.get("display_name"));
 				entity.addFields(f);
 			}
 			

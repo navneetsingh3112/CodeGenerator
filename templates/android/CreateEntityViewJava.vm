@@ -1,10 +1,20 @@
 package in.novopay.services.views;
 
 import in.novopay.services.base.IBaseView;
+import in.novopay.network.responses.CreateOrUpdate${entity.upperCamelCaseClassName}Response;
 
 /**
  * Created by ${entity.author} on ${entity.date}.
  */
 
 public interface Create${entity.upperCamelCaseClassName}View extends IBaseView {
+	
+#foreach ($field in $entity.fieldList)
+#if( ${field.lowerCamelCaseName} != "createdOn" && ${field.lowerCamelCaseName} != "createdBy" && ${field.lowerCamelCaseName} != "updatedOn" && ${field.lowerCamelCaseName} != "updatedBy")
+	String get${field.lowerCamelCaseName}();
+	
+#end
+#end
+
+	void handleCreateOrUpdate${entity.upperCamelCaseClassName}Response(CreateOrUpdate${entity.upperCamelCaseClassName}Response createOrUpdate${entity.upperCamelCaseClassName}Response);
 }

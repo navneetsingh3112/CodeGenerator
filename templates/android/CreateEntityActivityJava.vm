@@ -15,7 +15,9 @@ import in.novopay.services.base.NovopayBaseActivity;
 import in.novopay.services.presenters.Create${entity.upperCamelCaseClassName}Presenter;
 import in.novopay.services.utils.AppConstant;
 import in.novopay.services.utils.GUIUtils;
+import in.novopay.uicontrollibrary.components.EditText;
 import in.novopay.services.views.Create${entity.upperCamelCaseClassName}View;
+import in.novopay.network.responses.CreateOrUpdate${entity.upperCamelCaseClassName}Response;
 
 /**
  * Created by ${entity.author} on ${entity.date}.
@@ -34,7 +36,16 @@ public class Create${entity.upperCamelCaseClassName}Activity extends NovopayBase
     private String title;
     private String activityType;
     private Create${entity.upperCamelCaseClassName}Presenter presenter;
-
+    
+    #foreach ($field in $entity.fieldList)
+	#if( ${field.lowerCamelCaseName} != "createdOn" && ${field.lowerCamelCaseName} != "createdBy" && ${field.lowerCamelCaseName} != "updatedOn" && ${field.lowerCamelCaseName} != "updatedBy")
+	
+	@BindView(R.id.activity_create_${entity.lowerSnakeCaseClassName}_${field.name})
+	EditText ${field.lowerCamelCaseName}EditText;
+	
+	#end
+	#end
+	
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -99,4 +110,20 @@ public class Create${entity.upperCamelCaseClassName}Activity extends NovopayBase
         finish();
         GUIUtils.overridePendingTransitionForExit(this);
     }
+    
+    
+#foreach ($field in $entity.fieldList)
+#if( ${field.lowerCamelCaseName} != "createdOn" && ${field.lowerCamelCaseName} != "createdBy" && ${field.lowerCamelCaseName} != "updatedOn" && ${field.lowerCamelCaseName} != "updatedBy")
+    @Override
+    public String get${field.lowerCamelCaseName}() {
+    	return ${field.lowerCamelCaseName}EditText.getValue();
+    }
+    
+#end
+#end
+
+	@Override
+	public void handleCreateOrUpdate${entity.upperCamelCaseClassName}Response(CreateOrUpdate${entity.upperCamelCaseClassName}Response createOrUpdate${entity.upperCamelCaseClassName}Response) {
+	}  
+      
 }
