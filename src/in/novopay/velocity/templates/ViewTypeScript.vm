@@ -36,8 +36,8 @@ export class ${entity.upperCamelCaseClassName}ViewComponent extends BaseViewComp
             componentEditPermissionKey: "EDIT_PERMISSION_KEY",
             componentIdRequestBodyKey: "${entity.fetchApiKey}",
             componentDetailsResponseBodyKey: "${entity.table}_details",
-            viewComponentAPI: "http://192.168.150.18:8080/api-gateway/api/v1/get${entity.upperCamelCaseClassName}Details",
-            deleteComponentAPI: "/delete",
+            viewComponentAPI: this.resourceFactoryConstants.constants.${entity.lowerCamelCaseClassName}.getDetails,
+            deleteComponentAPI: this.resourceFactoryConstants.constants.${entity.lowerCamelCaseClassName}.delete,
             editComponentAPI: "/edit",
             entity: {
             #foreach ($field in $entity.fieldList)
