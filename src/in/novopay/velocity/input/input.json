@@ -2,6 +2,7 @@
 	"table":"heirarchy_level",
 	"userStory":"heirarchylevel",
 	"service":"heirarchymanagement",
+	"display_name": "Heirarchy Level",
 	"table_comment" : "Heirarchy level information for various purposes spanning various departements",
 	"author":"Manoj",
 	"fetch_api_key": "id",

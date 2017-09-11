@@ -139,6 +139,7 @@ public class Main {
 			
 			entity.setTableComment((String) jsonObject.get("table_comment"));
 			entity.setFetchApiKey((String) jsonObject.get("fetch_api_key"));
+			entity.setDisplayName((String)jsonObject.get("display_name"));
 
 			JSONArray fields = (JSONArray) jsonObject.get("fields");
 			Iterator<JSONObject> iterator = fields.iterator();

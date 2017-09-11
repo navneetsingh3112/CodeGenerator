@@ -14,6 +14,7 @@ public class InputEntity {
 	private String userStory;
 	private String tableComment;
 	private String fetchApiKey;
+	private String displayName;
 
 	ArrayList<InputEntityFields> fieldList = new ArrayList<>();
 	ArrayList<InputEntityButtons> buttonList = new ArrayList<>();
@@ -109,5 +110,13 @@ public class InputEntity {
 
 	public void setFetchApiKey(String fetchApiKey) {
 		this.fetchApiKey = fetchApiKey;
+	}
+	
+	public String getDisplayName() {
+		return displayName;
+	}
+
+	public void setDisplayName(String displayName) {
+		this.displayName = displayName;
 	}
 }
