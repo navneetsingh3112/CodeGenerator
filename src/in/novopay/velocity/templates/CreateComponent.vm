@@ -191,13 +191,13 @@
                                                     <div class="abc-radio">
                                                         <input type="radio" name="${field.lowerTrainCaseName}-grp"
                                                                id="${field.lowerTrainCaseName}-${element.text}"
-                                                               value="{{radioEntity.${field.lowerCamelCaseName}.options[$counter].value}}"
+                                                               value="{{radioEntity.${field.lowerCamelCaseName}.dataList[$counter].code}}"
                                                                [(ngModel)]="radioEntity.${field.lowerCamelCaseName}.value"
                                                             #if ($field.isMandatory)
                                                                required="true"
                                                             #end>
                                                         <label for="${field.lowerTrainCaseName}-${element.text}">
-                                                            {{radioEntity.${field.lowerCamelCaseName}.options[$counter].value}}
+                                                            {{radioEntity.${field.lowerCamelCaseName}.dataList[$counter].text}}
                                                         </label>
                                                     </div>
                                                     #set($counter = $counter + 1)
@@ -209,8 +209,8 @@
                                                    class="read-only-view-label col-form-label wrap-long-text">
                                                 #set($counter = 0)
                                                 #foreach ($element in $field.dataList)
-                                                    <i ng-switch-when="radioEntity.${field.lowerCamelCaseName}.options[$counter].code">
-                                                        radioEntity.${field.lowerCamelCaseName}.options[$counter].text</i>
+                                                    <a *ngSwitchCase="radioEntity.${field.lowerCamelCaseName}.dataList[$counter].code">
+                                                        {{radioEntity.${field.lowerCamelCaseName}.dataList[$counter].text}}</a>
                                                     #set($counter = $counter + 1)
                                                 #end
                                             </label>
