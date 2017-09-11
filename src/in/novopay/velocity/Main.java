@@ -176,8 +176,28 @@ public class Main {
 				f.setSearchable((Boolean) fobj.get("is_searchable"));
 				f.setSortable((Boolean) fobj.get("is_sortable"));
 				f.setEditable((Boolean) fobj.get("is_editable"));
+				if(null == fobj.get("master_data_type")) {
+					f.setMasterDataType("");
+				}else {
+					f.setMasterDataType((String)fobj.get("master_data_type"));
+				}
+				if(null == fobj.get("master_data_sub_type")) {
+					f.setMasterDataSubType("");
+				}else {
+					f.setMasterDataSubType((String)fobj.get("master_data_sub_type"));
+				}
+				if(null == fobj.get("is_code_included_in_display")) {
+					f.setIsCodeIncludedInDisplay(false);
+				}else {
+					f.setIsCodeIncludedInDisplay((Boolean)fobj.get("is_code_included_in_display"));
+				}
+				if(null == fobj.get("populate_from_master_data")) {
+					f.setPopulateFromMasterData(false);
+				}else {
+					f.setPopulateFromMasterData((Boolean)fobj.get("populate_from_master_data"));
+				}
 				JSONArray dataList = (JSONArray) fobj.get("data_list");
-                if(f.getWebType().equals("Radio")){
+                if(f.getWebType().equals("Radio") || f.getWebType().equals("Dropdown")){
                     if(dataList != null){
                         Iterator<JSONObject> dataListIterator = dataList.iterator();
                         while (dataListIterator.hasNext()) {

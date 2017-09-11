@@ -39,7 +39,8 @@ createComponentAPI: this.resourceFactoryConstants.constants.${entity.lowerCamelC
 listComponentUrl: '/app/${entity.lowerTrainCaseClassName}/list',
 entity: {
 #foreach ($field in $entity.fieldList)
-    #if (!$field.webType.equals('Radio'))
+    #if ($field.webType.equals('Texbox') || $field.webType.equals('Texarea')  
+    || $field.webType.equals('Date') || $field.webType.equals('Datetime'))
         ${field.lowerCamelCaseName}: {
     value: '',
     type: '${field.webType}',
@@ -60,6 +61,38 @@ radioEntity: {
         inputApi: "${field.inputApi}" },
         populateFromMasterData:  "${field.populateFromMasterData}",
         #end
+    dataList : [
+        #if ($!{field.dataList} )
+            #foreach ($element in $field.dataList)
+            {
+            "id": "${element.id}",
+            "code": "${element.code}",
+            "text": "${element.text}"
+            },
+            #end
+        ]
+        #end
+    },
+    #end
+#end
+
+dropdownEntity: {
+#foreach ($field in $entity.fieldList)
+    #if ($field.webType.equals('Dropdown'))
+        ${field.lowerCamelCaseName}: {
+    displayName: '${field.displayName}',
+    isValid: true,
+    selectedValue: '',
+    initialValues: [],
+    options: {
+                        placeholder: '${field.placeholder}'
+                    },
+    required: ${field.isMandatory},
+    populateFromMasterData: ${field.populateFromMasterData},
+    masterDataType: '${field.masterDataType}',
+    masterDataSubType: '${field.masterDataSubType}',
+    isCodeIncludedInDisplay: ${field.isCodeIncludedInDisplay},
+    apiKey: '${field.apiKey}',
     dataList : [
         #if ($!{field.dataList} )
             #foreach ($element in $field.dataList)

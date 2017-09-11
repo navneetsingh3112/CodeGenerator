@@ -96,13 +96,25 @@
 			"length": 256,
 			"is_mandatory": true,
 			"comment": "Type of heirarchy level",
-			"web_type": "Textbox",
+			"web_type": "Dropdown",
 			"placeholder": "eg. Administrative",
 			"display_name": "Type of Hierarchy Level",
 			"api_key": "heirarchy_level_type",
 			"is_searchable": true,
 			"is_sortable": true,
-			"is_editable": true
+			"is_editable": true,
+			"master_data_type": "address_type",
+			"data_list": [
+				{
+					"id": "0",
+					"code": "Y",
+					"text": "yes"
+				},{
+					"id": "1",
+					"code": "N",
+					"text": "no"
+				}
+			]
 		}
 	],
 	"table_indices": [

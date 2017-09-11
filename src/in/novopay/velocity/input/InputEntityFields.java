@@ -24,6 +24,7 @@ public class InputEntityFields {
 	private Boolean isEditable;
 	private String masterDataType;
 	private String masterDataSubType;
+	private Boolean isCodeIncludedInDisplay;
 	private String inputApi;
 	private Boolean populateFromMasterData;
 	private ArrayList<DataList> dataList = new ArrayList<>();
@@ -247,4 +248,14 @@ public class InputEntityFields {
 	public ArrayList<DataList> getDataList() {
 		return dataList;
 	}
+
+	public Boolean getIsCodeIncludedInDisplay() {
+		return isCodeIncludedInDisplay;
+	}
+
+	public void setIsCodeIncludedInDisplay(Boolean isCodeIncludedInDisplay) {
+		this.isCodeIncludedInDisplay = isCodeIncludedInDisplay;
+	}
+	
+	
 }
