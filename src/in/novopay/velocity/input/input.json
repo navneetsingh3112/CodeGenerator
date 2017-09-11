@@ -43,7 +43,7 @@
 			"length": 8,
 			"is_mandatory": true,
 			"comment": "Heirarchy level code",
-			"web_type": "Dropdown",
+			"web_type": "Radio",
 			"master_data_type": "GIS",
 			"master_data_sub_type": "ADMIN",
 			"is_code_included_in_display": true,
@@ -54,7 +54,8 @@
 			"api_key": "level_code",
 			"is_searchable": true,
 			"is_sortable": true,
-			"is_editable": true
+			"is_editable": true,
+			"input_api": "google.com"
 		},
 		{
 			"name": "description",
