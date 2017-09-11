@@ -1,47 +1,70 @@
-<!-- 
-	@author	:${entity.author}
- -->
-<Request name="createOrUpdate${entity.upperCamelCaseClassName}">
-	<Validators>
-		<Validator bean="mandatoryFieldValidator">
-#foreach ($field in $entity.fieldList)
-#if( ${field.isMandatory})
-#if( ${field.lowerCamelCaseName} != "createdOn" && ${field.lowerCamelCaseName} != "createdBy" && ${field.lowerCamelCaseName} != "updatedOn" && ${field.lowerCamelCaseName} != "updatedBy")
-			<IParam fieldName="${field.lowerSnakeCaseName}" errorCode="" defaultMessage="${field.lowerSnakeCaseName} is mandatory."/>
-#end
-#end	
-#end
-		</Validator>
-	</Validators>
-	<Processors>
-		<Control method="regExp" pattern="${function_sub_code}" condition="=" value="CREATE">
-			<Processor bean="create${entity.upperCamelCaseClassName}Processor" />
-		</Control>
-		<Control method="regExp" pattern="${function_sub_code}" condition="=" value="UPDATE">
-			<Processor bean="update${entity.upperCamelCaseClassName}Processor" />
-		</Control>
-	</Processors>
-</Request>
-
-<!-- 
-	@author	:${entity.author}
- -->
-<Request name="get${entity.upperCamelCaseClassName}Details">
-	<Validators>
-		<Validator bean = "mandatoryFieldValidator">
-			<IParam fieldName="id" errorCode="" defaultMessage="id is mandatory."/>
-		</Validator>
-	</Validators>
-	<Processors>
-		<Processor bean="get${entity.upperCamelCaseClassName}DetailsProcessor" />
-	</Processors>
-</Request>
-
-<!-- 
-	@author	:${entity.author}
- -->
-<Request name="get${entity.upperCamelCaseClassName}List">
-	<Processors>
-		<Processor bean="get${entity.upperCamelCaseClassName}ListProcessor" />
-	</Processors>
-</Request>
+	<!-- 
+		@author	:${entity.author}
+	 -->
+	<Request name="createOrUpdate${entity.upperCamelCaseClassName}">
+		<Validators>
+			<Validator bean="mandatoryFieldValidator">
+	#foreach ($field in $entity.fieldList)
+	#if( ${field.isMandatory})
+	#if( ${field.lowerCamelCaseName} != "createdOn" && ${field.lowerCamelCaseName} != "createdBy" && ${field.lowerCamelCaseName} != "updatedOn" && ${field.lowerCamelCaseName} != "updatedBy")
+				<IParam fieldName="${field.lowerSnakeCaseName}" errorCode="" defaultMessage="${field.lowerSnakeCaseName} is mandatory."/>
+	#end
+	#end	
+	#end
+			</Validator>
+		</Validators>
+		<Processors>
+			<Control method="regExp" pattern="${function_sub_code}" condition="=" value="CREATE">
+				<Processor bean="create${entity.upperCamelCaseClassName}Processor" />
+			</Control>
+			<Control method="regExp" pattern="${function_sub_code}" condition="=" value="UPDATE">
+				<Processor bean="update${entity.upperCamelCaseClassName}Processor" />
+			</Control>
+		</Processors>
+	</Request>
+	
+	<!-- 
+		@author	:${entity.author}
+	 -->
+	<Request name="get${entity.upperCamelCaseClassName}Details">
+		<Validators>
+			<Validator bean = "mandatoryFieldValidator">
+				<IParam fieldName="id" errorCode="" defaultMessage="id is mandatory."/>
+			</Validator>
+		</Validators>
+		<Processors>
+			<Processor bean="get${entity.upperCamelCaseClassName}DetailsProcessor" />
+		</Processors>
+	</Request>
+	
+	<!-- 
+		@author	:${entity.author}
+	 -->
+	<Request name="get${entity.upperCamelCaseClassName}List">
+		<Processors>
+			<Processor bean="get${entity.upperCamelCaseClassName}ListProcessor" />
+		</Processors>
+	</Request>
+	
+	
+	<!-- 
+		@author	:${entity.author}
+	 -->
+	<Request name="delete${entity.upperCamelCaseClassName}">
+		<Validators>
+			<Validator bean = "mandatoryFieldValidator">
+				<IParam fieldName="id" errorCode="" defaultMessage="id is mandatory."/>
+			</Validator>
+		</Validators>
+		<Processors>
+			<Processor bean="dummyProcessor">
+				<IParam fieldName="delete_mode" value="${entity.deleteMode}" />			
+			</Processor>
+			<Control  method="regExp" pattern="${delete_mode}" condition="=" value="LOGICAL">
+				<Processor bean="logicalDelete${entity.upperCamelCaseClassName}Processor" />
+			</Control>
+			<Control  method="regExp" pattern="${delete_mode}" condition="=" value="PHYSICAL">
+				<Processor bean="physicalDelete${entity.upperCamelCaseClassName}Processor" />
+			</Control>
+		</Processors>
+	</Request>

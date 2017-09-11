@@ -1,4 +1,4 @@
-package in.novopay.velocity.input;
+package in.novopay.codegenerator.input;
 
 import org.apache.commons.lang.StringUtils;
 

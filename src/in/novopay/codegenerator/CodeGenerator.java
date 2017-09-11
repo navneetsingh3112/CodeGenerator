@@ -1,4 +1,4 @@
-package in.novopay.velocity;
+package in.novopay.codegenerator;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -20,10 +20,10 @@ import org.json.simple.parser.ParseException;
 
 import com.google.common.base.CaseFormat;
 
-import in.novopay.velocity.input.InputEntity;
-import in.novopay.velocity.input.InputEntityFields;
+import in.novopay.codegenerator.input.InputEntity;
+import in.novopay.codegenerator.input.InputEntityFields;
 
-public class Main {
+public class CodeGenerator {
 
 	static String TEMPLATES_DIR = "";
 	static String OUTPUT_DIR = "";
@@ -44,25 +44,29 @@ public class Main {
 		String[] inputTemplateFileArray = { "entity.vm", "repo.vm", "dao.vm", "createprocessor.vm",
 				"updateprocessor.vm", "listprocessor.vm", "detailsprocessor.vm", "rowMapper.vm","CreateOrUpdateRequestjson.vm",
 				"GetPaginatedListRequestjson.vm", "GetDetailsRequestjson.vm", "CreateOrUpdateResponse.vm",
-				"GetDetailsResponsejson.vm", "GetPaginatedListResponsejson.vm", "orchestration.vm", "schema.vm" };
+				"GetDetailsResponsejson.vm", "GetPaginatedListResponsejson.vm", "orchestration.vm", "schema.vm",
+				"physicaldeleteprocessor.vm","DeleteRequestjson.vm","DeleteResponse.vm"};
 
-		String[] outputDir = { "in/novopay/" + entity.getService() + "/" + entity.getUserStory() + "/entity",
-				"in/novopay/" + entity.getService() + "/" + entity.getUserStory() + "/repository",
-				"in/novopay/" + entity.getService() + "/" + entity.getUserStory() + "/daoservice",
-				"in/novopay/" + entity.getService() + "/" + entity.getUserStory() + "/processor",
-				"in/novopay/" + entity.getService() + "/" + entity.getUserStory() + "/processor",
-				"in/novopay/" + entity.getService() + "/" + entity.getUserStory() + "/processor",
-				"in/novopay/" + entity.getService() + "/" + entity.getUserStory() + "/processor",
-				"in/novopay/" + entity.getService() + "/" + entity.getUserStory() + "/repository", "request", "request",
-				"request", "response", "response", "response", "orchestration","sql" };
+		String[] outputDir = { "javasrc/in/novopay/" + entity.getService() + "/" + entity.getUserStory() + "/entity",
+				"javasrc/in/novopay/" + entity.getService() + "/" + entity.getUserStory() + "/daoservice",
+				"javasrc/in/novopay/" + entity.getService() + "/" + entity.getUserStory() + "/daoservice",
+				"javasrc/in/novopay/" + entity.getService() + "/" + entity.getUserStory() + "/processor",
+				"javasrc/in/novopay/" + entity.getService() + "/" + entity.getUserStory() + "/processor",
+				"javasrc/in/novopay/" + entity.getService() + "/" + entity.getUserStory() + "/processor",
+				"javasrc/in/novopay/" + entity.getService() + "/" + entity.getUserStory() + "/processor",
+				"javasrc/in/novopay/" + entity.getService() + "/" + entity.getUserStory() + "/daoservice", "request", "request",
+				"request", "response", "response", "response", "orchestration","sql",
+				"javasrc/in/novopay/" + entity.getService() + "/" + entity.getUserStory() + "/processor",
+				"request","response"};
 
 		String[] outputFileExtentionPrefixArray = { "", "", "", "Create", "Update", "Get", "Get", "","createOrUpdate",
-				"get", "get", "createOrUpdate", "get", "get", "", "" };
+				"get", "get", "createOrUpdate", "get", "get", "", "V000XXX__","PhysicalDelete","delete","delete" };
 
 		String[] outputFileExtentionSuffixArray = { "Entity.java", "Repository.java", "DAOService.java",
 				"Processor.java", "Processor.java", "ListProcessor.java", "DetailsProcessor.java","RowMapper.java",
 				"_requestTemplate.json", "List_requestTemplate.json", "Details_requestTemplate.json",
-				"_responseTemplate.json", "Details_responseTemplate.json", "List_responseTemplate.json", ".xml",".sql" };
+				"_responseTemplate.json", "Details_responseTemplate.json", "List_responseTemplate.json", ".xml",".sql",
+				"Processor.java","_requestTemplate.json", "_responseTemplate.json"};
 
 		createOutputDirectories(outputDir);
 
@@ -160,6 +164,9 @@ public class Main {
 
 			String service = (String) jsonObject.get("service");
 			entity.setService(service);
+
+			String deleteMode = (String) jsonObject.get("delete_mode");
+			entity.setDeleteMode(deleteMode);
 
 			entity.setTableComment((String) jsonObject.get("table_comment"));
 

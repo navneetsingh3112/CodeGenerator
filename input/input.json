@@ -4,6 +4,7 @@
 	"service":"heirarchymanagement",
 	"table_comment" : "Heirarchy level information for various purposes spanning various departements",
 	"author":"Manoj",
+	"delete_mode":"PHYSICAL",
 	"fields": [
 		{
 			"name": "level_name",
@@ -16,8 +17,8 @@
 		},
 		{
 			"name": "level_code",
-			"java_type": "String",
-			"sql_type": "VARCHAR",
+			"java_type": "Integer",
+			"sql_type": "INT",
 			"max_length": 8,
 			"is_mandatory": true,
 			"is_searchable": true,
@@ -25,15 +26,15 @@
 		},
 		{
 			"name": "description",
-			"java_type": "String",
-			"sql_type": "VARCHAR",
-			"max_length": 256,
+			"java_type": "Long",
+			"sql_type": "BIGINT",
+			"max_length": 11,
 			"comment": "Heirarchy level description"
 		},
 		{
 			"name": "department_name",
-			"java_type": "String",
-			"sql_type": "VARCHAR",
+			"java_type": "Double",
+			"sql_type": "DECIMAL",
 			"max_length": 256,
 			"is_mandatory": true,
 			"is_searchable": true,
@@ -41,8 +42,17 @@
 		},
 		{
 			"name": "heirarchy_level_type",
-			"java_type": "String",
-			"sql_type": "VARCHAR",
+			"java_type": "Float",
+			"sql_type": "DECIMAL",
+			"max_length": 256,
+			"is_mandatory": true,
+			"is_searchable": true,
+			"comment": "Type of heirarchy level"
+		},
+		{
+			"name": "date",
+			"java_type": "Date",
+			"sql_type": "DATETIME",
 			"max_length": 256,
 			"is_mandatory": true,
 			"is_searchable": true,

@@ -1,4 +1,4 @@
-package in.novopay.${entity.service}.${entity.userStory}.repository;
+package in.novopay.${entity.service}.${entity.userStory}.daoservice;
 
 
 import in.novopay.${entity.service}.${entity.userStory}.entity.${entity.upperCamelCaseClassName}Entity;
@@ -12,9 +12,10 @@ import java.util.List;
  *
  */
 
-public interface ${entity.upperCamelCaseClassName}Repository extends JpaRepository<${entity.upperCamelCaseClassName}Entity, Integer> {
+interface ${entity.upperCamelCaseClassName}Repository extends JpaRepository<${entity.upperCamelCaseClassName}Entity, Integer> {
 
 	List<${entity.upperCamelCaseClassName}Entity> findAll();
 	${entity.upperCamelCaseClassName}Entity findOneById(Integer id);
-	
+	void delete(${entity.upperCamelCaseClassName}Entity entity);
+		
 }

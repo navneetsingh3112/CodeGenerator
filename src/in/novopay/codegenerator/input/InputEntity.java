@@ -1,4 +1,4 @@
-package in.novopay.velocity.input;
+package in.novopay.codegenerator.input;
 
 import java.util.ArrayList;
 
@@ -13,6 +13,7 @@ public class InputEntity {
 	private String userStory;
 	private String tableComment;
 	private String lowerSnakeCaseClassName;
+	private String deleteMode;
 	
 	ArrayList<InputEntityFields> fieldList = new ArrayList<>();
 
@@ -91,6 +92,14 @@ public class InputEntity {
 
 	public void setLowerSnakeCaseClassName(String lowerSnakeCaseClassName) {
 		this.lowerSnakeCaseClassName = lowerSnakeCaseClassName;
+	}
+
+	public String getDeleteMode() {
+		return deleteMode;
+	}
+
+	public void setDeleteMode(String deleteMode) {
+		this.deleteMode = deleteMode;
 	}
 
 }

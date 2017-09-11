@@ -1,0 +1,8 @@
+{
+	"delete${entity.upperCamelCaseClassName}": {
+		"id": {
+			"class": "SMPL",
+			"type": "String"
+		}
+	}
+}

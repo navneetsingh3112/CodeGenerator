@@ -17,7 +17,7 @@ import org.springframework.beans.factory.annotation.Autowired;
  */
 
 @Processor
-public class Get${entity.upperCamelCaseClassName}DetailsProcessor extends AbstractProcessor {
+public class PhysicalDelete${entity.upperCamelCaseClassName}Processor extends AbstractProcessor {
 
 	
 	@Autowired
@@ -34,18 +34,7 @@ public class Get${entity.upperCamelCaseClassName}DetailsProcessor extends Abstra
 		if(${entity.lowerCamelCaseClassName}Entity == null){
 			throw new NovopayNonFatalException("", "No records found");
 		}
-		populateResponseDetails(${entity.lowerCamelCaseClassName}Entity,executionContext);
+		${entity.lowerCamelCaseClassName}Service.delete${entity.upperCamelCaseClassName}Entity(${entity.lowerCamelCaseClassName}Entity);
 	}
 	
-	private void populateResponseDetails(${entity.upperCamelCaseClassName}Entity ${entity.lowerCamelCaseClassName}Entity,ExecutionContext executionContext){
-#foreach ($field in $entity.fieldList)
-#if( ${field.lowerCamelCaseName} != "createdOn" && ${field.lowerCamelCaseName} != "createdBy" && ${field.lowerCamelCaseName} != "updatedOn" && ${field.lowerCamelCaseName} != "updatedBy")
-#if( ${field.javaType} == "Date")
-		executionContext.put("${field.lowerSnakeCaseName}", ${entity.lowerCamelCaseClassName}Entity.get${field.upperCamelCaseName}() != null ? ""+${entity.lowerCamelCaseClassName}Entity.get${field.upperCamelCaseName}().getTime():""+${entity.lowerCamelCaseClassName}Entity.get${field.upperCamelCaseName}() );
-#else
-		executionContext.put("${field.lowerSnakeCaseName}", ""+${entity.lowerCamelCaseClassName}Entity.get${field.upperCamelCaseName}());
-#end		
-#end
-#end
-	}
 }	

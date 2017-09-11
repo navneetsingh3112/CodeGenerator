@@ -7,7 +7,10 @@ CREATE TABLE `${entity.table}` (
   `${field.name}` INT($field.getOrDefaultIntegerLength())$field.addNotNull()$field.addComment(),
 #elseif($StringUtils.equalsIgnoreCase(${field.sqlType}, "DATETIME"))
   `${field.name}` DATETIME$field.addNotNull()$field.addComment(),
-#else
+#elseif($StringUtils.equalsIgnoreCase(${field.sqlType}, "BIGINT" ))
+  `${field.name}` BIGINT($field.getOrDefaultIntegerLength())$field.addNotNull()$field.addComment(),
+#elseif($StringUtils.equalsIgnoreCase(${field.sqlType}, "DECIMAL" ))
+  `${field.name}` DECIMAL(20,6)$field.addNotNull()$field.addComment(),
 #end
 #end
   PRIMARY KEY (`id`)

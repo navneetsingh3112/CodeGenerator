@@ -1,4 +1,4 @@
-package in.novopay.${entity.service}.${entity.userStory}.repository;
+package in.novopay.${entity.service}.${entity.userStory}.daoservice;
 
 
 import in.novopay.infra.platform.exception.NovopayFatalException;
@@ -11,6 +11,8 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.List;
+import java.util.ArrayList;
 
 
 /***
@@ -33,7 +35,13 @@ public class ${entity.upperCamelCaseClassName}RowMapper extends AbstractRowMappe
 	}
 
 	public StringBuilder buildSearchCriteria(ExecutionContext executionContext, Map<String, Object> paramMap) {
-		return extractCriteriaKeyValue(paramMap, executionContext, "");
+		List<String> searchableKeyList = new ArrayList<>();
+#foreach ($field in $entity.fieldList)	
+#if($field.isSearchable)
+		searchableKeyList.add("${field.lowerSnakeCaseName}");
+#end
+#end
+		return extractCriteriaKeyValue(paramMap, executionContext,searchableKeyList);
 	}
 
 	public StringBuilder buildSortCriteria(JSONArray sortFields) throws NovopayFatalException {
@@ -75,11 +83,15 @@ public class ${entity.upperCamelCaseClassName}RowMapper extends AbstractRowMappe
 #foreach ($field in $entity.fieldList)
 #if( ${field.lowerCamelCaseName} != "createdOn" && ${field.lowerCamelCaseName} != "createdBy" && ${field.lowerCamelCaseName} != "updatedOn" && ${field.lowerCamelCaseName} != "updatedBy")
 #if( ${field.javaType} == "String")
-		dataMap.put("${field.lowerSnakeCaseName}", rs.getString("${field.lowerSnakeCaseName}"));
+		dataMap.put("${field.lowerSnakeCaseName}", ""+rs.getString("${field.lowerSnakeCaseName}"));
 #elseif( ${field.javaType} == "Integer")
-		dataMap.put("${field.lowerSnakeCaseName}", rs.getInt("${field.lowerSnakeCaseName}"));
-#elseif( ${field.javaType} == "Date")		
-		dataMap.put("${field.lowerSnakeCaseName}", rs.getDate("${field.lowerSnakeCaseName}"));
+		dataMap.put("${field.lowerSnakeCaseName}", ""+rs.getInt("${field.lowerSnakeCaseName}"));
+#elseif( ${field.javaType} == "Date")	
+		dataMap.put("${field.lowerSnakeCaseName}", rs.getDate("${field.lowerSnakeCaseName}") != null ? ""+rs.getDate("${field.lowerSnakeCaseName}").getTime() :""+rs.getDate("${field.lowerSnakeCaseName}"));
+#elseif( ${field.javaType} == "Long")
+		dataMap.put("${field.lowerSnakeCaseName}", ""+rs.getLong("${field.lowerSnakeCaseName}"));
+#elseif( ${field.javaType} == "Double" || ${field.javaType} == "Float")
+		dataMap.put("${field.lowerSnakeCaseName}", ""+rs.getBigDecimal("${field.lowerSnakeCaseName}"));
 #end
 #end
 #end		
