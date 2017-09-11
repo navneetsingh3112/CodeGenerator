@@ -8,6 +8,7 @@ import {App} from "../../app.component";
 import {AppConstants} from "../../app.constants";
 import {BaseComponent} from "../../base-module/create/base-create.component";
 import {BaseService} from "../../base-module/base.service";
+import {ResourceFactoryConstants} from "../../services/resource-factory.constants";
 
 declare var jQuery:any;
 
@@ -36,33 +37,102 @@ export class ${entity.upperCamelCaseClassName}EditComponent extends BaseComponen
                 private commonUtilityService:CommonUtilityService,
                 private baseService: BaseService,
                 private router:Router,
-                private route:ActivatedRoute) {
+                private route:ActivatedRoute,
+                protected resourceFactoryConstants:ResourceFactoryConstants) {
         super(location, mainApp, appConstants, commonHttpService, commonUtilityService,
-            baseService, router, route);
+            baseService, router, route, resourceFactoryConstants);
 
         this.componentIdRequestBodyKey = "${entity.fetchApiKey}";
         this.componentDetailsAPI = "http://192.168.150.18:8080/api-gateway/api/v1/get${entity.upperCamelCaseClassName}Details";
         this.componentDetailsResponseBodyKey = "${entity.table}_details";
 
         let componentProperty : ICreateComponentProperty = {
-            componentPermissionKey: 'EDIT_PERMISSION_KEY',
-            formHtmlId: 'product-scheme-edit-form',
-            createComponentAPI: 'http://192.168.150.18:8080/api-gateway/api/v1/createOrUpdate${entity.upperCamelCaseClassName}',
-            listComponentUrl: '/app/${entity.lowerTrainCaseClassName}/list',
-            entity: {
-            #foreach ($field in $entity.fieldList)
-                ${field.lowerCamelCaseName}: {
-                    value: '',
-                    type: '${field.webType}',
-                    apiKey: '${field.apiKey}'
-                },
+componentPermissionKey: 'PERMISSION_KEY',
+formHtmlId: '${entity.lowerTrainCaseClassName}-create-form',
+createComponentAPI: this.resourceFactoryConstants.constants.${entity.lowerCamelCaseClassName}.create,
+listComponentUrl: '/app/${entity.lowerTrainCaseClassName}/list',
+entity: {
+#foreach ($field in $entity.fieldList)
+    #if ($field.webType.equals('Textbox') || $field.webType.equals('Textarea')  
+    || $field.webType.equals('Date') || $field.webType.equals('Datetime'))
+        ${field.lowerCamelCaseName}: {
+    value: '',
+    type: '${field.webType}',
+    apiKey: '${field.apiKey}'
+    },
+    #end
+#end
+},
+radioEntity: {
+#foreach ($field in $entity.fieldList)
+    #if ($field.webType.equals('Radio'))
+        ${field.lowerCamelCaseName}: {
+    value: '',
+    groupName: '${field.lowerTrainCaseName}-grp',
+    apiKey: '${field.apiKey}',
+        #if ($field.dataList.equals([]) )
+        input: {
+        inputApi: "${field.inputApi}" },
+        populateFromMasterData:  "${field.populateFromMasterData}",
+        #end
+    dataList : [
+        #if ($!{field.dataList} )
+            #foreach ($element in $field.dataList)
+            {
+            "id": "${element.id}",
+            "code": "${element.code}",
+            "text": "${element.text}"
+            },
             #end
-            }
-        };
+        ]
+        #end
+    },
+    #end
+#end
+
+dropdownEntity: {
+#foreach ($field in $entity.fieldList)
+    #if ($field.webType.equals('Dropdown'))
+        ${field.lowerCamelCaseName}: {
+    displayName: '${field.displayName}',
+    isValid: true,
+    selectedValue: '',
+    initialValues: [],
+    options: {
+                        placeholder: '${field.placeholder}'
+                    },
+    required: ${field.isMandatory},
+    populateFromMasterData: ${field.populateFromMasterData},
+    masterDataType: '${field.masterDataType}',
+    masterDataSubType: '${field.masterDataSubType}',
+    isCodeIncludedInDisplay: ${field.isCodeIncludedInDisplay},
+    apiKey: '${field.apiKey}',
+    dataList : [
+        #if ($!{field.dataList} )
+            #foreach ($element in $field.dataList)
+            {
+            "id": "${element.id}",
+            "code": "${element.code}",
+            "text": "${element.text}"
+            },
+            #end
+        ]
+        #end
+    },
+    #end
+#end
+
+}};
         super.setComponentProperties(componentProperty);
     }
+    /***
+     * @Ovverride
+     */
     ngOnInit(): void {
-        super.ngOnInit();
+        this.checkComponentPermission();
+        this.reviewMode = false;
+        jQuery('.parsleyjs').parsley();
+        this.setTodayDate();
         this.populateComponentData();
     }
 
@@ -92,6 +162,43 @@ export class ${entity.upperCamelCaseClassName}EditComponent extends BaseComponen
                     this.entity[et].value = parsedResponse[item];
                 }
             }
+            for(let dropdown in this.dropDownList) {
+                if(this.dropDownList[dropdown].apiKey === item) {
+                    this.dropDownList[dropdown].selectedValue = parsedResponse[item];
+                    if(!this.dropDownList[dropdown].populateFromMasterData) {
+                        for(let dataElement of this.dropDownList[dropdown].dataList) {
+                            if(dataElement.code == this.dropDownList[dropdown].selectedValue) {
+                                this.dropDownList[dropdown].initialValues = [];
+                                this.dropDownList[dropdown].initialValues.push(dataElement.id);
+                            }
+                        }
+                    }
+                }
+            }
         }
+
+        this.populateAllDropdown();
+
+    }
+
+    /**
+     * @Override
+     * */
+    protected handlePopulateDropdownFromMasterData(response: any, key: string): void {
+        if(response.response_status.code != '000' || !response.codevalues){
+            return;
+        }
+
+        for(let element of response.codevalues){
+            this.dropDownList[key].dataList.push(this.parseDropdownInputElement(key,element));
+        }
+
+        for(let dataElement of this.dropDownList[key].dataList) {
+            if(dataElement.code == this.dropDownList[key].selectedValue) {
+                this.dropDownList[key].initialValues = [];
+                this.dropDownList[key].initialValues.push(dataElement.id);
+            }
+        }
+
     }
 }
