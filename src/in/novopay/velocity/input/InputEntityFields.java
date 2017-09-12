@@ -32,6 +32,7 @@ public class InputEntityFields {
 	private String inputApiIdKey;
 	private String inputApiCodeKey;
 	private String inputApiValueKey;
+	private Boolean isListElement;
 	private ArrayList<DataList> dataList = new ArrayList<>();
 	
 	public String getName() {
@@ -300,6 +301,14 @@ public class InputEntityFields {
 
 	public void setInputApiValueKey(String inputApiValueKey) {
 		this.inputApiValueKey = inputApiValueKey;
+	}
+
+	public Boolean getIsListElement() {
+		return isListElement;
+	}
+
+	public void setIsListElement(Boolean isListElement) {
+		this.isListElement = isListElement;
 	}
 	
 	

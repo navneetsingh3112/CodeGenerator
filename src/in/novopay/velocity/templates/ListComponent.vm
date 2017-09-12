@@ -21,7 +21,7 @@
                     #set($counter = 0)
                     #foreach ($field in $entity.fieldList)
                         <th *ngIf="showSearchBlocks">
-                        #if(${field.Searchable})
+                        #if(${field.Searchable} && $field.isListElement)
                             <div class="list-view-search-div">
                                 <div>
                                     <div class="input-group input-group-sm input-group-transparent input-group-rounded">
@@ -59,13 +59,15 @@
                     #set($counter = 0)
                 #foreach ($field in $entity.fieldList)
                 	<th>
-                    #if(${field.Sortable})
+                    #if(${field.Sortable} && ${field.isListElement})
                         <mfDefaultSorter (click)="sortFormData($counter)" by="${field.apiKey}1">{{'${entity.lowerTrainCaseClassName}-list-header-${field.lowerTrainCaseName}' | translate}}</mfDefaultSorter>
                     </th>
                     #else
+                    	#if(${field.isListElement})
                         <th>
                             {{'${entity.lowerTrainCaseClassName}-list-header-${field.lowerTrainCaseName}' | translate}}
                         </th>
+                        #end
                     #end
                     #set($counter = $counter+1)
                     #end

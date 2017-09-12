@@ -42,47 +42,26 @@ public class Main {
 		// -----------------------------------
 		// --------------TODO-----------------
 		// -----------------------------------
-		String[] inputTemplateFileArray = { 
-				"CreateComponent.vm",
-				"CreateTypeScript.vm",
-				"ListComponent.vm",
-				"ListTypeScript.vm",
-				"ViewComponent.vm",
-				"ViewTypeScript.vm",
-				"EditComponent.vm",
-				"EditTypeScript.vm",
-				"Module.vm",
-				"Translate.vm",
-				"ResourceFactoryConstants.vm"};
+		String[] inputTemplateFileArray = { "CreateComponent.vm", "CreateTypeScript.vm", "ListComponent.vm",
+				"ListTypeScript.vm", "ViewComponent.vm", "ViewTypeScript.vm", "EditComponent.vm", "EditTypeScript.vm",
+				"Module.vm", "Translate.vm", "ResourceFactoryConstants.vm" };
 
-		String[] outputDir = { 
-				"app/" + entity.getLowerTrainCaseClassName() + "/create",
+		String[] outputDir = { "app/" + entity.getLowerTrainCaseClassName() + "/create",
 				"app/" + entity.getLowerTrainCaseClassName() + "/create",
 				"app/" + entity.getLowerTrainCaseClassName() + "/list",
 				"app/" + entity.getLowerTrainCaseClassName() + "/list",
 				"app/" + entity.getLowerTrainCaseClassName() + "/view",
 				"app/" + entity.getLowerTrainCaseClassName() + "/view",
 				"app/" + entity.getLowerTrainCaseClassName() + "/edit",
-				"app/" + entity.getLowerTrainCaseClassName() + "/edit",
-				"app/" + entity.getLowerTrainCaseClassName(),
-				"app/" + entity.getLowerTrainCaseClassName(),
-				"app/" + entity.getLowerTrainCaseClassName()};
+				"app/" + entity.getLowerTrainCaseClassName() + "/edit", "app/" + entity.getLowerTrainCaseClassName(),
+				"app/" + entity.getLowerTrainCaseClassName(), "app/" + entity.getLowerTrainCaseClassName() };
 
-		String[] outputFileExtentionArray = { 
-				"-create.component.html",
-				"-create.component.ts",
-				"-list.component.html",
-				"-list.component.ts",
-				"-view.component.html",
-				"-view.component.ts",
-				"-edit.component.html",
-				"-edit.component.ts",
-				".module.ts",
-				".translate.ts",
-				"-resource-factory.constants.ts"};
+		String[] outputFileExtentionArray = { "-create.component.html", "-create.component.ts", "-list.component.html",
+				"-list.component.ts", "-view.component.html", "-view.component.ts", "-edit.component.html",
+				"-edit.component.ts", ".module.ts", ".translate.ts", "-resource-factory.constants.ts" };
 		// -----------------------------------
 		// -----------------------------------
-		
+
 		createOutputDirectories(outputDir);
 
 		if (inputTemplateFileArray.length == outputDir.length
@@ -93,8 +72,8 @@ public class Main {
 				StringWriter writer = new StringWriter();
 				t.merge(context, writer);
 				System.out.println(writer);
-				PrintWriter pw = new PrintWriter(
-						OUTPUT_DIR + "/" + outputDir[i] + "/" + entity.getLowerTrainCaseClassName() + outputFileExtentionArray[i]);
+				PrintWriter pw = new PrintWriter(OUTPUT_DIR + "/" + outputDir[i] + "/"
+						+ entity.getLowerTrainCaseClassName() + outputFileExtentionArray[i]);
 				pw.print(writer.toString());
 				pw.close();
 			}
@@ -130,16 +109,16 @@ public class Main {
 
 			String author = (String) jsonObject.get("author");
 			entity.setAuthor(author);
-			
+
 			String userStory = (String) jsonObject.get("userStory");
 			entity.setUserStory(userStory);
 
 			String service = (String) jsonObject.get("service");
 			entity.setService(service);
-			
+
 			entity.setTableComment((String) jsonObject.get("table_comment"));
 			entity.setFetchApiKey((String) jsonObject.get("fetch_api_key"));
-			entity.setDisplayName((String)jsonObject.get("display_name"));
+			entity.setDisplayName((String) jsonObject.get("display_name"));
 
 			JSONArray fields = (JSONArray) jsonObject.get("fields");
 			Iterator<JSONObject> iterator = fields.iterator();
@@ -156,26 +135,30 @@ public class Main {
 				f.setJavaType((String) fobj.get("java_type"));
 				f.setWebType((String) fobj.get("web_type"));
 				f.setSqlType((String) fobj.get("sql_type"));
-				
-				if(null==fobj.get("input_api")) {
+
+				if (null == fobj.get("input_api")) {
 					f.setInputApi("");
-				}else {
+				} else {
 					f.setInputApi((String) fobj.get("input_api"));
 				}
-				
-				if(null==fobj.get("input_api_list_key")) {
+
+				if (null == fobj.get("input_api_list_key")) {
 					f.setInputApiListKey("");
-				}else {
+				} else {
 					f.setInputApiListKey((String) fobj.get("input_api_list_key"));
 				}
 				
-				
-				
+				if (null == fobj.get("is_list_element")) {
+					f.setIsListElement(false);
+				} else {
+					f.setIsListElement((Boolean) fobj.get("is_list_element"));
+				}
+
 				f.setInputApiDetailsKey((String) fobj.get("input_api_details_key"));
 				f.setInputApiIdKey((String) fobj.get("input_api_id_key"));
 				f.setInputApiCodeKey((String) fobj.get("input_api_code_key"));
 				f.setInputApiValueKey((String) fobj.get("input_api_value_key"));
-				
+
 				Long length = (Long) fobj.get("length");
 				if (length != null) {
 					f.setLength(length.intValue());
@@ -197,50 +180,51 @@ public class Main {
 				f.setSearchable((Boolean) fobj.get("is_searchable"));
 				f.setSortable((Boolean) fobj.get("is_sortable"));
 				f.setEditable((Boolean) fobj.get("is_editable"));
-				if(null == fobj.get("master_data_type")) {
+				if (null == fobj.get("master_data_type")) {
 					f.setMasterDataType("");
-				}else {
-					f.setMasterDataType((String)fobj.get("master_data_type"));
+				} else {
+					f.setMasterDataType((String) fobj.get("master_data_type"));
 				}
-				if(null == fobj.get("master_data_sub_type")) {
+				if (null == fobj.get("master_data_sub_type")) {
 					f.setMasterDataSubType("");
-				}else {
-					f.setMasterDataSubType((String)fobj.get("master_data_sub_type"));
+				} else {
+					f.setMasterDataSubType((String) fobj.get("master_data_sub_type"));
 				}
-				if(null == fobj.get("is_code_included_in_display")) {
+				if (null == fobj.get("is_code_included_in_display")) {
 					f.setIsCodeIncludedInDisplay(false);
-				}else {
-					f.setIsCodeIncludedInDisplay((Boolean)fobj.get("is_code_included_in_display"));
+				} else {
+					f.setIsCodeIncludedInDisplay((Boolean) fobj.get("is_code_included_in_display"));
 				}
-				if(null == fobj.get("populate_from_master_data")) {
+				if (null == fobj.get("populate_from_master_data")) {
 					f.setPopulateFromMasterData(false);
-				}else {
-					f.setPopulateFromMasterData((Boolean)fobj.get("populate_from_master_data"));
+				} else {
+					f.setPopulateFromMasterData((Boolean) fobj.get("populate_from_master_data"));
 				}
 				JSONArray dataList = (JSONArray) fobj.get("data_list");
-                if(f.getWebType().equals("Radio") || f.getWebType().equals("Dropdown")){
-                    if(dataList != null){
-                        Iterator<JSONObject> dataListIterator = dataList.iterator();
-                        while (dataListIterator.hasNext()) {
-                            DataList dataListJson = new DataList();
-                            JSONObject dataListObj = dataListIterator.next();
-                            dataListJson.setId((String) dataListObj.get("id"));
-                            dataListJson.setCode((String) dataListObj.get("code"));
-                            dataListJson.setText((String) dataListObj.get("text"));
-                            f.addFields(dataListJson);
-                        };
+				if (f.getWebType().equals("Radio") || f.getWebType().equals("Dropdown")) {
+					if (dataList != null) {
+						Iterator<JSONObject> dataListIterator = dataList.iterator();
+						while (dataListIterator.hasNext()) {
+							DataList dataListJson = new DataList();
+							JSONObject dataListObj = dataListIterator.next();
+							dataListJson.setId((String) dataListObj.get("id"));
+							dataListJson.setCode((String) dataListObj.get("code"));
+							dataListJson.setText((String) dataListObj.get("text"));
+							f.addFields(dataListJson);
+						}
+						;
 
-                    } else{
-                        f.setMasterDataType((String) fobj.get("master_data_type"));
-						if((String) fobj.get("master_data_sub_type") !=null) {
+					} else {
+						f.setMasterDataType((String) fobj.get("master_data_type"));
+						if ((String) fobj.get("master_data_sub_type") != null) {
 							f.setMasterDataSubType((String) fobj.get("master_data_sub_type"));
-						}else {
+						} else {
 							f.setMasterDataSubType(null);
 						}
-                        f.setInputApi((String) fobj.get("input_api"));
-                        f.setPopulateFromMasterData((Boolean) fobj.get("populate_from_master_data"));
-                    }
-                }
+						f.setInputApi((String) fobj.get("input_api"));
+						f.setPopulateFromMasterData((Boolean) fobj.get("populate_from_master_data"));
+					}
+				}
 				entity.addFields(f);
 			}
 

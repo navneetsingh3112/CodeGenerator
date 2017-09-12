@@ -53,8 +53,7 @@ createComponentAPI: this.resourceFactoryConstants.constants.${entity.lowerCamelC
 listComponentUrl: '/app/${entity.lowerTrainCaseClassName}/list',
 entity: {
 #foreach ($field in $entity.fieldList)
-    #if ($field.webType.equals('Textbox') || $field.webType.equals('Textarea')
-    || $field.webType.equals('Date') || $field.webType.equals('Datetime'))
+    #if ($field.webType.equals('Textbox') || $field.webType.equals('Textarea')  || $field.webType.equals('Date') || $field.webType.equals('Datetime'))
         ${field.lowerCamelCaseName}: {
     value: '',
     type: '${field.webType}',
@@ -71,18 +70,10 @@ radioEntity: {
     value: '',
     groupName: '${field.lowerTrainCaseName}-grp',
     apiKey: '${field.apiKey}',
-        #if (${field.populateFromMasterData})
-        populateFromMasterData: ${field.populateFromMasterData},
-        #end
-        #if (${field.masterDataType})
-        masterDataType: '${field.masterDataType}',
-        #end
-        #if (${field.masterDataSubType})
-        masterDataSubType: '${field.masterDataSubType}',
-        #end
-        #if (${field.isCodeIncludedInDisplay})
-        isCodeIncludedInDisplay: ${field.isCodeIncludedInDisplay},
-        #end
+    populateFromMasterData: ${field.populateFromMasterData},
+    masterDataType: '${field.masterDataType}',
+    masterDataSubType: null,
+    isCodeIncludedInDisplay: ${field.isCodeIncludedInDisplay},
         #if ($field.dataList.equals([]) )
         input: {
         inputApi: "${field.inputApi}" },
@@ -110,22 +101,44 @@ dropdownEntity: {
     isValid: true,
     selectedValue: '',
     initialValues: [],
+    ready: false,
     options: {
-    placeholder: '${field.placeholder}'
-    },
+                        placeholder: '${field.placeholder}'
+                    },
     required: ${field.isMandatory},
-        #if (${field.populateFromMasterData})
-        populateFromMasterData: ${field.populateFromMasterData},
-        #end
-        #if (${field.masterDataType})
-        masterDataType: '${field.masterDataType}',
-        #end
-        #if (${field.masterDataSubType})
-        masterDataSubType: '${field.masterDataSubType}',
-        #end
-        #if (${field.isCodeIncludedInDisplay})
-        isCodeIncludedInDisplay: ${field.isCodeIncludedInDisplay},
-        #end
+    #if (${field.populateFromMasterData})
+    	populateFromMasterData: ${field.populateFromMasterData},
+    #end
+    #if (${field.masterDataType})
+    	masterDataType: '${field.masterDataType}',
+    #end
+    #if (${field.masterDataSubType})
+    	masterDataSubType: '${field.masterDataSubType}',
+    #end
+    #if (${field.isCodeIncludedInDisplay})
+    	isCodeIncludedInDisplay: ${field.isCodeIncludedInDisplay},
+    #end
+    #if (${field.isCodeIncludedInDisplay})
+    	isCodeIncludedInDisplay: ${field.isCodeIncludedInDisplay},
+    #end
+    #if (${field.inputApi})
+    	inputApi: "${field.inputApi}",
+    #end
+    #if (${field.inputApiListKey})
+    	inputApiListKey: "${field.inputApiListKey}",
+    #end
+    #if (${field.inputApiDetailsKey})
+    	inputApiDetailsKey: "${field.inputApiDetailsKey}",
+    #end
+    #if (${field.inputApiIdKey})
+    	inputApiIdKey: "${field.inputApiIdKey}",
+    #end
+    #if (${field.inputApiCodeKey})
+    	inputApiCodeKey: "${field.inputApiCodeKey}",
+    #end
+    #if (${field.inputApiValueKey})
+    	inputApiValueKey: "${field.inputApiValueKey}",
+    #end
     apiKey: '${field.apiKey}',
     dataList : [
         #if ($!{field.dataList} )
@@ -141,11 +154,133 @@ dropdownEntity: {
     },
     #end
 #end
-
 }};
 super.setComponentProperties(componentProperty);
 }
-ngOnInit(): void {
-super.ngOnInit();
-}
+ /***
+     * @Ovverride
+     */
+    ngOnInit():void {
+        this.checkComponentPermission();
+        this.reviewMode = false;
+        jQuery('.parsleyjs').parsley();
+        this.setTodayDate();
+        this.populateComponentData();
+    }
+
+    /**
+     * Create request body and make API call to populate component data
+     * */
+    protected populateComponentData():void {
+        let componentId = this.route.snapshot.params['id'];
+
+        let request = {};
+        request[this.componentIdRequestBodyKey] = componentId.toString();
+
+        this.busy = this.baseService.getComponentData(request, this.componentDetailsAPI)
+            .then(resp => this.handleGetComponentData(resp));
+    }
+
+    protected handleGetComponentData(response:any):void {
+        if (response.response_status.code !== '000' || !response[this.componentDetailsResponseBodyKey]) {
+            return;
+        }
+
+        let parsedResponse = response[this.componentDetailsResponseBodyKey];
+
+        for (let item in parsedResponse) {
+            for (let et in this.entity) {
+                console.log(this.entity[et]);
+                if (this.entity[et].apiKey === item) {
+                    this.entity[et].value = parsedResponse[item];
+                }
+            }
+
+            for(let dropdown in this.dropDownList) {
+                if (this.dropDownList[dropdown].apiKey === item) {
+                    this.dropDownList[dropdown].selectedValue = parsedResponse[item];
+                }
+            }
+
+            for(let radio in this.radioList) {
+                if (this.radioList[radio].apiKey === item) {
+                    this.radioList[radio].value = parsedResponse[item];
+                }
+            }
+
+        }
+
+        for(let dropdown in this.dropDownList) {
+            if(!this.dropDownList[dropdown].populateFromMasterData &&
+                this.dropDownList[dropdown].dataList.length > 0) {
+                let id = null;
+                for (let dataElement of this.dropDownList[dropdown].dataList) {
+                    if(dataElement.code == this.dropDownList[dropdown].selectedValue) {
+                        console.log(dataElement);
+                        id = dataElement.id;
+                    }
+                }
+
+                if(id!=null) {
+                    this.dropDownList[dropdown].initialValues = [];
+                    this.dropDownList[dropdown].initialValues.push(id);
+                }
+                this.dropDownList[dropdown].ready = true;
+            }
+        }
+
+        this.populateAllDropdown();
+        this.populateAllRadio();
+    }
+
+    /**
+     * @Override
+     * */
+    protected handlePopulateDropdownFromMasterData(response:any, key:string):void {
+        if (response.response_status.code != '000' || !response.codevalues) {
+            return;
+        }
+
+        for (let element of response.codevalues) {
+            this.dropDownList[key].dataList.push(this.parseDropdownInputElement(key, element));
+        }
+
+        for (let dataElement of this.dropDownList[key].dataList) {
+            if (dataElement.code == this.dropDownList[key].selectedValue) {
+                this.dropDownList[key].initialValues = [];
+                this.dropDownList[key].initialValues.push(dataElement.id);
+                this.dropDownList[key].ready = true;
+            }
+        }
+
+    }
+
+    /**
+     * @Override
+     * */
+    protected handlePopulateDropdownFromApi(response:any, key:string):void {
+        let listKey = this.dropDownList[key].inputApiListKey;
+        let detailsKey = this.dropDownList[key].inputApiDetailsKey;
+        if (response.response_status.code != '000' || !response[listKey]) {
+            return;
+        }
+
+        for (let listElement of response[listKey]) {
+            let element = listElement[detailsKey];
+            this.dropDownList[key].dataList.push({
+                id: element[this.dropDownList[key].inputApiIdKey],
+                code: element[this.dropDownList[key].inputApiCodeKey],
+                text: element[this.dropDownList[key].inputApiValueKey]
+            });
+        }
+
+        for (let dataElement of this.dropDownList[key].dataList) {
+            if (dataElement.code == this.dropDownList[key].selectedValue) {
+                this.dropDownList[key].initialValues = [];
+                this.dropDownList[key].initialValues.push(dataElement.id);
+                this.dropDownList[key].ready = true;
+            }
+        }
+    }
+
 }

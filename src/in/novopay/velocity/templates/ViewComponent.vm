@@ -14,7 +14,11 @@
                             #foreach ($field in $entity.fieldList)
                             <div class="form-group row">
                                 <label for="${entity.lowerTrainCaseClassName}-${field.lowerTrainCaseName}"
-                                       class="col-md-4  col-form-label text-md-right">{{entity.${field.lowerCamelCaseName}.displayName}}</label>
+                                       class="col-md-4  col-form-label text-md-right">{{entity.${field.lowerCamelCaseName}.displayName}}
+                                       #if ($field.isMandatory)
+                                                *
+                                            #end
+                                       </label>
                                 <div class="col-md-8 ">
                                     <label for="${entity.lowerTrainCaseClassName}-${field.lowerTrainCaseName}"
                                            title="{{entity.${field.lowerCamelCaseName}.value}}"

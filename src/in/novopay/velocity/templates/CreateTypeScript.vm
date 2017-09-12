@@ -101,24 +101,39 @@ dropdownEntity: {
     placeholder: '${field.placeholder}'
     },
     required: ${field.isMandatory},
-        #if (${field.populateFromMasterData})
-        populateFromMasterData: ${field.populateFromMasterData},
-        #end
-        #if (${field.masterDataType})
-        masterDataType: '${field.masterDataType}',
-        #end
-        #if (${field.masterDataSubType})
-        masterDataSubType: '${field.masterDataSubType}',
-        #end
-        #if (${field.isCodeIncludedInDisplay})
-        isCodeIncludedInDisplay: ${field.isCodeIncludedInDisplay},
-        #end
-    inputApi: "${field.inputApi}",
-    inputApiListKey: "${field.inputApiListKey}",
-    inputApiDetailsKey: "${field.inputApiDetailsKey}",
-    inputApiIdKey: "${field.inputApiIdKey}",
-    inputApiCodeKey: "${field.inputApiCodeKey}",
-    inputApiValueKey: "${field.inputApiValueKey}",
+     #if (${field.populateFromMasterData})
+    	populateFromMasterData: ${field.populateFromMasterData},
+    #end
+    #if (${field.masterDataType})
+    	masterDataType: '${field.masterDataType}',
+    #end
+    #if (${field.masterDataSubType})
+    	masterDataSubType: '${field.masterDataSubType}',
+    #end
+    #if (${field.isCodeIncludedInDisplay})
+    	isCodeIncludedInDisplay: ${field.isCodeIncludedInDisplay},
+    #end
+    #if (${field.isCodeIncludedInDisplay})
+    	isCodeIncludedInDisplay: ${field.isCodeIncludedInDisplay},
+    #end
+    #if (${field.inputApi})
+    	inputApi: "${field.inputApi}",
+    #end
+    #if (${field.inputApiListKey})
+    	inputApiListKey: "${field.inputApiListKey}",
+    #end
+    #if (${field.inputApiDetailsKey})
+    	inputApiDetailsKey: "${field.inputApiDetailsKey}",
+    #end
+    #if (${field.inputApiIdKey})
+    	inputApiIdKey: "${field.inputApiIdKey}",
+    #end
+    #if (${field.inputApiCodeKey})
+    	inputApiCodeKey: "${field.inputApiCodeKey}",
+    #end
+    #if (${field.inputApiValueKey})
+    	inputApiValueKey: "${field.inputApiValueKey}",
+    #end
     apiKey: '${field.apiKey}',
     dataList : [
         #if ($!{field.dataList} )

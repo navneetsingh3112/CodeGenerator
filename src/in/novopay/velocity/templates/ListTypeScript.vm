@@ -33,6 +33,7 @@ export class ${entity.upperCamelCaseClassName}ListComponent extends BaseListComp
         let searchModel = [
         #set($counter=1)
         #foreach ($field in $entity.fieldList)
+            #if($field.isListElement)
             {
                 id: '${counter}',
                 type: '${field.lowerCamelCaseName}',
@@ -43,6 +44,7 @@ export class ${entity.upperCamelCaseClassName}ListComponent extends BaseListComp
                 isSorted: false,
                 currentSortingOrder: 'DESC'
             },
+            #end
             #set($counter=$counter+1)
           #end
         ];
