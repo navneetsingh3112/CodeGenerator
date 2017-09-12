@@ -25,10 +25,12 @@
 					},
 #foreach ($field in $entity.fieldList)
 #if( ${field.lowerCamelCaseName} != "createdOn" && ${field.lowerCamelCaseName} != "createdBy" && ${field.lowerCamelCaseName} != "updatedOn" && ${field.lowerCamelCaseName} != "updatedBy")
+#if( $field.isListElement)
 					"${field.lowerSnakeCaseName}": {
 						"class": "SMPL",
 						"type": "String"
 					},
+#end
 #end
 #end			
 				}

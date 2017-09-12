@@ -10,6 +10,7 @@ import java.util.Iterator;
 import java.util.Properties;
 
 import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang.math.NumberUtils;
 import org.apache.velocity.Template;
 import org.apache.velocity.VelocityContext;
 import org.apache.velocity.app.VelocityEngine;
@@ -36,6 +37,7 @@ public class CodeGenerator {
 		InputEntity entity = getEntity();
 		context.put("entity", entity);
 		context.put("StringUtils", new StringUtils());
+		context.put("NumberUtils", new NumberUtils());
 		VelocityEngine velocityEngine = new VelocityEngine();
 		Properties velocityProperties = new Properties();
 		velocityProperties.setProperty("file.resource.loader.path", TEMPLATES_DIR);
@@ -45,7 +47,7 @@ public class CodeGenerator {
 				"updateprocessor.vm", "listprocessor.vm", "detailsprocessor.vm", "rowMapper.vm","CreateOrUpdateRequestjson.vm",
 				"GetPaginatedListRequestjson.vm", "GetDetailsRequestjson.vm", "CreateOrUpdateResponse.vm",
 				"GetDetailsResponsejson.vm", "GetPaginatedListResponsejson.vm", "orchestration.vm", "schema.vm",
-				"physicaldeleteprocessor.vm","DeleteRequestjson.vm","DeleteResponse.vm"};
+				"physicaldeleteprocessor.vm","logicaldeleteprocessor.vm","DeleteRequestjson.vm","DeleteResponse.vm"};
 
 		String[] outputDir = { "javasrc/in/novopay/" + entity.getService() + "/" + entity.getUserStory() + "/entity",
 				"javasrc/in/novopay/" + entity.getService() + "/" + entity.getUserStory() + "/daoservice",
@@ -57,16 +59,17 @@ public class CodeGenerator {
 				"javasrc/in/novopay/" + entity.getService() + "/" + entity.getUserStory() + "/daoservice", "request", "request",
 				"request", "response", "response", "response", "orchestration","sql",
 				"javasrc/in/novopay/" + entity.getService() + "/" + entity.getUserStory() + "/processor",
+				"javasrc/in/novopay/" + entity.getService() + "/" + entity.getUserStory() + "/processor",
 				"request","response"};
 
 		String[] outputFileExtentionPrefixArray = { "", "", "", "Create", "Update", "Get", "Get", "","createOrUpdate",
-				"get", "get", "createOrUpdate", "get", "get", "", "V000XXX__","PhysicalDelete","delete","delete" };
+				"get", "get", "createOrUpdate", "get", "get", "", "V000XXX__","PhysicalDelete","LogicalDelete","delete","delete" };
 
 		String[] outputFileExtentionSuffixArray = { "Entity.java", "Repository.java", "DAOService.java",
 				"Processor.java", "Processor.java", "ListProcessor.java", "DetailsProcessor.java","RowMapper.java",
 				"_requestTemplate.json", "List_requestTemplate.json", "Details_requestTemplate.json",
 				"_responseTemplate.json", "Details_responseTemplate.json", "List_responseTemplate.json", ".xml",".sql",
-				"Processor.java","_requestTemplate.json", "_responseTemplate.json"};
+				"Processor.java","Processor.java","_requestTemplate.json", "_responseTemplate.json"};
 
 		createOutputDirectories(outputDir);
 
@@ -74,6 +77,11 @@ public class CodeGenerator {
 				&& inputTemplateFileArray.length == outputFileExtentionSuffixArray.length) {
 
 			for (int i = 0; i < inputTemplateFileArray.length; i++) {
+				if ("PHYSICAL".equalsIgnoreCase(entity.getDeleteMode())  && "LogicalDelete".equalsIgnoreCase(outputFileExtentionPrefixArray[i])) {
+					continue;
+				} else if ("LOGICAL".equalsIgnoreCase(entity.getDeleteMode())  && "PhysicalDelete".equalsIgnoreCase(outputFileExtentionPrefixArray[i])) {
+					continue;
+				}
 				Template t = velocityEngine.getTemplate(inputTemplateFileArray[i]);
 				StringWriter writer = new StringWriter();
 				t.merge(context, writer);
@@ -200,6 +208,18 @@ public class CodeGenerator {
 					f.setIsSearchable(isSearchable);
 				} else {
 					f.setIsSearchable(false);
+				}
+				Long minLength = (Long) fobj.get("min_length");
+				if (minLength != null) {
+					f.setMinLength(minLength.intValue());
+				}
+				f.setPattern((String) fobj.get("pattern"));
+
+				Boolean isListElement = (Boolean) fobj.get("is_list_element");
+				if (isListElement != null) {
+					f.setIsListElement(isListElement);
+				} else {
+					f.setIsListElement(false);
 				}
 				entity.addFields(f);
 			}

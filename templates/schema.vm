@@ -1,5 +1,8 @@
 CREATE TABLE `${entity.table}` (
   `id` INT(11) NOT NULL AUTO_INCREMENT COMMENT 'Auto generated unique identifier. Will be the primary key of the table.',
+#if( $StringUtils.equalsIgnoreCase(${entity.deleteMode}, "LOGICAL"))
+  `is_deleted` TINYINT(1) COMMENT 'flag for deleted records',
+#end
 #foreach ($field in $entity.fieldList)
 #if($StringUtils.equalsIgnoreCase(${field.sqlType}, "VARCHAR"))
   `${field.name}` VARCHAR($field.getOrDefaultStringLength())$field.addNotNull()$field.addComment(),

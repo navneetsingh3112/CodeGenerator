@@ -1,62 +1,88 @@
 {
-	"table":"heirarchy_level",
-	"userStory":"heirarchylevel",
-	"service":"heirarchymanagement",
-	"table_comment" : "Heirarchy level information for various purposes spanning various departements",
-	"author":"Manoj",
-	"delete_mode":"PHYSICAL",
+	"table": "general_ledger",
+	"userStory": "generalledger",
+	"service": "heirarchymanagement",
+	"table_comment": "Heirarchy level information for various purposes spanning various departements",
+	"author": "Manoj",
+	"delete_mode": "LOGICAL",
 	"fields": [
 		{
-			"name": "level_name",
+			"name": "gl_code",
 			"java_type": "String",
 			"sql_type": "VARCHAR",
-			"max_length": 16,
-			"is_mandatory": true,
-			"is_searchable": true,
-			"comment": "Name of heirarchy level"
-		},
-		{
-			"name": "level_code",
-			"java_type": "Integer",
-			"sql_type": "INT",
+			"pattern": "^[a-zA-Z0-9_]*$",
+			"min_length": 2,
 			"max_length": 8,
 			"is_mandatory": true,
 			"is_searchable": true,
-			"comment": "Heirarchy level code"
+			"is_sortable": true,
+			"is_list_element":true,
+			"comment": "code"
+		},
+		{
+			"name": "name",
+			"java_type": "String",
+			"sql_type": "VARCHAR",
+			"max_length": 32,
+			"is_mandatory": true,
+			"is_searchable": true,
+			"is_sortable": true,
+			"is_list_element":true,
+			"comment": "name"
 		},
 		{
 			"name": "description",
-			"java_type": "Long",
-			"sql_type": "BIGINT",
-			"max_length": 11,
-			"comment": "Heirarchy level description"
-		},
-		{
-			"name": "department_name",
-			"java_type": "Double",
-			"sql_type": "DECIMAL",
+			"java_type": "String",
+			"sql_type": "VARCHAR",
 			"max_length": 256,
 			"is_mandatory": true,
-			"is_searchable": true,
-			"comment": "Heirarchy level department name"
+			"is_list_element":true,
+			"is_sortable": true,
+			"comment": "description"
 		},
 		{
-			"name": "heirarchy_level_type",
-			"java_type": "Float",
-			"sql_type": "DECIMAL",
-			"max_length": 256,
-			"is_mandatory": true,
-			"is_searchable": true,
-			"comment": "Type of heirarchy level"
+			"name": "external_reference_number",
+			"java_type": "String",
+			"sql_type": "VARCHAR",
+			"max_length": 8,
+			"is_list_element":true,
+			"comment": "external reference number"
 		},
 		{
-			"name": "date",
-			"java_type": "Date",
-			"sql_type": "DATETIME",
-			"max_length": 256,
+			"name": "category",
+			"java_type": "String",
+			"sql_type": "VARCHAR",
+			"max_length": 32,
 			"is_mandatory": true,
 			"is_searchable": true,
-			"comment": "Type of heirarchy level"
+			"comment": "category"
+		},
+		{
+			"name": "currency",
+			"java_type": "String",
+			"sql_type": "VARCHAR",
+			"max_length": 32,
+			"is_mandatory": true,
+			"is_searchable": true,
+			"comment": "currency"
+		},
+		{
+			"name": "balance_type",
+			"java_type": "String",
+			"sql_type": "VARCHAR",
+			"max_length": 32,
+			"is_mandatory": true,
+			"is_searchable": true,
+			"comment": "balance type"
+		},
+		{
+			"name": "allowed_transanction_type",
+			"java_type": "String",
+			"sql_type": "VARCHAR",
+			"max_length": 32,
+			"is_mandatory": true,
+			"is_searchable": true,
+			"comment": "name"
 		},
 		{
 			"name": "created_on",

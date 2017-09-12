@@ -2,17 +2,61 @@
 		@author	:${entity.author}
 	 -->
 	<Request name="createOrUpdate${entity.upperCamelCaseClassName}">
+#set($mandatoryValidatorReq = false)
+#set($patternValidatorReq = false)
+#set($lengthValidatorReq = false)
+#foreach ($field in $entity.fieldList)
+#if( $field.maxLength && $field.minLength && $field.maxLength > 0 &&  $field.minLength >= 0 )
+#set($lengthValidatorReq = true)
+#elseif( $StringUtils.isNotBlank(${field.pattern}))
+#set($patternValidatorReq = true)
+#elseif(${field.isMandatory})
+#set($mandatoryValidatorReq = true)
+#end
+#end
 		<Validators>
-			<Validator bean="mandatoryFieldValidator">
-	#foreach ($field in $entity.fieldList)
-	#if( ${field.isMandatory})
-	#if( ${field.lowerCamelCaseName} != "createdOn" && ${field.lowerCamelCaseName} != "createdBy" && ${field.lowerCamelCaseName} != "updatedOn" && ${field.lowerCamelCaseName} != "updatedBy")
+#if($mandatoryValidatorReq)
+			<Validator bean="mandatoryFieldValidator">		
+#foreach ($field in $entity.fieldList)
+#if( ${field.lowerCamelCaseName} != "createdOn" && ${field.lowerCamelCaseName} != "createdBy" && ${field.lowerCamelCaseName} != "updatedOn" && ${field.lowerCamelCaseName} != "updatedBy")
+#if( ${field.isMandatory})
 				<IParam fieldName="${field.lowerSnakeCaseName}" errorCode="" defaultMessage="${field.lowerSnakeCaseName} is mandatory."/>
-	#end
-	#end	
-	#end
+#end		
+#end
+#end
 			</Validator>
-		</Validators>
+#end
+#if($patternValidatorReq)
+			<Validator bean="patternFieldValidator">
+#foreach ($field in $entity.fieldList)
+#if( ${field.lowerCamelCaseName} != "createdOn" && ${field.lowerCamelCaseName} != "createdBy" && ${field.lowerCamelCaseName} != "updatedOn" && ${field.lowerCamelCaseName} != "updatedBy")
+#if( $StringUtils.isNotBlank(${field.pattern}))
+				<IParam fieldName="${field.lowerSnakeCaseName}" errorCode="" pattern="${field.pattern}" defaultMessage="Invalid ${field.lowerSnakeCaseName}."/>
+#end
+#end
+#end
+			</Validator>
+#end
+#if($lengthValidatorReq)
+			<Validator bean="stringLengthValidator">
+#foreach ($field in $entity.fieldList)
+#if( ${field.lowerCamelCaseName} != "createdOn" && ${field.lowerCamelCaseName} != "createdBy" && ${field.lowerCamelCaseName} != "updatedOn" && ${field.lowerCamelCaseName} != "updatedBy")
+#if( $field.maxLength && $field.minLength && $field.maxLength > 0 &&  $field.minLength >= 0 )
+				<IParam fieldName="${field.lowerSnakeCaseName}" errorCode="" minLength="${field.minLength}" maxLength="${field.maxLength}"/>
+#end
+#end
+#end
+			</Validator>
+#end
+			<Control  method="regExp" pattern="${function_sub_code}"  condition="=" value="UPDATE">
+				<Validator bean="mandatoryFieldValidator">
+					<IParam fieldName="id" errorCode="" defaultMessage="id is mandatory."/>
+				</Validator>
+				<Validator bean="longValueValidator">
+					<IParam fieldName="id" minVal="1" maxVal="2147483647" errorCode="210007" defaultMessage="Invalid value of id."/>
+				</Validator>
+			</Control>
+		</Validators>		
 		<Processors>
 			<Control method="regExp" pattern="${function_sub_code}" condition="=" value="CREATE">
 				<Processor bean="create${entity.upperCamelCaseClassName}Processor" />
@@ -30,6 +74,9 @@
 		<Validators>
 			<Validator bean = "mandatoryFieldValidator">
 				<IParam fieldName="id" errorCode="" defaultMessage="id is mandatory."/>
+			</Validator>
+			<Validator bean="longValueValidator">
+				<IParam fieldName="id" minVal="1" maxVal="2147483647" errorCode="" defaultMessage="Invalid value of id."/>
 			</Validator>
 		</Validators>
 		<Processors>
@@ -55,16 +102,15 @@
 			<Validator bean = "mandatoryFieldValidator">
 				<IParam fieldName="id" errorCode="" defaultMessage="id is mandatory."/>
 			</Validator>
+			<Validator bean="longValueValidator">
+				<IParam fieldName="id" minVal="1" maxVal="2147483647" errorCode="" defaultMessage="Invalid value of id."/>
+			</Validator>
 		</Validators>
 		<Processors>
-			<Processor bean="dummyProcessor">
-				<IParam fieldName="delete_mode" value="${entity.deleteMode}" />			
-			</Processor>
-			<Control  method="regExp" pattern="${delete_mode}" condition="=" value="LOGICAL">
-				<Processor bean="logicalDelete${entity.upperCamelCaseClassName}Processor" />
-			</Control>
-			<Control  method="regExp" pattern="${delete_mode}" condition="=" value="PHYSICAL">
-				<Processor bean="physicalDelete${entity.upperCamelCaseClassName}Processor" />
-			</Control>
+#if( $StringUtils.equalsIgnoreCase($entity.deleteMode, "LOGICAL"))
+			<Processor bean="logicalDelete${entity.upperCamelCaseClassName}Processor" />
+#elseif( $StringUtils.equalsIgnoreCase($entity.deleteMode, "PHYSICAL"))					
+			<Processor bean="physicalDelete${entity.upperCamelCaseClassName}Processor" />
+#end
 		</Processors>
 	</Request>

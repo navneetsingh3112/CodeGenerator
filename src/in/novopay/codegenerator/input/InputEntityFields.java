@@ -6,16 +6,19 @@ public class InputEntityFields {
 	private String name;
 	private String lowerCamelCaseName;
 	private String upperCamelCaseName;
-	
+
 	private Integer maxLength;
+	private Integer minLength;
+	private String pattern;
 	private String lowerSnakeCaseName;
 	private Boolean isMandatory;
-	
+
 	private String javaType;
 	private String sqlType;
-	
+
 	private String comment;
 	private Boolean isSearchable;
+	private Boolean isListElement;
 	
 	public String getName() {
 		return name;
@@ -24,7 +27,7 @@ public class InputEntityFields {
 	public void setName(String name) {
 		this.name = name;
 	}
-	
+
 	public String getLowerCamelCaseName() {
 		return lowerCamelCaseName;
 	}
@@ -72,29 +75,30 @@ public class InputEntityFields {
 	public void setComment(String comment) {
 		this.comment = comment;
 	}
-	public String addNotNull(){
-        if(this.isMandatory){
-        	return " NOT NULL";
-        } else {
-        	return "";
-        }
-    }
-	
-	public String getOrDefaultStringLength(){
-        if(null != this.maxLength){
-        	return this.maxLength.toString();
-        } else {
-        	return "64";
-        }
-    }
-	
-	public String getOrDefaultIntegerLength(){
-        if(null != this.maxLength){
-        	return this.maxLength.toString();
-        } else {
-        	return "10";
-        }
-    }
+
+	public String addNotNull() {
+		if (this.isMandatory) {
+			return " NOT NULL";
+		} else {
+			return "";
+		}
+	}
+
+	public String getOrDefaultStringLength() {
+		if (null != this.maxLength) {
+			return this.maxLength.toString();
+		} else {
+			return "64";
+		}
+	}
+
+	public String getOrDefaultIntegerLength() {
+		if (null != this.maxLength) {
+			return this.maxLength.toString();
+		} else {
+			return "10";
+		}
+	}
 
 	public String getLowerSnakeCaseName() {
 		return lowerSnakeCaseName;
@@ -103,10 +107,10 @@ public class InputEntityFields {
 	public void setLowerSnakeCaseName(String lowerSnakeCaseName) {
 		this.lowerSnakeCaseName = lowerSnakeCaseName;
 	}
-	
-	public String addComment(){
-		if(StringUtils.isNotBlank(comment)) {
-			return " COMMENT '"+ comment + "'";
+
+	public String addComment() {
+		if (StringUtils.isNotBlank(comment)) {
+			return " COMMENT '" + comment + "'";
 		} else {
 			return "";
 		}
@@ -127,4 +131,29 @@ public class InputEntityFields {
 	public void setMaxLength(Integer maxLength) {
 		this.maxLength = maxLength;
 	}
+
+	public Integer getMinLength() {
+		return minLength;
+	}
+
+	public void setMinLength(Integer minLength) {
+		this.minLength = minLength;
+	}
+
+	public String getPattern() {
+		return pattern;
+	}
+
+	public void setPattern(String pattern) {
+		this.pattern = pattern;
+	}
+
+	public Boolean getIsListElement() {
+		return isListElement;
+	}
+
+	public void setIsListElement(Boolean isListElement) {
+		this.isListElement = isListElement;
+	}
+
 }

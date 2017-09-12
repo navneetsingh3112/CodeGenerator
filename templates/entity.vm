@@ -22,6 +22,9 @@ public class ${entity.upperCamelCaseClassName}Entity extends AbstractIntegerBase
 	private ${field.javaType} ${field.lowerCamelCaseName};
 #end	
 #end
+#if( $StringUtils.equalsIgnoreCase(${entity.deleteMode}, "LOGICAL"))
+	private boolean isDeleted;
+#end
 
 #foreach ($field in $entity.fieldList)
 #if( ${field.lowerCamelCaseName} != "createdOn" && ${field.lowerCamelCaseName} != "createdBy" && ${field.lowerCamelCaseName} != "updatedOn" && ${field.lowerCamelCaseName} != "updatedBy")
@@ -32,5 +35,13 @@ public class ${entity.upperCamelCaseClassName}Entity extends AbstractIntegerBase
 		return ${field.lowerCamelCaseName};
 	}
 #end
+#end
+#if( $StringUtils.equalsIgnoreCase(${entity.deleteMode}, "LOGICAL"))
+	public boolean getIsDeleted() {
+		return isDeleted;
+	}
+	public void setIsDeleted(boolean isDeleted) {
+		this.isDeleted = isDeleted;
+	}
 #end
 }

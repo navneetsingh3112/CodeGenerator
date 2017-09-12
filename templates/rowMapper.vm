@@ -3,6 +3,7 @@ package in.novopay.${entity.service}.${entity.userStory}.daoservice;
 
 import in.novopay.infra.platform.exception.NovopayFatalException;
 import in.novopay.infra.platform.navigation.ExecutionContext;
+import org.apache.commons.lang3.StringUtils;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.springframework.stereotype.Service;
@@ -28,7 +29,9 @@ public class ${entity.upperCamelCaseClassName}RowMapper extends AbstractRowMappe
 #set($fieldList = "id")
 #foreach ($field in $entity.fieldList)
 #if( ${field.lowerCamelCaseName} != "createdOn" && ${field.lowerCamelCaseName} != "createdBy" && ${field.lowerCamelCaseName} != "updatedOn" && ${field.lowerCamelCaseName} != "updatedBy")
-#set($fieldList = "#if($StringUtils.isEmpty(${fieldList}))${field.lowerSnakeCaseName} #{else}${fieldList} , ${field.lowerSnakeCaseName}#end") 	
+#if( $field.isListElement)
+#set($fieldList = "#if($StringUtils.isEmpty(${fieldList}))${field.lowerSnakeCaseName} #{else}${fieldList} , ${field.lowerSnakeCaseName}#end")
+#end
 #end
 #end
 		executionContext.put("select_creteria", "SELECT ${fieldList} ");		
@@ -41,7 +44,13 @@ public class ${entity.upperCamelCaseClassName}RowMapper extends AbstractRowMappe
 		searchableKeyList.add("${field.lowerSnakeCaseName}");
 #end
 #end
+#if( $StringUtils.equalsIgnoreCase(${entity.deleteMode}, "LOGICAL"))
+		StringBuilder sb = extractCriteriaKeyValue(paramMap, executionContext,searchableKeyList);
+		sb.append(" AND is_deleted = false");		
+		return sb;
+#else
 		return extractCriteriaKeyValue(paramMap, executionContext,searchableKeyList);
+#end
 	}
 
 	public StringBuilder buildSortCriteria(JSONArray sortFields) throws NovopayFatalException {
@@ -79,9 +88,10 @@ public class ${entity.upperCamelCaseClassName}RowMapper extends AbstractRowMappe
 	public Map<String, Object> mapRow(ResultSet rs, int rowNum) throws SQLException {
 		Map<String, Object> recordDetailsMap = new HashMap<>();
 		Map<String, Object> dataMap = new HashMap<>();
-		dataMap.put("id", rs.getInt("id"));
+		dataMap.put("id", ""+rs.getInt("id"));
 #foreach ($field in $entity.fieldList)
 #if( ${field.lowerCamelCaseName} != "createdOn" && ${field.lowerCamelCaseName} != "createdBy" && ${field.lowerCamelCaseName} != "updatedOn" && ${field.lowerCamelCaseName} != "updatedBy")
+#if( $field.isListElement)
 #if( ${field.javaType} == "String")
 		dataMap.put("${field.lowerSnakeCaseName}", ""+rs.getString("${field.lowerSnakeCaseName}"));
 #elseif( ${field.javaType} == "Integer")
@@ -92,6 +102,7 @@ public class ${entity.upperCamelCaseClassName}RowMapper extends AbstractRowMappe
 		dataMap.put("${field.lowerSnakeCaseName}", ""+rs.getLong("${field.lowerSnakeCaseName}"));
 #elseif( ${field.javaType} == "Double" || ${field.javaType} == "Float")
 		dataMap.put("${field.lowerSnakeCaseName}", ""+rs.getBigDecimal("${field.lowerSnakeCaseName}"));
+#end
 #end
 #end
 #end		
