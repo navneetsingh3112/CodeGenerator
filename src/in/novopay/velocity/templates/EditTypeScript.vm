@@ -71,10 +71,10 @@ radioEntity: {
     value: '',
     groupName: '${field.lowerTrainCaseName}-grp',
     apiKey: '${field.apiKey}',
-    populateFromMasterData: ${field.populateFromMasterData},
+    populateFromMasterData: '${field.populateFromMasterData}',
     masterDataType: '${field.masterDataType}',
     masterDataSubType: '${field.masterDataSubType}',
-    isCodeIncludedInDisplay: ${field.isCodeIncludedInDisplay},
+    isCodeIncludedInDisplay: '${field.isCodeIncludedInDisplay}',
         #if ($field.dataList.equals([]) )
         input: {
         inputApi: "${field.inputApi}" },
@@ -105,11 +105,11 @@ dropdownEntity: {
     options: {
                         placeholder: '${field.placeholder}'
                     },
-    required: ${field.isMandatory},
-    populateFromMasterData: ${field.populateFromMasterData},
+    required: '${field.isMandatory}',
+    populateFromMasterData: '${field.populateFromMasterData}',
     masterDataType: '${field.masterDataType}',
     masterDataSubType: '${field.masterDataSubType}',
-    isCodeIncludedInDisplay: ${field.isCodeIncludedInDisplay},
+    isCodeIncludedInDisplay: '${field.isCodeIncludedInDisplay}',
     apiKey: '${field.apiKey}',
     dataList : [
         #if ($!{field.dataList} )
