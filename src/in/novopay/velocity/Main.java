@@ -156,6 +156,26 @@ public class Main {
 				f.setJavaType((String) fobj.get("java_type"));
 				f.setWebType((String) fobj.get("web_type"));
 				f.setSqlType((String) fobj.get("sql_type"));
+				
+				if(null==fobj.get("input_api")) {
+					f.setInputApi("");
+				}else {
+					f.setInputApi((String) fobj.get("input_api"));
+				}
+				
+				if(null==fobj.get("input_api_list_key")) {
+					f.setInputApiListKey("");
+				}else {
+					f.setInputApiListKey((String) fobj.get("input_api_list_key"));
+				}
+				
+				
+				
+				f.setInputApiDetailsKey((String) fobj.get("input_api_details_key"));
+				f.setInputApiIdKey((String) fobj.get("input_api_id_key"));
+				f.setInputApiCodeKey((String) fobj.get("input_api_code_key"));
+				f.setInputApiValueKey((String) fobj.get("input_api_value_key"));
+				
 				Long length = (Long) fobj.get("length");
 				if (length != null) {
 					f.setLength(length.intValue());

@@ -27,6 +27,11 @@ public class InputEntityFields {
 	private Boolean isCodeIncludedInDisplay;
 	private String inputApi;
 	private Boolean populateFromMasterData;
+	private String inputApiListKey;
+	private String inputApiDetailsKey;
+	private String inputApiIdKey;
+	private String inputApiCodeKey;
+	private String inputApiValueKey;
 	private ArrayList<DataList> dataList = new ArrayList<>();
 	
 	public String getName() {
@@ -255,6 +260,46 @@ public class InputEntityFields {
 
 	public void setIsCodeIncludedInDisplay(Boolean isCodeIncludedInDisplay) {
 		this.isCodeIncludedInDisplay = isCodeIncludedInDisplay;
+	}
+
+	public String getInputApiListKey() {
+		return inputApiListKey;
+	}
+
+	public void setInputApiListKey(String inputApiListKey) {
+		this.inputApiListKey = inputApiListKey;
+	}
+
+	public String getInputApiDetailsKey() {
+		return inputApiDetailsKey;
+	}
+
+	public void setInputApiDetailsKey(String inputApiDetailsKey) {
+		this.inputApiDetailsKey = inputApiDetailsKey;
+	}
+
+	public String getInputApiIdKey() {
+		return inputApiIdKey;
+	}
+
+	public void setInputApiIdKey(String inputApiIdKey) {
+		this.inputApiIdKey = inputApiIdKey;
+	}
+
+	public String getInputApiCodeKey() {
+		return inputApiCodeKey;
+	}
+
+	public void setInputApiCodeKey(String inputApiCodeKey) {
+		this.inputApiCodeKey = inputApiCodeKey;
+	}
+
+	public String getInputApiValueKey() {
+		return inputApiValueKey;
+	}
+
+	public void setInputApiValueKey(String inputApiValueKey) {
+		this.inputApiValueKey = inputApiValueKey;
 	}
 	
 	

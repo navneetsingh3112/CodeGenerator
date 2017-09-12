@@ -92,10 +92,27 @@ dropdownEntity: {
                         placeholder: '${field.placeholder}'
                     },
     required: ${field.isMandatory},
-    populateFromMasterData: ${field.populateFromMasterData},
-    masterDataType: '${field.masterDataType}',
-    masterDataSubType: '${field.masterDataSubType}',
-    isCodeIncludedInDisplay: ${field.isCodeIncludedInDisplay},
+    #if (${field.populateFromMasterData})
+    	populateFromMasterData: ${field.populateFromMasterData},
+    #end
+    #if (${field.masterDataType})
+    	masterDataType: '${field.masterDataType}',
+    #end
+    #if (${field.masterDataSubType})
+    	masterDataSubType: '${field.masterDataSubType}',
+    #end
+    #if (${field.isCodeIncludedInDisplay})
+    	isCodeIncludedInDisplay: ${field.isCodeIncludedInDisplay},
+    #end
+    #if (${field.isCodeIncludedInDisplay})
+    	isCodeIncludedInDisplay: ${field.isCodeIncludedInDisplay},
+    #end
+    inputApi: "${field.inputApi}",
+    inputApiListKey: "${field.inputApiListKey}",
+    inputApiDetailsKey: "${field.inputApiDetailsKey}",
+    inputApiIdKey: "${field.inputApiIdKey}",
+    inputApiCodeKey: "${field.inputApiCodeKey}",
+    inputApiValueKey: "${field.inputApiValueKey}",
     apiKey: '${field.apiKey}',
     dataList : [
         #if ($!{field.dataList} )

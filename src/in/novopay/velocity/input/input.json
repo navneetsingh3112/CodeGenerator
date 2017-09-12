@@ -104,18 +104,12 @@
 			"is_searchable": true,
 			"is_sortable": true,
 			"is_editable": true,
-			"master_data_type": "address_type",
-			"data_list": [
-				{
-					"id": "0",
-					"code": "Y",
-					"text": "yes"
-				},{
-					"id": "1",
-					"code": "N",
-					"text": "no"
-				}
-			]
+			"input_api": "getProductSchemeList",
+			"input_api_list_key": "product_scheme_list",
+			"input_api_details_key": "product_scheme_details",
+			"input_api_id_key": "scheme_id",
+			"input_api_code_key": "scheme_code",
+			"input_api_value_key": "name",
 		}
 	],
 	"table_indices": [
