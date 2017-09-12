@@ -33,6 +33,8 @@ public class InputEntityFields {
 	private String inputApiCodeKey;
 	private String inputApiValueKey;
 	private Boolean isListElement;
+	private String minDate;
+	private String maxDate;
 	private ArrayList<DataList> dataList = new ArrayList<>();
 	
 	public String getName() {
@@ -310,6 +312,20 @@ public class InputEntityFields {
 	public void setIsListElement(Boolean isListElement) {
 		this.isListElement = isListElement;
 	}
-	
-	
+
+	public String getMinDate() {
+		return minDate;
+	}
+
+	public void setMinDate(String minDate) {
+		this.minDate = minDate;
+	}
+
+	public String getMaxDate() {
+		return maxDate;
+	}
+
+	public void setMaxDate(String maxDate) {
+		this.maxDate = maxDate;
+	}
 }

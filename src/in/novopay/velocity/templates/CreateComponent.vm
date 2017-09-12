@@ -137,7 +137,6 @@
                                             </ul>
 
                                             <label *ngIf="readOnly"
-                                                   for="${entity.lowerTrainCaseClassName}-${field.lowerTrainCaseName}"
                                                    title="{{dropDownList.${field.lowerCamelCaseName}.selectedValue}}"
                                                    class="read-only-view-label col-form-label wrap-long-text">{{dropDownList.${field.lowerCamelCaseName}.selectedValue}}</label>
                                         </div>
@@ -159,8 +158,16 @@
                                                    name="${entity.lowerTrainCaseClassName}-${field.lowerTrainCaseName}"
                                                    id="${entity.lowerTrainCaseClassName}-${field.lowerTrainCaseName}"
                                                    type="date"
+                                                #if (${field.minDate})
+                                                   min="{{entity.${field.lowerCamelCaseName}.minDate | date: 'yyyy-MM-dd'}}"
+                                                #else
                                                    min="{{todayDate}}"
+                                                #end
+                                                #if (${field.maxDate})
+                                                   max="{{entity.${field.lowerCamelCaseName}.maxDate | date:'yyyy-MM-dd'}}"
+                                                #else
                                                    max="9999-12-31"
+                                                #end
                                                    [(ngModel)]="entity.${field.lowerCamelCaseName}.value"
                                                    class="form-control"
                                                    data-parsley-trigger="change"
@@ -170,7 +177,6 @@
                                             >
 
                                             <label *ngIf="readOnly"
-                                                   for="${entity.lowerTrainCaseClassName}-${field.lowerTrainCaseName}"
                                                    title="{{entity.${field.lowerCamelCaseName}.value}}"
                                                    class="read-only-view-label col-form-label wrap-long-text">{{entity.${field.lowerCamelCaseName}.value}}</label>
                                         </div>
@@ -209,6 +215,7 @@
                                                                id="${field.lowerTrainCaseName}-{{data.code}}"
                                                                value="{{radioList.${field.lowerCamelCaseName}.dataList[i].code}}"
                                                                [(ngModel)]="radioList.${field.lowerCamelCaseName}.value"
+                                                               data-parsley-trigger="change"
                                                             #if ($field.isMandatory)
                                                                required="true"
                                                             #end>

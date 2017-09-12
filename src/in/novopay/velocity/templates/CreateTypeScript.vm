@@ -41,8 +41,14 @@ listComponentUrl: '/app/${entity.lowerTrainCaseClassName}/list',
 entity: {
 #foreach ($field in $entity.fieldList)
     #if ($field.webType.equals('Textbox') || $field.webType.equals('Textarea')  || $field.webType.equals(
-        'Date') || $field.webType.equals('Datetime'))
+        'Date'))
         ${field.lowerCamelCaseName}: {
+        #if (${field.minDate})
+        minDate: '${field.minDate}',
+        #end
+        #if (${field.maxDate})
+        maxDate: '${field.maxDate}',
+        #end
     value: '',
     type: '${field.webType}',
     apiKey: '${field.apiKey}'
@@ -151,13 +157,6 @@ dropdownEntity: {
 #end
 }};
 super.setComponentProperties(componentProperty);
-
-#foreach ($field in $entity.fieldList)
-    #if ($field.webType.equals(
-        'Radio') && $field.dataList.equals([])) super.populateRadioFromMasterData('${field.lowerCamelCaseName}');
-    #end
-#end
-
 }
 ngOnInit(): void {
 super.ngOnInit();

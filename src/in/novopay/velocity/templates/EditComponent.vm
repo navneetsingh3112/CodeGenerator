@@ -1,6 +1,8 @@
-<h1 class="page-title"><span class="fw-semi-bold">{{'${entity.lowerTrainCaseClassName}-edit-page-header' | translate}}</span></h1>
+<h1 class="page-title"><span
+        class="fw-semi-bold">{{'${entity.lowerTrainCaseClassName}-edit-page-header' | translate}}</span></h1>
 
-<form id="${entity.lowerTrainCaseClassName}-edit-form" class="parsleyjs" method="post" data-parsley-priority-enabled="false"
+<form id="${entity.lowerTrainCaseClassName}-edit-form" class="parsleyjs" method="post"
+      data-parsley-priority-enabled="false"
       novalidate="novalidate" [ngBusy]="busy">
     <div class="row">
         <div class="col-lg-6">
@@ -8,7 +10,8 @@
                 <div class="widget-body">
                     <form class="form-horizontal" role="form">
                         <fieldset>
-                            <legend><strong>{{'${entity.lowerTrainCaseClassName}-edit-form-header-basic' | translate}}</strong>
+                            <legend><strong>{{'${entity.lowerTrainCaseClassName}-edit-form-header-basic' |
+                                translate}}</strong>
                                 {{'${entity.lowerTrainCaseClassName}-edit-form-header-details' | translate}}
                             </legend>
 
@@ -156,8 +159,16 @@
                                                    name="${entity.lowerTrainCaseClassName}-${field.lowerTrainCaseName}"
                                                    id="${entity.lowerTrainCaseClassName}-${field.lowerTrainCaseName}"
                                                    type="date"
+                                                #if (${field.minDate})
+                                                   min="{{entity.${field.lowerCamelCaseName}.minDate | date: 'yyyy-MM-dd'}}"
+                                                #else
                                                    min="{{todayDate}}"
+                                                #end
+                                                #if (${field.maxDate})
+                                                   max="{{entity.${field.lowerCamelCaseName}.maxDate | date:'yyyy-MM-dd'}}"
+                                                #else
                                                    max="9999-12-31"
+                                                #end
                                                    [(ngModel)]="entity.${field.lowerCamelCaseName}.value"
                                                    class="form-control"
                                                    data-parsley-trigger="change"
@@ -167,7 +178,6 @@
                                             >
 
                                             <label *ngIf="readOnly"
-                                                   for="${entity.lowerTrainCaseClassName}-${field.lowerTrainCaseName}"
                                                    title="{{entity.${field.lowerCamelCaseName}.value}}"
                                                    class="read-only-view-label col-form-label wrap-long-text">{{entity.${field.lowerCamelCaseName}.value}}</label>
                                         </div>
@@ -233,7 +243,6 @@
                                             </label>
                                         </div>
                                     </div>
-
                                 #end
                             #end
                         </fieldset>
@@ -245,13 +254,15 @@
     <div *ngIf="!reviewMode" class="form-actions">
         #foreach ($button in $entity.buttonList)
             #if ($button.name == 'cancel')
-        <button type="button" (click)="cancelForm()" class="btn btn-default btn-rounded">{{'form-btn-edit-cancel-$(button.lowerTrainCaseName)' |
-            translate}}
-        </button>
+                <button type="button" (click)="cancelForm()" class="btn btn-default btn-rounded">
+                    {{'form-btn-edit-cancel-$(button.lowerTrainCaseName)' |
+                    translate}}
+                </button>
             #elseif ($button.name == 'save')
-        <button type="submit" (click)="saveFormData()" class="btn btn-primary btn-rounded">{{'form-btn-edit-save-$(button.lowerTrainCaseName)' |
-            translate}}
-        </button>
+                <button type="submit" (click)="saveFormData()" class="btn btn-primary btn-rounded">
+                    {{'form-btn-edit-save-$(button.lowerTrainCaseName)' |
+                    translate}}
+                </button>
             #end
         #end
     </div>
