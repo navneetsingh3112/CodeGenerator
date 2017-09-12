@@ -1,0 +1,195 @@
+{
+	"table":"general_ledger",
+	"userStory":"generalledger",
+	"service":"heirarchymanagement",
+	"display_name": "General Ledger",
+	"table_comment" : "Heirarchy level information for various purposes spanning various departements",
+	"author":"Manoj",
+	"fetch_api_key": "id",
+	"fields": [
+		{
+			"name": "gl_code",
+			"java_type": "String",
+			"sql_type": "VARCHAR",
+			"length": 16,
+			"is_mandatory": true,
+			"comment": "Name of heirarchy level",
+			"web_type": "Textbox",
+			"is_code_included_in_display": true,
+			"placeholder": "eg. Country",
+			"display_name": "Gl Code",
+			"min_length": 2,
+			"max_length": 16,
+			"validation_pattern": "^[a-zA-Z0-9_]*$",
+			"api_key": "gl_code",
+			"is_searchable": true,
+			"is_sortable": true,
+			"is_editable": true
+		},
+		{
+			"name": "name",
+			"java_type": "String",
+			"sql_type": "VARCHAR",
+			"length": 8,
+			"is_mandatory": true,
+			"comment": "Heirarchy level code",
+			"web_type": "Textbox",
+			"master_data_type": "address_type",
+			"master_data_sub_type": null,
+			"is_code_included_in_display": true,
+			"placeholder": "eg. GIS10",
+			"display_name": "Name",
+			"min_length": 2,
+			"max_length": 8,
+			"api_key": "name",
+			"is_searchable": true,
+			"is_sortable": true,
+			"is_editable": true,
+			"input_api": "google.com",
+			"populate_from_master_data": true
+		},
+		{
+			"name": "description",
+			"java_type": "String",
+			"sql_type": "VARCHAR",
+			"length": 256,
+			"comment": "Heirarchy level description",
+			"web_type": "Textarea",
+			"placeholder": "eg. Country",
+			"display_name": "Description",
+			"min_length": 2,
+			"max_length": 256,
+			"api_key": "description",
+			"is_searchable": true,
+			"is_sortable": true,
+			"is_editable": true
+		},
+		{
+			"name": "external_reference_number",
+			"java_type": "String",
+			"sql_type": "VARCHAR",
+			"length": 256,
+			"is_mandatory": true,
+			"comment": "Heirarchy level department name",
+			"web_type": "Textbox",
+			"placeholder": "eg. Business",
+			"display_name": "External Reference Number",
+			"api_key": "external_reference_number",
+			"is_searchable": true,
+			"is_sortable": true,
+			"is_editable": true
+		},
+		{
+			"name": "category",
+			"java_type": "String",
+			"sql_type": "VARCHAR",
+			"length": 256,
+			"is_mandatory": true,
+			"comment": "Type of heirarchy level",
+			"web_type": "Dropdown",
+			"placeholder": "eg. Administrative",
+			"display_name": "Category",
+			"api_key": "category",
+			"is_searchable": true,
+			"is_sortable": true,
+			"is_editable": true,
+			"input_api": "getProductSchemeList",
+			"input_api_list_key": "product_scheme_list",
+			"input_api_details_key": "product_scheme_details",
+			"input_api_id_key": "scheme_id",
+			"input_api_code_key": "scheme_code",
+			"input_api_value_key": "name",
+		},
+		{
+			"name": "currency",
+			"java_type": "String",
+			"sql_type": "VARCHAR",
+			"length": 256,
+			"is_mandatory": true,
+			"comment": "Type of heirarchy level",
+			"web_type": "Dropdown",
+			"placeholder": "eg. Administrative",
+			"display_name": "Currency",
+			"populate_from_master_data": true,
+			"master_data_type": "address_type",
+			"api_key": "currency",
+			"is_searchable": true,
+			"is_sortable": true,
+			"is_editable": true
+		},
+		{
+			"name": "balance_type",
+			"java_type": "String",
+			"sql_type": "VARCHAR",
+			"length": 256,
+			"is_mandatory": true,
+			"comment": "Type of heirarchy level",
+			"web_type": "Dropdown",
+			"placeholder": "eg. Administrative",
+			"display_name": "Balance Type",
+			"populate_from_master_data": false,
+			"data_list": [
+			{
+				"id": "1",
+				"code": "SB",
+				"text": "Saving"
+			},
+			{
+				"id": "2",
+				"code": "CC",
+				"text": "Current"
+			}
+			],
+			"api_key": "balance_type",
+			"is_searchable": true,
+			"is_sortable": true,
+			"is_editable": true
+		},
+		{
+			"name": "allowed_transanction_type",
+			"java_type": "String",
+			"sql_type": "VARCHAR",
+			"length": 256,
+			"is_mandatory": true,
+			"comment": "Type of heirarchy level",
+			"web_type": "Dropdown",
+			"placeholder": "eg. Administrative",
+			"display_name": "Allowed Transaction Type",
+			"populate_from_master_data": false,
+			"data_list": [
+			{
+				"id": "1",
+				"code": "DEBIT",
+				"text": "Debit"
+			},
+			{
+				"id": "2",
+				"code": "CREDIT",
+				"text": "Credit"
+			}
+			],
+			"api_key": "allowed_transanction_type",
+			"is_searchable": true,
+			"is_sortable": true,
+			"is_editable": true
+		}
+	],
+	"table_indices": [
+		{
+			"name": "hl_level_code",
+			"type": "UNIQUE",
+			"keys": [
+				"level_code"
+			],
+			"order": "ASC"
+		}
+	],
+	"buttons": [
+		{
+			"name": "save"
+		},
+		{
+			"name": "cancel"
+		}
+	]
+}
