@@ -13,47 +13,47 @@ import {ResourceFactoryConstants} from "../../services/resource-factory.constant
 declare var jQuery:any;
 
 @Component({
-    selector: '[${entity.lowerTrainCaseClassName}-edit]',
-    templateUrl: './${entity.lowerTrainCaseClassName}-edit.component.html',
-    encapsulation: ViewEncapsulation.None,
+selector: '[${entity.lowerTrainCaseClassName}-edit]',
+templateUrl: './${entity.lowerTrainCaseClassName}-edit.component.html',
+encapsulation: ViewEncapsulation.None,
 })
 export class ${entity.upperCamelCaseClassName}EditComponent extends BaseComponent {
-    protected componentIdRequestBodyKey: string;
-    protected componentDetailsAPI: string;
-    protected componentDetailsResponseBodyKey: string;
-    
-    protected saveFormData():void {
-        jQuery('body').scrollTop(0);
-        this.populateRequestBody();
-        this.requestBody['${entity.fetchApiKey}'] = this.route.snapshot.params['id'];
-        this.busy = this.baseService.updateComponent(this.requestBody,this.createComponentAPI)
-            .then(resp=> this.handleCreateComponentResponse(resp));
-    }
+protected componentIdRequestBodyKey: string;
+protected componentDetailsAPI: string;
+protected componentDetailsResponseBodyKey: string;
 
-    constructor(private location:Location,
-                private mainApp: App,
-                private appConstants: AppConstants,
-                private commonHttpService:CommonHttpService,
-                private commonUtilityService:CommonUtilityService,
-                private baseService: BaseService,
-                private router:Router,
-                private route:ActivatedRoute,
-                protected resourceFactoryConstants:ResourceFactoryConstants) {
-        super(location, mainApp, appConstants, commonHttpService, commonUtilityService,
-            baseService, router, route, resourceFactoryConstants);
+protected saveFormData():void {
+jQuery('body').scrollTop(0);
+this.populateRequestBody();
+this.requestBody['${entity.fetchApiKey}'] = this.route.snapshot.params['id'];
+this.busy = this.baseService.updateComponent(this.requestBody,this.createComponentAPI)
+.then(resp=> this.handleCreateComponentResponse(resp));
+}
 
-        this.componentIdRequestBodyKey = "${entity.fetchApiKey}";
-        this.componentDetailsAPI = this.resourceFactoryConstants.constants.${entity.lowerCamelCaseClassName}.getDetails;
-        this.componentDetailsResponseBodyKey = "${entity.table}_details";
+constructor(private location:Location,
+private mainApp: App,
+private appConstants: AppConstants,
+private commonHttpService:CommonHttpService,
+private commonUtilityService:CommonUtilityService,
+private baseService: BaseService,
+private router:Router,
+private route:ActivatedRoute,
+protected resourceFactoryConstants:ResourceFactoryConstants) {
+super(location, mainApp, appConstants, commonHttpService, commonUtilityService,
+baseService, router, route, resourceFactoryConstants);
 
-        let componentProperty : ICreateComponentProperty = {
+this.componentIdRequestBodyKey = "${entity.fetchApiKey}";
+this.componentDetailsAPI = this.resourceFactoryConstants.constants.${entity.lowerCamelCaseClassName}.getDetails;
+this.componentDetailsResponseBodyKey = "${entity.table}_details";
+
+let componentProperty : ICreateComponentProperty = {
 componentPermissionKey: 'PERMISSION_KEY',
 formHtmlId: '${entity.lowerTrainCaseClassName}-create-form',
 createComponentAPI: this.resourceFactoryConstants.constants.${entity.lowerCamelCaseClassName}.create,
 listComponentUrl: '/app/${entity.lowerTrainCaseClassName}/list',
 entity: {
 #foreach ($field in $entity.fieldList)
-    #if ($field.webType.equals('Textbox') || $field.webType.equals('Textarea')  
+    #if ($field.webType.equals('Textbox') || $field.webType.equals('Textarea')
     || $field.webType.equals('Date') || $field.webType.equals('Datetime'))
         ${field.lowerCamelCaseName}: {
     value: '',
@@ -71,10 +71,18 @@ radioEntity: {
     value: '',
     groupName: '${field.lowerTrainCaseName}-grp',
     apiKey: '${field.apiKey}',
-    populateFromMasterData: '${field.populateFromMasterData}',
-    masterDataType: '${field.masterDataType}',
-    masterDataSubType: '${field.masterDataSubType}',
-    isCodeIncludedInDisplay: '${field.isCodeIncludedInDisplay}',
+        #if (${field.populateFromMasterData})
+        populateFromMasterData: ${field.populateFromMasterData},
+        #end
+        #if (${field.masterDataType})
+        masterDataType: '${field.masterDataType}',
+        #end
+        #if (${field.masterDataSubType})
+        masterDataSubType: '${field.masterDataSubType}',
+        #end
+        #if (${field.isCodeIncludedInDisplay})
+        isCodeIncludedInDisplay: ${field.isCodeIncludedInDisplay},
+        #end
         #if ($field.dataList.equals([]) )
         input: {
         inputApi: "${field.inputApi}" },
@@ -103,13 +111,21 @@ dropdownEntity: {
     selectedValue: '',
     initialValues: [],
     options: {
-                        placeholder: '${field.placeholder}'
-                    },
-    required: '${field.isMandatory}',
-    populateFromMasterData: '${field.populateFromMasterData}',
-    masterDataType: '${field.masterDataType}',
-    masterDataSubType: '${field.masterDataSubType}',
-    isCodeIncludedInDisplay: '${field.isCodeIncludedInDisplay}',
+    placeholder: '${field.placeholder}'
+    },
+    required: ${field.isMandatory},
+        #if (${field.populateFromMasterData})
+        populateFromMasterData: ${field.populateFromMasterData},
+        #end
+        #if (${field.masterDataType})
+        masterDataType: '${field.masterDataType}',
+        #end
+        #if (${field.masterDataSubType})
+        masterDataSubType: '${field.masterDataSubType}',
+        #end
+        #if (${field.isCodeIncludedInDisplay})
+        isCodeIncludedInDisplay: ${field.isCodeIncludedInDisplay},
+        #end
     apiKey: '${field.apiKey}',
     dataList : [
         #if ($!{field.dataList} )
@@ -127,7 +143,7 @@ dropdownEntity: {
 #end
 
 }};
-        super.setComponentProperties(componentProperty);
+super.setComponentProperties(componentProperty);
 }
 ngOnInit(): void {
 super.ngOnInit();

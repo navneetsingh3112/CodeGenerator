@@ -40,7 +40,8 @@ createComponentAPI: this.resourceFactoryConstants.constants.${entity.lowerCamelC
 listComponentUrl: '/app/${entity.lowerTrainCaseClassName}/list',
 entity: {
 #foreach ($field in $entity.fieldList)
-    #if ($field.webType.equals('Textbox') || $field.webType.equals('Textarea')  || $field.webType.equals('Date') || $field.webType.equals('Datetime'))
+    #if ($field.webType.equals('Textbox') || $field.webType.equals('Textarea')  || $field.webType.equals(
+        'Date') || $field.webType.equals('Datetime'))
         ${field.lowerCamelCaseName}: {
     value: '',
     type: '${field.webType}',
@@ -57,10 +58,18 @@ radioEntity: {
     value: '',
     groupName: '${field.lowerTrainCaseName}-grp',
     apiKey: '${field.apiKey}',
-    populateFromMasterData: ${field.populateFromMasterData},
-    masterDataType: '${field.masterDataType}',
-    masterDataSubType: null,
-    isCodeIncludedInDisplay: ${field.isCodeIncludedInDisplay},
+        #if (${field.populateFromMasterData})
+        populateFromMasterData: ${field.populateFromMasterData},
+        #end
+        #if (${field.masterDataType})
+        masterDataType: '${field.masterDataType}',
+        #end
+        #if (${field.masterDataSubType})
+        masterDataSubType: '${field.masterDataSubType}',
+        #end
+        #if (${field.isCodeIncludedInDisplay})
+        isCodeIncludedInDisplay: ${field.isCodeIncludedInDisplay},
+        #end
         #if ($field.dataList.equals([]) )
         input: {
         inputApi: "${field.inputApi}" },
@@ -89,24 +98,21 @@ dropdownEntity: {
     selectedValue: '',
     initialValues: [],
     options: {
-                        placeholder: '${field.placeholder}'
-                    },
+    placeholder: '${field.placeholder}'
+    },
     required: ${field.isMandatory},
-    #if (${field.populateFromMasterData})
-    	populateFromMasterData: ${field.populateFromMasterData},
-    #end
-    #if (${field.masterDataType})
-    	masterDataType: '${field.masterDataType}',
-    #end
-    #if (${field.masterDataSubType})
-    	masterDataSubType: '${field.masterDataSubType}',
-    #end
-    #if (${field.isCodeIncludedInDisplay})
-    	isCodeIncludedInDisplay: ${field.isCodeIncludedInDisplay},
-    #end
-    #if (${field.isCodeIncludedInDisplay})
-    	isCodeIncludedInDisplay: ${field.isCodeIncludedInDisplay},
-    #end
+        #if (${field.populateFromMasterData})
+        populateFromMasterData: ${field.populateFromMasterData},
+        #end
+        #if (${field.masterDataType})
+        masterDataType: '${field.masterDataType}',
+        #end
+        #if (${field.masterDataSubType})
+        masterDataSubType: '${field.masterDataSubType}',
+        #end
+        #if (${field.isCodeIncludedInDisplay})
+        isCodeIncludedInDisplay: ${field.isCodeIncludedInDisplay},
+        #end
     inputApi: "${field.inputApi}",
     inputApiListKey: "${field.inputApiListKey}",
     inputApiDetailsKey: "${field.inputApiDetailsKey}",
