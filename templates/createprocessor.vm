@@ -32,16 +32,7 @@ public class Create${entity.upperCamelCaseClassName}Processor extends AbstractPr
 	protected void process(ExecutionContext executionContext) throws NovopayFatalException, NovopayNonFatalException {
 	
 		${entity.lowerCamelCaseClassName}Entity = new ${entity.upperCamelCaseClassName}Entity();
-#foreach ($field in $entity.fieldList)
-#if( ${field.lowerCamelCaseName} == "createdOn")
-		${entity.lowerCamelCaseClassName}Entity.set${field.upperCamelCaseName}(new Date());
-#elseif( ${field.lowerCamelCaseName} == "createdBy")
-		${entity.lowerCamelCaseClassName}Entity.set${field.upperCamelCaseName}("");
-#elseif( ${field.lowerCamelCaseName} == "updatedOn")
-		${entity.lowerCamelCaseClassName}Entity.set${field.upperCamelCaseName}(new Date());
-#elseif( ${field.lowerCamelCaseName} == "updatedBy")
-		${entity.lowerCamelCaseClassName}Entity.set${field.upperCamelCaseName}("");
-#else
+#foreach ($field in $entity.dataFieldList)
 		String ${field.lowerCamelCaseName} = executionContext.getValue("${field.lowerSnakeCaseName}", String.class);
 #if(${field.javaType} == "Integer")
 		if(StringUtils.isNoneBlank(${field.lowerCamelCaseName})) {
@@ -66,6 +57,12 @@ public class Create${entity.upperCamelCaseClassName}Processor extends AbstractPr
 #else		
 		${entity.lowerCamelCaseClassName}Entity.set${field.upperCamelCaseName}(${field.lowerCamelCaseName});	
 #end
+#end
+#foreach ($field in $entity.auditFieldList)
+#if( ${field.javaType} == "Date")
+		${entity.lowerCamelCaseClassName}Entity.set${field.upperCamelCaseName}(new Date());
+#else
+		${entity.lowerCamelCaseClassName}Entity.set${field.upperCamelCaseName}("");
 #end
 #end
 		${entity.lowerCamelCaseClassName}Entity = ${entity.lowerCamelCaseClassName}Service.save${entity.upperCamelCaseClassName}(${entity.lowerCamelCaseClassName}Entity);		

@@ -4,8 +4,13 @@ import java.util.Date;
 
 import javax.persistence.Entity;
 import javax.persistence.Table;
+#if($entity.auditFieldList && $entity.auditFieldList.size() == 0)
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+#else
 import in.novopay.actor.AbstractIntegerBaseEntity;
-
+#end
 /***
  * 
  * @author ${entity.author}
@@ -14,27 +19,39 @@ import in.novopay.actor.AbstractIntegerBaseEntity;
 
 @Entity
 @Table(name = "${entity.table}")
-public class ${entity.upperCamelCaseClassName}Entity extends AbstractIntegerBaseEntity {
+public class ${entity.upperCamelCaseClassName}Entity #if($entity.auditFieldList && $entity.auditFieldList.size() > 0)extends AbstractIntegerBaseEntity#end {
+#if($entity.auditFieldList && $entity.auditFieldList.size() > 0)
 	private static final long serialVersionUID = 1L;
-	
-#foreach ($field in $entity.fieldList)
-#if( ${field.lowerCamelCaseName} != "createdOn" && ${field.lowerCamelCaseName} != "createdBy" && ${field.lowerCamelCaseName} != "updatedOn" && ${field.lowerCamelCaseName} != "updatedBy")
-	private ${field.javaType} ${field.lowerCamelCaseName};
 #end	
+
+#if($entity.auditFieldList && $entity.auditFieldList.size() == 0)
+	@Id
+	@GeneratedValue(strategy = GenerationType.AUTO)
+	private Integer id;
+#end	
+#foreach ($field in $entity.dataFieldList)
+	private ${field.javaType} ${field.lowerCamelCaseName};
 #end
 #if( $StringUtils.equalsIgnoreCase(${entity.deleteMode}, "LOGICAL"))
 	private boolean isDeleted;
 #end
 
-#foreach ($field in $entity.fieldList)
-#if( ${field.lowerCamelCaseName} != "createdOn" && ${field.lowerCamelCaseName} != "createdBy" && ${field.lowerCamelCaseName} != "updatedOn" && ${field.lowerCamelCaseName} != "updatedBy")
+#if($entity.auditFieldList && $entity.auditFieldList.size() == 0)
+	public Integer getId() {
+		return id;
+	}
+	public void setId(Integer id) {
+		this.id = id;
+	}
+#end
+
+#foreach ($field in $entity.dataFieldList)
 	public void set${field.upperCamelCaseName}(${field.javaType} ${field.lowerCamelCaseName}){
 		this.${field.lowerCamelCaseName}=${field.lowerCamelCaseName};
 	}
 	public ${field.javaType} get${field.upperCamelCaseName}(){
 		return ${field.lowerCamelCaseName};
 	}
-#end
 #end
 #if( $StringUtils.equalsIgnoreCase(${entity.deleteMode}, "LOGICAL"))
 	public boolean getIsDeleted() {

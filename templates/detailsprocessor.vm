@@ -38,13 +38,11 @@ public class Get${entity.upperCamelCaseClassName}DetailsProcessor extends Abstra
 	}
 	
 	private void populateResponseDetails(${entity.upperCamelCaseClassName}Entity ${entity.lowerCamelCaseClassName}Entity,ExecutionContext executionContext){
-#foreach ($field in $entity.fieldList)
-#if( ${field.lowerCamelCaseName} != "createdOn" && ${field.lowerCamelCaseName} != "createdBy" && ${field.lowerCamelCaseName} != "updatedOn" && ${field.lowerCamelCaseName} != "updatedBy")
+#foreach ($field in $entity.dataFieldList)
 #if( ${field.javaType} == "Date")
 		executionContext.put("${field.lowerSnakeCaseName}", ${entity.lowerCamelCaseClassName}Entity.get${field.upperCamelCaseName}() != null ? ""+${entity.lowerCamelCaseClassName}Entity.get${field.upperCamelCaseName}().getTime():""+${entity.lowerCamelCaseClassName}Entity.get${field.upperCamelCaseName}() );
 #else
 		executionContext.put("${field.lowerSnakeCaseName}", ""+${entity.lowerCamelCaseClassName}Entity.get${field.upperCamelCaseName}());
-#end		
 #end
 #end
 	}

@@ -1,6 +1,7 @@
 package in.novopay.codegenerator.input;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
 
@@ -15,14 +16,31 @@ public class InputEntity {
 	private String lowerSnakeCaseClassName;
 	private String deleteMode;
 	
-	ArrayList<InputEntityFields> fieldList = new ArrayList<>();
-
-	public void addFields(InputEntityFields field) {
-		fieldList.add(field);
+	List<InputEntityFields> dataFieldList = new ArrayList<>();
+	List<InputEntityFields> auditFieldList = new ArrayList<>();
+	
+	public void addDataFields(InputEntityFields field) {
+		dataFieldList.add(field);
 	}
 
-	public ArrayList<InputEntityFields> getFieldList() {
-		return fieldList;
+	public void addAuditFields(InputEntityFields field) {
+		auditFieldList.add(field);
+	}
+
+	public List<InputEntityFields> getDataFieldList() {
+		return dataFieldList;
+	}
+
+	public void setDataFieldList(List<InputEntityFields> dataFieldList) {
+		this.dataFieldList = dataFieldList;
+	}
+
+	public List<InputEntityFields> getAuditFieldList() {
+		return auditFieldList;
+	}
+
+	public void setAuditFieldList(List<InputEntityFields> auditFieldList) {
+		this.auditFieldList = auditFieldList;
 	}
 
 	public String getTable() {

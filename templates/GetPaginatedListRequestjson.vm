@@ -4,7 +4,7 @@
 			"class": "CMPLX",
 			"type": "MAP",
 			"search_criteria": {
-#foreach ($field in $entity.fieldList)
+#foreach ($field in $entity.dataFieldList)
 #if($field.isSearchable)
 				"${field.lowerSnakeCaseName}": {
 					"class": "SMPL",

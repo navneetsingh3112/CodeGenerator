@@ -44,10 +44,11 @@ public class CodeGenerator {
 		velocityEngine.init(velocityProperties);
 
 		String[] inputTemplateFileArray = { "entity.vm", "repo.vm", "dao.vm", "createprocessor.vm",
-				"updateprocessor.vm", "listprocessor.vm", "detailsprocessor.vm", "rowMapper.vm","CreateOrUpdateRequestjson.vm",
-				"GetPaginatedListRequestjson.vm", "GetDetailsRequestjson.vm", "CreateOrUpdateResponse.vm",
-				"GetDetailsResponsejson.vm", "GetPaginatedListResponsejson.vm", "orchestration.vm", "schema.vm",
-				"physicaldeleteprocessor.vm","logicaldeleteprocessor.vm","DeleteRequestjson.vm","DeleteResponse.vm"};
+				"updateprocessor.vm", "listprocessor.vm", "detailsprocessor.vm", "rowMapper.vm",
+				"CreateOrUpdateRequestjson.vm", "GetPaginatedListRequestjson.vm", "GetDetailsRequestjson.vm",
+				"CreateOrUpdateResponse.vm", "GetDetailsResponsejson.vm", "GetPaginatedListResponsejson.vm",
+				"orchestration.vm", "schema.vm", "physicaldeleteprocessor.vm", "logicaldeleteprocessor.vm",
+				"DeleteRequestjson.vm", "DeleteResponse.vm" };
 
 		String[] outputDir = { "javasrc/in/novopay/" + entity.getService() + "/" + entity.getUserStory() + "/entity",
 				"javasrc/in/novopay/" + entity.getService() + "/" + entity.getUserStory() + "/daoservice",
@@ -56,20 +57,21 @@ public class CodeGenerator {
 				"javasrc/in/novopay/" + entity.getService() + "/" + entity.getUserStory() + "/processor",
 				"javasrc/in/novopay/" + entity.getService() + "/" + entity.getUserStory() + "/processor",
 				"javasrc/in/novopay/" + entity.getService() + "/" + entity.getUserStory() + "/processor",
-				"javasrc/in/novopay/" + entity.getService() + "/" + entity.getUserStory() + "/daoservice", "request", "request",
-				"request", "response", "response", "response", "orchestration","sql",
+				"javasrc/in/novopay/" + entity.getService() + "/" + entity.getUserStory() + "/daoservice", "request",
+				"request", "request", "response", "response", "response", "orchestration", "sql",
 				"javasrc/in/novopay/" + entity.getService() + "/" + entity.getUserStory() + "/processor",
-				"javasrc/in/novopay/" + entity.getService() + "/" + entity.getUserStory() + "/processor",
-				"request","response"};
+				"javasrc/in/novopay/" + entity.getService() + "/" + entity.getUserStory() + "/processor", "request",
+				"response" };
 
-		String[] outputFileExtentionPrefixArray = { "", "", "", "Create", "Update", "Get", "Get", "","createOrUpdate",
-				"get", "get", "createOrUpdate", "get", "get", "", "V000XXX__","PhysicalDelete","LogicalDelete","delete","delete" };
+		String[] outputFileExtentionPrefixArray = { "", "", "", "Create", "Update", "Get", "Get", "", "createOrUpdate",
+				"get", "get", "createOrUpdate", "get", "get", "", "V000XXX__", "PhysicalDelete", "LogicalDelete",
+				"delete", "delete" };
 
 		String[] outputFileExtentionSuffixArray = { "Entity.java", "Repository.java", "DAOService.java",
-				"Processor.java", "Processor.java", "ListProcessor.java", "DetailsProcessor.java","RowMapper.java",
+				"Processor.java", "Processor.java", "ListProcessor.java", "DetailsProcessor.java", "RowMapper.java",
 				"_requestTemplate.json", "List_requestTemplate.json", "Details_requestTemplate.json",
-				"_responseTemplate.json", "Details_responseTemplate.json", "List_responseTemplate.json", ".xml",".sql",
-				"Processor.java","Processor.java","_requestTemplate.json", "_responseTemplate.json"};
+				"_responseTemplate.json", "Details_responseTemplate.json", "List_responseTemplate.json", ".xml", ".sql",
+				"Processor.java", "Processor.java", "_requestTemplate.json", "_responseTemplate.json" };
 
 		createOutputDirectories(outputDir);
 
@@ -77,9 +79,11 @@ public class CodeGenerator {
 				&& inputTemplateFileArray.length == outputFileExtentionSuffixArray.length) {
 
 			for (int i = 0; i < inputTemplateFileArray.length; i++) {
-				if ("PHYSICAL".equalsIgnoreCase(entity.getDeleteMode())  && "LogicalDelete".equalsIgnoreCase(outputFileExtentionPrefixArray[i])) {
+				if ("PHYSICAL".equalsIgnoreCase(entity.getDeleteMode())
+						&& "LogicalDelete".equalsIgnoreCase(outputFileExtentionPrefixArray[i])) {
 					continue;
-				} else if ("LOGICAL".equalsIgnoreCase(entity.getDeleteMode())  && "PhysicalDelete".equalsIgnoreCase(outputFileExtentionPrefixArray[i])) {
+				} else if ("LOGICAL".equalsIgnoreCase(entity.getDeleteMode())
+						&& "PhysicalDelete".equalsIgnoreCase(outputFileExtentionPrefixArray[i])) {
 					continue;
 				}
 				Template t = velocityEngine.getTemplate(inputTemplateFileArray[i]);
@@ -178,55 +182,68 @@ public class CodeGenerator {
 
 			entity.setTableComment((String) jsonObject.get("table_comment"));
 
-			JSONArray fields = (JSONArray) jsonObject.get("fields");
-			Iterator<JSONObject> iterator = fields.iterator();
+			JSONArray dataFields = (JSONArray) jsonObject.get("data_fields");
+			Iterator<JSONObject> iterator = dataFields.iterator();
 			while (iterator.hasNext()) {
 				JSONObject fobj = iterator.next();
-				InputEntityFields f = new InputEntityFields();
-				f.setName((String) fobj.get("name"));
-				f.setLowerCamelCaseName(
-						CaseFormat.UPPER_UNDERSCORE.to(CaseFormat.LOWER_CAMEL, (String) fobj.get("name")));
-				f.setUpperCamelCaseName(
-						CaseFormat.UPPER_UNDERSCORE.to(CaseFormat.UPPER_CAMEL, (String) fobj.get("name")));
-				f.setJavaType((String) fobj.get("java_type"));
-				f.setSqlType((String) fobj.get("sql_type"));
-				Long maxLength = (Long) fobj.get("max_length");
-				if (maxLength != null) {
-					f.setMaxLength(maxLength.intValue());
-				}
-				Boolean isMandatory = (Boolean) fobj.get("is_mandatory");
-				if (isMandatory != null) {
-					f.setIsMandatory(isMandatory);
-				} else {
-					f.setIsMandatory(false);
-				}
-				f.setLowerSnakeCaseName(
-						CaseFormat.UPPER_UNDERSCORE.to(CaseFormat.UPPER_UNDERSCORE, (String) fobj.get("name")));
-				f.setComment((String) fobj.get("comment"));
-				Boolean isSearchable = (Boolean) fobj.get("is_searchable");
-				if (isSearchable != null) {
-					f.setIsSearchable(isSearchable);
-				} else {
-					f.setIsSearchable(false);
-				}
-				Long minLength = (Long) fobj.get("min_length");
-				if (minLength != null) {
-					f.setMinLength(minLength.intValue());
-				}
-				f.setPattern((String) fobj.get("pattern"));
-
-				Boolean isListElement = (Boolean) fobj.get("is_list_element");
-				if (isListElement != null) {
-					f.setIsListElement(isListElement);
-				} else {
-					f.setIsListElement(false);
-				}
-				entity.addFields(f);
+				InputEntityFields f = parseIndividualEntity(fobj);
+				entity.addDataFields(f);
 			}
+
+			JSONArray auditFields = (JSONArray) jsonObject.get("audit_fields");
+			if(auditFields != null && ! auditFields.isEmpty()){
+				iterator = auditFields.iterator();
+				while (iterator.hasNext()) {
+					JSONObject fobj = iterator.next();
+					InputEntityFields f = parseIndividualEntity(fobj);
+					entity.addAuditFields(f);
+				}
+			}
+
 		} catch (IOException | ParseException e) {
 			e.printStackTrace();
 		}
 		return entity;
+	}
+
+	private static InputEntityFields parseIndividualEntity(JSONObject fobj) {
+		InputEntityFields f = new InputEntityFields();
+		f.setName((String) fobj.get("name"));
+		f.setLowerCamelCaseName(CaseFormat.UPPER_UNDERSCORE.to(CaseFormat.LOWER_CAMEL, (String) fobj.get("name")));
+		f.setUpperCamelCaseName(CaseFormat.UPPER_UNDERSCORE.to(CaseFormat.UPPER_CAMEL, (String) fobj.get("name")));
+		f.setJavaType((String) fobj.get("java_type"));
+		f.setSqlType((String) fobj.get("sql_type"));
+		Long maxLength = (Long) fobj.get("max_length");
+		if (maxLength != null) {
+			f.setMaxLength(maxLength.intValue());
+		}
+		Boolean isMandatory = (Boolean) fobj.get("is_mandatory");
+		if (isMandatory != null) {
+			f.setIsMandatory(isMandatory);
+		} else {
+			f.setIsMandatory(false);
+		}
+		f.setLowerSnakeCaseName(CaseFormat.UPPER_UNDERSCORE.to(CaseFormat.UPPER_UNDERSCORE, (String) fobj.get("name")));
+		f.setComment((String) fobj.get("comment"));
+		Boolean isSearchable = (Boolean) fobj.get("is_searchable");
+		if (isSearchable != null) {
+			f.setIsSearchable(isSearchable);
+		} else {
+			f.setIsSearchable(false);
+		}
+		Long minLength = (Long) fobj.get("min_length");
+		if (minLength != null) {
+			f.setMinLength(minLength.intValue());
+		}
+		f.setPattern((String) fobj.get("pattern"));
+
+		Boolean isListElement = (Boolean) fobj.get("is_list_element");
+		if (isListElement != null) {
+			f.setIsListElement(isListElement);
+		} else {
+			f.setIsListElement(false);
+		}
+		return f;
 	}
 
 	private static void deleteRecursive(File fileOrDirectory) {

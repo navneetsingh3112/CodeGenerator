@@ -24,22 +24,22 @@ import java.util.ArrayList;
 @Service
 public class ${entity.upperCamelCaseClassName}RowMapper extends AbstractRowMapper {
 	
+	@Override
 	public void populateQueryParameter(ExecutionContext executionContext){	
 		executionContext.put("query", "FROM ${entity.table} WHERE 1=1 ");
-#set($fieldList = "id")
-#foreach ($field in $entity.fieldList)
-#if( ${field.lowerCamelCaseName} != "createdOn" && ${field.lowerCamelCaseName} != "createdBy" && ${field.lowerCamelCaseName} != "updatedOn" && ${field.lowerCamelCaseName} != "updatedBy")
+#set($dataFieldList = "id")
+#foreach ($field in $entity.dataFieldList)
 #if( $field.isListElement)
-#set($fieldList = "#if($StringUtils.isEmpty(${fieldList}))${field.lowerSnakeCaseName} #{else}${fieldList} , ${field.lowerSnakeCaseName}#end")
+#set($dataFieldList = "#if($StringUtils.isEmpty(${dataFieldList}))${field.lowerSnakeCaseName} #{else}${dataFieldList} , ${field.lowerSnakeCaseName}#end")
 #end
 #end
-#end
-		executionContext.put("select_creteria", "SELECT ${fieldList} ");		
+		executionContext.put("select_creteria", "SELECT ${dataFieldList} ");		
 	}
 
+	@Override
 	public StringBuilder buildSearchCriteria(ExecutionContext executionContext, Map<String, Object> paramMap) {
 		List<String> searchableKeyList = new ArrayList<>();
-#foreach ($field in $entity.fieldList)	
+#foreach ($field in $entity.dataFieldList)	
 #if($field.isSearchable)
 		searchableKeyList.add("${field.lowerSnakeCaseName}");
 #end
@@ -53,6 +53,7 @@ public class ${entity.upperCamelCaseClassName}RowMapper extends AbstractRowMappe
 #end
 	}
 
+	@Override
 	public StringBuilder buildSortCriteria(JSONArray sortFields) throws NovopayFatalException {
 		StringBuilder sortQueryBuilder = new StringBuilder();
 		JSONObject sortField;
@@ -65,7 +66,7 @@ public class ${entity.upperCamelCaseClassName}RowMapper extends AbstractRowMappe
 				fieldName = fieldName.split("\\.")[1];
 			}
 #set($counter = 1)
-#foreach ($field in $entity.fieldList)
+#foreach ($field in $entity.dataFieldList)
 #if($field.isSearchable)
 #if($counter == 1)
 			if ("${field.lowerSnakeCaseName}".equals(fieldName)) {
@@ -89,8 +90,7 @@ public class ${entity.upperCamelCaseClassName}RowMapper extends AbstractRowMappe
 		Map<String, Object> recordDetailsMap = new HashMap<>();
 		Map<String, Object> dataMap = new HashMap<>();
 		dataMap.put("id", ""+rs.getInt("id"));
-#foreach ($field in $entity.fieldList)
-#if( ${field.lowerCamelCaseName} != "createdOn" && ${field.lowerCamelCaseName} != "createdBy" && ${field.lowerCamelCaseName} != "updatedOn" && ${field.lowerCamelCaseName} != "updatedBy")
+#foreach ($field in $entity.dataFieldList)
 #if( $field.isListElement)
 #if( ${field.javaType} == "String")
 		dataMap.put("${field.lowerSnakeCaseName}", ""+rs.getString("${field.lowerSnakeCaseName}"));
@@ -102,7 +102,6 @@ public class ${entity.upperCamelCaseClassName}RowMapper extends AbstractRowMappe
 		dataMap.put("${field.lowerSnakeCaseName}", ""+rs.getLong("${field.lowerSnakeCaseName}"));
 #elseif( ${field.javaType} == "Double" || ${field.javaType} == "Float")
 		dataMap.put("${field.lowerSnakeCaseName}", ""+rs.getBigDecimal("${field.lowerSnakeCaseName}"));
-#end
 #end
 #end
 #end		

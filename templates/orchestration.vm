@@ -5,7 +5,7 @@
 #set($mandatoryValidatorReq = false)
 #set($patternValidatorReq = false)
 #set($lengthValidatorReq = false)
-#foreach ($field in $entity.fieldList)
+#foreach ($field in $entity.dataFieldList)
 #if( $field.maxLength && $field.minLength && $field.maxLength > 0 &&  $field.minLength >= 0 )
 #set($lengthValidatorReq = true)
 #elseif( $StringUtils.isNotBlank(${field.pattern}))
@@ -17,33 +17,27 @@
 		<Validators>
 #if($mandatoryValidatorReq)
 			<Validator bean="mandatoryFieldValidator">		
-#foreach ($field in $entity.fieldList)
-#if( ${field.lowerCamelCaseName} != "createdOn" && ${field.lowerCamelCaseName} != "createdBy" && ${field.lowerCamelCaseName} != "updatedOn" && ${field.lowerCamelCaseName} != "updatedBy")
+#foreach ($field in $entity.dataFieldList)
 #if( ${field.isMandatory})
 				<IParam fieldName="${field.lowerSnakeCaseName}" errorCode="" defaultMessage="${field.lowerSnakeCaseName} is mandatory."/>
-#end		
 #end
 #end
 			</Validator>
 #end
 #if($patternValidatorReq)
 			<Validator bean="patternFieldValidator">
-#foreach ($field in $entity.fieldList)
-#if( ${field.lowerCamelCaseName} != "createdOn" && ${field.lowerCamelCaseName} != "createdBy" && ${field.lowerCamelCaseName} != "updatedOn" && ${field.lowerCamelCaseName} != "updatedBy")
+#foreach ($field in $entity.dataFieldList)
 #if( $StringUtils.isNotBlank(${field.pattern}))
 				<IParam fieldName="${field.lowerSnakeCaseName}" errorCode="" pattern="${field.pattern}" defaultMessage="Invalid ${field.lowerSnakeCaseName}."/>
-#end
 #end
 #end
 			</Validator>
 #end
 #if($lengthValidatorReq)
 			<Validator bean="stringLengthValidator">
-#foreach ($field in $entity.fieldList)
-#if( ${field.lowerCamelCaseName} != "createdOn" && ${field.lowerCamelCaseName} != "createdBy" && ${field.lowerCamelCaseName} != "updatedOn" && ${field.lowerCamelCaseName} != "updatedBy")
+#foreach ($field in $entity.dataFieldList)
 #if( $field.maxLength && $field.minLength && $field.maxLength > 0 &&  $field.minLength >= 0 )
 				<IParam fieldName="${field.lowerSnakeCaseName}" errorCode="" minLength="${field.minLength}" maxLength="${field.maxLength}"/>
-#end
 #end
 #end
 			</Validator>

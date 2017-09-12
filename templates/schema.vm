@@ -3,7 +3,7 @@ CREATE TABLE `${entity.table}` (
 #if( $StringUtils.equalsIgnoreCase(${entity.deleteMode}, "LOGICAL"))
   `is_deleted` TINYINT(1) COMMENT 'flag for deleted records',
 #end
-#foreach ($field in $entity.fieldList)
+#foreach ($field in $entity.dataFieldList)
 #if($StringUtils.equalsIgnoreCase(${field.sqlType}, "VARCHAR"))
   `${field.name}` VARCHAR($field.getOrDefaultStringLength())$field.addNotNull()$field.addComment(),
 #elseif($StringUtils.equalsIgnoreCase(${field.sqlType}, "INT"))
@@ -14,6 +14,13 @@ CREATE TABLE `${entity.table}` (
   `${field.name}` BIGINT($field.getOrDefaultIntegerLength())$field.addNotNull()$field.addComment(),
 #elseif($StringUtils.equalsIgnoreCase(${field.sqlType}, "DECIMAL" ))
   `${field.name}` DECIMAL(20,6)$field.addNotNull()$field.addComment(),
+#end
+#end
+#foreach ($field in $entity.auditFieldList)
+#if($StringUtils.equalsIgnoreCase(${field.sqlType}, "VARCHAR"))
+  `${field.name}` VARCHAR($field.getOrDefaultStringLength())$field.addNotNull()$field.addComment(),
+#elseif($StringUtils.equalsIgnoreCase(${field.sqlType}, "DATETIME"))
+  `${field.name}` DATETIME$field.addNotNull()$field.addComment(),
 #end
 #end
   PRIMARY KEY (`id`)

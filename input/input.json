@@ -5,7 +5,7 @@
 	"table_comment": "Heirarchy level information for various purposes spanning various departements",
 	"author": "Manoj",
 	"delete_mode": "LOGICAL",
-	"fields": [
+	"data_fields": [
 		{
 			"name": "gl_code",
 			"java_type": "String",
@@ -16,7 +16,7 @@
 			"is_mandatory": true,
 			"is_searchable": true,
 			"is_sortable": true,
-			"is_list_element":true,
+			"is_list_element": true,
 			"comment": "code"
 		},
 		{
@@ -27,7 +27,7 @@
 			"is_mandatory": true,
 			"is_searchable": true,
 			"is_sortable": true,
-			"is_list_element":true,
+			"is_list_element": true,
 			"comment": "name"
 		},
 		{
@@ -36,7 +36,7 @@
 			"sql_type": "VARCHAR",
 			"max_length": 256,
 			"is_mandatory": true,
-			"is_list_element":true,
+			"is_list_element": true,
 			"is_sortable": true,
 			"comment": "description"
 		},
@@ -45,7 +45,7 @@
 			"java_type": "String",
 			"sql_type": "VARCHAR",
 			"max_length": 8,
-			"is_list_element":true,
+			"is_list_element": true,
 			"comment": "external reference number"
 		},
 		{
@@ -83,7 +83,9 @@
 			"is_mandatory": true,
 			"is_searchable": true,
 			"comment": "name"
-		},
+		}
+	],
+	"audit_fields": [
 		{
 			"name": "created_on",
 			"java_type": "Date",
@@ -95,6 +97,7 @@
 			"name": "created_by",
 			"java_type": "String",
 			"sql_type": "VARCHAR",
+			"min_length": 0,
 			"max_length": 64,
 			"is_mandatory": true,
 			"comment": "Created by"
@@ -110,6 +113,7 @@
 			"name": "updated_by",
 			"java_type": "String",
 			"sql_type": "VARCHAR",
+			"min_length": 0,
 			"max_length": 64,
 			"is_mandatory": true,
 			"comment": "Updated on"
