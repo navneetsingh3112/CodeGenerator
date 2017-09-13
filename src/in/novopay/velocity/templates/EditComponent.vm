@@ -202,14 +202,15 @@
                                                                value="{{radioList.${field.lowerCamelCaseName}.dataList[$counter].code}}"
                                                                [(ngModel)]="radioList.${field.lowerCamelCaseName}.value"
                                                                data-parsley-trigger="change"
+                                                            #if ($counter == 0 && $field.isMandatory)
                                                                data-parsley-errors-container="#${field.lowerTrainCaseName}-error"
+                                                            #end
                                                             #if ($field.isMandatory)
                                                                required="true"
                                                             #end>
                                                         <label for="${field.lowerTrainCaseName}-${element.code}">
                                                             {{radioList.${field.lowerCamelCaseName}.dataList[$counter].text}}
                                                         </label>
-                                                        <div id="${field.lowerTrainCaseName}-error"></div>
                                                     </div>
                                                     #set($counter = $counter + 1)
                                                 #end
@@ -221,18 +222,21 @@
                                                                value="{{radioList.${field.lowerCamelCaseName}.dataList[i].code}}"
                                                                [(ngModel)]="radioList.${field.lowerCamelCaseName}.value"
                                                                data-parsley-trigger="change"
+                                                            #if ($counter == 0 && $field.isMandatory)
                                                                data-parsley-errors-container="#${field.lowerTrainCaseName}-error"
+                                                            #end
                                                             #if ($field.isMandatory)
                                                                required="true"
                                                             #end>
                                                         <label for="${field.lowerTrainCaseName}-{{data.code}}">
                                                             {{radioList.${field.lowerCamelCaseName}.dataList[i].text}}
                                                         </label>
-                                                        <div id="${field.lowerTrainCaseName}-error"></div>
                                                     </div>
                                                 #end
                                             </div>
-
+                                            #if ($counter == 0 && $field.isMandatory)
+                                                <div id="${field.lowerTrainCaseName}-error"></div>
+                                            #end
                                             <label *ngIf="readOnly"
                                                    [ngSwitch]="radioList.${field.lowerCamelCaseName}.value"
                                                    class="read-only-view-label col-form-label wrap-long-text">

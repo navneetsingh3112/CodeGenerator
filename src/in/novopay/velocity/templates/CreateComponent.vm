@@ -105,8 +105,7 @@
                                 #elseif ($field.webType.equals('Dropdown'))
                                     <!-- Dropdown -->
                                     <div class="form-group row">
-                                        <label class="col-md-4 col-form-label text-md-right"
-                                               for="${entity.lowerTrainCaseClassName}-${field.lowerTrainCaseName}">
+                                        <label class="col-md-4 col-form-label text-md-right">
                                             {{'${entity.lowerTrainCaseClassName}-create-field-${field.lowerTrainCaseName}'
                                             | translate}}
                                             #if ($field.isMandatory)
@@ -200,7 +199,9 @@
                                                                value="{{radioList.${field.lowerCamelCaseName}.dataList[$counter].code}}"
                                                                [(ngModel)]="radioList.${field.lowerCamelCaseName}.value"
                                                                data-parsley-trigger="change"
+                                                            #if ($counter == 0 && $field.isMandatory)
                                                                data-parsley-errors-container="#${field.lowerTrainCaseName}-error"
+                                                            #end
                                                             #if ($field.isMandatory)
                                                                required="true"
                                                             #end>
@@ -208,8 +209,6 @@
                                                             {{radioList.${field.lowerCamelCaseName}.dataList[$counter].text}}
                                                         </label>
                                                     </div>
-
-                                                    <div id="${field.lowerTrainCaseName}-error"></div>
                                                     #set($counter = $counter + 1)
                                                 #end
                                                 #if ($field.dataList.equals([]) )
@@ -220,7 +219,9 @@
                                                                value="{{radioList.${field.lowerCamelCaseName}.dataList[i].code}}"
                                                                [(ngModel)]="radioList.${field.lowerCamelCaseName}.value"
                                                                data-parsley-trigger="change"
+                                                            #if ($counter == 0 && $field.isMandatory)
                                                                data-parsley-errors-container="#${field.lowerTrainCaseName}-error"
+                                                            #end
                                                             #if ($field.isMandatory)
                                                                required="true"
                                                             #end>
@@ -228,10 +229,11 @@
                                                             {{radioList.${field.lowerCamelCaseName}.dataList[i].text}}
                                                         </label>
                                                     </div>
-                                                    <div id="${field.lowerTrainCaseName}-error"></div>
                                                 #end
                                             </div>
-
+                                            #if ($counter == 0 && $field.isMandatory)
+                                                <div id="${field.lowerTrainCaseName}-error"></div>
+                                            #end
                                             <label *ngIf="readOnly"
                                                    [ngSwitch]="radioList.${field.lowerCamelCaseName}.value"
                                                    class="read-only-view-label col-form-label wrap-long-text">
