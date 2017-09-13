@@ -159,12 +159,12 @@
                                                    id="${entity.lowerTrainCaseClassName}-${field.lowerTrainCaseName}"
                                                    type="date"
                                                 #if (${field.minDate})
-                                                   min="{{entity.${field.lowerCamelCaseName}.minDate | date: 'yyyy-MM-dd'}}"
+                                                   min="{{entity.${field.lowerCamelCaseName}.minDate | date: 'dd-MM-yyyy'}}"
                                                 #else
                                                    min="{{todayDate}}"
                                                 #end
                                                 #if (${field.maxDate})
-                                                   max="{{entity.${field.lowerCamelCaseName}.maxDate | date:'yyyy-MM-dd'}}"
+                                                   max="{{entity.${field.lowerCamelCaseName}.maxDate | date: 'dd-MM-yyyy'}}"
                                                 #else
                                                    max="9999-12-31"
                                                 #end
@@ -199,6 +199,8 @@
                                                                id="${field.lowerTrainCaseName}-${element.code}"
                                                                value="{{radioList.${field.lowerCamelCaseName}.dataList[$counter].code}}"
                                                                [(ngModel)]="radioList.${field.lowerCamelCaseName}.value"
+                                                               data-parsley-trigger="change"
+                                                               data-parsley-errors-container="#${field.lowerTrainCaseName}-error"
                                                             #if ($field.isMandatory)
                                                                required="true"
                                                             #end>
@@ -206,6 +208,8 @@
                                                             {{radioList.${field.lowerCamelCaseName}.dataList[$counter].text}}
                                                         </label>
                                                     </div>
+
+                                                    <div id="${field.lowerTrainCaseName}-error"></div>
                                                     #set($counter = $counter + 1)
                                                 #end
                                                 #if ($field.dataList.equals([]) )
@@ -216,6 +220,7 @@
                                                                value="{{radioList.${field.lowerCamelCaseName}.dataList[i].code}}"
                                                                [(ngModel)]="radioList.${field.lowerCamelCaseName}.value"
                                                                data-parsley-trigger="change"
+                                                               data-parsley-errors-container="#${field.lowerTrainCaseName}-error"
                                                             #if ($field.isMandatory)
                                                                required="true"
                                                             #end>
@@ -223,6 +228,7 @@
                                                             {{radioList.${field.lowerCamelCaseName}.dataList[i].text}}
                                                         </label>
                                                     </div>
+                                                    <div id="${field.lowerTrainCaseName}-error"></div>
                                                 #end
                                             </div>
 

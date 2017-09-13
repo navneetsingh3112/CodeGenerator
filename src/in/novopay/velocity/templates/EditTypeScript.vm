@@ -195,9 +195,10 @@ super.setComponentProperties(componentProperty);
         let parsedResponse = response[this.componentDetailsResponseBodyKey];
 
         for (let item in parsedResponse) {
-            for (let et in this.entity) {
-                console.log(this.entity[et]);
-                if (this.entity[et].apiKey === item) {
+                for (let et in this.entity) {
+                    if (this.entity[et].apiKey === item && this.entity[et].type === 'Date') {
+                    this.entity[et].value = this.commonUtilityService.convertSystemMilliSecondToYYMMDD(parsedResponse[item]);
+                    } else if (this.entity[et].apiKey === item) {
                     this.entity[et].value = parsedResponse[item];
                 }
             }

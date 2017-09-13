@@ -79,7 +79,12 @@
                 <tbody>
                 <tr class="table-row" *ngFor="let item of mf.data" (click)="viewFormData(item.$entity.fetchApiKey)">
                 #foreach ($field in $entity.fieldList)
-                       <td class="wrap-long-text" title="{{item.${field.apiKey}}}"><span class="fw-semi-bold">{{item.${field.apiKey}}}</span></td>
+                    #if ($field.webType.equals('Date'))
+                        <td class="wrap-long-text" title="{{item.${field.apiKey}  | date: 'dd-MM-yyyy'}}"><span class="fw-semi-bold">{{item.${field.apiKey}  | date: 'dd-MM-yyyy'}}</span></td>
+                    #else
+                        <td class="wrap-long-text" title="{{item.${field.apiKey}}}"><span class="fw-semi-bold">{{item.${field.apiKey}}}</span></td>
+                #end
+
                 #end
                     <td>
                         <div class="input-group-btn action-button-group">
