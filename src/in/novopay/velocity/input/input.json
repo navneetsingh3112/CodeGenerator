@@ -60,7 +60,7 @@
 			"length": 256,
 			"is_list_element": true,
 			"comment": "Heirarchy level description",
-			"web_type": "Textarea",
+			"web_type": "Date",
 			"placeholder": "eg. Country",
 			"display_name": "Description",
 			"min_length": 2,
@@ -132,9 +132,8 @@
 			"sql_type": "VARCHAR",
 			"length": 256,
 			"is_list_element": false,
-			"is_mandatory": true,
 			"comment": "Type of heirarchy level",
-			"web_type": "Dropdown",
+			"web_type": "Radio",
 			"placeholder": "eg. Administrative",
 			"display_name": "Balance Type",
 			"populate_from_master_data": false,
@@ -180,6 +179,34 @@
 			}
 			],
 			"api_key": "allowed_transanction_type",
+			"is_searchable": true,
+			"is_sortable": true,
+			"is_editable": true
+		},
+		{
+			"name": "transanction_type",
+			"java_type": "String",
+			"sql_type": "VARCHAR",
+			"length": 256,
+			"is_list_element": false,
+			"is_mandatory": true,
+			"comment": "Transaction Type",
+			"web_type": "Checkbox",
+			"display_name": "Transaction Type",
+			"populate_from_master_data": false,
+			"data_list": [
+				{
+					"id": "1",
+					"code": "DEBIT",
+					"text": "Debit"
+				},
+				{
+					"id": "2",
+					"code": "CREDIT",
+					"text": "Credit"
+				}
+			],
+			"api_key": "transanction_type",
 			"is_searchable": true,
 			"is_sortable": true,
 			"is_editable": true
