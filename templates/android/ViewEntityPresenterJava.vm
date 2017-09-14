@@ -50,8 +50,8 @@ public class View${entity.upperCamelCaseClassName}Presenter extends BasePresente
     public void onErrorReceived(TxnCompletionEvent event) {
         view.hideProgress();
         view.showMessage(event.getFailureMsg());
-        if(event.getUrl().endsWith("get${entity.upperCamelCaseClassName}Details")){
-        	view.OnFailureResponseOfDetails();
-        }
+        //if(event.getUrl().endsWith("get${entity.upperCamelCaseClassName}Details")){
+        view.OnFailureResponseOfDetails();
+        //}
     }
 }

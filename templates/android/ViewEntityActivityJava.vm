@@ -6,13 +6,13 @@ import android.os.Bundle;
 import android.os.SystemClock;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.Toolbar;
+import android.util.Pair;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import java.util.HashMap;
-import java.util.Map;
+import java.util.ArrayList;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -49,7 +49,7 @@ public class View${entity.upperCamelCaseClassName}Activity extends NovopayBaseAc
 	private String recordId;
     private String title;
     private View${entity.upperCamelCaseClassName}Presenter presenter;
-    private Map<String, String> recordDetailsMap = new HashMap<>();
+    private ArrayList<Pair<String, String>> recordDetailsPairs = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -138,13 +138,13 @@ public class View${entity.upperCamelCaseClassName}Activity extends NovopayBaseAc
         	setHeaderAndSubHeader(response);
         	setRecordDetailsMap(response);
         	
-        	for(String key: recordDetailsMap.keySet()){
+        	for(Pair<String, String> pair: recordDetailsPairs){
                 LinearLayout mainLayout = (LinearLayout) getLayoutInflater().inflate(R.layout.item_view_entity_column, null, false);
                 TextView columnName = (TextView) mainLayout.findViewById(R.id.column_name_text_view);
                 TextView columnValue = (TextView) mainLayout.findViewById(R.id.column_value_text_view);
 
-                columnName.setText(key);
-                columnValue.setText(recordDetailsMap.get(key));
+                columnName.setText(pair.first);
+                columnValue.setText(pair.second);
 
                 columnsLayout.addView(mainLayout);
             }
@@ -154,26 +154,27 @@ public class View${entity.upperCamelCaseClassName}Activity extends NovopayBaseAc
         }
     }
     
-    public void setHeaderAndSubHeader(GetGeneralLedgerDetailsResponse response) {
-        headingTextView.setText(response.get${entity.primaryUIField.upperCamelCaseName}());
+    public void setHeaderAndSubHeader(Get${entity.upperCamelCaseClassName}DetailsResponse response) {
+        headingTextView.setText(response.get${entity.upperCamelCaseClassName}Details().get${entity.primaryUIField.upperCamelCaseName}());
 
         String subHeading = "";
         #foreach ($field in $entity.secondaryUIFieldList)
     	#if( $velocityCount == $entity.secondaryUIFieldList.size() )
-    		subHeading = subHeading + response.get${field.upperCamelCaseName}();
+    		subHeading = subHeading + response.get${entity.upperCamelCaseClassName}Details().get${field.upperCamelCaseName}();
     	#else
-    		subHeading = subHeading + response.get${field.upperCamelCaseName}() + " | ";
+    		subHeading = subHeading + response.get${entity.upperCamelCaseClassName}Details().get${field.upperCamelCaseName}() + " | ";
     	#end	
     	#end
         
         subHeadingTextView.setText(subHeading);
     }
     
-    public void setRecordDetailsMap(GetGeneralLedgerDetailsResponse response) {
-        recordDetailsMap = new HashMap<>();
+    public void setRecordDetailsMap(Get${entity.upperCamelCaseClassName}DetailsResponse response) {
+    	recordDetailsPairs = new ArrayList<>();
+    
 #foreach ($field in $entity.fieldList)
 #if( ${field.lowerCamelCaseName} != "createdOn" && ${field.lowerCamelCaseName} != "createdBy" && ${field.lowerCamelCaseName} != "updatedOn" && ${field.lowerCamelCaseName} != "updatedBy")
-		recordDetailsMap.put("${field.displayName}", response.get${field.upperCamelCaseName}());
+		recordDetailsPairs.add(new Pair<>("${field.displayName}", response.get${entity.upperCamelCaseClassName}Details().get${field.upperCamelCaseName}()));
 #end
 #end
     }

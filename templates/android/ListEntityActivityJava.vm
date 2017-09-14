@@ -29,6 +29,10 @@ import in.novopay.services.views.List${entity.upperCamelCaseClassName}View;
  */
 
 public class List${entity.upperCamelCaseClassName}Activity extends NovopayBaseActivity implements List${entity.upperCamelCaseClassName}View {
+	
+	private static final int CREATE_REQUEST_CODE = 1001;
+	private static final int VIEW_REQUEST_CODE = 1002;
+	
     @BindView(R.id.toolbar)
     Toolbar toolbar;
 
@@ -94,18 +98,14 @@ public class List${entity.upperCamelCaseClassName}Activity extends NovopayBaseAc
             mLastClickTime = SystemClock.elapsedRealtime();
             Intent intent = new Intent(this, Create${entity.upperCamelCaseClassName}Activity.class);
             intent.putExtra(AppConstant.INTENT_EXTRA_TITLE, title);
-            startActivity(intent);
+            startActivityForResult(intent, CREATE_REQUEST_CODE);
             GUIUtils.overridePendingTransitionForEnter(this);
         }
     }
     
     @OnClick(R.id.right_logo)
     protected void appBarRightLogoOnClick(){
-        Intent intent = new Intent(this, View${entity.upperCamelCaseClassName}Activity.class);
-        intent.putExtra(AppConstant.INTENT_EXTRA_TITLE, title);
-        intent.putExtra(AppConstant.INTENT_EXTRA_ENTITY_ID, 1);
-        startActivity(intent);
-        GUIUtils.overridePendingTransitionForEnter(this);
+        
     }
     
     
@@ -131,11 +131,23 @@ public class List${entity.upperCamelCaseClassName}Activity extends NovopayBaseAc
         GUIUtils.overridePendingTransitionForExit(this);
     }
     
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if(resultCode == RESULT_OK){
+	        if(requestCode == CREATE_REQUEST_CODE || requestCode == VIEW_REQUEST_CODE){
+	            hideEveryThing();
+	            presenter.get${entity.upperCamelCaseClassName}List();
+	        } else {
+	            super.onActivityResult(requestCode, resultCode, data);
+	        }
+        }
+    }
+    
     public void onItemClick(int position) {
     	Intent intent = new Intent(this, View${entity.upperCamelCaseClassName}Activity.class);
         intent.putExtra(AppConstant.INTENT_EXTRA_TITLE, title);
         intent.putExtra(AppConstant.INTENT_EXTRA_ENTITY_ID, responseList.get(position).get${entity.upperCamelCaseClassName}Details().getId());
-        startActivity(intent);
+        startActivityForResult(intent, VIEW_REQUEST_CODE);
         GUIUtils.overridePendingTransitionForEnter(this);
     }
     

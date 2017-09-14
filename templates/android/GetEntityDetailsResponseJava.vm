@@ -7,31 +7,44 @@ import java.io.Serializable;
  */
 
 public class Get${entity.upperCamelCaseClassName}DetailsResponse extends GenericResponse implements Serializable{
-	private String id;
-#foreach ($field in $entity.fieldList)
-#if( ${field.lowerCamelCaseName} != "createdOn" && ${field.lowerCamelCaseName} != "createdBy" && ${field.lowerCamelCaseName} != "updatedOn" && ${field.lowerCamelCaseName} != "updatedBy")
-	private ${field.javaType} ${field.lowerCamelCaseName};
-#end	
-#end
+	private ${entity.upperCamelCaseClassName}Details ${entity.lowerCamelCaseClassName}Details;
 
-	public String getId() {
-		return id;
+	public ${entity.upperCamelCaseClassName}Details get${entity.upperCamelCaseClassName}Details() {
+		return ${entity.lowerCamelCaseClassName}Details;
 	}
 
-	public void setId(String id) {
-    	this.id = id;
-    }
-    
-#foreach ($field in $entity.fieldList)
-#if( ${field.lowerCamelCaseName} != "createdOn" && ${field.lowerCamelCaseName} != "createdBy" && ${field.lowerCamelCaseName} != "updatedOn" && ${field.lowerCamelCaseName} != "updatedBy")
-	public ${field.javaType} get${field.upperCamelCaseName}(){
-		return ${field.lowerCamelCaseName};
+	public void set${entity.upperCamelCaseClassName}Details(${entity.upperCamelCaseClassName}Details ${entity.lowerCamelCaseClassName}Details) {
+		this.${entity.lowerCamelCaseClassName}Details = ${entity.lowerCamelCaseClassName}Details;
 	}
+
+	public class ${entity.upperCamelCaseClassName}Details {
 	
-	public void set${field.upperCamelCaseName}(${field.javaType} ${field.lowerCamelCaseName}){
-		this.${field.lowerCamelCaseName} = ${field.lowerCamelCaseName};
+		private String id;
+	#foreach ($field in $entity.fieldList)
+	#if( ${field.lowerCamelCaseName} != "createdOn" && ${field.lowerCamelCaseName} != "createdBy" && ${field.lowerCamelCaseName} != "updatedOn" && ${field.lowerCamelCaseName} != "updatedBy")
+		private ${field.javaType} ${field.lowerCamelCaseName};
+	#end	
+	#end
+	
+		public String getId() {
+			return id;
+		}
+	
+		public void setId(String id) {
+	    	this.id = id;
+	    }
+	    
+	#foreach ($field in $entity.fieldList)
+	#if( ${field.lowerCamelCaseName} != "createdOn" && ${field.lowerCamelCaseName} != "createdBy" && ${field.lowerCamelCaseName} != "updatedOn" && ${field.lowerCamelCaseName} != "updatedBy")
+		public ${field.javaType} get${field.upperCamelCaseName}(){
+			return ${field.lowerCamelCaseName};
+		}
+		
+		public void set${field.upperCamelCaseName}(${field.javaType} ${field.lowerCamelCaseName}){
+			this.${field.lowerCamelCaseName} = ${field.lowerCamelCaseName};
+		}
+		
+	#end
+	#end
 	}
-	
-#end
-#end
 }

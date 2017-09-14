@@ -1,10 +1,15 @@
 package in.novopay.services.activities;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.SystemClock;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
+import android.view.KeyEvent;
+import android.view.View;
+import android.view.inputmethod.EditorInfo;
 import android.widget.TextView;
 
 import butterknife.BindView;
@@ -18,6 +23,8 @@ import in.novopay.services.utils.GUIUtils;
 import in.novopay.uicontrollibrary.components.EditText;
 import in.novopay.services.views.Create${entity.upperCamelCaseClassName}View;
 import in.novopay.network.responses.CreateOrUpdate${entity.upperCamelCaseClassName}Response;
+import in.novopay.uicontrollibrary.utils.AppConstants;
+import in.novopay.uicontrollibrary.utils.Utils;
 
 /**
  * Created by ${entity.author} on ${entity.date}.
@@ -121,7 +128,25 @@ public class Create${entity.upperCamelCaseClassName}Activity extends NovopayBase
 #end
 
 	@Override
-	public void handleCreateOrUpdate${entity.upperCamelCaseClassName}Response(CreateOrUpdate${entity.upperCamelCaseClassName}Response createOrUpdate${entity.upperCamelCaseClassName}Response) {
+	public void handleCreateOrUpdate${entity.upperCamelCaseClassName}Response(CreateOrUpdate${entity.upperCamelCaseClassName}Response response) {
+		AlertDialog.Builder builder = new AlertDialog.Builder(this).setCancelable(false);
+        View view = getLayoutInflater().inflate(R.layout.template_dialog, null, false);
+        builder.setView(view);
+        TextView title = (TextView) view.findViewById(R.id.heading_text);
+        title.setText("Success");
+        TextView textView = (TextView) view.findViewById(R.id.message_text);
+        textView.setText("Record successfully saved.");
+
+        builder.setPositiveButton(AppConstants.OK, new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int id) {
+                dialog.dismiss();
+                setResult(RESULT_OK);
+                onBackPressed();
+            }
+        });
+
+        AlertDialog dialog = builder.create();
+        dialog.show();
+        dialog.getButton(AlertDialog.BUTTON_POSITIVE).setTextColor(getResources().getColor(R.color.novopay_color_primary));
 	}  
-      
 }
