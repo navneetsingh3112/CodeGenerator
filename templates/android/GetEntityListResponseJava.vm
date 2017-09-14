@@ -8,17 +8,17 @@ import java.util.ArrayList;
  */
 
 public class Get${entity.upperCamelCaseClassName}ListResponse extends GenericResponse implements Serializable{
-	private ArrayList<Get${entity.upperCamelCaseClassName}Details> get${entity.upperCamelCaseClassName}List;
+	private ArrayList<${entity.upperCamelCaseClassName}List> ${entity.lowerCamelCaseClassName}List;
 	private String pageSize;
     private String offset;
     private String numberOfRecords;
 
-    public ArrayList<Get${entity.upperCamelCaseClassName}Details> get${entity.upperCamelCaseClassName}List() {
-        return get${entity.upperCamelCaseClassName}List;
+    public ArrayList<${entity.upperCamelCaseClassName}List> get${entity.upperCamelCaseClassName}List() {
+        return ${entity.lowerCamelCaseClassName}List;
     }
 
-    public void set${entity.upperCamelCaseClassName}List(ArrayList<Get${entity.upperCamelCaseClassName}Details> get${entity.upperCamelCaseClassName}List) {
-        this.get${entity.upperCamelCaseClassName}List = get${entity.upperCamelCaseClassName}List;
+    public void set${entity.upperCamelCaseClassName}List(ArrayList<${entity.upperCamelCaseClassName}List> ${entity.lowerCamelCaseClassName}List) {
+        this.${entity.lowerCamelCaseClassName}List = ${entity.lowerCamelCaseClassName}List;
     }
     
      public String getPageSize() {
@@ -44,8 +44,20 @@ public class Get${entity.upperCamelCaseClassName}ListResponse extends GenericRes
     public void setNumberOfRecords(String numberOfRecords) {
         this.numberOfRecords = numberOfRecords;
     }
-	
-	public class Get${entity.upperCamelCaseClassName}Details{ 
+    
+    public class ${entity.upperCamelCaseClassName}List{
+        private ${entity.upperCamelCaseClassName}Details ${entity.lowerCamelCaseClassName}Details;
+
+        public ${entity.upperCamelCaseClassName}Details get${entity.upperCamelCaseClassName}Details() {
+            return ${entity.lowerCamelCaseClassName}Details;
+        }
+
+        public void set${entity.upperCamelCaseClassName}Details(${entity.upperCamelCaseClassName}Details ${entity.lowerCamelCaseClassName}Details) {
+            this.${entity.lowerCamelCaseClassName}Details = ${entity.lowerCamelCaseClassName}Details;
+        }
+    }
+    
+	public class ${entity.upperCamelCaseClassName}Details{ 
 		private String id;
 	#foreach ($field in $entity.fieldList)
 	#if( ${field.lowerCamelCaseName} != "createdOn" && ${field.lowerCamelCaseName} != "createdBy" && ${field.lowerCamelCaseName} != "updatedOn" && ${field.lowerCamelCaseName} != "updatedBy")

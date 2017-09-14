@@ -1,62 +1,92 @@
 {
-	"table":"hierarchy_level",
-	"table_display_Name": "Hierarchy Level",
-	"service_display_name": "Hierarchy Management",
-	"userStory":"hierarchylevel",
-	"service":"hierarchymanagement",
-	"table_comment" : "Hierarchy level information for various purposes spanning various departements",
+	"table":"general_ledger",
+	"table_display_Name": "General Ledger",
+	"userStory":"generalledger",
+	"service":"accounting",
+	"service_display_name": "Accounting",
+	"table_comment" : "General Ledger for Accounting",
 	"author":"anandparmar",
 	"fields": [
 		{
-			"name": "level_name",
-			"display_name" : "Level Name",
-			"java_type": "String",
-			"sql_type": "VARCHAR",
-			"max_length": 16,
-			"is_mandatory": true,
-			"is_searchable": true,
-			"comment": "Name of heirarchy level",
-			"is_primary": true
-		},
-		{
-			"name": "level_code",
-			"display_name" : "Level Code",
+			"name": "gl_code",
+			"display_name" : "Code",
 			"java_type": "String",
 			"sql_type": "VARCHAR",
 			"max_length": 8,
 			"is_mandatory": true,
 			"is_searchable": true,
-			"comment": "Hierarchy level code"
+			"comment": "Code",
+			"is_secondary": true
+		},
+		{
+			"name": "name",
+			"display_name" : "Name",
+			"java_type": "String",
+			"sql_type": "VARCHAR",
+			"max_length": 32,
+			"is_mandatory": true,
+			"is_searchable": true,
+			"comment": "Name",
+			"is_primary": true
 		},
 		{
 			"name": "description",
 			"display_name" : "Description",
 			"java_type": "String",
 			"sql_type": "VARCHAR",
-			"max_length": 256,
-			"comment": "Hierarchy level description"
+			"max_length": 8,
+			"comment": "Description of the Entry"
 		},
 		{
-			"name": "department_name",
+			"name": "external_reference_number",
 			"java_type": "String",
-			"display_name" : "Department Name",
+			"display_name" : "External Reference Number",
+			"sql_type": "VARCHAR",
+			"max_length": 32,
+			"is_mandatory": false,
+			"is_searchable": true,
+			"comment": "Hierarchy level External Reference Number",
+			"is_secondary": true
+		},
+		{
+			"name": "category",
+			"java_type": "String",
+			"display_name" : "Category",
+			"sql_type": "VARCHAR",
+			"max_length": 32,
+			"is_mandatory": true,
+			"is_searchable": true,
+			"comment": "Category of general ledge"
+		},
+		{
+			"name": "currency",
+			"java_type": "String",
+			"display_name" : "Currency",
+			"sql_type": "VARCHAR",
+			"max_length": 32,
+			"is_mandatory": true,
+			"is_searchable": true,
+			"comment": "Currency"
+		},
+		{
+			"name": "balance_type",
+			"java_type": "String",
+			"display_name" : "Balance Type",
+			"sql_type": "VARCHAR",
+			"max_length": 32,
+			"is_mandatory": true,
+			"is_searchable": true,
+			"comment": "Balance Type"
+		},
+		{
+			"name": "allowed_transanction_type",
+			"java_type": "String",
+			"display_name" : "Allowed Transanction Type",
 			"sql_type": "VARCHAR",
 			"max_length": 256,
 			"is_mandatory": true,
 			"is_searchable": true,
-			"comment": "Hierarchy level department name",
-			"is_secondary": true
-		},
-		{
-			"name": "hierarchy_level_type",
-			"java_type": "String",
-			"display_name" : "Hiearchy Level Type",
-			"sql_type": "VARCHAR",
-			"max_length": 256,
-			"is_mandatory": true,
-			"is_searchable": true,
-			"comment": "Type of hierarchy level",
-			"is_secondary": true
+			"comment": "Allowed Transanction Type"
 		},
 		{
 			"name": "created_on",

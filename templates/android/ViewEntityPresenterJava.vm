@@ -1,9 +1,15 @@
 package in.novopay.services.presenters;
 
+import com.google.gson.Gson;
+
 import in.novopay.network.networking.Service;
 import in.novopay.network.objects.TxnCompletionEvent;
+import in.novopay.network.requests.Get${entity.upperCamelCaseClassName}DetailsRequest;
+import in.novopay.network.responses.Get${entity.upperCamelCaseClassName}DetailsResponse;
 import in.novopay.services.base.BasePresenter;
 import in.novopay.services.views.View${entity.upperCamelCaseClassName}View;
+import rx.Subscription;
+import rx.subscriptions.CompositeSubscription;
 
 /**
  * Created by ${entity.author} on ${entity.date}.
@@ -17,15 +23,35 @@ public class View${entity.upperCamelCaseClassName}Presenter extends BasePresente
         this.service = service;
         this.view = view;
     }
+    
+    public void get${entity.upperCamelCaseClassName}Details(){
+        view.showProgress(null);
+        Subscription subscription = service.get${entity.upperCamelCaseClassName}Details(getNewSubscriber(), get${entity.upperCamelCaseClassName}DetailsRequest());
+        subscriptions = new CompositeSubscription();
+        subscriptions.add(subscription);
+    }
+
+    public Get${entity.upperCamelCaseClassName}DetailsRequest get${entity.upperCamelCaseClassName}DetailsRequest() {
+        Get${entity.upperCamelCaseClassName}DetailsRequest get${entity.upperCamelCaseClassName}DetailsRequest = new Get${entity.upperCamelCaseClassName}DetailsRequest(view.getContext());
+        get${entity.upperCamelCaseClassName}DetailsRequest.getRequest().setId(view.getId());
+        return get${entity.upperCamelCaseClassName}DetailsRequest;
+    }
 
     @Override
     public void onResultReceived(TxnCompletionEvent event) {
         view.hideProgress();
+        if(event.getUrl().endsWith("get${entity.upperCamelCaseClassName}Details")){
+            Get${entity.upperCamelCaseClassName}DetailsResponse response = new Gson().fromJson(event.getResponseString(), Get${entity.upperCamelCaseClassName}DetailsResponse.class);
+            view.onSuccessResponseOfDetails(response);
+        }
     }
 
     @Override
     public void onErrorReceived(TxnCompletionEvent event) {
         view.hideProgress();
         view.showMessage(event.getFailureMsg());
+        if(event.getUrl().endsWith("get${entity.upperCamelCaseClassName}Details")){
+        	view.OnFailureResponseOfDetails();
+        }
     }
 }

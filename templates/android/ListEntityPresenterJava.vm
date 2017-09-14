@@ -43,7 +43,7 @@ public class List${entity.upperCamelCaseClassName}Presenter extends BasePresente
     @Override
     public void onResultReceived(TxnCompletionEvent event) {
         view.hideProgress();
-        if(event.getUrl().equals("get${entity.upperCamelCaseClassName}List")){
+        if(event.getUrl().endsWith("get${entity.upperCamelCaseClassName}List")){
             Get${entity.upperCamelCaseClassName}ListResponse response = new Gson().fromJson(event.getResponseString(), Get${entity.upperCamelCaseClassName}ListResponse.class);
             view.onSuccessResponse(response);
         }

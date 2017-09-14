@@ -32,10 +32,6 @@ public class Create${entity.upperCamelCaseClassName}Activity extends NovopayBase
 
     @BindView(R.id.action_button)
     TextView actionButton;
-
-    private String title;
-    private String activityType;
-    private Create${entity.upperCamelCaseClassName}Presenter presenter;
     
     #foreach ($field in $entity.fieldList)
 	#if( ${field.lowerCamelCaseName} != "createdOn" && ${field.lowerCamelCaseName} != "createdBy" && ${field.lowerCamelCaseName} != "updatedOn" && ${field.lowerCamelCaseName} != "updatedBy")
@@ -45,6 +41,10 @@ public class Create${entity.upperCamelCaseClassName}Activity extends NovopayBase
 	
 	#end
 	#end
+	
+	private String title;
+    private String activityType;
+    private Create${entity.upperCamelCaseClassName}Presenter presenter;
 	
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -69,28 +69,27 @@ public class Create${entity.upperCamelCaseClassName}Activity extends NovopayBase
 
     private void setTitle(String title) {
         if(AppConstant.INTENT_EXTRA_EDIT.equals(activityType)) {
-            activityTitle.setText("Edit - " + title);
+            activityTitle.setText("Edit " + title);
         } else {
-            activityTitle.setText("Create - " + title);
+            activityTitle.setText("New " + title);
         }
     }
 
     private void initView() {
     	if(AppConstant.INTENT_EXTRA_EDIT.equals(activityType)) {
-    		actionButton.setText("Save");
+    		actionButton.setText("SAVE");
     	} else {
-    		actionButton.setText("Create");
+    		actionButton.setText("CREATE");
     	}   
     }
 
     @OnClick(R.id.action_button)
     protected void actionButtonOnClick() {
-        if (SystemClock.elapsedRealtime() - mLastClickTime < 3000) {
+        if (SystemClock.elapsedRealtime() - mLastClickTime < 1000) {
             mLastClickTime = SystemClock.elapsedRealtime();
         } else {
             mLastClickTime = SystemClock.elapsedRealtime();
-            finish();
-            GUIUtils.overridePendingTransitionForExit(this);
+            presenter.createOrUpdate${entity.upperCamelCaseClassName}();
         }
     }
 

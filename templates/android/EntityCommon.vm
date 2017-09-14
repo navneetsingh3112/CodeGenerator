@@ -51,13 +51,13 @@ File: NetworkService.java
 /////////////////////////
 
 @POST("get${entity.upperCamelCaseClassName}List")
-Observable<Response<ResponseBody>> get${entity.upperCamelCaseClassName}List(@Body Get${entity.upperCamelCaseClassName}ListRequest request);
+Observable<Response<Get${entity.upperCamelCaseClassName}ListResponse>> get${entity.upperCamelCaseClassName}List(@Body Get${entity.upperCamelCaseClassName}ListRequest request);
 
 @POST("get${entity.upperCamelCaseClassName}Details")
-Observable<Response<ResponseBody>> get${entity.upperCamelCaseClassName}Details(@Body Get${entity.upperCamelCaseClassName}DetailsRequest request);
+Observable<Response<Get${entity.upperCamelCaseClassName}DetailsResponse>> get${entity.upperCamelCaseClassName}Details(@Body Get${entity.upperCamelCaseClassName}DetailsRequest request);
 
 @POST("createOrUpdate${entity.upperCamelCaseClassName}")
-Observable<Response<ResponseBody>> createOrUpdate${entity.upperCamelCaseClassName}(@Body CreateOrUpdate${entity.upperCamelCaseClassName}Request request);
+Observable<Response<CreateOrUpdate${entity.upperCamelCaseClassName}Response>> createOrUpdate${entity.upperCamelCaseClassName}(@Body CreateOrUpdate${entity.upperCamelCaseClassName}Request request);
 
 
 
@@ -69,9 +69,9 @@ public Subscription get${entity.upperCamelCaseClassName}List(Subscriber subscrib
         return networkService.get${entity.upperCamelCaseClassName}List(request)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .onErrorResumeNext(new Func1<Throwable, Observable<? extends Response<ResponseBody>>>() {
+                .onErrorResumeNext(new Func1<Throwable, Observable<? extends Response<Get${entity.upperCamelCaseClassName}ListResponse>>>() {
                     @Override
-                    public Observable<? extends Response<ResponseBody>> call(Throwable throwable) {
+                    public Observable<? extends Response<Get${entity.upperCamelCaseClassName}ListResponse>> call(Throwable throwable) {
                         return Observable.error(throwable);
                     }
                 })
@@ -82,9 +82,9 @@ public Subscription get${entity.upperCamelCaseClassName}Details(Subscriber subsc
         return networkService.get${entity.upperCamelCaseClassName}Details(request)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .onErrorResumeNext(new Func1<Throwable, Observable<? extends Response<ResponseBody>>>() {
+                .onErrorResumeNext(new Func1<Throwable, Observable<? extends Response<Get${entity.upperCamelCaseClassName}DetailsResponse>>>() {
                     @Override
-                    public Observable<? extends Response<ResponseBody>> call(Throwable throwable) {
+                    public Observable<? extends Response<Get${entity.upperCamelCaseClassName}DetailsResponse>> call(Throwable throwable) {
                         return Observable.error(throwable);
                     }
                 })
@@ -95,9 +95,9 @@ public Subscription createOrUpdate${entity.upperCamelCaseClassName}(Subscriber s
         return networkService.createOrUpdate${entity.upperCamelCaseClassName}(request)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .onErrorResumeNext(new Func1<Throwable, Observable<? extends Response<ResponseBody>>>() {
+                .onErrorResumeNext(new Func1<Throwable, Observable<? extends Response<CreateOrUpdate${entity.upperCamelCaseClassName}Response>>>() {
                     @Override
-                    public Observable<? extends Response<ResponseBody>> call(Throwable throwable) {
+                    public Observable<? extends Response<CreateOrUpdate${entity.upperCamelCaseClassName}Response>> call(Throwable throwable) {
                         return Observable.error(throwable);
                     }
                 })

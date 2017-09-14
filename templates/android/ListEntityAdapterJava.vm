@@ -20,10 +20,10 @@ import in.novopay.services.activities.List${entity.upperCamelCaseClassName}Activ
 
 public class List${entity.upperCamelCaseClassName}Adapter extends RecyclerView.Adapter<List${entity.upperCamelCaseClassName}Adapter.List${entity.upperCamelCaseClassName}ViewHolder> {
 	private List${entity.upperCamelCaseClassName}Activity activity;
-    private ArrayList<Get${entity.upperCamelCaseClassName}ListResponse.Get${entity.upperCamelCaseClassName}Details> ${entity.lowerCamelCaseClassName}List;
+    private ArrayList<Get${entity.upperCamelCaseClassName}ListResponse.${entity.upperCamelCaseClassName}List> ${entity.lowerCamelCaseClassName}List;
 
     public List${entity.upperCamelCaseClassName}Adapter(List${entity.upperCamelCaseClassName}Activity activity, 
-    													ArrayList<Get${entity.upperCamelCaseClassName}ListResponse.Get${entity.upperCamelCaseClassName}Details> ${entity.lowerCamelCaseClassName}List) {
+    													ArrayList<Get${entity.upperCamelCaseClassName}ListResponse.${entity.upperCamelCaseClassName}List> ${entity.lowerCamelCaseClassName}List) {
         this.activity = activity;
         this.${entity.lowerCamelCaseClassName}List = ${entity.lowerCamelCaseClassName}List;
     }
@@ -36,14 +36,14 @@ public class List${entity.upperCamelCaseClassName}Adapter extends RecyclerView.A
 
     @Override
     public void onBindViewHolder(List${entity.upperCamelCaseClassName}ViewHolder holder, int position) {
-    	holder.headingTextView.setText(${entity.lowerCamelCaseClassName}List.get(position).get${entity.primaryUIField.upperCamelCaseName}());
+    	holder.headingTextView.setText(${entity.lowerCamelCaseClassName}List.get(position).get${entity.upperCamelCaseClassName}Details().get${entity.primaryUIField.upperCamelCaseName}());
     	
     	String subHeading = "";
     	#foreach ($field in $entity.secondaryUIFieldList)
     	#if( $velocityCount == $entity.secondaryUIFieldList.size() )
-    		subHeading = subHeading + ${entity.lowerCamelCaseClassName}List.get(position).get${field.upperCamelCaseName}();
+    		subHeading = subHeading + ${entity.lowerCamelCaseClassName}List.get(position).get${entity.upperCamelCaseClassName}Details().get${field.upperCamelCaseName}();
     	#else
-    		subHeading = subHeading + ${entity.lowerCamelCaseClassName}List.get(position).get${field.upperCamelCaseName}() + " | ";
+    		subHeading = subHeading + ${entity.lowerCamelCaseClassName}List.get(position).get${entity.upperCamelCaseClassName}Details().get${field.upperCamelCaseName}() + " | ";
     	#end	
     	#end
     	

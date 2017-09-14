@@ -1,20 +1,26 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+	xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
     <include layout="@layout/template_appbar" />
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical"
-        android:layout_marginLeft="@dimen/activity_margin"
-        android:layout_marginRight="@dimen/activity_margin"
-        android:layout_marginBottom="@dimen/activity_margin"
-        android:layout_above="@+id/action_button"
-        android:layout_below="@+id/appbar">
+	<ScrollView
+	android:layout_width="match_parent"
+	android:layout_height="wrap_content"
+	android:layout_above="@+id/action_button"
+	android:layout_below="@+id/appbar"
+	android:fillViewport="true">
+	
+	<LinearLayout
+	android:layout_width="match_parent"
+	android:layout_height="wrap_content"
+	android:layout_marginBottom="@dimen/activity_margin"
+	android:layout_marginLeft="@dimen/activity_margin"
+	android:layout_marginRight="@dimen/activity_margin"
+	android:orientation="vertical">
 	
 	#foreach ($field in $entity.fieldList)
 	#if( ${field.lowerCamelCaseName} != "createdOn" && ${field.lowerCamelCaseName} != "createdBy" && ${field.lowerCamelCaseName} != "updatedOn" && ${field.lowerCamelCaseName} != "updatedBy")
@@ -22,7 +28,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/activity_margin"
-        style="@style/np_edit_text_white"
+        style="@style/np_edit_text_gray"
         android:maxLines="1"
         android:singleLine="true"
         app:et_edittext_type="text"
@@ -33,6 +39,6 @@
 	#end
 
     </LinearLayout>
-
+    </ScrollView>
     <include layout="@layout/template_action_button"/>
 </RelativeLayout>
