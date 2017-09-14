@@ -50,13 +50,15 @@ import {${entity.upperCamelCaseClassName}CreateComponent} from "./create/${entit
 import {${entity.upperCamelCaseClassName}ListComponent} from "./list/${entity.lowerTrainCaseClassName}-list.component";
 import {${entity.upperCamelCaseClassName}ViewComponent} from "./view/${entity.lowerTrainCaseClassName}-view.component";
 import {${entity.upperCamelCaseClassName}EditComponent} from "./edit/${entity.lowerTrainCaseClassName}-edit.component";
+import {${entity.upperCamelCaseClassName}CopyComponent} from "./copy/${entity.lowerTrainCaseClassName}-copy.component";
 
 export const routes = [
     {path: '', redirectTo: 'list', pathMatch: 'full'},
     {path: 'create', component: ${entity.upperCamelCaseClassName}CreateComponent},
     {path: 'list', component: ${entity.upperCamelCaseClassName}ListComponent},
     {path: 'view/:id', component: ${entity.upperCamelCaseClassName}ViewComponent},
-    {path: 'edit/:id', component: ${entity.upperCamelCaseClassName}EditComponent}
+    {path: 'edit/:id', component: ${entity.upperCamelCaseClassName}EditComponent},
+    {path: 'copy/:id', component: ${entity.upperCamelCaseClassName}CopyComponent}
 ];
 
 @NgModule({
@@ -64,7 +66,8 @@ export const routes = [
         ${entity.upperCamelCaseClassName}CreateComponent,
         ${entity.upperCamelCaseClassName}ListComponent,
         ${entity.upperCamelCaseClassName}ViewComponent,
-        ${entity.upperCamelCaseClassName}EditComponent
+        ${entity.upperCamelCaseClassName}EditComponent,
+        ${entity.upperCamelCaseClassName}CopyComponent
     ],
     imports: [
         CommonModule,

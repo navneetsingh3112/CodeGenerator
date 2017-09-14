@@ -38,7 +38,7 @@ public class Main {
         // -----------------------------------
         String[] inputTemplateFileArray = {"CreateComponent.vm", "CreateTypeScript.vm", "ListComponent.vm",
                 "ListTypeScript.vm", "ViewComponent.vm", "ViewTypeScript.vm", "EditComponent.vm", "EditTypeScript.vm",
-                "Module.vm", "Translate.vm", "ResourceFactoryConstants.vm"};
+                "Module.vm", "Translate.vm", "ResourceFactoryConstants.vm", "CopyComponent.vm", "CopyTypeScript.vm"};
 
         String[] outputDir = {"app/" + entity.getLowerTrainCaseClassName() + "/create",
                 "app/" + entity.getLowerTrainCaseClassName() + "/create",
@@ -47,12 +47,16 @@ public class Main {
                 "app/" + entity.getLowerTrainCaseClassName() + "/view",
                 "app/" + entity.getLowerTrainCaseClassName() + "/view",
                 "app/" + entity.getLowerTrainCaseClassName() + "/edit",
-                "app/" + entity.getLowerTrainCaseClassName() + "/edit", "app/" + entity.getLowerTrainCaseClassName(),
-                "app/" + entity.getLowerTrainCaseClassName(), "app/" + entity.getLowerTrainCaseClassName()};
+                "app/" + entity.getLowerTrainCaseClassName() + "/edit", 
+                "app/" + entity.getLowerTrainCaseClassName(),
+                "app/" + entity.getLowerTrainCaseClassName(), 
+                "app/" + entity.getLowerTrainCaseClassName(),
+                "app/" + entity.getLowerTrainCaseClassName() + "/copy", 
+                "app/" + entity.getLowerTrainCaseClassName() + "/copy"};
 
         String[] outputFileExtentionArray = {"-create.component.html", "-create.component.ts", "-list.component.html",
                 "-list.component.ts", "-view.component.html", "-view.component.ts", "-edit.component.html",
-                "-edit.component.ts", ".module.ts", ".translate.ts", "-resource-factory.constants.ts"};
+                "-edit.component.ts", ".module.ts", ".translate.ts", "-resource-factory.constants.ts","-copy.component.html","-copy.component.ts"};
         // -----------------------------------
         // -----------------------------------
 
