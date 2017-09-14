@@ -93,15 +93,25 @@ public class ${entity.upperCamelCaseClassName}RowMapper extends AbstractRowMappe
 #foreach ($field in $entity.dataFieldList)
 #if( $field.isListElement)
 #if( ${field.javaType} == "String")
-		dataMap.put("${field.lowerSnakeCaseName}", ""+rs.getString("${field.lowerSnakeCaseName}"));
+		if(rs.getString("${field.lowerSnakeCaseName}") != null ) {
+			dataMap.put("${field.lowerSnakeCaseName}", rs.getString("${field.lowerSnakeCaseName}"));		
+		}
 #elseif( ${field.javaType} == "Integer")
-		dataMap.put("${field.lowerSnakeCaseName}", ""+rs.getInt("${field.lowerSnakeCaseName}"));
-#elseif( ${field.javaType} == "Date")	
-		dataMap.put("${field.lowerSnakeCaseName}", rs.getDate("${field.lowerSnakeCaseName}") != null ? ""+rs.getDate("${field.lowerSnakeCaseName}").getTime() :""+rs.getDate("${field.lowerSnakeCaseName}"));
+		if(rs.getInt("${field.lowerSnakeCaseName}" != null )) {
+			dataMap.put("${field.lowerSnakeCaseName}", ""+rs.getInt("${field.lowerSnakeCaseName}"));
+		}		
+#elseif( ${field.javaType} == "Date")
+		if(rs.getDate("${field.lowerSnakeCaseName}" != null )) {
+			dataMap.put("${field.lowerSnakeCaseName}", ""+rs.getDate("${field.lowerSnakeCaseName}").getTime());	
+		}
 #elseif( ${field.javaType} == "Long")
-		dataMap.put("${field.lowerSnakeCaseName}", ""+rs.getLong("${field.lowerSnakeCaseName}"));
+		if(rs.getLong("${field.lowerSnakeCaseName}") != null ) {
+			dataMap.put("${field.lowerSnakeCaseName}", ""+rs.getLong("${field.lowerSnakeCaseName}"));			
+		}
 #elseif( ${field.javaType} == "Double" || ${field.javaType} == "Float")
-		dataMap.put("${field.lowerSnakeCaseName}", ""+rs.getBigDecimal("${field.lowerSnakeCaseName}"));
+		if(rs.getBigDecimal("${field.lowerSnakeCaseName}") != null) {
+			dataMap.put("${field.lowerSnakeCaseName}", ""+rs.getBigDecimal("${field.lowerSnakeCaseName}"));
+		}
 #end
 #end
 #end		
