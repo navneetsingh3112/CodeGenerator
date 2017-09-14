@@ -195,7 +195,7 @@ public class Main {
                     f.setPopulateFromMasterData((Boolean) fobj.get("populate_from_master_data"));
                 }
                 JSONArray dataList = (JSONArray) fobj.get("data_list");
-                if (f.getWebType().equals("Radio") || f.getWebType().equals("Dropdown")) {
+                if (f.getWebType().equals("Radio") || f.getWebType().equals("Dropdown")|| f.getWebType().equals("Checkbox")) {
                     if (dataList != null) {
                         Iterator<JSONObject> dataListIterator = dataList.iterator();
                         while (dataListIterator.hasNext()) {

@@ -117,7 +117,6 @@
                                              *ngIf="dropDownList.${field.lowerCamelCaseName}.dataList.length>0">
                                             <select2 *ngIf="!readOnly"
                                                      id="${entity.lowerTrainCaseClassName}-${field.lowerTrainCaseName}"
-                                                     name="${entity.lowerTrainCaseClassName}-${field.lowerTrainCaseName}"
                                                      (valueChanged)="dropDownValueChange($event,'${field.lowerCamelCaseName}','${entity.lowerTrainCaseClassName}-${field.lowerTrainCaseName}')"
                                                      [value]="dropDownList.${field.lowerCamelCaseName}.initialValues"
                                                      [data]="dropDownList.${field.lowerCamelCaseName}.dataList"
@@ -231,7 +230,7 @@
                                                     </div>
                                                 #end
                                             </div>
-                                            #if ($counter == 0 && $field.isMandatory)
+                                            #if ($field.isMandatory)
                                                 <div id="${field.lowerTrainCaseName}-error"></div>
                                             #end
                                             <label *ngIf="readOnly"
@@ -252,6 +251,70 @@
                                         </div>
                                     </div>
 
+
+                                #elseif ($field.webType.equals('Checkbox'))
+                                    <!-- CheckBox -->
+                                    <div class="form-group row">
+                                        <label class="col-md-4  col-form-label text-md-right">{{checkboxList.${field.lowerCamelCaseName}.displayName
+                                            | translate}}#if ($field.isMandatory)
+                                                *
+                                            #end
+                                        </label>
+
+                                        <div class="col-md-8 ">
+                                                    <div class="abc-checkbox abc-checkbox-primary">
+                                                        <input id="${field.lowerTrainCaseName}-check-uncheck-all-allowed-channels" type="checkbox"
+                                                               name="check-uncheck-all-allowed-channels"
+                                                               [(ngModel)]="checkboxList.${field.lowerCamelCaseName}.checkUncheckAllChannelsModel"
+                                                               (click)="checkUncheckAllChannels('${field.lowerCamelCaseName}')">
+                                                        <label for="${field.lowerTrainCaseName}-check-uncheck-all-allowed-channels">
+                                                            {{'savings-product-create-check-uncheck-all' | translate}}
+                                                        </label>
+                                                    </div>
+                                                </div>
+
+                                                <div *ngIf="!readOnly" class="row">
+                                                    #set($counter = 0)
+                                                    #foreach ($element in $field.dataList)
+                                                        <div>
+                                                            <div class="abc-checkbox abc-checkbox-primary">
+                                                                <input  id="${field.lowerTrainCaseName}-${element.code}"
+                                                                       type="checkbox"
+                                                                        name="${field.lowerTrainCaseName}-${element.code}"
+                                                                       (ngModelChange)="checkBoxClick('${field.lowerCamelCaseName}')"
+                                                                       [(ngModel)]="checkboxList.${field.lowerCamelCaseName}.dataList[$counter].isChecked"
+                                                                    >
+                                                                <label  for="${field.lowerTrainCaseName}-${element.code}">
+                                                                    ${element.text}
+                                                                </label>
+                                                            </div>
+                                                        </div>
+                                                        #set($counter = $counter + 1)
+                                                    #end
+                                                </div>
+
+                                                <div *ngIf="readOnly" class="row">
+                                                    #set($counter = 0)
+                                                    #foreach ($element in $field.dataList)
+                                                        <div>
+                                                            <div class="abc-checkbox abc-checkbox-primary">
+                                                                <label *ngIf="checkboxList.${field.lowerCamelCaseName}.dataList[$counter].isChecked"
+                                                                       title="{{channel.text}}"
+                                                                       class="read-only-view-label col-form-label wrap-long-text"> ${element.text}
+                                                                </label>
+                                                            </div>
+                                                        </div>
+                                                        #set($counter = $counter + 1)
+                                                    #end
+                                                </div>
+                                                <div *ngIf="!checkboxList.${field.lowerCamelCaseName}.isValidAllowedChannels">
+                                                    #if ($field.isMandatory)
+                                                        <ul class="parsley-errors-list filled">
+                                                            <li class="parsley-pattern">{{'form-error-atleast-one-required-msg' | translate}}</li>
+                                                        </ul>
+                                                    #end
+                                                </div>
+                                    </div>
                                 #end
                             #end
                         </fieldset>
