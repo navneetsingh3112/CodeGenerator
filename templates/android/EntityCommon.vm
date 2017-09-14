@@ -59,6 +59,9 @@ Observable<Response<Get${entity.upperCamelCaseClassName}DetailsResponse>> get${e
 @POST("createOrUpdate${entity.upperCamelCaseClassName}")
 Observable<Response<CreateOrUpdate${entity.upperCamelCaseClassName}Response>> createOrUpdate${entity.upperCamelCaseClassName}(@Body CreateOrUpdate${entity.upperCamelCaseClassName}Request request);
 
+@POST("delete${entity.upperCamelCaseClassName}")
+Observable<Response<Delete${entity.upperCamelCaseClassName}Response>> delete${entity.upperCamelCaseClassName}(@Body Delete${entity.upperCamelCaseClassName}Request request);
+
 
 
 /////////////////////////
@@ -98,6 +101,20 @@ public Subscription createOrUpdate${entity.upperCamelCaseClassName}(Subscriber s
                 .onErrorResumeNext(new Func1<Throwable, Observable<? extends Response<CreateOrUpdate${entity.upperCamelCaseClassName}Response>>>() {
                     @Override
                     public Observable<? extends Response<CreateOrUpdate${entity.upperCamelCaseClassName}Response>> call(Throwable throwable) {
+                        return Observable.error(throwable);
+                    }
+                })
+                .subscribe(subscriber);
+}
+
+
+public Subscription delete${entity.upperCamelCaseClassName}(Subscriber subscriber, Delete${entity.upperCamelCaseClassName}Request request) {
+        return networkService.delete${entity.upperCamelCaseClassName}(request)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .onErrorResumeNext(new Func1<Throwable, Observable<? extends Response<Delete${entity.upperCamelCaseClassName}Response>>>() {
+                    @Override
+                    public Observable<? extends Response<Delete${entity.upperCamelCaseClassName}Response>> call(Throwable throwable) {
                         return Observable.error(throwable);
                     }
                 })
