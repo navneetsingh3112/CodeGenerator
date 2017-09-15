@@ -185,6 +185,14 @@
 			"is_editable": true
 		}
 	],
+	"list_view_action_button_list": [
+		{
+			"type": "copy"
+		},
+		{
+			"type": "edit"
+		}
+	],
 	"table_indices": [
 		{
 			"name": "hl_level_code",

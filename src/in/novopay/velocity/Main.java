@@ -7,6 +7,8 @@ import in.novopay.velocity.input.DataList;
 import in.novopay.velocity.input.InputEntity;
 import in.novopay.velocity.input.InputEntityButtons;
 import in.novopay.velocity.input.InputEntityFields;
+
+import org.apache.commons.lang.StringUtils;
 import org.apache.velocity.Template;
 import org.apache.velocity.VelocityContext;
 import org.apache.velocity.app.VelocityEngine;
@@ -30,6 +32,7 @@ public class Main {
         VelocityContext context = new VelocityContext();
         InputEntity entity = getEntity();
         context.put("entity", entity);
+        context.put("StringUtils", new StringUtils());
         VelocityEngine velocityEngine = new VelocityEngine();
         Properties velocityProperties = new Properties();
         velocityProperties.setProperty("file.resource.loader.path", TEMPLATES_DIR);
