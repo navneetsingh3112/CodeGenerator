@@ -80,16 +80,6 @@ public class Create${entity.upperCamelCaseClassName}Activity extends NovopayBase
     private void setTitle(String title) {
         if(AppConstant.INTENT_EXTRA_EDIT.equals(activityType)) {
             activityTitle.setText("Edit " + title);
-            
-            if(get${entity.upperCamelCaseClassName}DetailsResponse != null){
-#foreach ($field in $entity.fieldList)
-#if( ${field.lowerCamelCaseName} != "createdOn" && ${field.lowerCamelCaseName} != "createdBy" && ${field.lowerCamelCaseName} != "updatedOn" && ${field.lowerCamelCaseName} != "updatedBy")
-				${field.lowerCamelCaseName}EditText.setText(get${entity.upperCamelCaseClassName}DetailsResponse.get${entity.upperCamelCaseClassName}Details().get${field.upperCamelCaseName}());
-#end
-#end
-			} else {
-                showMessage("Mandatory Data is missing");
-            }
         } else {
             activityTitle.setText("New " + title);
         }
@@ -98,9 +88,29 @@ public class Create${entity.upperCamelCaseClassName}Activity extends NovopayBase
     private void initView() {
     	if(AppConstant.INTENT_EXTRA_EDIT.equals(activityType)) {
     		actionButton.setText("SAVE");
+    		
+    		if(get${entity.upperCamelCaseClassName}DetailsResponse != null && get${entity.upperCamelCaseClassName}DetailsResponse.get${entity.upperCamelCaseClassName}Details() != null){
+#foreach ($field in $entity.fieldList)
+#if( ${field.lowerCamelCaseName} != "createdOn" && ${field.lowerCamelCaseName} != "createdBy" && ${field.lowerCamelCaseName} != "updatedOn" && ${field.lowerCamelCaseName} != "updatedBy")
+				if(isNotEmpty(get${entity.upperCamelCaseClassName}DetailsResponse.get${entity.upperCamelCaseClassName}Details().get${field.upperCamelCaseName}())) {
+					${field.lowerCamelCaseName}EditText.setText(get${entity.upperCamelCaseClassName}DetailsResponse.get${entity.upperCamelCaseClassName}Details().get${field.upperCamelCaseName}());
+				}
+				
+#end
+#end
+			} else {
+                showMessage("Mandatory Data is missing");
+            }
     	} else {
     		actionButton.setText("CREATE");
     	}   
+    }
+    
+    private boolean isNotEmpty(String value){
+        if(value != null && !value.equals("") && !value.equalsIgnoreCase("null")){
+            return true;
+        }
+        return false;
     }
 
     @OnClick(R.id.action_button)

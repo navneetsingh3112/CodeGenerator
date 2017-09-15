@@ -82,7 +82,7 @@ public class View${entity.upperCamelCaseClassName}Activity extends NovopayBaseAc
     }
 
     private void initView() {
-        presenter.getGeneralLedgerDetails();
+        presenter.get${entity.upperCamelCaseClassName}Details();
     }
 
     @OnClick(R.id.edit_button)
@@ -94,7 +94,7 @@ public class View${entity.upperCamelCaseClassName}Activity extends NovopayBaseAc
             Intent intent = new Intent(this, Create${entity.upperCamelCaseClassName}Activity.class);
             intent.putExtra(AppConstant.INTENT_EXTRA_TITLE, title);
             intent.putExtra(AppConstant.INTENT_EXTRA_CREATE_OR_EDIT, AppConstant.INTENT_EXTRA_EDIT);
-            intent.putExtra(AppConstant.INTENT_EXTRA_DETAILS_RESPONSE, getGeneralLedgerDetailsResponse);
+            intent.putExtra(AppConstant.INTENT_EXTRA_DETAILS_RESPONSE, get${entity.upperCamelCaseClassName}DetailsResponse);
             startActivityForResult(intent, EDIT_REQUEST_CODE);
             GUIUtils.overridePendingTransitionForEnter(this);
         }
@@ -117,7 +117,7 @@ public class View${entity.upperCamelCaseClassName}Activity extends NovopayBaseAc
             builder.setPositiveButton(AppConstants.DELETE, new DialogInterface.OnClickListener() {
                 public void onClick(DialogInterface dialog, int id) {
                     dialog.dismiss();
-                    presenter.deleteGeneralLedger();
+                    presenter.delete${entity.upperCamelCaseClassName}();
                 }
             });
 
@@ -154,7 +154,11 @@ public class View${entity.upperCamelCaseClassName}Activity extends NovopayBaseAc
                 TextView columnValue = (TextView) mainLayout.findViewById(R.id.column_value_text_view);
 
                 columnName.setText(pair.first);
-                columnValue.setText(pair.second);
+                if(pair.second != null && !pair.second.equals("") && !pair.second.equals("null")){
+                    columnValue.setText(pair.second);
+                } else {
+                    columnValue.setText("-");
+                }
 
                 columnsLayout.addView(mainLayout);
             }
