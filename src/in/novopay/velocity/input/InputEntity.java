@@ -18,6 +18,15 @@ public class InputEntity {
 
 	ArrayList<InputEntityFields> fieldList = new ArrayList<>();
 	ArrayList<InputEntityButtons> buttonList = new ArrayList<>();
+	ArrayList<ActionButton> listViewActionButtonList = new ArrayList<ActionButton>();
+	
+	public void addListViewActionButton(ActionButton actionButton) {
+		this.listViewActionButtonList.add(actionButton);
+	}
+	
+	public ArrayList<ActionButton> getListViewActionButtonList() {
+		return this.listViewActionButtonList;
+	}
 
 	public void addButton(InputEntityButtons button) {
 		buttonList.add(button);

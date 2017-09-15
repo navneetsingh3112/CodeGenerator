@@ -1,6 +1,8 @@
 package in.novopay.velocity;
 
 import com.google.common.base.CaseFormat;
+
+import in.novopay.velocity.input.ActionButton;
 import in.novopay.velocity.input.DataList;
 import in.novopay.velocity.input.InputEntity;
 import in.novopay.velocity.input.InputEntityButtons;
@@ -246,6 +248,18 @@ public class Main {
                 b.setLowerTrainCaseName(
                         CaseFormat.UPPER_UNDERSCORE.to(CaseFormat.LOWER_HYPHEN, (String) fobj.get("name")));
                 entity.addButton(b);
+            }
+            
+            /**
+             * Parse list of list view action buttons
+             * */
+            JSONArray listViewActionButtons = (JSONArray) jsonObject.get("list_view_action_button_list");
+            Iterator<JSONObject> actionButtonIterator = listViewActionButtons.iterator();
+            while (actionButtonIterator.hasNext()) {
+                JSONObject actionButtonJSON = actionButtonIterator.next();
+                ActionButton actionButton = new ActionButton();
+                actionButton.setType((String) actionButtonJSON.get("type"));
+                entity.addListViewActionButton(actionButton);
             }
 
         } catch (IOException | ParseException e) {
