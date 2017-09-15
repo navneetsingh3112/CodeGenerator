@@ -215,17 +215,6 @@ public class Main {
                             dataListJson.setText((String) dataListObj.get("text"));
                             f.addFields(dataListJson);
                         }
-                        ;
-
-                    } else {
-                        f.setMasterDataType((String) fobj.get("master_data_type"));
-                        if ((String) fobj.get("master_data_sub_type") != null) {
-                            f.setMasterDataSubType((String) fobj.get("master_data_sub_type"));
-                        } else {
-                            f.setMasterDataSubType(null);
-                        }
-                        f.setInputApi((String) fobj.get("input_api"));
-                        f.setPopulateFromMasterData((Boolean) fobj.get("populate_from_master_data"));
                     }
                 } else if (f.getWebType().equals("Date")) {
                     if (fobj.get("min_date") != null) {

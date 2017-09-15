@@ -162,8 +162,8 @@ checkboxEntity: {
         ${field.lowerCamelCaseName}: {
     displayName: '${field.displayName}',
     apiKey: '${field.apiKey}',
-    checkUncheckAllChannelsModel: false,
-    isValidAllowedChannels: true,
+    checkUncheckAllCheckboxesModel: false,
+    isValidAllowedCheckboxes: true,
     required: ${field.isMandatory},
         #if (${field.populateFromMasterData})
         populateFromMasterData: ${field.populateFromMasterData},
