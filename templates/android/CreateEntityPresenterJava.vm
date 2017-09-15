@@ -1,13 +1,15 @@
 package in.novopay.services.presenters;
 
+import com.google.gson.Gson;
+
 import in.novopay.network.APIConstants;
 import in.novopay.network.networking.Service;
-import com.google.gson.Gson;
 import in.novopay.network.objects.TxnCompletionEvent;
 import in.novopay.services.base.BasePresenter;
 import in.novopay.network.requests.CreateOrUpdate${entity.upperCamelCaseClassName}Request;
 import in.novopay.services.views.Create${entity.upperCamelCaseClassName}View;
 import in.novopay.network.responses.CreateOrUpdate${entity.upperCamelCaseClassName}Response;
+import in.novopay.services.utils.AppConstant;
 import rx.Subscription;
 import rx.subscriptions.CompositeSubscription;
 
@@ -24,17 +26,21 @@ public class Create${entity.upperCamelCaseClassName}Presenter extends BasePresen
         this.view = view;
     }
     
-    public void createOrUpdate${entity.upperCamelCaseClassName}() {
+    public void createOrUpdate${entity.upperCamelCaseClassName}(String type) {
     		view.showProgress(null);
-        Subscription subscription = service.createOrUpdate${entity.upperCamelCaseClassName}(getNewSubscriber(), create${entity.upperCamelCaseClassName}Request());
+        Subscription subscription = service.createOrUpdate${entity.upperCamelCaseClassName}(getNewSubscriber(), create${entity.upperCamelCaseClassName}Request(type));
         subscriptions = new CompositeSubscription();
         subscriptions.add(subscription);
     }
 
-	public CreateOrUpdate${entity.upperCamelCaseClassName}Request create${entity.upperCamelCaseClassName}Request() {
+	public CreateOrUpdate${entity.upperCamelCaseClassName}Request create${entity.upperCamelCaseClassName}Request(String type) {
     	CreateOrUpdate${entity.upperCamelCaseClassName}Request createOrUpdate${entity.upperCamelCaseClassName}Request = new CreateOrUpdate${entity.upperCamelCaseClassName}Request(view.getContext());
-    	
-    	createOrUpdate${entity.upperCamelCaseClassName}Request.getHeaders().setFunctionSubCode(APIConstants.HEADER_VALUE_CREATE);
+    	if(type.equals(AppConstant.INTENT_EXTRA_CREATE)) {
+    		createOrUpdate${entity.upperCamelCaseClassName}Request.getHeaders().setFunctionSubCode(APIConstants.HEADER_VALUE_CREATE);
+    	} else if(type.equals(AppConstant.INTENT_EXTRA_EDIT)){
+    		createOrUpdate${entity.upperCamelCaseClassName}Request.getHeaders().setFunctionSubCode(APIConstants.HEADER_VALUE_UPDATE);
+            createOrUpdate${entity.upperCamelCaseClassName}Request.getRequest().setId(view.getId());
+    	}
     	
 #foreach ($field in $entity.fieldList)
 #if( ${field.lowerCamelCaseName} != "createdOn" && ${field.lowerCamelCaseName} != "createdBy" && ${field.lowerCamelCaseName} != "updatedOn" && ${field.lowerCamelCaseName} != "updatedBy")

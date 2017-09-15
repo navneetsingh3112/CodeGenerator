@@ -98,6 +98,7 @@ public class List${entity.upperCamelCaseClassName}Activity extends NovopayBaseAc
             mLastClickTime = SystemClock.elapsedRealtime();
             Intent intent = new Intent(this, Create${entity.upperCamelCaseClassName}Activity.class);
             intent.putExtra(AppConstant.INTENT_EXTRA_TITLE, title);
+            intent.putExtra(AppConstant.INTENT_EXTRA_CREATE_OR_EDIT, AppConstant.INTENT_EXTRA_CREATE);
             startActivityForResult(intent, CREATE_REQUEST_CODE);
             GUIUtils.overridePendingTransitionForEnter(this);
         }
@@ -176,8 +177,13 @@ public class List${entity.upperCamelCaseClassName}Activity extends NovopayBaseAc
     }
 
     @Override
-    public void OnFailureResponse() {
+    public void onFailureResponse() {
     	showNetworkFailure();
+    }
+    
+    @Override
+    public void onNoRecordFound() {
+        showNoRecordFound();
     }
     
     public void showNetworkFailure(){

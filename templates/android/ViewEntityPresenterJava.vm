@@ -4,7 +4,9 @@ import com.google.gson.Gson;
 
 import in.novopay.network.networking.Service;
 import in.novopay.network.objects.TxnCompletionEvent;
+import in.novopay.network.requests.Delete${entity.upperCamelCaseClassName}Request;
 import in.novopay.network.requests.Get${entity.upperCamelCaseClassName}DetailsRequest;
+import in.novopay.network.responses.Delete${entity.upperCamelCaseClassName}Response;
 import in.novopay.network.responses.Get${entity.upperCamelCaseClassName}DetailsResponse;
 import in.novopay.services.base.BasePresenter;
 import in.novopay.services.views.View${entity.upperCamelCaseClassName}View;
@@ -36,6 +38,19 @@ public class View${entity.upperCamelCaseClassName}Presenter extends BasePresente
         get${entity.upperCamelCaseClassName}DetailsRequest.getRequest().setId(view.getId());
         return get${entity.upperCamelCaseClassName}DetailsRequest;
     }
+    
+    public void delete${entity.upperCamelCaseClassName}(){
+        view.showProgress(null);
+        Subscription subscription = service.delete${entity.upperCamelCaseClassName}(getNewSubscriber(), delete${entity.upperCamelCaseClassName}Request());
+        subscriptions = new CompositeSubscription();
+        subscriptions.add(subscription);
+    }
+
+    private Delete${entity.upperCamelCaseClassName}Request delete${entity.upperCamelCaseClassName}Request() {
+        Delete${entity.upperCamelCaseClassName}Request delete${entity.upperCamelCaseClassName}Request = new Delete${entity.upperCamelCaseClassName}Request(view.getContext());
+        delete${entity.upperCamelCaseClassName}Request.getRequest().setId(view.getId());
+        return delete${entity.upperCamelCaseClassName}Request;
+    }
 
     @Override
     public void onResultReceived(TxnCompletionEvent event) {
@@ -43,6 +58,9 @@ public class View${entity.upperCamelCaseClassName}Presenter extends BasePresente
         if(event.getUrl().endsWith("get${entity.upperCamelCaseClassName}Details")){
             Get${entity.upperCamelCaseClassName}DetailsResponse response = new Gson().fromJson(event.getResponseString(), Get${entity.upperCamelCaseClassName}DetailsResponse.class);
             view.onSuccessResponseOfDetails(response);
+        } else if(event.getUrl().endsWith("delete${entity.upperCamelCaseClassName}")){
+            Delete${entity.upperCamelCaseClassName}Response response = new Gson().fromJson(event.getResponseString(), Delete${entity.upperCamelCaseClassName}Response.class);
+            view.onSuccessResponseOfDelete(response);
         }
     }
 
@@ -50,8 +68,10 @@ public class View${entity.upperCamelCaseClassName}Presenter extends BasePresente
     public void onErrorReceived(TxnCompletionEvent event) {
         view.hideProgress();
         view.showMessage(event.getFailureMsg());
-        //if(event.getUrl().endsWith("get${entity.upperCamelCaseClassName}Details")){
-        view.OnFailureResponseOfDetails();
-        //}
+        if(event.getUrl() != null && event.getUrl().endsWith("get${entity.upperCamelCaseClassName}Details")){
+        	view.OnFailureResponseOfDetails();
+        }else if(event.getUrl() != null && event.getUrl().endsWith("delete${entity.upperCamelCaseClassName}")){
+            view.OnFailureResponseOfDelete();
+        }
     }
 }

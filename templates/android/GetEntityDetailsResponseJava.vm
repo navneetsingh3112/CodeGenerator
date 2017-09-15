@@ -17,7 +17,7 @@ public class Get${entity.upperCamelCaseClassName}DetailsResponse extends Generic
 		this.${entity.lowerCamelCaseClassName}Details = ${entity.lowerCamelCaseClassName}Details;
 	}
 
-	public class ${entity.upperCamelCaseClassName}Details {
+	public class ${entity.upperCamelCaseClassName}Details implements Serializable{
 	
 		private String id;
 	#foreach ($field in $entity.fieldList)

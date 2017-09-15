@@ -8,6 +8,7 @@ import in.novopay.network.responses.CreateOrUpdate${entity.upperCamelCaseClassNa
  */
 
 public interface Create${entity.upperCamelCaseClassName}View extends IBaseView {
+	String getId();
 	
 #foreach ($field in $entity.fieldList)
 #if( ${field.lowerCamelCaseName} != "createdOn" && ${field.lowerCamelCaseName} != "createdBy" && ${field.lowerCamelCaseName} != "updatedOn" && ${field.lowerCamelCaseName} != "updatedBy")

@@ -14,31 +14,35 @@
 	android:layout_below="@+id/appbar"
 	android:fillViewport="true">
 	
-	<LinearLayout
-	android:layout_width="match_parent"
-	android:layout_height="wrap_content"
-	android:layout_marginBottom="@dimen/activity_margin"
-	android:layout_marginLeft="@dimen/activity_margin"
-	android:layout_marginRight="@dimen/activity_margin"
-	android:orientation="vertical">
+		<LinearLayout
+		android:layout_width="match_parent"
+		android:layout_height="wrap_content"
+		android:layout_marginBottom="@dimen/activity_margin"
+		android:layout_marginLeft="@dimen/activity_margin"
+		android:layout_marginRight="@dimen/activity_margin"
+		android:orientation="vertical">
+		
+			#foreach ($field in $entity.fieldList)
+			#if( ${field.lowerCamelCaseName} != "createdOn" && ${field.lowerCamelCaseName} != "createdBy" && ${field.lowerCamelCaseName} != "updatedOn" && ${field.lowerCamelCaseName} != "updatedBy")
+			<in.novopay.uicontrollibrary.components.EditText
+		        android:layout_width="match_parent"
+		        android:layout_height="wrap_content"
+		        android:layout_marginTop="@dimen/activity_margin"
+		        style="@style/np_edit_text_gray"
+		        android:maxLines="1"
+		        android:singleLine="true"
+		        app:et_edittext_type="text"
+#if( $field.maxLength )
+		        app:et_max_length="${field.maxLength}"
+#end
+		        app:et_validation_error="Enter valid ${field.displayName}"
+		        android:id="@+id/activity_create_${entity.lowerSnakeCaseClassName}_${field.name}"
+		        android:hint="${field.displayName}"/>
+	        
+		#end
+		#end
 	
-	#foreach ($field in $entity.fieldList)
-	#if( ${field.lowerCamelCaseName} != "createdOn" && ${field.lowerCamelCaseName} != "createdBy" && ${field.lowerCamelCaseName} != "updatedOn" && ${field.lowerCamelCaseName} != "updatedBy")
-	<in.novopay.uicontrollibrary.components.EditText
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/activity_margin"
-        style="@style/np_edit_text_gray"
-        android:maxLines="1"
-        android:singleLine="true"
-        app:et_edittext_type="text"
-        app:et_validation_error="Enter ${field.displayName} "
-        android:id="@+id/activity_create_${entity.lowerSnakeCaseClassName}_${field.name}"
-        android:hint="${field.displayName}"/>
-	#end
-	#end
-
-    </LinearLayout>
+	    </LinearLayout>
     </ScrollView>
     <include layout="@layout/template_action_button"/>
 </RelativeLayout>

@@ -18,6 +18,7 @@ import butterknife.OnClick;
 import in.novopay.services.R;
 import in.novopay.services.base.NovopayBaseActivity;
 import in.novopay.services.presenters.Create${entity.upperCamelCaseClassName}Presenter;
+import in.novopay.network.responses.Get${entity.upperCamelCaseClassName}DetailsResponse;
 import in.novopay.services.utils.AppConstant;
 import in.novopay.services.utils.GUIUtils;
 import in.novopay.uicontrollibrary.components.EditText;
@@ -52,6 +53,7 @@ public class Create${entity.upperCamelCaseClassName}Activity extends NovopayBase
 	private String title;
     private String activityType;
     private Create${entity.upperCamelCaseClassName}Presenter presenter;
+    private Get${entity.upperCamelCaseClassName}DetailsResponse get${entity.upperCamelCaseClassName}DetailsResponse;
 	
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -72,11 +74,22 @@ public class Create${entity.upperCamelCaseClassName}Activity extends NovopayBase
     public void getIntentExtras() {
         title = getIntent().getStringExtra(AppConstant.INTENT_EXTRA_TITLE);
         activityType = getIntent().getStringExtra(AppConstant.INTENT_EXTRA_CREATE_OR_EDIT);
+        get${entity.upperCamelCaseClassName}DetailsResponse = (Get${entity.upperCamelCaseClassName}DetailsResponse) getIntent().getSerializableExtra(AppConstant.INTENT_EXTRA_DETAILS_RESPONSE);
     }
 
     private void setTitle(String title) {
         if(AppConstant.INTENT_EXTRA_EDIT.equals(activityType)) {
             activityTitle.setText("Edit " + title);
+            
+            if(get${entity.upperCamelCaseClassName}DetailsResponse != null){
+#foreach ($field in $entity.fieldList)
+#if( ${field.lowerCamelCaseName} != "createdOn" && ${field.lowerCamelCaseName} != "createdBy" && ${field.lowerCamelCaseName} != "updatedOn" && ${field.lowerCamelCaseName} != "updatedBy")
+				${field.lowerCamelCaseName}EditText.setText(get${entity.upperCamelCaseClassName}DetailsResponse.get${entity.upperCamelCaseClassName}Details().get${field.upperCamelCaseName}());
+#end
+#end
+			} else {
+                showMessage("Mandatory Data is missing");
+            }
         } else {
             activityTitle.setText("New " + title);
         }
@@ -96,7 +109,21 @@ public class Create${entity.upperCamelCaseClassName}Activity extends NovopayBase
             mLastClickTime = SystemClock.elapsedRealtime();
         } else {
             mLastClickTime = SystemClock.elapsedRealtime();
-            presenter.createOrUpdate${entity.upperCamelCaseClassName}();
+            if(	
+#foreach ($field in $entity.fieldList)
+#if( ${field.lowerCamelCaseName} != "createdOn" && ${field.lowerCamelCaseName} != "createdBy" && ${field.lowerCamelCaseName} != "updatedOn" && ${field.lowerCamelCaseName} != "updatedBy")
+#if( $field.isMandatory )
+#if( $velocityCount == 1 )
+            	${field.lowerCamelCaseName}EditText.validate()
+#else
+            	&& ${field.lowerCamelCaseName}EditText.validate()
+#end
+#end
+#end
+#end
+             	){
+            	presenter.createOrUpdate${entity.upperCamelCaseClassName}(activityType);
+            }
         }
     }
 
@@ -116,6 +143,10 @@ public class Create${entity.upperCamelCaseClassName}Activity extends NovopayBase
         GUIUtils.overridePendingTransitionForExit(this);
     }
     
+    @Override
+    public String getId() {
+        return get${entity.upperCamelCaseClassName}DetailsResponse.get${entity.upperCamelCaseClassName}Details().getId();
+    }
     
 #foreach ($field in $entity.fieldList)
 #if( ${field.lowerCamelCaseName} != "createdOn" && ${field.lowerCamelCaseName} != "createdBy" && ${field.lowerCamelCaseName} != "updatedOn" && ${field.lowerCamelCaseName} != "updatedBy")
@@ -135,7 +166,11 @@ public class Create${entity.upperCamelCaseClassName}Activity extends NovopayBase
         TextView title = (TextView) view.findViewById(R.id.heading_text);
         title.setText("Success");
         TextView textView = (TextView) view.findViewById(R.id.message_text);
-        textView.setText("Record successfully saved.");
+        if(AppConstant.INTENT_EXTRA_EDIT.equals(activityType)) {
+            textView.setText("Record successfully saved.");
+        } else {
+            textView.setText("Record successfully created.");
+        }
 
         builder.setPositiveButton(AppConstants.OK, new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int id) {

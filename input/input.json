@@ -34,7 +34,8 @@
 			"display_name" : "Description",
 			"java_type": "String",
 			"sql_type": "VARCHAR",
-			"max_length": 8,
+			"is_mandatory": true,
+			"max_length": 256,
 			"comment": "Description of the Entry"
 		},
 		{
@@ -42,8 +43,7 @@
 			"java_type": "String",
 			"display_name" : "External Reference Number",
 			"sql_type": "VARCHAR",
-			"max_length": 32,
-			"is_mandatory": false,
+			"max_length": 8,
 			"is_searchable": true,
 			"comment": "Hierarchy level External Reference Number",
 			"is_secondary": true
@@ -83,7 +83,7 @@
 			"java_type": "String",
 			"display_name" : "Allowed Transanction Type",
 			"sql_type": "VARCHAR",
-			"max_length": 256,
+			"max_length": 32,
 			"is_mandatory": true,
 			"is_searchable": true,
 			"comment": "Allowed Transanction Type"

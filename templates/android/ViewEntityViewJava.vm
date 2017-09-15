@@ -1,5 +1,6 @@
 package in.novopay.services.views;
 
+import in.novopay.network.responses.Delete${entity.upperCamelCaseClassName}Response;
 import in.novopay.network.responses.Get${entity.upperCamelCaseClassName}DetailsResponse;
 import in.novopay.services.base.IBaseView;
 
@@ -11,4 +12,7 @@ public interface View${entity.upperCamelCaseClassName}View extends IBaseView {
 	String getId();
     void onSuccessResponseOfDetails(Get${entity.upperCamelCaseClassName}DetailsResponse response);
     void OnFailureResponseOfDetails();
+    
+    void onSuccessResponseOfDelete(Delete${entity.upperCamelCaseClassName}Response response);
+    void OnFailureResponseOfDelete();
 }

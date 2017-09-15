@@ -69,6 +69,8 @@ public class Main {
 				"GetEntityDetailsResponseJava.vm",
 				"CreateOrUpdateEntityRequestJava.vm",
 				"CreateOrUpdateEntityResponseJava.vm",
+				"DeleteEntityRequestJava.vm",
+				"DeleteEntityResponseJava.vm",
 				"EntityCommon.vm"
 		};
 
@@ -87,6 +89,8 @@ public class Main {
 				SCREEN_JAVA_FILES_BASE_PATH + "/presenters",
 				SCREEN_JAVA_FILES_BASE_PATH + "/views",
 				SCREEN_XML_FILES_BASE_PATH,
+				API_JAVA_FILES_BASE_PATH + "/requests",
+				API_JAVA_FILES_BASE_PATH + "/responses",
 				API_JAVA_FILES_BASE_PATH + "/requests",
 				API_JAVA_FILES_BASE_PATH + "/responses",
 				API_JAVA_FILES_BASE_PATH + "/requests",
@@ -117,6 +121,8 @@ public class Main {
 				"Get",
 				"CreateOrUpdate",
 				"CreateOrUpdate",
+				"Delete",
+				"Delete",
 				""
 			  };
 
@@ -139,6 +145,8 @@ public class Main {
 				"ListResponse.java",
 				"DetailsRequest.java",
 				"DetailsResponse.java",
+				"Request.java",
+				"Response.java",
 				"Request.java",
 				"Response.java",
 				"Common.txt"

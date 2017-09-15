@@ -5,6 +5,7 @@ import com.google.gson.Gson;
 import in.novopay.network.networking.Service;
 import in.novopay.network.objects.TxnCompletionEvent;
 import in.novopay.services.base.BasePresenter;
+import in.novopay.network.responses.GenericResponse;
 import in.novopay.services.views.List${entity.upperCamelCaseClassName}View;
 import in.novopay.network.requests.Get${entity.upperCamelCaseClassName}ListRequest;
 import in.novopay.network.responses.Get${entity.upperCamelCaseClassName}ListResponse;
@@ -52,7 +53,17 @@ public class List${entity.upperCamelCaseClassName}Presenter extends BasePresente
     @Override
     public void onErrorReceived(TxnCompletionEvent event) {
         view.hideProgress();
-        view.showMessage(event.getFailureMsg());
-        view.OnFailureResponse();
+        if(event.getResponseString() != null){
+            GenericResponse response = new Gson().fromJson(event.getResponseString(), GenericResponse.class);
+            if(response != null && response.getResponseStatus() != null && response.getResponseStatus().getMessage().equalsIgnoreCase("No records found")){
+                view.onNoRecordFound();
+            } else {
+            	view.showMessage(event.getFailureMsg());
+                view.onFailureResponse();
+            }
+        } else {
+        	view.showMessage(event.getFailureMsg());
+            view.onFailureResponse();
+        }
     }
 }

@@ -18,6 +18,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import in.novopay.services.R;
+import in.novopay.network.responses.Delete${entity.upperCamelCaseClassName}Response;
 import in.novopay.services.base.NovopayBaseActivity;
 import in.novopay.services.presenters.View${entity.upperCamelCaseClassName}Presenter;
 import in.novopay.services.utils.AppConstant;
@@ -31,6 +32,8 @@ import in.novopay.uicontrollibrary.utils.AppConstants;
  */
 
 public class View${entity.upperCamelCaseClassName}Activity extends NovopayBaseActivity implements View${entity.upperCamelCaseClassName}View {
+	private static final int EDIT_REQUEST_CODE = 1003;
+	
     @BindView(R.id.toolbar)
     Toolbar toolbar;
 
@@ -50,6 +53,8 @@ public class View${entity.upperCamelCaseClassName}Activity extends NovopayBaseAc
     private String title;
     private View${entity.upperCamelCaseClassName}Presenter presenter;
     private ArrayList<Pair<String, String>> recordDetailsPairs = new ArrayList<>();
+    private Get${entity.upperCamelCaseClassName}DetailsResponse get${entity.upperCamelCaseClassName}DetailsResponse;
+    private int setResultType = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -89,7 +94,8 @@ public class View${entity.upperCamelCaseClassName}Activity extends NovopayBaseAc
             Intent intent = new Intent(this, Create${entity.upperCamelCaseClassName}Activity.class);
             intent.putExtra(AppConstant.INTENT_EXTRA_TITLE, title);
             intent.putExtra(AppConstant.INTENT_EXTRA_CREATE_OR_EDIT, AppConstant.INTENT_EXTRA_EDIT);
-            startActivity(intent);
+            intent.putExtra(AppConstant.INTENT_EXTRA_DETAILS_RESPONSE, getGeneralLedgerDetailsResponse);
+            startActivityForResult(intent, EDIT_REQUEST_CODE);
             GUIUtils.overridePendingTransitionForEnter(this);
         }
     }
@@ -111,6 +117,7 @@ public class View${entity.upperCamelCaseClassName}Activity extends NovopayBaseAc
             builder.setPositiveButton(AppConstants.DELETE, new DialogInterface.OnClickListener() {
                 public void onClick(DialogInterface dialog, int id) {
                     dialog.dismiss();
+                    presenter.deleteGeneralLedger();
                 }
             });
 
@@ -134,9 +141,12 @@ public class View${entity.upperCamelCaseClassName}Activity extends NovopayBaseAc
 
     @Override
     public void onSuccessResponseOfDetails(Get${entity.upperCamelCaseClassName}DetailsResponse response) {
+    	get${entity.upperCamelCaseClassName}DetailsResponse = response;
         if(response != null) {
         	setHeaderAndSubHeader(response);
         	setRecordDetailsMap(response);
+        	
+        	columnsLayout.removeAllViews();
         	
         	for(Pair<String, String> pair: recordDetailsPairs){
                 LinearLayout mainLayout = (LinearLayout) getLayoutInflater().inflate(R.layout.item_view_entity_column, null, false);
@@ -183,6 +193,33 @@ public class View${entity.upperCamelCaseClassName}Activity extends NovopayBaseAc
     public void OnFailureResponseOfDetails() {
         onBackPressed();
     }
+    
+    @Override
+    public void onSuccessResponseOfDelete(Delete${entity.upperCamelCaseClassName}Response response) {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this).setCancelable(false);
+        View view = getLayoutInflater().inflate(R.layout.template_dialog, null, false);
+        builder.setView(view);
+        TextView title = (TextView) view.findViewById(R.id.heading_text);
+        title.setText("Success");
+        TextView textView = (TextView) view.findViewById(R.id.message_text);
+        textView.setText("Record successfully deleted.");
+
+        builder.setPositiveButton(AppConstants.OK, new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int id) {
+                dialog.dismiss();
+                setResultType = RESULT_OK;
+                onBackPressed();
+            }
+        });
+
+        AlertDialog dialog = builder.create();
+        dialog.show();
+        dialog.getButton(AlertDialog.BUTTON_POSITIVE).setTextColor(getResources().getColor(R.color.novopay_color_primary));
+    }
+
+    @Override
+    public void OnFailureResponseOfDelete() {
+    }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
@@ -196,7 +233,20 @@ public class View${entity.upperCamelCaseClassName}Activity extends NovopayBaseAc
 
     @Override
     public void onBackPressed() {
+    	if(setResultType == RESULT_OK){
+            setResult(RESULT_OK);
+        }
         finish();
         GUIUtils.overridePendingTransitionForExit(this);
+    }
+    
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (resultCode == RESULT_OK) {
+            if (requestCode == EDIT_REQUEST_CODE) {
+            	setResultType = RESULT_OK;
+                presenter.get${entity.upperCamelCaseClassName}Details();
+            }
+        }
     }
 }
