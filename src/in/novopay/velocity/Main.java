@@ -139,6 +139,12 @@ public class Main {
                 f.setWebType((String) fobj.get("web_type"));
                 f.setSqlType((String) fobj.get("sql_type"));
 
+                if (null == fobj.get("search_type")) {
+                    f.setSearchType("Textbox");
+                } else {
+                    f.setSearchType((String) fobj.get("search_type"));
+                }
+                
                 if (null == fobj.get("input_api")) {
                     f.setInputApi("");
                 } else {

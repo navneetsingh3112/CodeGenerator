@@ -83,7 +83,7 @@
 			"display_name": "External Reference Number",
 			"api_key": "external_reference_number",
 			"is_searchable": true,
-			"is_sortable": true,
+			"is_sortable": false,
 			"is_editable": true
 		},
 		{
@@ -131,7 +131,8 @@
 			"java_type": "String",
 			"sql_type": "VARCHAR",
 			"length": 256,
-			"is_list_element": false,
+			"is_list_element": true,
+			"is_searchable": true,
 			"is_mandatory": true,
 			"comment": "Type of heirarchy level",
 			"web_type": "Dropdown",
@@ -152,6 +153,7 @@
 			],
 			"api_key": "balance_type",
 			"is_searchable": true,
+			"search_type": "Dropdown",
 			"is_sortable": true,
 			"is_editable": true
 		},

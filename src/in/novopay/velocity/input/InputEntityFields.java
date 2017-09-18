@@ -35,6 +35,7 @@ public class InputEntityFields {
 	private Boolean isListElement;
 	private String minDate;
 	private String maxDate;
+	private String searchType;
 	private ArrayList<DataList> dataList = new ArrayList<>();
 	
 	public String getName() {
@@ -328,4 +329,13 @@ public class InputEntityFields {
 	public void setMaxDate(String maxDate) {
 		this.maxDate = maxDate;
 	}
+
+	public String getSearchType() {
+		return searchType;
+	}
+
+	public void setSearchType(String searchType) {
+		this.searchType = searchType;
+	}
+	
 }

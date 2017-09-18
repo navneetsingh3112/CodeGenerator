@@ -49,7 +49,40 @@ export class ${entity.upperCamelCaseClassName}ListComponent extends BaseListComp
           #end
         ];
         
-        super.setComponentProperties("${entity.lowerTrainCaseClassName}",searchModel,"${entity.table}_list","${entity.table}_details",this.resourceFactoryConstants.constants.${entity.lowerCamelCaseClassName}.getList);
+        let dropDownList = [
+        #set($fieldCounter=0)
+        #set($dropdownCounter=1)
+        #foreach ($field in $entity.fieldList)
+            #if($field.isListElement)
+            #if($field.searchType=="Dropdown")
+            {
+                id: '${dropdownCounter}',
+                initialValues: [],
+                options: {
+                placeholder: '${field.placeholder}'
+            	},
+            	dataList: [
+            	#if ($!{field.dataList} )
+            		#foreach ($element in $field.dataList)
+            		{
+            		id: "${element.id}",
+            		code: "${element.code}",
+            		text: "${element.text}"
+            		},
+            		#end
+        		#end
+            	],
+            	selectedFlag: false,
+            	searchModelIndex: $fieldCounter
+            },
+            #set($dropdownCounter=$dropdownCounter+1)
+            #end
+            #set($fieldCounter=$fieldCounter+1)
+            #end
+          #end
+        ];
+        
+        super.setComponentProperties("${entity.lowerTrainCaseClassName}",searchModel,dropDownList,"${entity.table}_list","${entity.table}_details",this.resourceFactoryConstants.constants.${entity.lowerCamelCaseClassName}.getList);
     }
     ngOnInit(): void {
         super.ngOnInit();
