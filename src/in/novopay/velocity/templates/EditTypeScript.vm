@@ -39,7 +39,8 @@ createComponentAPI: this.resourceFactoryConstants.constants.${entity.lowerCamelC
 listComponentUrl: '/app/${entity.lowerTrainCaseClassName}/list',
 entity: {
 #foreach ($field in $entity.fieldList)
-    #if ($field.webType.equals('Textbox') || $field.webType.equals('Textarea')  || $field.webType.equals('Date') || $field.webType.equals('Datetime'))
+    #if ($field.webType.equals('Textbox') || $field.webType.equals('Textarea')  || $field.webType.equals(
+        'Date') || $field.webType.equals('Datetime'))
         ${field.lowerCamelCaseName}: {
         #if (${field.minDate})
         minDate: '${field.minDate}',
@@ -66,9 +67,23 @@ radioEntity: {
     masterDataType: '${field.masterDataType}',
     masterDataSubType: null,
     isCodeIncludedInDisplay: ${field.isCodeIncludedInDisplay},
-        #if ($field.dataList.equals([]) )
-        input: {
-        inputApi: "${field.inputApi}" },
+        #if (${field.inputApi})
+        inputApi: "${field.inputApi}",
+        #end
+        #if (${field.inputApiListKey})
+        inputApiListKey: "${field.inputApiListKey}",
+        #end
+        #if (${field.inputApiDetailsKey})
+        inputApiDetailsKey: "${field.inputApiDetailsKey}",
+        #end
+        #if (${field.inputApiIdKey})
+        inputApiIdKey: "${field.inputApiIdKey}",
+        #end
+        #if (${field.inputApiCodeKey})
+        inputApiCodeKey: "${field.inputApiCodeKey}",
+        #end
+        #if (${field.inputApiValueKey})
+        inputApiValueKey: "${field.inputApiValueKey}",
         #end
     dataList : [
         #if ($!{field.dataList} )
@@ -95,42 +110,42 @@ dropdownEntity: {
     initialValues: [],
     ready: false,
     options: {
-                        placeholder: '${field.placeholder}'
-                    },
+    placeholder: '${field.placeholder}'
+    },
     required: ${field.isMandatory},
-    #if (${field.populateFromMasterData})
-    	populateFromMasterData: ${field.populateFromMasterData},
-    #end
-    #if (${field.masterDataType})
-    	masterDataType: '${field.masterDataType}',
-    #end
-    #if (${field.masterDataSubType})
-    	masterDataSubType: '${field.masterDataSubType}',
-    #end
-    #if (${field.isCodeIncludedInDisplay})
-    	isCodeIncludedInDisplay: ${field.isCodeIncludedInDisplay},
-    #end
-    #if (${field.isCodeIncludedInDisplay})
-    	isCodeIncludedInDisplay: ${field.isCodeIncludedInDisplay},
-    #end
-    #if (${field.inputApi})
-    	inputApi: "${field.inputApi}",
-    #end
-    #if (${field.inputApiListKey})
-    	inputApiListKey: "${field.inputApiListKey}",
-    #end
-    #if (${field.inputApiDetailsKey})
-    	inputApiDetailsKey: "${field.inputApiDetailsKey}",
-    #end
-    #if (${field.inputApiIdKey})
-    	inputApiIdKey: "${field.inputApiIdKey}",
-    #end
-    #if (${field.inputApiCodeKey})
-    	inputApiCodeKey: "${field.inputApiCodeKey}",
-    #end
-    #if (${field.inputApiValueKey})
-    	inputApiValueKey: "${field.inputApiValueKey}",
-    #end
+        #if (${field.populateFromMasterData})
+        populateFromMasterData: ${field.populateFromMasterData},
+        #end
+        #if (${field.masterDataType})
+        masterDataType: '${field.masterDataType}',
+        #end
+        #if (${field.masterDataSubType})
+        masterDataSubType: '${field.masterDataSubType}',
+        #end
+        #if (${field.isCodeIncludedInDisplay})
+        isCodeIncludedInDisplay: ${field.isCodeIncludedInDisplay},
+        #end
+        #if (${field.isCodeIncludedInDisplay})
+        isCodeIncludedInDisplay: ${field.isCodeIncludedInDisplay},
+        #end
+        #if (${field.inputApi})
+        inputApi: "${field.inputApi}",
+        #end
+        #if (${field.inputApiListKey})
+        inputApiListKey: "${field.inputApiListKey}",
+        #end
+        #if (${field.inputApiDetailsKey})
+        inputApiDetailsKey: "${field.inputApiDetailsKey}",
+        #end
+        #if (${field.inputApiIdKey})
+        inputApiIdKey: "${field.inputApiIdKey}",
+        #end
+        #if (${field.inputApiCodeKey})
+        inputApiCodeKey: "${field.inputApiCodeKey}",
+        #end
+        #if (${field.inputApiValueKey})
+        inputApiValueKey: "${field.inputApiValueKey}",
+        #end
     apiKey: '${field.apiKey}',
     dataList : [
         #if ($!{field.dataList} )
@@ -153,8 +168,8 @@ checkboxEntity: {
         ${field.lowerCamelCaseName}: {
     displayName: '${field.displayName}',
     apiKey: '${field.apiKey}',
-    checkUncheckAllChannelsModel: false,
-    isValidAllowedChannels: true,
+    checkUncheckAllCheckboxesModel: false,
+    isValidAllowedCheckboxes: true,
     required: ${field.isMandatory},
         #if (${field.populateFromMasterData})
         populateFromMasterData: ${field.populateFromMasterData},
@@ -168,9 +183,23 @@ checkboxEntity: {
         #if (${field.isCodeIncludedInDisplay})
         isCodeIncludedInDisplay: ${field.isCodeIncludedInDisplay},
         #end
-        #if ($field.dataList.equals([]) )
-        input: {
-        inputApi: "${field.inputApi}" },
+        #if (${field.inputApi})
+        inputApi: "${field.inputApi}",
+        #end
+        #if (${field.inputApiListKey})
+        inputApiListKey: "${field.inputApiListKey}",
+        #end
+        #if (${field.inputApiDetailsKey})
+        inputApiDetailsKey: "${field.inputApiDetailsKey}",
+        #end
+        #if (${field.inputApiIdKey})
+        inputApiIdKey: "${field.inputApiIdKey}",
+        #end
+        #if (${field.inputApiCodeKey})
+        inputApiCodeKey: "${field.inputApiCodeKey}",
+        #end
+        #if (${field.inputApiValueKey})
+        inputApiValueKey: "${field.inputApiValueKey}",
         #end
     dataList : [
         #if ($!{field.dataList} )
@@ -179,7 +208,6 @@ checkboxEntity: {
             id: "${element.id}",
             code: "${element.code}",
             text: "${element.text}",
-            unCheckedValue: "N",
             isChecked: false,
             },
             #end
@@ -191,12 +219,12 @@ checkboxEntity: {
 }};
 
 let editComponentProperty : IEditComponentProperty = {
-            componentIdRequestBodyKey : "${entity.fetchApiKey}",
-            componentDetailsAPI : this.resourceFactoryConstants.constants.${entity.lowerCamelCaseClassName}.getDetails,
-            componentDetailsResponseBodyKey : "${entity.table}_details",
-            createComponentProperty : createComponentProperty
-        };
+componentIdRequestBodyKey : "${entity.fetchApiKey}",
+componentDetailsAPI : this.resourceFactoryConstants.constants.${entity.lowerCamelCaseClassName}.getDetails,
+componentDetailsResponseBodyKey : "${entity.table}_details",
+createComponentProperty : createComponentProperty
+};
 
-        super.setEditComponentProperties(editComponentProperty);
+super.setEditComponentProperties(editComponentProperty);
 }
 }

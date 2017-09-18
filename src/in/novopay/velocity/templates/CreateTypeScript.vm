@@ -76,9 +76,23 @@ radioEntity: {
         #if (${field.isCodeIncludedInDisplay})
         isCodeIncludedInDisplay: ${field.isCodeIncludedInDisplay},
         #end
-        #if ($field.dataList.equals([]) )
-        input: {
-        inputApi: "${field.inputApi}" },
+        #if (${field.inputApi})
+        inputApi: "${field.inputApi}",
+        #end
+        #if (${field.inputApiListKey})
+        inputApiListKey: "${field.inputApiListKey}",
+        #end
+        #if (${field.inputApiDetailsKey})
+        inputApiDetailsKey: "${field.inputApiDetailsKey}",
+        #end
+        #if (${field.inputApiIdKey})
+        inputApiIdKey: "${field.inputApiIdKey}",
+        #end
+        #if (${field.inputApiCodeKey})
+        inputApiCodeKey: "${field.inputApiCodeKey}",
+        #end
+        #if (${field.inputApiValueKey})
+        inputApiValueKey: "${field.inputApiValueKey}",
         #end
     dataList : [
         #if ($!{field.dataList} )
@@ -177,9 +191,23 @@ checkboxEntity: {
         #if (${field.isCodeIncludedInDisplay})
         isCodeIncludedInDisplay: ${field.isCodeIncludedInDisplay},
         #end
-        #if ($field.dataList.equals([]) )
-        input: {
-        inputApi: "${field.inputApi}" },
+        #if (${field.inputApi})
+        inputApi: "${field.inputApi}",
+        #end
+        #if (${field.inputApiListKey})
+        inputApiListKey: "${field.inputApiListKey}",
+        #end
+        #if (${field.inputApiDetailsKey})
+        inputApiDetailsKey: "${field.inputApiDetailsKey}",
+        #end
+        #if (${field.inputApiIdKey})
+        inputApiIdKey: "${field.inputApiIdKey}",
+        #end
+        #if (${field.inputApiCodeKey})
+        inputApiCodeKey: "${field.inputApiCodeKey}",
+        #end
+        #if (${field.inputApiValueKey})
+        inputApiValueKey: "${field.inputApiValueKey}",
         #end
     dataList : [
         #if ($!{field.dataList} )
@@ -188,7 +216,6 @@ checkboxEntity: {
             id: "${element.id}",
             code: "${element.code}",
             text: "${element.text}",
-            unCheckedValue: "N",
             isChecked: false,
             },
             #end
