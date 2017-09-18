@@ -1,43 +1,53 @@
 	<!-- 
-		@author	:${entity.author}
+		@author	:${usd.author}
 	 -->
-	<Request name="createOrUpdate${entity.upperCamelCaseClassName}">
+	<Request name="createOrUpdate${usd.upperCamelCaseName}">
 #set($mandatoryValidatorReq = false)
 #set($patternValidatorReq = false)
 #set($lengthValidatorReq = false)
-#foreach ($field in $entity.dataFieldList)
+#foreach ($usdentity in $usd.entityList)
+#foreach ($field in ${usdentity.dataFieldList})
 #if( $field.maxLength && $field.minLength && $field.maxLength > 0 &&  $field.minLength >= 0 )
 #set($lengthValidatorReq = true)
-#elseif( $StringUtils.isNotBlank(${field.pattern}))
+#end
+#if( $StringUtils.isNotBlank($field.pattern))
 #set($patternValidatorReq = true)
-#elseif(${field.isMandatory})
+#end
+#if($field.isMandatory())
 #set($mandatoryValidatorReq = true)
+#end
 #end
 #end
 		<Validators>
 #if($mandatoryValidatorReq)
 			<Validator bean="mandatoryFieldValidator">		
-#foreach ($field in $entity.dataFieldList)
-#if( ${field.isMandatory})
+#foreach ($usdentity in $usd.entityList)
+#foreach ($field in $usdentity.dataFieldList)
+#if(${field.isMandatory()} && ${field.name} != "id")
 				<IParam fieldName="${field.lowerSnakeCaseName}" errorCode="" defaultMessage="${field.lowerSnakeCaseName} is mandatory."/>
+#end
 #end
 #end
 			</Validator>
 #end
 #if($patternValidatorReq)
 			<Validator bean="patternFieldValidator">
-#foreach ($field in $entity.dataFieldList)
+#foreach ($usdentity in $usd.entityList)
+#foreach ($field in $usdentity.dataFieldList)
 #if( $StringUtils.isNotBlank(${field.pattern}))
 				<IParam fieldName="${field.lowerSnakeCaseName}" errorCode="" pattern="${field.pattern}" defaultMessage="Invalid ${field.lowerSnakeCaseName}."/>
+#end
 #end
 #end
 			</Validator>
 #end
 #if($lengthValidatorReq)
 			<Validator bean="stringLengthValidator">
-#foreach ($field in $entity.dataFieldList)
+#foreach ($usdentity in $usd.entityList)
+#foreach ($field in $usdentity.dataFieldList)
 #if( $field.maxLength && $field.minLength && $field.maxLength > 0 &&  $field.minLength >= 0 )
 				<IParam fieldName="${field.lowerSnakeCaseName}" errorCode="" minLength="${field.minLength}" maxLength="${field.maxLength}"/>
+#end
 #end
 #end
 			</Validator>
@@ -47,24 +57,28 @@
 					<IParam fieldName="id" errorCode="" defaultMessage="id is mandatory."/>
 				</Validator>
 				<Validator bean="longValueValidator">
-					<IParam fieldName="id" minVal="1" maxVal="2147483647" errorCode="210007" defaultMessage="Invalid value of id."/>
+					<IParam fieldName="id" minVal="1" maxVal="2147483647" errorCode="" defaultMessage="Invalid value of id."/>
 				</Validator>
 			</Control>
 		</Validators>		
 		<Processors>
 			<Control method="regExp" pattern="${function_sub_code}" condition="=" value="CREATE">
-				<Processor bean="create${entity.upperCamelCaseClassName}Processor" />
+#foreach ($usdentity in $usd.entityList)
+				<Processor bean="create${usdentity.upperCamelCaseEntityName}Processor" />
+#end				
 			</Control>
 			<Control method="regExp" pattern="${function_sub_code}" condition="=" value="UPDATE">
-				<Processor bean="update${entity.upperCamelCaseClassName}Processor" />
+#foreach ($usdentity in $usd.entityList)			
+				<Processor bean="update${usdentity.upperCamelCaseEntityName}Processor" />
+#end				
 			</Control>
 		</Processors>
 	</Request>
 	
 	<!-- 
-		@author	:${entity.author}
+		@author	:${usd.author}
 	 -->
-	<Request name="get${entity.upperCamelCaseClassName}Details">
+	<Request name="get${usd.upperCamelCaseName}Details">
 		<Validators>
 			<Validator bean = "mandatoryFieldValidator">
 				<IParam fieldName="id" errorCode="" defaultMessage="id is mandatory."/>
@@ -74,24 +88,24 @@
 			</Validator>
 		</Validators>
 		<Processors>
-			<Processor bean="get${entity.upperCamelCaseClassName}DetailsProcessor" />
+			<Processor bean="get${usd.upperCamelCaseName}DetailsProcessor" />
 		</Processors>
 	</Request>
 	
 	<!-- 
-		@author	:${entity.author}
+		@author	:${usd.author}
 	 -->
-	<Request name="get${entity.upperCamelCaseClassName}List">
+	<Request name="get${usd.upperCamelCaseName}List">
 		<Processors>
-			<Processor bean="get${entity.upperCamelCaseClassName}ListProcessor" />
+			<Processor bean="get${usd.upperCamelCaseName}ListProcessor" />
 		</Processors>
 	</Request>
 	
 	
 	<!-- 
-		@author	:${entity.author}
+		@author	:${usd.author}
 	 -->
-	<Request name="delete${entity.upperCamelCaseClassName}">
+	<Request name="delete${usd.upperCamelCaseName}">
 		<Validators>
 			<Validator bean = "mandatoryFieldValidator">
 				<IParam fieldName="id" errorCode="" defaultMessage="id is mandatory."/>
@@ -101,10 +115,10 @@
 			</Validator>
 		</Validators>
 		<Processors>
-#if( $StringUtils.equalsIgnoreCase($entity.deleteMode, "LOGICAL"))
-			<Processor bean="logicalDelete${entity.upperCamelCaseClassName}Processor" />
-#elseif( $StringUtils.equalsIgnoreCase($entity.deleteMode, "PHYSICAL"))					
-			<Processor bean="physicalDelete${entity.upperCamelCaseClassName}Processor" />
+#if( $StringUtils.equalsIgnoreCase($usd.deleteMode, "LOGICAL"))
+			<Processor bean="logicalDelete${usd.upperCamelCaseName}Processor" />
+#elseif( $StringUtils.equalsIgnoreCase($usd.deleteMode, "PHYSICAL"))					
+			<Processor bean="physicalDelete${usd.upperCamelCaseName}Processor" />
 #end
 		</Processors>
 	</Request>

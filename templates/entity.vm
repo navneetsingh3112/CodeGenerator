@@ -1,4 +1,4 @@
-package in.novopay.${entity.service}.${entity.userStory}.entity;
+package in.novopay.${usd.service}.${usd.flatCaseName}.entity;
 
 import java.util.Date;
 
@@ -8,18 +8,17 @@ import javax.persistence.Table;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-#else
-import in.novopay.actor.AbstractIntegerBaseEntity;
 #end
+
 /***
  * 
- * @author ${entity.author}
+ * @author ${usd.author}
  *
  */
 
 @Entity
-@Table(name = "${entity.table}")
-public class ${entity.upperCamelCaseClassName}Entity #if($entity.auditFieldList && $entity.auditFieldList.size() > 0)extends AbstractIntegerBaseEntity#end {
+@Table(name = "${entity.entity}")
+public class ${entity.upperCamelCaseEntityName}Entity #if($entity.auditFieldList && $entity.auditFieldList.size() > 0)extends AbstractIntegerBaseEntity#end {
 #if($entity.auditFieldList && $entity.auditFieldList.size() > 0)
 	private static final long serialVersionUID = 1L;
 #end	
@@ -32,7 +31,7 @@ public class ${entity.upperCamelCaseClassName}Entity #if($entity.auditFieldList 
 #foreach ($field in $entity.dataFieldList)
 	private ${field.javaType} ${field.lowerCamelCaseName};
 #end
-#if( $StringUtils.equalsIgnoreCase(${entity.deleteMode}, "LOGICAL"))
+#if( $StringUtils.equalsIgnoreCase(${usd.deleteMode}, "LOGICAL"))
 	private boolean isDeleted;
 #end
 
@@ -53,7 +52,7 @@ public class ${entity.upperCamelCaseClassName}Entity #if($entity.auditFieldList 
 		return ${field.lowerCamelCaseName};
 	}
 #end
-#if( $StringUtils.equalsIgnoreCase(${entity.deleteMode}, "LOGICAL"))
+#if( $StringUtils.equalsIgnoreCase(${usd.deleteMode}, "LOGICAL"))
 	public boolean getIsDeleted() {
 		return isDeleted;
 	}

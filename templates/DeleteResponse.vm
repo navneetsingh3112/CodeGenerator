@@ -1,5 +1,5 @@
 {
-	"delete${entity.upperCamelCaseClassName}": {
+	"delete${usd.upperCamelCaseName}": {
 		"response_status": {
 			"class": "CMPLX",
 			"type": "MAP",

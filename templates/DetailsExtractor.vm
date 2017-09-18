@@ -1,0 +1,122 @@
+package in.novopay.${usd.service}.${usd.flatCaseName}.daoservice;
+
+
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.HashMap;
+import java.util.Map;
+import javax.sql.DataSource;
+
+import org.springframework.stereotype.Service;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.jdbc.core.ResultSetExtractor;
+import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import in.novopay.infra.platform.navigation.ExecutionContext;
+
+
+/***
+ * 
+ * @author ${usd.author}
+ *
+ */
+@Service
+public class ${usd.upperCamelCaseName}DetailsExtractor implements ResultSetExtractor<Map<String, Object>> {
+	
+	private static final Logger LOG = LoggerFactory.getLogger(${usd.upperCamelCaseName}DetailsExtractor.class);
+	private NamedParameterJdbcTemplate namedParameterJdbcTemplate;
+	
+	@Autowired
+	public void setDataSource(DataSource dataSource) {
+		this.namedParameterJdbcTemplate = new NamedParameterJdbcTemplate(dataSource);
+	}
+
+	public Map<String, Object> get${usd.upperCamelCaseName}Details(ExecutionContext executionContext) { 
+		Map<String, Object> paramMap = new HashMap<>();
+		StringBuilder queryBuilder = new StringBuilder();
+#set($select = "SELECT ")
+#set($dataFieldList = "")
+#set($join = " FROM ")
+#set($where = " WHERE 1=1 ")
+#set($counter = 1)
+#foreach ($relationship in $usd.relationshipList)
+#set($pEntity = $usd.getEntity($relationship.primaryEntity))
+#set($pAlias = "b${counter}")
+#set($sEntity = $usd.getEntity($relationship.secondaryEntity))
+#set($counter = $counter+1)
+#set($sAlias = "b${counter}")
+#set($counter = $counter+1)
+#foreach ($field in ${pEntity.dataFieldList})
+#set($dataFieldList = "#if($StringUtils.isEmpty(${dataFieldList}))${pAlias}.${field.lowerSnakeCaseName} as ${pAlias}_${field.lowerSnakeCaseName} #{else}${dataFieldList} , ${pAlias}.${field.lowerSnakeCaseName} as ${pAlias}_${field.lowerSnakeCaseName}#end")
+#end
+#foreach ($field in ${sEntity.dataFieldList})
+#set($dataFieldList = "#if($StringUtils.isEmpty(${dataFieldList}))${sAlias}.${field.lowerSnakeCaseName} as ${sAlias}_${field.lowerSnakeCaseName} #{else}${dataFieldList} , ${sAlias}.${field.lowerSnakeCaseName} as ${sAlias}_${field.lowerSnakeCaseName} #end")
+#end
+#end
+#set($counter = 1)
+#foreach ($relationship in $usd.relationshipList)
+#set($pEntity = $usd.getEntity($relationship.primaryEntity))
+#set($pAlias = "b${counter}")
+#set($counter = $counter+1)
+#set($sEntity = $usd.getEntity($relationship.secondaryEntity))
+#set($sAlias = "b${counter}")
+#set($counter = $counter+1)
+#set($join = " $relationship.primaryEntity as $pAlias JOIN $relationship.secondaryEntity as $sAlias ON ${pAlias}.id = $sAlias.${relationship.primaryEntity}_id")
+#end
+		queryBuilder.append("${select}");
+		queryBuilder.append("${dataFieldList}");
+		queryBuilder.append(" FROM ${join}");
+		queryBuilder.append("${where} AND b1.id = :id ");
+		LOG.debug("Query "+ queryBuilder.toString());
+		paramMap.put("id",Integer.parseInt(executionContext.getValue("id", String.class)));
+		return namedParameterJdbcTemplate.query(queryBuilder.toString(), paramMap, this);
+	}
+
+	@Override
+	public Map<String, Object> extractData(ResultSet rs) throws SQLException {
+		Map<String, Object> recordDetailsMap = new HashMap<>();
+		while(rs.next()) {  
+#set($counter = 1)
+#foreach ($relationship in $usd.relationshipList)
+#set($pEntity = $usd.getEntity($relationship.primaryEntity))
+#set($pAlias = "b${counter}")
+#set($sEntity = $usd.getEntity($relationship.secondaryEntity))
+#set($counter = $counter+1)
+#set($sAlias = "b${counter}")
+#set($counter = $counter+1)
+#foreach ($field in ${pEntity.dataFieldList})
+#if( ${field.javaType} == "String")
+			recordDetailsMap.put("#if($StringUtils.isNotBlank($field.mapTo))${field.mapTo}#else${field.lowerSnakeCaseName}#end", ""+rs.getString("${pAlias}_${field.lowerSnakeCaseName}"));
+#elseif( ${field.javaType} == "Integer")
+			recordDetailsMap.put("#if($StringUtils.isNotBlank($field.mapTo))${field.mapTo}#else${field.lowerSnakeCaseName}#end", ""+rs.getInt("${pAlias}_${field.lowerSnakeCaseName}"));
+#elseif( ${field.javaType} == "Date")	
+			recordDetailsMap.put("#if($StringUtils.isNotBlank($field.mapTo))${field.mapTo}#else${field.lowerSnakeCaseName}#end", rs.getDate("${pAlias}_${field.lowerSnakeCaseName}") != null ? ""+rs.getDate("${pAlias}_${field.lowerSnakeCaseName}").getTime() :""+rs.getDate("${pAlias}_${field.lowerSnakeCaseName}"));
+#elseif( ${field.javaType} == "Long")
+			recordDetailsMap.put("#if($StringUtils.isNotBlank($field.mapTo))${field.mapTo}#else${field.lowerSnakeCaseName}#end", ""+rs.getLong("${pAlias}_${field.lowerSnakeCaseName}"));
+#elseif( ${field.javaType} == "Double" || ${field.javaType} == "Float")
+			recordDetailsMap.put("#if($StringUtils.isNotBlank($field.mapTo))${field.mapTo}#else${field.lowerSnakeCaseName}#end", ""+rs.getBigDecimal("${pAlias}_${field.lowerSnakeCaseName}"));
+#end
+#end
+#foreach ($field in ${sEntity.dataFieldList})
+#if( ${field.javaType} == "String")
+			recordDetailsMap.put("#if($StringUtils.isNotBlank($field.mapTo))${field.mapTo}#else${field.lowerSnakeCaseName}#end", ""+rs.getString("${sAlias}_${field.lowerSnakeCaseName}"));
+#elseif( ${field.javaType} == "Integer")
+			recordDetailsMap.put("#if($StringUtils.isNotBlank($field.mapTo))${field.mapTo}#else${field.lowerSnakeCaseName}#end", ""+rs.getInt("${sAlias}_${field.lowerSnakeCaseName}"));
+#elseif( ${field.javaType} == "Date")	
+			recordDetailsMap.put("#if($StringUtils.isNotBlank($field.mapTo))${field.mapTo}#else${field.lowerSnakeCaseName}#end", rs.getDate("${sAlias}_${field.lowerSnakeCaseName}") != null ? ""+rs.getDate("${sAlias}_${field.lowerSnakeCaseName}").getTime() :""+rs.getDate("${sAlias}_${field.lowerSnakeCaseName}"));
+#elseif( ${field.javaType} == "Long")
+			recordDetailsMap.put("#if($StringUtils.isNotBlank($field.mapTo))${field.mapTo}#else${field.lowerSnakeCaseName}#end", ""+rs.getLong("${sAlias}_${field.lowerSnakeCaseName}"));
+#elseif( ${field.javaType} == "Double" || ${field.javaType} == "Float")
+			recordDetailsMap.put("#if($StringUtils.isNotBlank($field.mapTo))${field.mapTo}#else${field.lowerSnakeCaseName}#end", ""+rs.getBigDecimal("${sAlias}_${field.lowerSnakeCaseName}"));
+#end
+#end
+#end
+			
+		}
+		return recordDetailsMap;
+	}
+	
+}

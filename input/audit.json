@@ -1,0 +1,34 @@
+[
+	{
+		"name": "created_on",
+		"java_type": "Date",
+		"sql_type": "DATETIME",
+		"is_mandatory": true,
+		"comment": "Created on"
+	},
+	{
+		"name": "created_by",
+		"java_type": "String",
+		"sql_type": "VARCHAR",
+		"min_length": 0,
+		"max_length": 64,
+		"is_mandatory": true,
+		"comment": "Created by"
+	},
+	{
+		"name": "updated_on",
+		"java_type": "Date",
+		"sql_type": "DATETIME",
+		"is_mandatory": true,
+		"comment": "Updated on"
+	},
+	{
+		"name": "updated_by",
+		"java_type": "String",
+		"sql_type": "VARCHAR",
+		"min_length": 0,
+		"max_length": 64,
+		"is_mandatory": true,
+		"comment": "Updated on"
+	}
+]

@@ -1,5 +1,5 @@
 {
-	"get${entity.upperCamelCaseClassName}List": {
+	"get${usd.upperCamelCaseName}List": {
 		"page_size": {
 			"class": "SMPL",
 			"type": "String"
@@ -12,26 +12,26 @@
 			"class": "SMPL",
 			"type": "String"
 		},
-		"${entity.lowerSnakeCaseClassName}_list": {
+		"${usd.lowerName}_list": {
 			"class": "SMPL",
 			"type": "ARR",
-			"${entity.lowerSnakeCaseClassName}_details": {
-				"class": "CMPLX",
-				"type": "MAP",			
-				"${entity.lowerSnakeCaseClassName}_details": {
-					"id": {
-						"class": "SMPL",
-						"type": "String"
-					},
-#foreach ($field in $entity.dataFieldList)
-#if( $field.isListElement)
-					"${field.lowerSnakeCaseName}": {
-						"class": "SMPL",
-						"type": "String"
-					},
+			"${usd.lowerName}_list": {
+#foreach ($usdentity in $usd.entityList)			
+				"${usdentity.lowerSnakeCaseEntityName}_details": {
+					"class": "CMPLX",
+					"type": "MAP",			
+					"${usdentity.lowerSnakeCaseEntityName}_details": {
+#foreach ($field in $usdentity.dataFieldList)
+#if( $field.isListElement())
+						"${field.lowerSnakeCaseName}": {
+							"class": "SMPL",
+							"type": "String"
+						}#if(${usdentity.dataFieldList.size()} > $velocityCount),#end
 #end
+#end
+					}
+				}#if(${usd.entityList.size()} > $velocityCount),#end
 #end			
-				}
 			}
 		},
 		"response_status": {

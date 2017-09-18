@@ -1,15 +1,17 @@
 {
-	"get${entity.upperCamelCaseClassName}List": {
+	"get${usd.upperCamelCaseName}List": {
 		"search_criteria": {
 			"class": "CMPLX",
 			"type": "MAP",
 			"search_criteria": {
-#foreach ($field in $entity.dataFieldList)
-#if($field.isSearchable)
+#foreach ($usdentity in $usd.entityList)			
+#foreach ($field in $usdentity.dataFieldList)
+#if($field.isSearchable())
 				"${field.lowerSnakeCaseName}": {
 					"class": "SMPL",
 					"type": "String"
-				},
+				}#if(${usdentity.dataFieldList.size()} > $velocityCount),#end
+#end
 #end
 #end			
 			}

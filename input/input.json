@@ -1,122 +1,112 @@
 {
-	"table": "general_ledger",
-	"userStory": "generalledger",
-	"service": "heirarchymanagement",
-	"table_comment": "Heirarchy level information for various purposes spanning various departements",
-	"author": "Manoj",
-	"delete_mode": "LOGICAL",
-	"data_fields": [
+	"userStory": {
+		"name": "product_management",
+		"service": "heirarchymanagement",
+		"author": "Manoj",
+		"delete_mode": "LOGICAL"
+	},
+	"entities": [
 		{
-			"name": "gl_code",
-			"java_type": "String",
-			"sql_type": "VARCHAR",
-			"pattern": "^[a-zA-Z0-9_]*$",
-			"min_length": 2,
-			"max_length": 8,
-			"is_mandatory": true,
-			"is_searchable": true,
-			"is_sortable": true,
-			"is_list_element": true,
-			"comment": "code"
+			"entity": "product",
+			"table_comment": "Product Definition Entity",
+			"audit_fields_required": true,
+			"fields": [
+				{
+					"name": "id",
+					"java_type": "Integer",
+					"sql_type": "INT",
+					"is_mandatory": true,
+					"is_primaryKey": true,
+					"is_list_element": true,
+					"map_to": "a_product_id",
+					"comment": "Auto generated unique identifier. Will be the primary key of the table."
+				},
+				{
+					"name": "type",
+					"java_type": "String",
+					"sql_type": "VARCHAR",
+					"pattern": "^[a-zA-Z0-9_]*$",
+					"min_length": 2,
+					"max_length": 16,
+					"is_mandatory": true,
+					"is_searchable": true,
+					"is_sortable": true,
+					"is_list_element": true,
+					"comment": "Type of the product."
+				},
+				{
+					"name": "product_code",
+					"java_type": "String",
+					"sql_type": "VARCHAR",
+					"min_length": 2,
+					"max_length": 16,
+					"is_mandatory": true,
+					"is_searchable": true,
+					"is_sortable": true,
+					"is_list_element": true,
+					"comment": "Code that uniquely identifies a product."
+				},
+				{
+					"name": "start_date",
+					"java_type": "Date",
+					"sql_type": "DATETIME",
+					"comment": "Start Date Of The Product."
+				},
+				{
+					"name": "end_date",
+					"java_type": "Date",
+					"sql_type": "DATETIME",
+					"comment": "End Date Of The Product."
+				}
+			]
 		},
 		{
-			"name": "name",
-			"java_type": "String",
-			"sql_type": "VARCHAR",
-			"max_length": 32,
-			"is_mandatory": true,
-			"is_searchable": true,
-			"is_sortable": true,
-			"is_list_element": true,
-			"comment": "name"
-		},
-		{
-			"name": "description",
-			"java_type": "String",
-			"sql_type": "VARCHAR",
-			"max_length": 256,
-			"is_mandatory": true,
-			"is_list_element": true,
-			"is_sortable": true,
-			"comment": "description"
-		},
-		{
-			"name": "external_reference_number",
-			"java_type": "String",
-			"sql_type": "VARCHAR",
-			"max_length": 8,
-			"is_list_element": true,
-			"comment": "external reference number"
-		},
-		{
-			"name": "category",
-			"java_type": "String",
-			"sql_type": "VARCHAR",
-			"max_length": 32,
-			"is_mandatory": true,
-			"is_searchable": true,
-			"comment": "category"
-		},
-		{
-			"name": "currency",
-			"java_type": "String",
-			"sql_type": "VARCHAR",
-			"max_length": 32,
-			"is_mandatory": true,
-			"is_searchable": true,
-			"comment": "currency"
-		},
-		{
-			"name": "balance_type",
-			"java_type": "String",
-			"sql_type": "VARCHAR",
-			"max_length": 32,
-			"is_mandatory": true,
-			"is_searchable": true,
-			"comment": "balance type"
-		},
-		{
-			"name": "allowed_transanction_type",
-			"java_type": "String",
-			"sql_type": "VARCHAR",
-			"max_length": 32,
-			"is_mandatory": true,
-			"is_searchable": true,
-			"comment": "name"
+			"entity": "savings_product",
+			"table_comment": "Savings Product Definition",
+			"audit_fields_required": true,
+			"fields": [
+				{
+					"name": "id",
+					"map_to": "savings_product_id",
+					"java_type": "Integer",
+					"sql_type": "INT",
+					"is_mandatory": true,
+					"is_primaryKey": true,
+					"is_list_element": true,
+					"comment": "Auto generated unique identifier. Will be the primary key of the table."
+				},
+				{
+					"name": "cheque_allowed",
+					"java_type": "String",
+					"sql_type": "VARCHAR",
+					"min_length": 2,
+					"max_length": 64,
+					"is_mandatory": true,
+					"is_searchable": true,
+					"is_list_element": true,
+					"is_sortable": true,
+					"comment": "Whether cheque is allowed."
+				},
+				{
+					"name": "debit_card_type",
+					"java_type": "String",
+					"sql_type": "VARCHAR",
+					"min_length": 2,
+					"max_length": 32,
+					"is_mandatory": true,
+					"is_searchable": true,
+					"is_list_element": true,
+					"is_sortable": true,
+					"comment": "Type of the debit card."
+				}
+			]
 		}
 	],
-	"audit_fields": [
+	"relationships": [
 		{
-			"name": "created_on",
-			"java_type": "Date",
-			"sql_type": "DATETIME",
-			"is_mandatory": true,
-			"comment": "Created on"
-		},
-		{
-			"name": "created_by",
-			"java_type": "String",
-			"sql_type": "VARCHAR",
-			"min_length": 0,
-			"max_length": 64,
-			"is_mandatory": true,
-			"comment": "Created by"
-		},
-		{
-			"name": "updated_on",
-			"java_type": "Date",
-			"sql_type": "DATETIME",
-			"is_mandatory": true,
-			"comment": "Updated on"
-		},
-		{
-			"name": "updated_by",
-			"java_type": "String",
-			"sql_type": "VARCHAR",
-			"min_length": 0,
-			"max_length": 64,
-			"is_mandatory": true,
-			"comment": "Updated on"
+			"primary_entity": "product",
+			"secondary_entity": "savings_product",
+			"type": "one-to-one"
 		}
 	]
 }

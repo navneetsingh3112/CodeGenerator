@@ -1,5 +1,5 @@
 {
-	"createOrUpdate${entity.upperCamelCaseClassName}": {
+	"createOrUpdate${usd.upperCamelCaseName}": {
 		"response_status": {
 			"class": "CMPLX",
 			"type": "MAP",

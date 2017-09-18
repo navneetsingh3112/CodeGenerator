@@ -1,41 +1,38 @@
-package in.novopay.${entity.service}.${entity.userStory}.processor;
+package in.novopay.${usd.service}.${usd.flatCaseName}.processor;
 
-import in.novopay.${entity.service}.${entity.userStory}.daoservice.${entity.upperCamelCaseClassName}DAOService;
-import in.novopay.${entity.service}.${entity.userStory}.entity.${entity.upperCamelCaseClassName}Entity;
+import in.novopay.${usd.service}.${usd.flatCaseName}.daoservice.${usd.upperCamelCaseName}DAOService;
 import in.novopay.infra.platform.annotations.Processor;
 import in.novopay.infra.platform.exception.NovopayFatalException;
 import in.novopay.infra.platform.exception.NovopayNonFatalException;
 import in.novopay.infra.platform.navigation.AbstractProcessor;
 import in.novopay.infra.platform.navigation.ExecutionContext;
 import org.springframework.beans.factory.annotation.Autowired;
-
+import java.util.Map;
 
 /***
  * 
- * @author ${entity.author}
+ * @author ${usd.author}
  *
  */
 
 @Processor
-public class LogicalDelete${entity.upperCamelCaseClassName}Processor extends AbstractProcessor {
+public class LogicalDelete${usd.upperCamelCaseName}Processor extends AbstractProcessor {
 
 	
 	@Autowired
-	private ${entity.upperCamelCaseClassName}DAOService ${entity.lowerCamelCaseClassName}Service;
+	private ${usd.upperCamelCaseName}DAOService ${usd.lowerCamelCaseName}Service;
 
-	private ${entity.upperCamelCaseClassName}Entity ${entity.lowerCamelCaseClassName}Entity;
 
 	@Override
 	protected void process(ExecutionContext executionContext) throws NovopayFatalException, NovopayNonFatalException {
 	
-		String id = executionContext.getValue("id",String.class);
-		Integer intId = Integer.parseInt(id);
-		${entity.lowerCamelCaseClassName}Entity = ${entity.lowerCamelCaseClassName}Service.get${entity.upperCamelCaseClassName}Details(intId);
-		if(${entity.lowerCamelCaseClassName}Entity == null){
+		Map<String, Object> detailsMap = ${usd.lowerCamelCaseName}Service.get${usd.upperCamelCaseName}Details(executionContext);
+		if(detailsMap == null || detailsMap.isEmpty()){
 			throw new NovopayNonFatalException("", "No records found");
 		}
-		${entity.lowerCamelCaseClassName}Entity.setIsDeleted(true);
-		${entity.lowerCamelCaseClassName}Service.save${entity.upperCamelCaseClassName}(${entity.lowerCamelCaseClassName}Entity);
+		String id = executionContext.getValue("id",String.class);
+		Integer intId = Integer.parseInt(id);
+		${usd.lowerCamelCaseName}Service.delete${usd.upperCamelCaseName}(intId);
 	}
 	
 }	

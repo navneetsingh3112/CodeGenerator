@@ -1,6 +1,6 @@
-package in.novopay.${entity.service}.${entity.userStory}.processor;
+package in.novopay.${usd.service}.${usd.flatCaseName}.processor;
 
-import in.novopay.${entity.service}.${entity.userStory}.daoservice.${entity.upperCamelCaseClassName}DAOService;
+import in.novopay.${usd.service}.${usd.flatCaseName}.daoservice.${usd.upperCamelCaseName}DAOService;
 import in.novopay.infra.platform.annotations.Processor;
 import in.novopay.infra.platform.exception.NovopayFatalException;
 import in.novopay.infra.platform.exception.NovopayNonFatalException;
@@ -11,26 +11,26 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 /***
  * 
- * @author ${entity.author}
+ * @author ${usd.author}
  *
  */
 
 @Processor
-public class Get${entity.upperCamelCaseClassName}ListProcessor extends AbstractProcessor {
+public class Get${usd.upperCamelCaseName}ListProcessor extends AbstractProcessor {
 
 	
 	@Autowired
-	private ${entity.upperCamelCaseClassName}DAOService ${entity.lowerCamelCaseClassName}Service;
+	private ${usd.upperCamelCaseName}DAOService ${usd.lowerCamelCaseName}Service;
 
 
 	@Override
 	protected void process(ExecutionContext executionContext) throws NovopayFatalException, NovopayNonFatalException {
 	
-		Long count = ${entity.lowerCamelCaseClassName}Service.get${entity.upperCamelCaseClassName}Count(executionContext);
+		Long count = ${usd.lowerCamelCaseName}Service.get${usd.upperCamelCaseName}Count(executionContext);
 		if (count==null || count <=0L) {
 			throw new NovopayNonFatalException("TODO", "No records found");
 		}
 		executionContext.put("number_of_records", count);
-		executionContext.put("${entity.lowerSnakeCaseClassName}_list", ${entity.lowerCamelCaseClassName}Service.get${entity.upperCamelCaseClassName}PaginatedList(executionContext));
+		executionContext.put("${usd.name}_list", ${usd.lowerCamelCaseName}Service.get${usd.upperCamelCaseName}PaginatedList(executionContext));
 	}	
 }

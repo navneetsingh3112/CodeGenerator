@@ -1,27 +1,26 @@
-CREATE TABLE `${entity.table}` (
-  `id` INT(11) NOT NULL AUTO_INCREMENT COMMENT 'Auto generated unique identifier. Will be the primary key of the table.',
-#if( $StringUtils.equalsIgnoreCase(${entity.deleteMode}, "LOGICAL"))
-  `is_deleted` TINYINT(1) COMMENT 'flag for deleted records',
-#end
+CREATE TABLE `${entity.entity}` (
 #foreach ($field in $entity.dataFieldList)
 #if($StringUtils.equalsIgnoreCase(${field.sqlType}, "VARCHAR"))
-  `${field.name}` VARCHAR($field.getOrDefaultStringLength())$field.addNotNull()$field.addComment(),
+  `${field.name}` VARCHAR($field.getMaxLength())$field.getNotNullConstraint()$field.getComment(),
 #elseif($StringUtils.equalsIgnoreCase(${field.sqlType}, "INT"))
-  `${field.name}` INT($field.getOrDefaultIntegerLength())$field.addNotNull()$field.addComment(),
+  `${field.name}` INT(11)$field.getNotNullConstraint()$field.getSQLPrimaryKeyString()$field.getComment(),
 #elseif($StringUtils.equalsIgnoreCase(${field.sqlType}, "DATETIME"))
-  `${field.name}` DATETIME$field.addNotNull()$field.addComment(),
+  `${field.name}` DATETIME$field.getNotNullConstraint()$field.getComment(),
 #elseif($StringUtils.equalsIgnoreCase(${field.sqlType}, "BIGINT" ))
-  `${field.name}` BIGINT($field.getOrDefaultIntegerLength())$field.addNotNull()$field.addComment(),
+  `${field.name}` BIGINT(20)$field.getNotNullConstraint()$field.getSQLPrimaryKeyString()$field.getComment(),
 #elseif($StringUtils.equalsIgnoreCase(${field.sqlType}, "DECIMAL" ))
-  `${field.name}` DECIMAL(20,6)$field.addNotNull()$field.addComment(),
+  `${field.name}` DECIMAL(20,6)$field.getNotNullConstraint()$field.getComment(),
 #end
 #end
 #foreach ($field in $entity.auditFieldList)
 #if($StringUtils.equalsIgnoreCase(${field.sqlType}, "VARCHAR"))
-  `${field.name}` VARCHAR($field.getOrDefaultStringLength())$field.addNotNull()$field.addComment(),
+  `${field.name}` VARCHAR($field.getMaxLength())$field.getNotNullConstraint()$field.getComment(),
 #elseif($StringUtils.equalsIgnoreCase(${field.sqlType}, "DATETIME"))
-  `${field.name}` DATETIME$field.addNotNull()$field.addComment(),
+  `${field.name}` DATETIME$field.getNotNullConstraint()$field.getComment(),
 #end
+#end
+#if( $StringUtils.equalsIgnoreCase(${usd.deleteMode}, "LOGICAL"))
+  `is_deleted` TINYINT(1) COMMENT 'flag for deleted records',
 #end
   PRIMARY KEY (`id`)
-)$entity.addTableComment();
+)$entity.getTableComment();

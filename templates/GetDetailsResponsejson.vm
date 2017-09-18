@@ -1,20 +1,22 @@
 {
-	"get${entity.upperCamelCaseClassName}Details": {
-		"${entity.lowerSnakeCaseClassName}_details": {
+	"get${usd.upperCamelCaseName}Details": {
+#foreach ($usdentity in $usd.entityList)
+		"${usdentity.lowerSnakeCaseEntityName}_details": {
 			"class": "CMPLX",
 			"type": "MAP",
-			"${entity.lowerSnakeCaseClassName}_details": {
-				"id": {
-                    "class": "SMPL",
-                    "type": "String"
-                },
-#foreach ($field in $entity.dataFieldList)
+			"${usdentity.lowerSnakeCaseEntityName}_details": {
+#foreach ($field in ${usdentity.dataFieldList})
 				"${field.lowerSnakeCaseName}": {
 					"class": "SMPL",
-					"type": "String"
-				},
-#end			
+					"type": "String"#if($StringUtils.isNotBlank($field.mapTo)),#end
+#if($StringUtils.isNotBlank($field.mapTo))				
+					"mapTo":"${field.mapTo}"
+#end					
+				}#if(${usdentity.dataFieldList.size()} > $velocityCount),#end
+#end
 			}
+		}#if(${usd.entityList.size()} > $velocityCount),#end
+#end			
 		},
 		"response_status": {
 			"class": "CMPLX",
@@ -34,7 +36,6 @@
 				}
 			}
 		}
-	}
 }
 
 

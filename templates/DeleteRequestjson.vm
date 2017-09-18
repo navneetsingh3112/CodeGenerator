@@ -1,5 +1,5 @@
 {
-	"delete${entity.upperCamelCaseClassName}": {
+	"delete${usd.upperCamelCaseName}": {
 		"id": {
 			"class": "SMPL",
 			"type": "String"

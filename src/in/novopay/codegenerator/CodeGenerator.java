@@ -6,7 +6,9 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.io.StringWriter;
+import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Properties;
 
 import org.apache.commons.lang.StringUtils;
@@ -21,8 +23,10 @@ import org.json.simple.parser.ParseException;
 
 import com.google.common.base.CaseFormat;
 
-import in.novopay.codegenerator.input.InputEntity;
-import in.novopay.codegenerator.input.InputEntityFields;
+import in.novopay.codegenerator.input.Entity;
+import in.novopay.codegenerator.input.Field;
+import in.novopay.codegenerator.input.RelationShip;
+import in.novopay.codegenerator.input.UserStoryDefinition;
 
 public class CodeGenerator {
 
@@ -30,82 +34,39 @@ public class CodeGenerator {
 	static String OUTPUT_DIR = "";
 	static String INPUT_DIR = "";
 
+	static String[] inputTemplateFileArray = { "entity.vm", "repo.vm", "dao.vm", "createprocessor.vm",
+			"updateprocessor.vm", "listprocessor.vm", "detailsprocessor.vm", "ListExtractor.vm", "DetailsExtractor.vm",
+			"CreateOrUpdateRequestjson.vm", "GetPaginatedListRequestjson.vm", "GetDetailsRequestjson.vm",
+			"CreateOrUpdateResponse.vm", "GetDetailsResponsejson.vm", "GetPaginatedListResponsejson.vm",
+			"orchestration.vm", "schema.vm", "physicaldeleteprocessor.vm", "logicaldeleteprocessor.vm",
+			"DeleteRequestjson.vm", "DeleteResponse.vm" };
+
+	static String[] outputDir = { "javasrc/in/novopay/" + "%s" + "/" + "%s" + "/entity",
+			"javasrc/in/novopay/" + "%s" + "/" + "%s" + "/daoservice",
+			"javasrc/in/novopay/" + "%s" + "/" + "%s" + "/daoservice",
+			"javasrc/in/novopay/" + "%s" + "/" + "%s" + "/processor",
+			"javasrc/in/novopay/" + "%s" + "/" + "%s" + "/processor",
+			"javasrc/in/novopay/" + "%s" + "/" + "%s" + "/processor",
+			"javasrc/in/novopay/" + "%s" + "/" + "%s" + "/processor",
+			"javasrc/in/novopay/" + "%s" + "/" + "%s" + "/daoservice",
+			"javasrc/in/novopay/" + "%s" + "/" + "%s" + "/daoservice", "request", "request", "request", "response",
+			"response", "response", "orchestration", "sql", "javasrc/in/novopay/" + "%s" + "/" + "%s" + "/processor",
+			"javasrc/in/novopay/" + "%s" + "/" + "%s" + "/processor", "request", "response" };
+
+	static String[] outputFileExtentionPrefixArray = { "", "", "", "Create", "Update", "Get", "Get", "","",
+			"createOrUpdate", "get", "get", "createOrUpdate", "get", "get", "", "V000XXX__", "PhysicalDelete",
+			"LogicalDelete", "delete", "delete" };
+
+	static String[] outputFileExtentionSuffixArray = { "Entity.java", "Repository.java", "DAOService.java",
+			"Processor.java", "Processor.java", "ListProcessor.java", "DetailsProcessor.java", "ListExtractor.java","DetailsExtractor.java",
+			"_requestTemplate.json", "List_requestTemplate.json", "Details_requestTemplate.json",
+			"_responseTemplate.json", "Details_responseTemplate.json", "List_responseTemplate.json", ".xml", ".sql",
+			"Processor.java", "Processor.java", "_requestTemplate.json", "_responseTemplate.json" };
+
 	public static void main(String[] args) throws IOException {
 		constructDirctoryPath(args);
 		verifyProgramArgs();
-		VelocityContext context = new VelocityContext();
-		InputEntity entity = getEntity();
-		context.put("entity", entity);
-		context.put("StringUtils", new StringUtils());
-		context.put("NumberUtils", new NumberUtils());
-		VelocityEngine velocityEngine = new VelocityEngine();
-		Properties velocityProperties = new Properties();
-		velocityProperties.setProperty("file.resource.loader.path", TEMPLATES_DIR);
-		velocityEngine.init(velocityProperties);
-
-		String[] inputTemplateFileArray = { "entity.vm", "repo.vm", "dao.vm", "createprocessor.vm",
-				"updateprocessor.vm", "listprocessor.vm", "detailsprocessor.vm", "rowMapper.vm",
-				"CreateOrUpdateRequestjson.vm", "GetPaginatedListRequestjson.vm", "GetDetailsRequestjson.vm",
-				"CreateOrUpdateResponse.vm", "GetDetailsResponsejson.vm", "GetPaginatedListResponsejson.vm",
-				"orchestration.vm", "schema.vm", "physicaldeleteprocessor.vm", "logicaldeleteprocessor.vm",
-				"DeleteRequestjson.vm", "DeleteResponse.vm" };
-
-		String[] outputDir = { "javasrc/in/novopay/" + entity.getService() + "/" + entity.getUserStory() + "/entity",
-				"javasrc/in/novopay/" + entity.getService() + "/" + entity.getUserStory() + "/daoservice",
-				"javasrc/in/novopay/" + entity.getService() + "/" + entity.getUserStory() + "/daoservice",
-				"javasrc/in/novopay/" + entity.getService() + "/" + entity.getUserStory() + "/processor",
-				"javasrc/in/novopay/" + entity.getService() + "/" + entity.getUserStory() + "/processor",
-				"javasrc/in/novopay/" + entity.getService() + "/" + entity.getUserStory() + "/processor",
-				"javasrc/in/novopay/" + entity.getService() + "/" + entity.getUserStory() + "/processor",
-				"javasrc/in/novopay/" + entity.getService() + "/" + entity.getUserStory() + "/daoservice", "request",
-				"request", "request", "response", "response", "response", "orchestration", "sql",
-				"javasrc/in/novopay/" + entity.getService() + "/" + entity.getUserStory() + "/processor",
-				"javasrc/in/novopay/" + entity.getService() + "/" + entity.getUserStory() + "/processor", "request",
-				"response" };
-
-		String[] outputFileExtentionPrefixArray = { "", "", "", "Create", "Update", "Get", "Get", "", "createOrUpdate",
-				"get", "get", "createOrUpdate", "get", "get", "", "V000XXX__", "PhysicalDelete", "LogicalDelete",
-				"delete", "delete" };
-
-		String[] outputFileExtentionSuffixArray = { "Entity.java", "Repository.java", "DAOService.java",
-				"Processor.java", "Processor.java", "ListProcessor.java", "DetailsProcessor.java", "RowMapper.java",
-				"_requestTemplate.json", "List_requestTemplate.json", "Details_requestTemplate.json",
-				"_responseTemplate.json", "Details_responseTemplate.json", "List_responseTemplate.json", ".xml", ".sql",
-				"Processor.java", "Processor.java", "_requestTemplate.json", "_responseTemplate.json" };
-
-		createOutputDirectories(outputDir);
-
-		if (inputTemplateFileArray.length == outputDir.length
-				&& inputTemplateFileArray.length == outputFileExtentionSuffixArray.length) {
-
-			for (int i = 0; i < inputTemplateFileArray.length; i++) {
-				if ("PHYSICAL".equalsIgnoreCase(entity.getDeleteMode())
-						&& "LogicalDelete".equalsIgnoreCase(outputFileExtentionPrefixArray[i])) {
-					continue;
-				} else if ("LOGICAL".equalsIgnoreCase(entity.getDeleteMode())
-						&& "PhysicalDelete".equalsIgnoreCase(outputFileExtentionPrefixArray[i])) {
-					continue;
-				}
-				Template t = velocityEngine.getTemplate(inputTemplateFileArray[i]);
-				StringWriter writer = new StringWriter();
-				t.merge(context, writer);
-				System.out.println(writer);
-				String filePath = "";
-				if (outputFileExtentionPrefixArray[i].isEmpty()) {
-					filePath = OUTPUT_DIR + "/" + outputDir[i] + "/" + entity.getUpperCamelCaseClassName()
-							+ outputFileExtentionSuffixArray[i];
-				} else {
-					filePath = OUTPUT_DIR + "/" + outputDir[i] + "/" + outputFileExtentionPrefixArray[i]
-							+ entity.getUpperCamelCaseClassName() + outputFileExtentionSuffixArray[i];
-				}
-				PrintWriter pw = new PrintWriter(filePath);
-				pw.print(writer.toString());
-				pw.close();
-			}
-		} else {
-			System.out.println("Array size is not matching.");
-		}
-
+		generateFiles();
 	}
 
 	private static void constructDirctoryPath(String args[]) {
@@ -156,58 +117,153 @@ public class CodeGenerator {
 		}
 	}
 
-	public static InputEntity getEntity() {
-		JSONParser parser = new JSONParser();
-		InputEntity entity = new InputEntity();
+	private static void generateFiles() throws FileNotFoundException {
+		UserStoryDefinition usd = getUserStroyDefinition();
+		VelocityContext context = new VelocityContext();
+		context.put("usd", usd);
+		context.put("StringUtils", new StringUtils());
+		context.put("NumberUtils", new NumberUtils());
+		VelocityEngine velocityEngine = new VelocityEngine();
+		Properties velocityProperties = new Properties();
+		velocityProperties.setProperty("file.resource.loader.path", TEMPLATES_DIR);
+		velocityEngine.init(velocityProperties);
+		deleteRecursive(new File(OUTPUT_DIR));
+		for (int i = 0; i < inputTemplateFileArray.length; i++) {
+			if (checkInputTemplateFileArray(inputTemplateFileArray[i])) {
+				List<Entity> entityList = usd.getEntityList();
+				for (Entity entity : entityList) {
+					if ("PHYSICAL".equalsIgnoreCase(usd.getDeleteMode())
+							&& "LogicalDelete".equalsIgnoreCase(outputFileExtentionPrefixArray[i])) {
+						continue;
+					} else if ("LOGICAL".equalsIgnoreCase(usd.getDeleteMode())
+							&& "PhysicalDelete".equalsIgnoreCase(outputFileExtentionPrefixArray[i])) {
+						continue;
+					}
+					writeFilesForEachEntity(velocityEngine, context, inputTemplateFileArray[i], outputDir[i],
+							outputFileExtentionPrefixArray[i], outputFileExtentionSuffixArray[i], entity, usd);
+				}
+			} else {
+				writeFilesForUserStory(velocityEngine, context, inputTemplateFileArray[i], outputDir[i],
+						outputFileExtentionPrefixArray[i], outputFileExtentionSuffixArray[i], usd);
+			}
+		}
+	}
+
+	private static void writeFilesForEachEntity(VelocityEngine velocityEngine, VelocityContext context,
+			String templateFileName, String outputDir, String outputFilePrefix, String outputFileSuffix, Entity entity,
+			UserStoryDefinition usd) throws FileNotFoundException {
+		context.put("entity", entity);
+		Template t = velocityEngine.getTemplate(templateFileName);
+		StringWriter writer = new StringWriter();
+		t.merge(context, writer);
+		String dir = String.format(outputDir, usd.getService(), usd.getLowerCamelCaseName().toLowerCase());
+		createOutputDirectory(dir);
+		String filePath = OUTPUT_DIR + "/" + dir + "/" + outputFilePrefix + entity.getUpperCamelCaseEntityName()
+				+ outputFileSuffix;
+		PrintWriter pw = new PrintWriter(filePath);
+		pw.print(writer.toString());
+		pw.close();
+		context.remove("entity");
+	}
+
+	private static void writeFilesForUserStory(VelocityEngine velocityEngine, VelocityContext context,
+			String templateFileName, String outputDir, String outputFilePrefix, String outputFileSuffix,
+			UserStoryDefinition usd) throws FileNotFoundException {
+		Template t = velocityEngine.getTemplate(templateFileName);
+		StringWriter writer = new StringWriter();
+		t.merge(context, writer);
+		String dir = String.format(outputDir, usd.getService(), usd.getLowerCamelCaseName().toLowerCase());
+		createOutputDirectory(dir);
+		String filePath = OUTPUT_DIR + "/" + dir + "/" + outputFilePrefix + usd.getUpperCamelCaseName()
+				+ outputFileSuffix;
+		PrintWriter pw = new PrintWriter(filePath);
+		pw.print(writer.toString());
+		pw.close();
+		context.remove("entity");
+	}
+
+	private static UserStoryDefinition getUserStroyDefinition() {
+		UserStoryDefinition usd = new UserStoryDefinition();
 		try {
+			JSONParser parser = new JSONParser();
 			Object obj = parser.parse(new FileReader(INPUT_DIR + "/input.json"));
 			JSONObject jsonObject = (JSONObject) obj;
-			String table = (String) jsonObject.get("table");
-			entity.setTable(table);
-			entity.setLowerCamelCaseClassName(CaseFormat.UPPER_UNDERSCORE.to(CaseFormat.LOWER_CAMEL, table));
-			entity.setUpperCamelCaseClassName(CaseFormat.UPPER_UNDERSCORE.to(CaseFormat.UPPER_CAMEL, table));
-			entity.setLowerSnakeCaseClassName(CaseFormat.UPPER_UNDERSCORE.to(CaseFormat.UPPER_UNDERSCORE, table));
+			JSONObject userStory = (JSONObject) jsonObject.get("userStory");
+			String author = (String) userStory.get("author");
+			usd.setAuthor(author);
 
-			String author = (String) jsonObject.get("author");
-			entity.setAuthor(author);
+			String name = (String) userStory.get("name");
+			usd.setName(name);
+			usd.setLowerName(name.toLowerCase());
+			usd.setLowerCamelCaseName(CaseFormat.UPPER_UNDERSCORE.to(CaseFormat.LOWER_CAMEL, name));
+			usd.setUpperCamelCaseName(CaseFormat.UPPER_UNDERSCORE.to(CaseFormat.UPPER_CAMEL, name));
+			usd.setFlatCaseName(CaseFormat.UPPER_UNDERSCORE.to(CaseFormat.UPPER_CAMEL, name).toLowerCase());
+			
+			String service = (String) userStory.get("service");
+			usd.setService(service);
 
-			String userStory = (String) jsonObject.get("userStory");
-			entity.setUserStory(userStory);
-
-			String service = (String) jsonObject.get("service");
-			entity.setService(service);
-
-			String deleteMode = (String) jsonObject.get("delete_mode");
-			entity.setDeleteMode(deleteMode);
-
-			entity.setTableComment((String) jsonObject.get("table_comment"));
-
-			JSONArray dataFields = (JSONArray) jsonObject.get("data_fields");
-			Iterator<JSONObject> iterator = dataFields.iterator();
-			while (iterator.hasNext()) {
-				JSONObject fobj = iterator.next();
-				InputEntityFields f = parseIndividualEntity(fobj);
-				entity.addDataFields(f);
+			JSONArray entities = (JSONArray) jsonObject.get("entities");
+			for (Object entityObj : entities) {
+				Entity e = getEntity(entityObj);
+				usd.addEntity(e);
 			}
-
-			JSONArray auditFields = (JSONArray) jsonObject.get("audit_fields");
-			if(auditFields != null && ! auditFields.isEmpty()){
-				iterator = auditFields.iterator();
-				while (iterator.hasNext()) {
-					JSONObject fobj = iterator.next();
-					InputEntityFields f = parseIndividualEntity(fobj);
-					entity.addAuditFields(f);
+			JSONArray relationship = (JSONArray) jsonObject.get("relationships");
+			if (relationship != null && !relationship.isEmpty()) {
+				for (Object rsp : relationship) {
+					RelationShip e = getRelationShip(rsp);
+					usd.addRelationShip(e);
 				}
+				processRelationShip(usd);
 			}
+			String deleteMode = (String) userStory.get("delete_mode");
+			usd.setDeleteMode(deleteMode);
 
 		} catch (IOException | ParseException e) {
 			e.printStackTrace();
 		}
+		return usd;
+	}
+
+	private static Entity getEntity(Object obj) {
+		Entity entity = new Entity();
+		JSONObject jsonObject = (JSONObject) obj;
+		String entityStr = (String) jsonObject.get("entity");
+		entity.setEntity(entityStr);
+		entity.setLowerCamelCaseEntityName(CaseFormat.UPPER_UNDERSCORE.to(CaseFormat.LOWER_CAMEL, entityStr));
+		entity.setUpperCamelCaseEntityName(CaseFormat.UPPER_UNDERSCORE.to(CaseFormat.UPPER_CAMEL, entityStr));
+		entity.setLowerSnakeCaseEntityName(CaseFormat.UPPER_UNDERSCORE.to(CaseFormat.UPPER_UNDERSCORE, entityStr));
+
+		entity.setTableComment((String) jsonObject.get("table_comment"));
+
+		JSONArray dataFields = (JSONArray) jsonObject.get("fields");
+		Iterator<JSONObject> iterator = dataFields.iterator();
+		while (iterator.hasNext()) {
+			JSONObject fobj = iterator.next();
+			Field f = parseIndividualEntity(fobj);
+			entity.addDataFields(f);
+		}
+		Boolean isAuditFieldRequired = (Boolean) jsonObject.get("audit_fields_required");
+		if (isAuditFieldRequired != null && isAuditFieldRequired == true) {
+			try {
+				JSONParser parser = new JSONParser();
+				Object auditObj = parser.parse(new FileReader(INPUT_DIR + "/audit.json"));
+				JSONArray auditJsonObj = (JSONArray) auditObj;
+				iterator = auditJsonObj.iterator();
+				while (iterator.hasNext()) {
+					JSONObject fobj = iterator.next();
+					Field f = parseIndividualEntity(fobj);
+					entity.addAuditFields(f);
+				}
+
+			} catch (IOException | ParseException e) {
+				e.printStackTrace();
+			}
+		}
 		return entity;
 	}
 
-	private static InputEntityFields parseIndividualEntity(JSONObject fobj) {
-		InputEntityFields f = new InputEntityFields();
+	private static Field parseIndividualEntity(JSONObject fobj) {
+		Field f = new Field();
 		f.setName((String) fobj.get("name"));
 		f.setLowerCamelCaseName(CaseFormat.UPPER_UNDERSCORE.to(CaseFormat.LOWER_CAMEL, (String) fobj.get("name")));
 		f.setUpperCamelCaseName(CaseFormat.UPPER_UNDERSCORE.to(CaseFormat.UPPER_CAMEL, (String) fobj.get("name")));
@@ -219,17 +275,17 @@ public class CodeGenerator {
 		}
 		Boolean isMandatory = (Boolean) fobj.get("is_mandatory");
 		if (isMandatory != null) {
-			f.setIsMandatory(isMandatory);
+			f.setMandatory(isMandatory);
 		} else {
-			f.setIsMandatory(false);
+			f.setMandatory(false);
 		}
 		f.setLowerSnakeCaseName(CaseFormat.UPPER_UNDERSCORE.to(CaseFormat.UPPER_UNDERSCORE, (String) fobj.get("name")));
 		f.setComment((String) fobj.get("comment"));
 		Boolean isSearchable = (Boolean) fobj.get("is_searchable");
 		if (isSearchable != null) {
-			f.setIsSearchable(isSearchable);
+			f.setSearchable(isSearchable);
 		} else {
-			f.setIsSearchable(false);
+			f.setSearchable(false);
 		}
 		Long minLength = (Long) fobj.get("min_length");
 		if (minLength != null) {
@@ -239,10 +295,23 @@ public class CodeGenerator {
 
 		Boolean isListElement = (Boolean) fobj.get("is_list_element");
 		if (isListElement != null) {
-			f.setIsListElement(isListElement);
+			f.setListElement(isListElement);
 		} else {
-			f.setIsListElement(false);
+			f.setListElement(false);
 		}
+		Boolean isPrimaryKey = (Boolean) fobj.get("is_primaryKey");
+		if (isPrimaryKey != null) {
+			f.setPrimaryKey(isPrimaryKey);
+		} else {
+			f.setPrimaryKey(false);
+		}
+		Boolean isSortable = (Boolean) fobj.get("is_sortable");
+		if (isSortable != null) {
+			f.setSortable(isSortable);
+		} else {
+			f.setSortable(false);
+		}
+		f.setMapTo((String) fobj.get("map_to"));
 		return f;
 	}
 
@@ -257,15 +326,54 @@ public class CodeGenerator {
 		}
 	}
 
-	private static void createOutputDirectories(String[] outputDirectories) {
-		File rootFile = new File(OUTPUT_DIR);
-		deleteRecursive(rootFile);
-		rootFile.mkdirs();
+	private static RelationShip getRelationShip(Object obj) {
+		JSONObject jsob = (JSONObject) obj;
+		RelationShip rsp = new RelationShip();
+		rsp.setPrimaryEntity((String) jsob.get("primary_entity"));
+		rsp.setSecondaryEntity((String) jsob.get("secondary_entity"));
+		rsp.setType((String) jsob.get("type"));
+		return rsp;
+	}
 
-		for (int i = 0; i < outputDirectories.length; i++) {
-			File file = new File(OUTPUT_DIR + "/" + outputDirectories[i]);
-			file.mkdirs();
+	private static void createOutputDirectory(String outputDirectory) {
+		File rootFile = new File(OUTPUT_DIR);
+		rootFile.mkdirs();
+		File file = new File(OUTPUT_DIR + "/" + outputDirectory);
+		file.mkdirs();
+	}
+
+	private static boolean checkInputTemplateFileArray(String inputTemplateFileName) {
+		String[] str = { "entity.vm", "schema.vm", "updateprocessor.vm", "createprocessor.vm", "repo.vm" };
+		for (int i = 0; i < str.length; i++) {
+			if (inputTemplateFileName.equalsIgnoreCase(str[i])) {
+				return true;
+			}
+		}
+		return false;
+	}
+
+	private static void processRelationShip(UserStoryDefinition usd) {
+		List<RelationShip> rspList = usd.getRelationshipList();
+		for (RelationShip relationShip : rspList) {
+			String type = relationShip.getType();
+			if ("one-to-one".equalsIgnoreCase(type)) {
+				establishOneToOneRelationShip(usd, relationShip);
+			}
 		}
 	}
 
+	@SuppressWarnings("unchecked")
+	private static void establishOneToOneRelationShip(UserStoryDefinition usd, RelationShip relationShip) {
+		Entity secondaryEntity = usd.getEntity(relationShip.getSecondaryEntity());
+		Entity primaryEntity = usd.getEntity(relationShip.getPrimaryEntity());
+		JSONObject jsonObj = new JSONObject();
+		jsonObj.put("name", primaryEntity.getLowerSnakeCaseEntityName() + "_id");
+		jsonObj.put("max_length", 10L);
+		jsonObj.put("java_type", "Integer");
+		jsonObj.put("sql_type", "INT");
+		jsonObj.put("comment", "foreign key relationship");
+		jsonObj.put("is_mandatory", true);
+		Field f = parseIndividualEntity(jsonObj);
+		secondaryEntity.addDataFields(f);
+	}
 }

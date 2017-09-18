@@ -1,7 +1,6 @@
-package in.novopay.${entity.service}.${entity.userStory}.processor;
+package in.novopay.${usd.service}.${usd.flatCaseName}.processor;
 
-import in.novopay.${entity.service}.${entity.userStory}.daoservice.${entity.upperCamelCaseClassName}DAOService;
-import in.novopay.${entity.service}.${entity.userStory}.entity.${entity.upperCamelCaseClassName}Entity;
+import in.novopay.${usd.service}.${usd.flatCaseName}.daoservice.${usd.upperCamelCaseName}DAOService;
 import in.novopay.infra.platform.annotations.Processor;
 import in.novopay.infra.platform.exception.NovopayFatalException;
 import in.novopay.infra.platform.exception.NovopayNonFatalException;

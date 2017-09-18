@@ -1,14 +1,21 @@
 {
-	"createOrUpdate${entity.upperCamelCaseClassName}": {
-		"id": {
-	        "class": "SMPL",
-	        "type": "String"
-	    },
-#foreach ($field in $entity.dataFieldList)
-		"${field.lowerSnakeCaseName}": {
-			"class": "SMPL",
-			"type": "String"
-		},
+	"createOrUpdate${usd.upperCamelCaseName}": {
+#foreach ($usdentity in $usd.entityList)
+		"${usdentity.lowerSnakeCaseEntityName}_details": {
+			"class": "CMPLX",
+			"type": "MAP",
+			"${usdentity.lowerSnakeCaseEntityName}_details": {
+#foreach ($field in ${usdentity.dataFieldList})
+				"${field.lowerSnakeCaseName}": {
+					"class": "SMPL",
+					"type": "String"#if($StringUtils.isNotBlank($field.mapTo)),#end
+#if($StringUtils.isNotBlank($field.mapTo))				
+					"mapTo":"${field.mapTo}"
+#end					
+				}#if(${usdentity.dataFieldList.size()} > $velocityCount),#end
+#end
+			}
+		}#if(${usd.entityList.size()} > $velocityCount),#end
 #end			
 	}
 }

@@ -1,7 +1,7 @@
-package in.novopay.${entity.service}.${entity.userStory}.processor;
+package in.novopay.${usd.service}.${usd.flatCaseName}.processor;
 
-import in.novopay.${entity.service}.${entity.userStory}.entity.${entity.upperCamelCaseClassName}Entity;
-import in.novopay.${entity.service}.${entity.userStory}.daoservice.${entity.upperCamelCaseClassName}DAOService;
+import in.novopay.${usd.service}.${usd.flatCaseName}.entity.${entity.upperCamelCaseEntityName}Entity;
+import in.novopay.${usd.service}.${usd.flatCaseName}.daoservice.${usd.upperCamelCaseName}DAOService;
 import in.novopay.infra.platform.annotations.Processor;
 import in.novopay.infra.platform.exception.NovopayFatalException;
 import in.novopay.infra.platform.exception.NovopayNonFatalException;
@@ -15,56 +15,55 @@ import java.util.Date;
 
 /***
  * 
- * @author ${entity.author}
+ * @author ${usd.author}
  *
  */
 
 @Processor
-public class Create${entity.upperCamelCaseClassName}Processor extends AbstractProcessor {
+public class Create${entity.upperCamelCaseEntityName}Processor extends AbstractProcessor {
 
 	
 	@Autowired
-	private ${entity.upperCamelCaseClassName}DAOService ${entity.lowerCamelCaseClassName}Service;
-
-	private ${entity.upperCamelCaseClassName}Entity ${entity.lowerCamelCaseClassName}Entity;
+	private ${usd.upperCamelCaseName}DAOService ${usd.lowerCamelCaseName}Service;
 
 	@Override
 	protected void process(ExecutionContext executionContext) throws NovopayFatalException, NovopayNonFatalException {
 	
-		${entity.lowerCamelCaseClassName}Entity = new ${entity.upperCamelCaseClassName}Entity();
+		${entity.upperCamelCaseEntityName}Entity ${entity.lowerCamelCaseEntityName}Entity = new ${entity.upperCamelCaseEntityName}Entity();
 #foreach ($field in $entity.dataFieldList)
 		String ${field.lowerCamelCaseName} = executionContext.getValue("${field.lowerSnakeCaseName}", String.class);
 #if(${field.javaType} == "Integer")
 		if(StringUtils.isNoneBlank(${field.lowerCamelCaseName})) {
-			${entity.lowerCamelCaseClassName}Entity.set${field.upperCamelCaseName}(Integer.parseInt(${field.lowerCamelCaseName}));
+			${entity.lowerCamelCaseEntityName}Entity.set${field.upperCamelCaseName}(Integer.parseInt(${field.lowerCamelCaseName}));
 		}	
 #elseif( ${field.javaType} == "Long")
 		if(StringUtils.isNoneBlank(${field.lowerCamelCaseName})) {
-			${entity.lowerCamelCaseClassName}Entity.set${field.upperCamelCaseName}(Long.parseLong(${field.lowerCamelCaseName}));
+			${entity.lowerCamelCaseEntityName}Entity.set${field.upperCamelCaseName}(Long.parseLong(${field.lowerCamelCaseName}));
 		}	
 #elseif( ${field.javaType} == "Float")
 		if(StringUtils.isNoneBlank(${field.lowerCamelCaseName})) {
-			${entity.lowerCamelCaseClassName}Entity.set${field.upperCamelCaseName}(Float.parseFloat(${field.lowerCamelCaseName}));
+			${entity.lowerCamelCaseEntityName}Entity.set${field.upperCamelCaseName}(Float.parseFloat(${field.lowerCamelCaseName}));
 		}	
 #elseif( ${field.javaType} == "Double")
 		if(StringUtils.isNoneBlank(${field.lowerCamelCaseName})) {
-			${entity.lowerCamelCaseClassName}Entity.set${field.upperCamelCaseName}(Double.parseDouble(${field.lowerCamelCaseName}));
+			${entity.lowerCamelCaseEntityName}Entity.set${field.upperCamelCaseName}(Double.parseDouble(${field.lowerCamelCaseName}));
 		}	
 #elseif( ${field.javaType} == "Date")
 		if(StringUtils.isNoneBlank(${field.lowerCamelCaseName})) {
-			${entity.lowerCamelCaseClassName}Entity.set${field.upperCamelCaseName}(new Date(Long.parseLong(${field.lowerCamelCaseName})));
+			${entity.lowerCamelCaseEntityName}Entity.set${field.upperCamelCaseName}(new Date(Long.parseLong(${field.lowerCamelCaseName})));
 		}
 #else		
-		${entity.lowerCamelCaseClassName}Entity.set${field.upperCamelCaseName}(${field.lowerCamelCaseName});	
+		${entity.lowerCamelCaseEntityName}Entity.set${field.upperCamelCaseName}(${field.lowerCamelCaseName});	
 #end
 #end
 #foreach ($field in $entity.auditFieldList)
 #if( ${field.javaType} == "Date")
-		${entity.lowerCamelCaseClassName}Entity.set${field.upperCamelCaseName}(new Date());
+		${entity.lowerCamelCaseEntityName}Entity.set${field.upperCamelCaseName}(new Date());
 #else
-		${entity.lowerCamelCaseClassName}Entity.set${field.upperCamelCaseName}("");
+		${entity.lowerCamelCaseEntityName}Entity.set${field.upperCamelCaseName}("");
 #end
 #end
-		${entity.lowerCamelCaseClassName}Entity = ${entity.lowerCamelCaseClassName}Service.save${entity.upperCamelCaseClassName}(${entity.lowerCamelCaseClassName}Entity);		
+		${entity.lowerCamelCaseEntityName}Entity = ${usd.lowerCamelCaseName}Service.save${entity.upperCamelCaseEntityName}(${entity.lowerCamelCaseEntityName}Entity);
+		executionContext.put("${entity.lowerSnakeCaseEntityName}_id",${entity.lowerCamelCaseEntityName}Entity.getId());				
 	}
 }

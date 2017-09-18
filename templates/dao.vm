@@ -1,7 +1,9 @@
-package in.novopay.${entity.service}.${entity.userStory}.daoservice;
+package in.novopay.${usd.service}.${usd.flatCaseName}.daoservice;
 
 
-import in.novopay.${entity.service}.${entity.userStory}.entity.${entity.upperCamelCaseClassName}Entity;
+#foreach ($usdentity in $usd.entityList)    
+import in.novopay.${usd.service}.${usd.flatCaseName}.entity.${usdentity.upperCamelCaseEntityName}Entity;
+#end
 import in.novopay.infra.platform.exception.NovopayFatalException;
 import in.novopay.infra.platform.navigation.ExecutionContext;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,43 +15,57 @@ import java.util.Map;
 
 /***
  * 
- * @author ${entity.author}
+ * @author ${usd.author}
  *
  */
 
 @Service
-public class ${entity.upperCamelCaseClassName}DAOService {
+public class ${usd.upperCamelCaseName}DAOService {
+
+#foreach($usdentity in $usd.entityList) 
+	@Autowired
+	private ${usdentity.upperCamelCaseEntityName}Repository ${usdentity.lowerCamelCaseEntityName}Repository;
+	
+#end
+	@Autowired
+	private ${usd.upperCamelCaseName}ListExtractor ${usd.lowerCamelCaseName}ListExtractor;
 
 	@Autowired
-	private ${entity.upperCamelCaseClassName}Repository ${entity.lowerCamelCaseClassName}Repository;
-		
-	@Autowired
-	private ${entity.upperCamelCaseClassName}RowMapper ${entity.lowerCamelCaseClassName}Mapper;
+	private ${usd.upperCamelCaseName}DetailsExtractor ${usd.lowerCamelCaseName}DetailsExtractor;
 
-	public ${entity.upperCamelCaseClassName}Entity save${entity.upperCamelCaseClassName}(${entity.upperCamelCaseClassName}Entity entity) {
-		return ${entity.lowerCamelCaseClassName}Repository.save(entity);
+#foreach($usdentity in $usd.entityList)
+	public ${usdentity.upperCamelCaseEntityName}Entity save${usdentity.upperCamelCaseEntityName}(${usdentity.upperCamelCaseEntityName}Entity entity) {
+		return ${usdentity.lowerCamelCaseEntityName}Repository.save(entity);
+	}
+	
+	public List<${usdentity.upperCamelCaseEntityName}Entity> get${usdentity.upperCamelCaseEntityName}List() {
+		return ${usdentity.lowerCamelCaseEntityName}Repository.findAll();
+	}
+	
+	public ${usdentity.upperCamelCaseEntityName}Entity get${usdentity.upperCamelCaseEntityName}Details(Integer id) {
+		return ${usdentity.lowerCamelCaseEntityName}Repository.findOneById(id);
+	}
+	
+	public void delete${usdentity.upperCamelCaseEntityName}Entity (${usdentity.upperCamelCaseEntityName}Entity entity){
+		${usdentity.lowerCamelCaseEntityName}Repository.delete(entity);
+	}
+#if($StringUtils.equalsIgnoreCase($usd.getPrimaryEntity().entity, ${usdentity.entity} ))
+	public void delete${usd.upperCamelCaseName} (Integer id){
+		${usdentity.lowerCamelCaseEntityName}Repository.logicalDelete${usd.upperCamelCaseName}(id);
+	}
+#end	
+#end
+	public List<Map<String, Object>> get${usd.upperCamelCaseName}PaginatedList(ExecutionContext executionContext) throws NovopayFatalException {
+		List<Map<String, Object>> ${usd.lowerCamelCaseName}List = ${usd.lowerCamelCaseName}ListExtractor.getDetails(executionContext);
+		executionContext.put("page_size", ${usd.lowerCamelCaseName}List.size());
+		return ${usd.lowerCamelCaseName}List;
 	}
 
-	public List<${entity.upperCamelCaseClassName}Entity> get${entity.upperCamelCaseClassName}List() {
-		return ${entity.lowerCamelCaseClassName}Repository.findAll();
+	public Long get${usd.upperCamelCaseName}Count(ExecutionContext executionContext){
+		return ${usd.lowerCamelCaseName}ListExtractor.getCount(executionContext);
 	}
 	
-	public List<Map<String, Object>> get${entity.upperCamelCaseClassName}PaginatedList(ExecutionContext executionContext) throws NovopayFatalException {
-		List<Map<String, Object>> ${entity.lowerCamelCaseClassName}List = ${entity.lowerCamelCaseClassName}Mapper.getDetails(executionContext);
-		executionContext.put("page_size", ${entity.lowerCamelCaseClassName}List.size());
-		return ${entity.lowerCamelCaseClassName}List;
+	public Map<String, Object> get${usd.upperCamelCaseName}Details(ExecutionContext executionContext) {
+		return ${usd.lowerCamelCaseName}DetailsExtractor.get${usd.upperCamelCaseName}Details(executionContext);
 	}
-
-	public Long get${entity.upperCamelCaseClassName}Count(ExecutionContext executionContext){
-		return ${entity.lowerCamelCaseClassName}Mapper.getCount(executionContext);
-	}
-	
-	public ${entity.upperCamelCaseClassName}Entity get${entity.upperCamelCaseClassName}Details(Integer id){
-		return ${entity.lowerCamelCaseClassName}Repository.findOneById(id);
-	}
-	
-	public void delete${entity.upperCamelCaseClassName}Entity (${entity.upperCamelCaseClassName}Entity entity){
-		${entity.lowerCamelCaseClassName}Repository.delete(entity);
-	}
-	
 }
