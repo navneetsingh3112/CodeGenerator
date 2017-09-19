@@ -1,7 +1,6 @@
 {
 	"table":"general_ledger",
 	"userStory":"generalledger",
-	"service":"heirarchymanagement",
 	"display_name": "General Ledger",
 	"table_comment" : "Heirarchy level information for various purposes spanning various departements",
 	"author":"Manoj",
@@ -9,17 +8,12 @@
 	"fields": [
 		{
 			"name": "gl_code",
-			"java_type": "String",
-			"sql_type": "VARCHAR",
-			"length": 16,
 			"is_mandatory": true,
-			"comment": "Name of heirarchy level",
 			"web_type": "Radio",
 			"is_list_element": true,
 			"is_code_included_in_display": true,
 			"placeholder": "eg. Country",
 			"display_name": "Gl Code",
-			"data_list": [],
 			"populate_from_master_data": true,
 			"master_data_type": "address_type",
 			"min_length": 2,
@@ -32,12 +26,8 @@
 		},
 		{
 			"name": "name",
-			"java_type": "String",
-			"sql_type": "VARCHAR",
 			"is_list_element": true,
-			"length": 8,
 			"is_mandatory": true,
-			"comment": "Heirarchy level code",
 			"web_type": "Textbox",
 			"master_data_type": "address_type",
 			"master_data_sub_type": null,
@@ -50,16 +40,11 @@
 			"is_searchable": false,
 			"is_sortable": true,
 			"is_not_editable": false,
-			"input_api": "google.com",
 			"populate_from_master_data": true
 		},
 		{
 			"name": "description",
-			"java_type": "String",
-			"sql_type": "VARCHAR",
-			"length": 256,
 			"is_list_element": true,
-			"comment": "Heirarchy level description",
 			"web_type": "Textarea",
 			"placeholder": "eg. Country",
 			"display_name": "Description",
@@ -72,9 +57,6 @@
 		},
 		{
 			"name": "external_reference_number",
-			"java_type": "String",
-			"sql_type": "VARCHAR",
-			"length": 256,
 			"is_list_element": true,
 			"is_mandatory": true,
 			"comment": "Heirarchy level department name",
@@ -88,9 +70,6 @@
 		},
 		{
 			"name": "category",
-			"java_type": "String",
-			"sql_type": "VARCHAR",
-			"length": 256,
 			"is_mandatory": true,
 			"is_list_element": false,
 			"comment": "Type of heirarchy level",
@@ -110,9 +89,6 @@
 		},
 		{
 			"name": "currency",
-			"java_type": "String",
-			"sql_type": "VARCHAR",
-			"length": 256,
 			"is_mandatory": true,
 			"is_list_element": false,
 			"comment": "Type of heirarchy level",
@@ -128,9 +104,6 @@
 		},
 		{
 			"name": "balance_type",
-			"java_type": "String",
-			"sql_type": "VARCHAR",
-			"length": 256,
 			"is_list_element": true,
 			"is_searchable": true,
 			"is_mandatory": true,
@@ -138,10 +111,8 @@
 			"web_type": "Checkbox",
 			"placeholder": "eg. Administrative",
 			"display_name": "Balance Type",
-			"populate_from_master_data": false,
 			"data_list": [],
 			"api_key": "balance_type",
-			"is_searchable": true,
 			"search_type": "Dropdown",
 			"is_sortable": true,
 			"is_not_editable": false,
@@ -156,28 +127,12 @@
 		},
 		{
 			"name": "allowed_transanction_type",
-			"java_type": "String",
-			"sql_type": "VARCHAR",
-			"length": 256,
 			"is_list_element": false,
 			"is_mandatory": true,
-			"comment": "Type of heirarchy level",
 			"web_type": "Dropdown",
 			"placeholder": "eg. Administrative",
 			"display_name": "Allowed Transaction Type",
 			"populate_from_master_data": false,
-			"data_list": [
-			{
-				"id": "1",
-				"code": "DEBIT",
-				"text": "Debit"
-			},
-			{
-				"id": "2",
-				"code": "CREDIT",
-				"text": "Credit"
-			}
-			],
 			"api_key": "allowed_transanction_type",
 			"is_searchable": true,
 			"is_sortable": true,
