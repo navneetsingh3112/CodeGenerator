@@ -188,7 +188,7 @@ public class Main {
                 f.setApiKey((String) fobj.get("api_key"));
                 f.setSearchable((Boolean) fobj.get("is_searchable"));
                 f.setSortable((Boolean) fobj.get("is_sortable"));
-                f.setEditable((Boolean) fobj.get("is_editable"));
+                f.setIsNotEditable((Boolean) fobj.get("is_not_editable"));
                 if (null == fobj.get("master_data_type")) {
                     f.setMasterDataType("");
                 } else {

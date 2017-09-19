@@ -28,7 +28,7 @@
 			"api_key": "gl_code",
 			"is_searchable": true,
 			"is_sortable": true,
-			"is_editable": true
+			"is_not_editable": false
 		},
 		{
 			"name": "name",
@@ -49,7 +49,7 @@
 			"api_key": "name",
 			"is_searchable": false,
 			"is_sortable": true,
-			"is_editable": true,
+			"is_not_editable": false,
 			"input_api": "google.com",
 			"populate_from_master_data": true
 		},
@@ -68,7 +68,7 @@
 			"api_key": "description",
 			"is_searchable": true,
 			"is_sortable": true,
-			"is_editable": true
+			"is_not_editable": false
 		},
 		{
 			"name": "external_reference_number",
@@ -84,7 +84,7 @@
 			"api_key": "external_reference_number",
 			"is_searchable": true,
 			"is_sortable": false,
-			"is_editable": true
+			"is_not_editable": false
 		},
 		{
 			"name": "category",
@@ -100,7 +100,7 @@
 			"api_key": "category",
 			"is_searchable": true,
 			"is_sortable": true,
-			"is_editable": true,
+			"is_not_editable": false,
 			"input_api": "getProductSchemeList",
 			"input_api_list_key": "product_scheme_list",
 			"input_api_details_key": "product_scheme_details",
@@ -124,7 +124,7 @@
 			"api_key": "currency",
 			"is_searchable": true,
 			"is_sortable": true,
-			"is_editable": true
+			"is_not_editable": false
 		},
 		{
 			"name": "balance_type",
@@ -135,7 +135,7 @@
 			"is_searchable": true,
 			"is_mandatory": true,
 			"comment": "Type of heirarchy level",
-			"web_type": "Dropdown",
+			"web_type": "Checkbox",
 			"placeholder": "eg. Administrative",
 			"display_name": "Balance Type",
 			"populate_from_master_data": false,
@@ -155,7 +155,7 @@
 			"is_searchable": true,
 			"search_type": "Dropdown",
 			"is_sortable": true,
-			"is_editable": true
+			"is_not_editable": false
 		},
 		{
 			"name": "allowed_transanction_type",
@@ -184,7 +184,7 @@
 			"api_key": "allowed_transanction_type",
 			"is_searchable": true,
 			"is_sortable": true,
-			"is_editable": true
+			"is_not_editable": false
 		}
 	],
 	"list_view_action_button_list": [

@@ -233,21 +233,21 @@
                                             #if ($field.isMandatory)
                                                 <div id="${field.lowerTrainCaseName}-error"></div>
                                             #end
-                                            <label *ngIf="readOnly"
-                                                   [ngSwitch]="radioList.${field.lowerCamelCaseName}.value"
-                                                   class="read-only-view-label col-form-label wrap-long-text">
+                                            <span *ngIf="readOnly"
+                                                  [ngSwitch]="radioList.${field.lowerCamelCaseName}.value">
                                                 #set($counter = 0)
                                                 #foreach ($element in $field.dataList)
-                                                    <a *ngSwitchCase="radioList.${field.lowerCamelCaseName}.dataList[$counter].code">
-                                                        {{radioList.${field.lowerCamelCaseName}.dataList[$counter].text}}</a>
+                                                    <span *ngSwitchCase="radioList.${field.lowerCamelCaseName}.dataList[$counter].code">
+                                                        {{radioList.${field.lowerCamelCaseName}.dataList[$counter].text}}</span>
                                                     #set($counter = $counter + 1)
                                                 #end
                                                 #if ($field.dataList.equals([]) )
-                                                    <a *ngFor=" let data of radioList.${field.lowerCamelCaseName}.dataList ; let i = index">
-                                                        <a *ngSwitchCase="radioList.${field.lowerCamelCaseName}.dataList[i].code">
-                                                            {{radioList.${field.lowerCamelCaseName}.dataList[i].text}}</a></a>
+                                                    <span *ngFor=" let data of radioList.${field.lowerCamelCaseName}.dataList ; let i = index">
+                                                        <label class="read-only-view-label col-form-label wrap-long-text"
+                                                               *ngSwitchCase="radioList.${field.lowerCamelCaseName}.dataList[i].code">
+                                                            {{radioList.${field.lowerCamelCaseName}.dataList[i].text}}</label></span>
                                                 #end
-                                            </label>
+                                            </span>
                                         </div>
                                     </div>
 

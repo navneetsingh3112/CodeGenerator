@@ -21,7 +21,7 @@ public class InputEntityFields {
 	private String apiKey;
 	private Boolean isSearchable;
 	private Boolean isSortable;
-	private Boolean isEditable;
+	private Boolean isNotEditable;
 	private String masterDataType;
 	private String masterDataSubType;
 	private Boolean isCodeIncludedInDisplay;
@@ -210,12 +210,12 @@ public class InputEntityFields {
 		isSortable = sortable;
 	}
 
-	public Boolean getEditable() {
-		return isEditable;
+	public Boolean getIsNotEditable() {
+		return isNotEditable;
 	}
 
-	public void setEditable(Boolean editable) {
-		isEditable = editable;
+	public void setIsNotEditable(Boolean isNotEditable) {
+		this.isNotEditable = isNotEditable;
 	}
 
 	public String getMasterDataType() {
