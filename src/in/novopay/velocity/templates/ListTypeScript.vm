@@ -28,7 +28,7 @@ export class ${entity.upperCamelCaseClassName}ListComponent extends BaseListComp
                 private commonHttpService:CommonHttpService,
                 private resourceFactoryConstants: ResourceFactoryConstants) {
         super(router, location, mainApp, commonUtilityService, appConstants,
-            baseService, commonHttpService);
+            baseService, commonHttpService,resourceFactoryConstants);
 
         let searchModel = [
         #set($counter=1)
@@ -73,7 +73,37 @@ export class ${entity.upperCamelCaseClassName}ListComponent extends BaseListComp
         		#end
             	],
             	selectedFlag: false,
-            	searchModelIndex: $fieldCounter
+            	searchModelIndex: $fieldCounter,
+            	#if (${field.populateFromMasterData})
+        		populateFromMasterData: ${field.populateFromMasterData},
+        		#end
+        		#if (${field.masterDataType})
+        		masterDataType: '${field.masterDataType}',
+        		#end
+        		#if (${field.masterDataSubType})
+        		masterDataSubType: '${field.masterDataSubType}',
+        		#end
+        		#if (${field.isCodeIncludedInDisplay})
+        		isCodeIncludedInDisplay: ${field.isCodeIncludedInDisplay},
+        		#end
+        		#if (${field.inputApi})
+        		inputApi: "${field.inputApi}",
+        		#end
+        		#if (${field.inputApiListKey})
+        		inputApiListKey: "${field.inputApiListKey}",
+        		#end
+        		#if (${field.inputApiDetailsKey})
+        		inputApiDetailsKey: "${field.inputApiDetailsKey}",
+        		#end
+        		#if (${field.inputApiIdKey})
+        		inputApiIdKey: "${field.inputApiIdKey}",
+        		#end
+        		#if (${field.inputApiCodeKey})
+        		inputApiCodeKey: "${field.inputApiCodeKey}",
+        		#end
+        		#if (${field.inputApiValueKey})
+        		inputApiValueKey: "${field.inputApiValueKey}",
+        		#end
             },
             #set($dropdownCounter=$dropdownCounter+1)
             #end
