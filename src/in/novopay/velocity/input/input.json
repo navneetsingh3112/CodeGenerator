@@ -139,23 +139,20 @@
 			"placeholder": "eg. Administrative",
 			"display_name": "Balance Type",
 			"populate_from_master_data": false,
-			"data_list": [
-			{
-				"id": "1",
-				"code": "SB",
-				"text": "Saving"
-			},
-			{
-				"id": "2",
-				"code": "CC",
-				"text": "Current"
-			}
-			],
+			"data_list": [],
 			"api_key": "balance_type",
 			"is_searchable": true,
 			"search_type": "Dropdown",
 			"is_sortable": true,
-			"is_not_editable": false
+			"is_not_editable": false,
+			"populate_from_master_data": false,
+			"input_api": "getProductSchemeList",
+			"input_api_list_key": "product_scheme_list",
+			"input_api_details_key": "product_scheme_details",
+			"input_api_id_key": "scheme_id",
+			"input_api_code_key": "scheme_code",
+			"input_api_value_key": "name",
+			
 		},
 		{
 			"name": "allowed_transanction_type",
