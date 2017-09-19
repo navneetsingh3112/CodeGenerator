@@ -4,7 +4,7 @@
 	"service":"heirarchymanagement",
 	"display_name": "General Ledger",
 	"table_comment" : "Heirarchy level information for various purposes spanning various departements",
-	"author":"Manoj",
+	"author":"Abhishek",
 	"fetch_api_key": "id",
 	"fields": [
 		{
