@@ -16,7 +16,7 @@ public class Entity {
 	private List<Field> dataFieldList = new ArrayList<>();
 	private Map<String,Field> dataFieldMap = new HashMap<>();
 	private List<Field> auditFieldList = new ArrayList<>();
-
+	private String entityAliasName;
 	
 	public String getEntity() {
 		return entity;
@@ -89,6 +89,14 @@ public class Entity {
 
 	public void addAuditFields(Field field) {
 		auditFieldList.add(field);
+	}
+
+	public String getEntityAliasName() {
+		return entityAliasName;
+	}
+
+	public void setEntityAliasName(String entityAliasName) {
+		this.entityAliasName = entityAliasName;
 	}
 
 }

@@ -3,7 +3,7 @@ package in.novopay.${usd.service}.${usd.flatCaseName}.daoservice;
 
 import in.novopay.${usd.service}.${usd.flatCaseName}.entity.${entity.upperCamelCaseEntityName}Entity;
 import org.springframework.data.jpa.repository.JpaRepository;
-#if($StringUtils.equalsIgnoreCase($usd.getPrimaryEntity().entity, ${entity.entity} ))
+#if($StringUtils.equalsIgnoreCase($usd.getPrimaryEntityFromMap().entity, ${entity.entity} ))
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 #end
@@ -20,26 +20,11 @@ interface ${entity.upperCamelCaseEntityName}Repository extends JpaRepository<${e
 	List<${entity.upperCamelCaseEntityName}Entity> findAll();
 	${entity.upperCamelCaseEntityName}Entity findOneById(Integer id);
 	void delete(${entity.upperCamelCaseEntityName}Entity entity);
-#if($StringUtils.equalsIgnoreCase($usd.getPrimaryEntity().entity, ${entity.entity} ))	
-#set($primaryEntity = "${usd.getPrimaryEntity().entity}")
-#set($join = "")
-#set($setFeilds = "")
-#set($counter = 1)	
-#foreach ($relationship in $usd.relationshipList)
-#set($pEntity = $usd.getEntity($relationship.primaryEntity))
-#set($pAlias = "b${counter}")
-#set($counter = $counter+1)
-#set($sEntity = $usd.getEntity($relationship.secondaryEntity))
-#set($sAlias = "b${counter}")
-#set($counter = $counter+1)
-#if($StringUtils.isEmpty(${entityList}))
-#end
-#set($entityList = "${pEntity.entity} ${pAlias}")
-#set($join = " ${pAlias} JOIN $relationship.secondaryEntity $sAlias ON ${pAlias}.id = $sAlias.${relationship.primaryEntity}_id")
-#set($setFeilds = "#if($StringUtils.isEmpty(${setFeilds}))${pAlias}.is_deleted = true , ${sAlias}.is_deleted = true #else , ${pAlias}.is_deleted = true , ${sAlias}.is_deleted = true #end")
-#end
+
+#if($StringUtils.equalsIgnoreCase($usd.getPrimaryEntityFromMap().entity, ${entity.entity} ))	
 	@Modifying
-	@Query(nativeQuery = true, value = "UPDATE ${primaryEntity} ${join} SET ${setFeilds} WHERE b1.id = ?1")
+	@Query(nativeQuery = true, value = "${usd.getUpdateQueryForLogicalDelete()}")
 	void logicalDelete${usd.upperCamelCaseName}(Integer id);
 #end		
+	
 }

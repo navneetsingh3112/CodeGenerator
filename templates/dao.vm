@@ -49,10 +49,12 @@ public class ${usd.upperCamelCaseName}DAOService {
 	public void delete${usdentity.upperCamelCaseEntityName}Entity (${usdentity.upperCamelCaseEntityName}Entity entity){
 		${usdentity.lowerCamelCaseEntityName}Repository.delete(entity);
 	}
-#if($StringUtils.equalsIgnoreCase($usd.getPrimaryEntity().entity, ${usdentity.entity} ))
+
+#if($StringUtils.equalsIgnoreCase(${usd.getPrimaryEntityFromMap().entity}, ${usdentity.entity} ))
 	public void delete${usd.upperCamelCaseName} (Integer id){
 		${usdentity.lowerCamelCaseEntityName}Repository.logicalDelete${usd.upperCamelCaseName}(id);
 	}
+
 #end	
 #end
 	public List<Map<String, Object>> get${usd.upperCamelCaseName}PaginatedList(ExecutionContext executionContext) throws NovopayFatalException {

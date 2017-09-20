@@ -6,7 +6,6 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.io.StringWriter;
-import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Properties;
@@ -202,9 +201,14 @@ public class CodeGenerator {
 			String service = (String) userStory.get("service");
 			usd.setService(service);
 
+			String primaryEntity = (String) userStory.get("primary_entity");
+			usd.setPrimaryEntity(primaryEntity);
+
 			JSONArray entities = (JSONArray) jsonObject.get("entities");
+			int aliasCounter = 1;
 			for (Object entityObj : entities) {
 				Entity e = getEntity(entityObj);
+				e.setEntityAliasName("b"+aliasCounter++);
 				usd.addEntity(e);
 			}
 			JSONArray relationship = (JSONArray) jsonObject.get("relationships");

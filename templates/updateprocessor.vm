@@ -31,7 +31,7 @@ public class Update${entity.upperCamelCaseEntityName}Processor extends AbstractP
 	
 		${entity.upperCamelCaseEntityName}Entity ${entity.lowerCamelCaseEntityName}Entity = new ${entity.upperCamelCaseEntityName}Entity();
 #foreach ($field in $entity.dataFieldList)
-		String ${field.lowerCamelCaseName} = executionContext.getValue("${field.lowerSnakeCaseName}", String.class);
+		String ${field.lowerCamelCaseName} = executionContext.getValue("${usd.getFieldMaptoOrName(${field})}", String.class);
 #if(${field.javaType} == "Integer")
 		if(StringUtils.isNoneBlank(${field.lowerCamelCaseName})) {
 			${entity.lowerCamelCaseEntityName}Entity.set${field.upperCamelCaseName}(Integer.parseInt(${field.lowerCamelCaseName}));
@@ -66,6 +66,6 @@ public class Update${entity.upperCamelCaseEntityName}Processor extends AbstractP
 #end
 #end
 		${entity.lowerCamelCaseEntityName}Entity = ${usd.lowerCamelCaseName}Service.save${entity.upperCamelCaseEntityName}(${entity.lowerCamelCaseEntityName}Entity);
-		executionContext.put("${entity.lowerSnakeCaseEntityName}_id",${entity.lowerCamelCaseEntityName}Entity.getId());		
+		executionContext.put("${entity.lowerSnakeCaseEntityName}_id",${entity.lowerCamelCaseEntityName}Entity.getId().toString());		
 	}
 }

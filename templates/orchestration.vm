@@ -7,6 +7,7 @@
 #set($lengthValidatorReq = false)
 #foreach ($usdentity in $usd.entityList)
 #foreach ($field in ${usdentity.dataFieldList})
+#if(!$field.isPrimaryKey())
 #if( $field.maxLength && $field.minLength && $field.maxLength > 0 &&  $field.minLength >= 0 )
 #set($lengthValidatorReq = true)
 #end
@@ -18,13 +19,14 @@
 #end
 #end
 #end
+#end
 		<Validators>
 #if($mandatoryValidatorReq)
 			<Validator bean="mandatoryFieldValidator">		
 #foreach ($usdentity in $usd.entityList)
 #foreach ($field in $usdentity.dataFieldList)
-#if(${field.isMandatory()} && ${field.name} != "id")
-				<IParam fieldName="${field.lowerSnakeCaseName}" errorCode="" defaultMessage="${field.lowerSnakeCaseName} is mandatory."/>
+#if(${field.isMandatory()} && ! $field.isPrimaryKey())
+				<IParam fieldName="$usd.getFieldMaptoOrName(${field})" errorCode="" defaultMessage="${field.lowerSnakeCaseName} is mandatory."/>
 #end
 #end
 #end
@@ -34,8 +36,8 @@
 			<Validator bean="patternFieldValidator">
 #foreach ($usdentity in $usd.entityList)
 #foreach ($field in $usdentity.dataFieldList)
-#if( $StringUtils.isNotBlank(${field.pattern}))
-				<IParam fieldName="${field.lowerSnakeCaseName}" errorCode="" pattern="${field.pattern}" defaultMessage="Invalid ${field.lowerSnakeCaseName}."/>
+#if( $StringUtils.isNotBlank(${field.pattern}) && ! $field.isPrimaryKey())
+				<IParam fieldName="$usd.getFieldMaptoOrName(${field})" errorCode="" pattern="${field.pattern}" defaultMessage="Invalid ${field.lowerSnakeCaseName}."/>
 #end
 #end
 #end
@@ -45,8 +47,8 @@
 			<Validator bean="stringLengthValidator">
 #foreach ($usdentity in $usd.entityList)
 #foreach ($field in $usdentity.dataFieldList)
-#if( $field.maxLength && $field.minLength && $field.maxLength > 0 &&  $field.minLength >= 0 )
-				<IParam fieldName="${field.lowerSnakeCaseName}" errorCode="" minLength="${field.minLength}" maxLength="${field.maxLength}"/>
+#if( ! $field.isPrimaryKey() && $field.maxLength && $field.minLength && $field.maxLength > 0 &&  $field.minLength >= 0 )
+				<IParam fieldName="$usd.getFieldMaptoOrName(${field})" errorCode="" minLength="${field.minLength}" maxLength="${field.maxLength}"/>
 #end
 #end
 #end
@@ -54,13 +56,13 @@
 #end
 			<Control  method="regExp" pattern="${function_sub_code}"  condition="=" value="UPDATE">
 				<Validator bean="mandatoryFieldValidator">
-					<IParam fieldName="id" errorCode="" defaultMessage="id is mandatory."/>
+					<IParam fieldName="${usd.getFieldMaptoOrName(${usd.getPrimaryEntityPrimaryKeyField()})}" errorCode="" defaultMessage="id is mandatory."/>
 				</Validator>
 				<Validator bean="longValueValidator">
-					<IParam fieldName="id" minVal="1" maxVal="2147483647" errorCode="" defaultMessage="Invalid value of id."/>
+					<IParam fieldName="${usd.getFieldMaptoOrName(${usd.getPrimaryEntityPrimaryKeyField()})}" minVal="1" maxVal="2147483647" errorCode="" defaultMessage="Invalid value of id."/>
 				</Validator>
 			</Control>
-		</Validators>		
+		</Validators>
 		<Processors>
 			<Control method="regExp" pattern="${function_sub_code}" condition="=" value="CREATE">
 #foreach ($usdentity in $usd.entityList)

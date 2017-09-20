@@ -9,7 +9,10 @@
 #if($field.isSearchable())
 				"${field.lowerSnakeCaseName}": {
 					"class": "SMPL",
-					"type": "String"
+					"type": "String"#if($StringUtils.isNotBlank($field.mapTo)),#end
+#if($StringUtils.isNotBlank($field.mapTo))				
+					"mapTo":"${field.mapTo}"
+#end					
 				}#if(${usdentity.dataFieldList.size()} > $velocityCount),#end
 #end
 #end

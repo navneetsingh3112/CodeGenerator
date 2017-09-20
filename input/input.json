@@ -3,7 +3,8 @@
 		"name": "product_management",
 		"service": "heirarchymanagement",
 		"author": "Manoj",
-		"delete_mode": "LOGICAL"
+		"delete_mode": "LOGICAL",
+		"primary_entity": "product"
 	},
 	"entities": [
 		{

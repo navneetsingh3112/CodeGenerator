@@ -15,9 +15,8 @@
 				}#if(${usdentity.dataFieldList.size()} > $velocityCount),#end
 #end
 			}
-		}#if(${usd.entityList.size()} > $velocityCount),#end
-#end			
 		},
+#end			
 		"response_status": {
 			"class": "CMPLX",
 			"type": "MAP",
@@ -36,6 +35,7 @@
 				}
 			}
 		}
+	}
 }
 
 
