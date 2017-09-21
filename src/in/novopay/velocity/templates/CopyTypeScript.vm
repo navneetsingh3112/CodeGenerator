@@ -49,7 +49,8 @@ entity: {
         #end
     value: '',
     type: '${field.webType}',
-    apiKey: '${field.apiKey}'
+    apiKey: '${field.apiKey}',
+    parentApiKey: '${field.parentApiKey}'
     },
     #end
 #end
@@ -62,6 +63,7 @@ radioEntity: {
     value: '',
     groupName: '${field.lowerTrainCaseName}-grp',
     apiKey: '${field.apiKey}',
+    parentApiKey: '${field.parentApiKey}',
     populateFromMasterData: ${field.populateFromMasterData},
     masterDataType: '${field.masterDataType}',
     masterDataSubType: null,
@@ -132,6 +134,7 @@ dropdownEntity: {
     	inputApiValueKey: "${field.inputApiValueKey}",
     #end
     apiKey: '${field.apiKey}',
+    parentApiKey: '${field.parentApiKey}',
     dataList : [
         #if ($!{field.dataList} )
             #foreach ($element in $field.dataList)
@@ -153,6 +156,7 @@ checkboxEntity: {
         ${field.lowerCamelCaseName}: {
     displayName: '${field.displayName}',
     apiKey: '${field.apiKey}',
+    parentApiKey: '${field.parentApiKey}',
     checkUncheckAllChannelsModel: false,
     isValidAllowedChannels: true,
     required: ${field.isMandatory},
@@ -188,12 +192,16 @@ checkboxEntity: {
     },
     #end
 #end
+},
+requestBody: {
+#foreach ($parent in $entity.parentApiList)
+'${parent.name}' : {},
+#end
 }};
 
 let editComponentProperty : IEditComponentProperty = {
             componentIdRequestBodyKey : "${entity.fetchApiKey}",
             componentDetailsAPI : this.resourceFactoryConstants.constants.${entity.lowerCamelCaseClassName}.getDetails,
-            componentDetailsResponseBodyKey : "${entity.table}_details",
             createComponentProperty : createComponentProperty
         };
 

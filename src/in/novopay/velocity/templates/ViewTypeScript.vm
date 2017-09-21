@@ -46,11 +46,16 @@ export class ${entity.upperCamelCaseClassName}ViewComponent extends BaseViewComp
                 "${field.lowerCamelCaseName}": {
                     value: '',
                     displayName: '${field.displayName}',
-                    apiKey: '${field.apiKey}'
+                    apiKey: '${field.apiKey}',
+                     parentApiKey: '${field.parentApiKey}'
                 },
             #end
-            }
-        };
+            },
+parentKeyList: {
+#foreach ($parent in $entity.parentApiList)
+'${parent.name}' : {},
+#end
+}};
         super.setComponentProperties(componentProperty);
     }
     ngOnInit(): void {

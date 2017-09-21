@@ -180,6 +180,46 @@
                                         </div>
                                     </div>
 
+                                #elseif ($field.webType.equals('Datetime'))
+                                    <!-- Date -->
+                                    <div class="form-group row">
+                                        <label for="${entity.lowerTrainCaseClassName}-${field.lowerTrainCaseName}"
+                                               class="col-md-4  col-form-label text-md-right">{{'${entity.lowerTrainCaseClassName}-create-field-${field.lowerTrainCaseName}'
+                                            | translate}}
+                                            #if ($field.isMandatory)
+                                                *
+                                            #end
+                                        </label>
+
+                                        <div class="col-md-8 ">
+                                            <input *ngIf="!readOnly"
+                                                   name="${entity.lowerTrainCaseClassName}-${field.lowerTrainCaseName}"
+                                                   id="${entity.lowerTrainCaseClassName}-${field.lowerTrainCaseName}"
+                                                   type="datetime-local"
+                                                #if (${field.minDate})
+                                                   min="{{entity.${field.lowerCamelCaseName}.minDate | date: 'dd-MM-yyyy'}}"
+                                                #else
+                                                   min="{{todayDate}}"
+                                                #end
+                                                #if (${field.maxDate})
+                                                   max="{{entity.${field.lowerCamelCaseName}.maxDate | date: 'dd-MM-yyyy'}}"
+                                                #else
+                                                   max="9999-12-31"
+                                                #end
+                                                   [(ngModel)]="entity.${field.lowerCamelCaseName}.value"
+                                                   class="form-control"
+                                                   data-parsley-trigger="change"
+                                                #if ($field.isMandatory)
+                                                   required
+                                                #end
+                                            >
+
+                                            <label *ngIf="readOnly"
+                                                   title="{{entity.${field.lowerCamelCaseName}.value}}"
+                                                   class="read-only-view-label col-form-label wrap-long-text">{{entity.${field.lowerCamelCaseName}.value}}</label>
+                                        </div>
+                                    </div>
+
                                 #elseif ($field.webType.equals('Radio'))
                                     <!-- Radio -->
                                     <div class="form-group row">

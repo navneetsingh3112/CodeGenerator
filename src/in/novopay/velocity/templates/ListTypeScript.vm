@@ -38,6 +38,7 @@ export class ${entity.upperCamelCaseClassName}ListComponent extends BaseListComp
                 id: '${counter}',
                 type: '${field.lowerCamelCaseName}',
                 field: '${field.apiKey}',
+                parentApiKey: '${field.parentApiKey}',
                 value: '',
                 placeholder: '${field.placeholder}',
                 isSelected: false,
@@ -111,8 +112,14 @@ export class ${entity.upperCamelCaseClassName}ListComponent extends BaseListComp
             #end
           #end
         ];
+
+let parentKeyList = {
+#foreach ($parent in $entity.parentApiList)
+'${parent.name}' : {},
+#end
+};
         
-        super.setComponentProperties("${entity.lowerTrainCaseClassName}",searchModel,dropDownList,"${entity.table}_list","${entity.table}_details",this.resourceFactoryConstants.constants.${entity.lowerCamelCaseClassName}.getList);
+        super.setComponentProperties("${entity.lowerTrainCaseClassName}",searchModel,dropDownList,"${entity.table}_list",this.resourceFactoryConstants.constants.${entity.lowerCamelCaseClassName}.getList,parentKeyList);
     }
     ngOnInit(): void {
         super.ngOnInit();

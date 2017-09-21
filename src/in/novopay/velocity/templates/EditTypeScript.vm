@@ -34,7 +34,7 @@ baseService, router, route, resourceFactoryConstants);
 
 let createComponentProperty : ICreateComponentProperty = {
 componentPermissionKey: 'PERMISSION_KEY',
-formHtmlId: '${entity.lowerTrainCaseClassName}-create-form',
+formHtmlId: '${entity.lowerTrainCaseClassName}-edit-form',
 createComponentAPI: this.resourceFactoryConstants.constants.${entity.lowerCamelCaseClassName}.create,
 listComponentUrl: '/app/${entity.lowerTrainCaseClassName}/list',
 entity: {
@@ -50,7 +50,8 @@ entity: {
         #end
     value: '',
     type: '${field.webType}',
-    apiKey: '${field.apiKey}'
+    apiKey: '${field.apiKey}',
+    parentApiKey: '${field.parentApiKey}'
     },
     #end
 #end
@@ -63,6 +64,7 @@ radioEntity: {
     value: '',
     groupName: '${field.lowerTrainCaseName}-grp',
     apiKey: '${field.apiKey}',
+    parentApiKey: '${field.parentApiKey}',
     populateFromMasterData: ${field.populateFromMasterData},
     masterDataType: '${field.masterDataType}',
     masterDataSubType: null,
@@ -147,6 +149,7 @@ dropdownEntity: {
         inputApiValueKey: "${field.inputApiValueKey}",
         #end
     apiKey: '${field.apiKey}',
+    parentApiKey: '${field.parentApiKey}',
     dataList : [
         #if ($!{field.dataList} )
             #foreach ($element in $field.dataList)
@@ -168,6 +171,7 @@ checkboxEntity: {
         ${field.lowerCamelCaseName}: {
     displayName: '${field.displayName}',
     apiKey: '${field.apiKey}',
+    parentApiKey: '${field.parentApiKey}',
     checkUncheckAllCheckboxesModel: false,
     isValidAllowedCheckboxes: true,
     required: ${field.isMandatory},
@@ -216,12 +220,16 @@ checkboxEntity: {
     },
     #end
 #end
+},
+requestBody: {
+#foreach ($parent in $entity.parentApiList)
+'${parent.name}' : {},
+#end
 }};
 
 let editComponentProperty : IEditComponentProperty = {
 componentIdRequestBodyKey : "${entity.fetchApiKey}",
 componentDetailsAPI : this.resourceFactoryConstants.constants.${entity.lowerCamelCaseClassName}.getDetails,
-componentDetailsResponseBodyKey : "${entity.table}_details",
 createComponentProperty : createComponentProperty
 };
 

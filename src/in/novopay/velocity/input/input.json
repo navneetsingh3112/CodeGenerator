@@ -1,168 +1,107 @@
 {
-	"table":"general_ledger",
-	"userStory":"generalledger",
-	"display_name": "General Ledger",
-	"table_comment" : "Heirarchy level information for various purposes spanning various departements",
-	"author":"Abhishek",
-	"fetch_api_key": "id",
-	"fields": [
-		{
-			"name": "gl_code",
-			"is_mandatory": true,
-			"web_type": "Radio",
-			"is_list_element": true,
-			"is_code_included_in_display": true,
-			"placeholder": "eg. Country",
-			"display_name": "Gl Code",
-			"populate_from_master_data": true,
-			"master_data_type": "address_type",
-			"min_length": 2,
-			"max_length": 16,
-			"validation_pattern": "^[a-zA-Z0-9_]*$",
-			"api_key": "gl_code",
-			"is_searchable": true,
-			"is_sortable": true,
-			"is_not_editable": false
-		},
-		{
-			"name": "name",
-			"is_list_element": true,
-			"is_mandatory": true,
-			"web_type": "Textbox",
-			"master_data_type": "address_type",
-			"master_data_sub_type": null,
-			"is_code_included_in_display": true,
-			"placeholder": "eg. GIS10",
-			"display_name": "Name",
-			"min_length": 2,
-			"max_length": 8,
-			"api_key": "name",
-			"is_searchable": false,
-			"is_sortable": true,
-			"is_not_editable": false,
-			"populate_from_master_data": true
-		},
-		{
-			"name": "description",
-			"is_list_element": true,
-			"web_type": "Textarea",
-			"placeholder": "eg. Country",
-			"display_name": "Description",
-			"min_length": 2,
-			"max_length": 256,
-			"api_key": "description",
-			"is_searchable": true,
-			"is_sortable": true,
-			"is_not_editable": false
-		},
-		{
-			"name": "external_reference_number",
-			"is_list_element": true,
-			"is_mandatory": true,
-			"comment": "Heirarchy level department name",
-			"web_type": "Textbox",
-			"placeholder": "eg. Business",
-			"display_name": "External Reference Number",
-			"api_key": "external_reference_number",
-			"is_searchable": true,
-			"is_sortable": false,
-			"is_not_editable": false
-		},
-		{
-			"name": "category",
-			"is_mandatory": true,
-			"is_list_element": false,
-			"comment": "Type of heirarchy level",
-			"web_type": "Dropdown",
-			"placeholder": "eg. Administrative",
-			"display_name": "Category",
-			"api_key": "category",
-			"is_searchable": true,
-			"is_sortable": true,
-			"is_not_editable": false,
-			"input_api": "getProductSchemeList",
-			"input_api_list_key": "product_scheme_list",
-			"input_api_details_key": "product_scheme_details",
-			"input_api_id_key": "scheme_id",
-			"input_api_code_key": "scheme_code",
-			"input_api_value_key": "name",
-		},
-		{
-			"name": "currency",
-			"is_mandatory": true,
-			"is_list_element": false,
-			"comment": "Type of heirarchy level",
-			"web_type": "Dropdown",
-			"placeholder": "eg. Administrative",
-			"display_name": "Currency",
-			"populate_from_master_data": true,
-			"master_data_type": "address_type",
-			"api_key": "currency",
-			"is_searchable": true,
-			"is_sortable": true,
-			"is_not_editable": false
-		},
-		{
-			"name": "balance_type",
-			"is_list_element": true,
-			"is_searchable": true,
-			"is_mandatory": true,
-			"comment": "Type of heirarchy level",
-			"web_type": "Checkbox",
-			"placeholder": "eg. Administrative",
-			"display_name": "Balance Type",
-			"data_list": [],
-			"api_key": "balance_type",
-			"search_type": "Dropdown",
-			"is_sortable": true,
-			"is_not_editable": false,
-			"populate_from_master_data": false,
-			"input_api": "getProductSchemeList",
-			"input_api_list_key": "product_scheme_list",
-			"input_api_details_key": "product_scheme_details",
-			"input_api_id_key": "scheme_id",
-			"input_api_code_key": "scheme_code",
-			"input_api_value_key": "name",
-			
-		},
-		{
-			"name": "allowed_transanction_type",
-			"is_list_element": false,
-			"is_mandatory": true,
-			"web_type": "Dropdown",
-			"placeholder": "eg. Administrative",
-			"display_name": "Allowed Transaction Type",
-			"populate_from_master_data": false,
-			"api_key": "allowed_transanction_type",
-			"is_searchable": true,
-			"is_sortable": true,
-			"is_not_editable": false
-		}
-	],
-	"list_view_action_button_list": [
-		{
-			"type": "copy"
-		},
-		{
-			"type": "edit"
-		}
-	],
-	"table_indices": [
-		{
-			"name": "hl_level_code",
-			"type": "UNIQUE",
-			"keys": [
-				"level_code"
-			],
-			"order": "ASC"
-		}
-	],
-	"buttons": [
-		{
-			"name": "save"
-		},
-		{
-			"name": "cancel"
-		}
-	]
+  "table": "product_management",
+  "userStory": "productManagement",
+  "display_name": "Product Management",
+  "table_comment": "Heirarchy level information for various purposes spanning various departments",
+  "author": "Abhishek",
+  "fetch_api_key": "id",
+  "parent_api_key_list": [
+    {
+      "name": "product_details"
+    },
+    {
+      "name": "savings_product_details"
+    }
+  ],
+  "fields": [
+    {
+      "name": "type",
+      "web_type": "Textbox",
+      "placeholder": "eg. Country",
+      "display_name": "Product Type",
+      "min_length": 2,
+      "max_length": 16,
+      "validation_pattern": "^[a-zA-Z0-9_]*$",
+      "api_key": "type",
+      "parent_api_key": "product_details",
+      "is_mandatory": true,
+      "is_searchable": true,
+      "is_sortable": true,
+      "is_list_element": true,
+      "comment": "Type of the product."
+    },
+    {
+      "name": "product_code",
+      "web_type": "Textbox",
+      "placeholder": "eg. PP1",
+      "display_name": "Product Code",
+      "min_length": 2,
+      "max_length": 16,
+      "api_key": "product_code",
+      "parent_api_key": "product_details",
+      "is_mandatory": true,
+      "is_searchable": true,
+      "is_sortable": true,
+      "is_list_element": true,
+      "comment": "Code that uniquely identifies a product."
+    },
+    {
+      "name": "start_date",
+      "web_type": "Textbox",
+      "placeholder": "eg. 01/11/1991",
+      "display_name": "Start Date",
+      "api_key": "start_date",
+      "parent_api_key": "product_details",
+      "comment": "Start Date Of The Product.",
+      "is_mandatory": true
+    },
+    {
+      "name": "end_date",
+      "web_type": "Textbox",
+      "placeholder": "eg. 01/11/1991",
+      "display_name": "End Date",
+      "api_key": "end_date",
+      "parent_api_key": "product_details",
+      "comment": "End Date Of The Product.",
+      "is_mandatory": true
+    },
+    {
+      "name": "cheque_allowed",
+      "web_type": "Textbox",
+      "placeholder": "eg. 01/11/1991",
+      "display_name": "Cheque Allowed",
+      "api_key": "cheque_allowed",
+      "parent_api_key": "savings_product_details",
+      "comment": "Whether cheque is allowed.",
+      "is_mandatory": true,
+      "is_list_element": true
+    },
+    {
+      "name": "debit_card_type",
+      "web_type": "Textbox",
+      "placeholder": "eg. 01/11/1991",
+      "display_name": "Debit Card Type",
+      "api_key": "debit_card_type",
+      "parent_api_key": "savings_product_details",
+      "comment": "Type of the debit card.",
+      "is_mandatory": true,
+      "is_list_element": true
+    }
+  ],
+  "list_view_action_button_list": [
+    {
+      "type": "copy"
+    },
+    {
+      "type": "edit"
+    }
+  ],
+  "buttons": [
+    {
+      "name": "save"
+    },
+    {
+      "name": "cancel"
+    }
+  ]
 }

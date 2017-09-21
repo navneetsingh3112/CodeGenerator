@@ -3,6 +3,7 @@ package in.novopay.velocity;
 import com.google.common.base.CaseFormat;
 
 import in.novopay.velocity.input.ActionButton;
+import in.novopay.velocity.input.ParentApiList;
 import in.novopay.velocity.input.DataList;
 import in.novopay.velocity.input.InputEntity;
 import in.novopay.velocity.input.InputEntityButtons;
@@ -186,6 +187,7 @@ public class Main {
                 f.setMaxLength((Long) fobj.get("max_length"));
                 f.setValidationPattern((String) fobj.get("validation_pattern"));
                 f.setApiKey((String) fobj.get("api_key"));
+                f.setParentApiKey((String) fobj.get("parent_api_key"));
                 f.setSearchable((Boolean) fobj.get("is_searchable"));
                 f.setSortable((Boolean) fobj.get("is_sortable"));
                 f.setIsNotEditable((Boolean) fobj.get("is_not_editable"));
@@ -258,6 +260,18 @@ public class Main {
                 ActionButton actionButton = new ActionButton();
                 actionButton.setType((String) actionButtonJSON.get("type"));
                 entity.addListViewActionButton(actionButton);
+            }
+
+            /**
+             * Parse list of parent keys
+             * */
+            JSONArray fetchParentApiList = (JSONArray) jsonObject.get("parent_api_key_list");
+            Iterator<JSONObject> fetchParentApiIterator = fetchParentApiList.iterator();
+            while (fetchParentApiIterator.hasNext()) {
+                JSONObject fetchParentApiJSON = fetchParentApiIterator.next();
+                ParentApiList fetchParentApi = new ParentApiList();
+                fetchParentApi.setName((String) fetchParentApiJSON.get("name"));
+                entity.addParentApiList(fetchParentApi);
             }
 
         } catch (IOException | ParseException e) {

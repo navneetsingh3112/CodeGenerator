@@ -19,7 +19,16 @@ public class InputEntity {
 	ArrayList<InputEntityFields> fieldList = new ArrayList<>();
 	ArrayList<InputEntityButtons> buttonList = new ArrayList<>();
 	ArrayList<ActionButton> listViewActionButtonList = new ArrayList<ActionButton>();
-	
+	ArrayList<ParentApiList> parentApiList = new ArrayList<ParentApiList>();
+
+	public ArrayList<ParentApiList> getParentApiList() {
+		return parentApiList;
+	}
+
+	public void addParentApiList(ParentApiList parentApiKey) {
+		this.parentApiList.add(parentApiKey);
+	}
+
 	public void addListViewActionButton(ActionButton actionButton) {
 		this.listViewActionButtonList.add(actionButton);
 	}

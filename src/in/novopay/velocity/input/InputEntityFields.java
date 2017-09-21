@@ -19,6 +19,7 @@ public class InputEntityFields {
 	private Long maxLength;
 	private String validationPattern;
 	private String apiKey;
+	private String parentApiKey;
 	private Boolean isSearchable;
 	private Boolean isSortable;
 	private Boolean isNotEditable;
@@ -37,7 +38,15 @@ public class InputEntityFields {
 	private String maxDate;
 	private String searchType;
 	private ArrayList<DataList> dataList = new ArrayList<>();
-	
+
+	public String getParentApiKey() {
+		return parentApiKey;
+	}
+
+	public void setParentApiKey(String parentApiKey) {
+		this.parentApiKey = parentApiKey;
+	}
+
 	public String getName() {
 		return name;
 	}
