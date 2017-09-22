@@ -363,6 +363,12 @@ public class CodeGenerator {
 			if ("one-to-one".equalsIgnoreCase(type)) {
 				establishOneToOneRelationShip(usd, relationShip);
 			}
+			else if ("one-to-many".equalsIgnoreCase(type)) {
+				establishOneToManyRelationShip(usd, relationShip);
+			}
+			else if ("many-to-one".equalsIgnoreCase(type)) {
+				establishManyToOneRelationShip(usd, relationShip);
+			}
 		}
 	}
 
@@ -372,7 +378,37 @@ public class CodeGenerator {
 		Entity primaryEntity = usd.getEntity(relationShip.getPrimaryEntity());
 		JSONObject jsonObj = new JSONObject();
 		jsonObj.put("name", primaryEntity.getLowerSnakeCaseEntityName() + "_id");
-		jsonObj.put("max_length", 10L);
+		jsonObj.put("max_length", 11L);
+		jsonObj.put("java_type", "Integer");
+		jsonObj.put("sql_type", "INT");
+		jsonObj.put("comment", "foreign key relationship");
+		jsonObj.put("is_mandatory", true);
+		Field f = parseIndividualEntity(jsonObj);
+		secondaryEntity.addDataFields(f);
+	}
+	
+	@SuppressWarnings("unchecked")
+	private static void establishOneToManyRelationShip(UserStoryDefinition usd, RelationShip relationShip) {
+		Entity secondaryEntity = usd.getEntity(relationShip.getSecondaryEntity());
+		Entity primaryEntity = usd.getEntity(relationShip.getPrimaryEntity());
+		JSONObject jsonObj = new JSONObject();
+		jsonObj.put("name", primaryEntity.getLowerSnakeCaseEntityName() + "_id");
+		jsonObj.put("max_length", 11L);
+		jsonObj.put("java_type", "Integer");
+		jsonObj.put("sql_type", "INT");
+		jsonObj.put("comment", "foreign key relationship");
+		jsonObj.put("is_mandatory", true);
+		Field f = parseIndividualEntity(jsonObj);
+		secondaryEntity.addDataFields(f);
+	}
+	
+	@SuppressWarnings("unchecked")
+	private static void establishManyToOneRelationShip(UserStoryDefinition usd, RelationShip relationShip) {
+		Entity secondaryEntity = usd.getEntity(relationShip.getSecondaryEntity());
+		Entity primaryEntity = usd.getEntity(relationShip.getPrimaryEntity());
+		JSONObject jsonObj = new JSONObject();
+		jsonObj.put("name", primaryEntity.getLowerSnakeCaseEntityName() + "_id");
+		jsonObj.put("max_length", 11L);
 		jsonObj.put("java_type", "Integer");
 		jsonObj.put("sql_type", "INT");
 		jsonObj.put("comment", "foreign key relationship");
