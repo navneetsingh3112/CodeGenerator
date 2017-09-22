@@ -243,7 +243,7 @@ public class CodeGenerator {
 		Iterator<JSONObject> iterator = dataFields.iterator();
 		while (iterator.hasNext()) {
 			JSONObject fobj = iterator.next();
-			Field f = parseIndividualEntity(fobj);
+			Field f = parseIndividualEntityField(fobj);
 			entity.addDataFields(f);
 		}
 		Boolean isAuditFieldRequired = (Boolean) jsonObject.get("audit_fields_required");
@@ -255,7 +255,7 @@ public class CodeGenerator {
 				iterator = auditJsonObj.iterator();
 				while (iterator.hasNext()) {
 					JSONObject fobj = iterator.next();
-					Field f = parseIndividualEntity(fobj);
+					Field f = parseIndividualEntityField(fobj);
 					entity.addAuditFields(f);
 				}
 
@@ -266,7 +266,7 @@ public class CodeGenerator {
 		return entity;
 	}
 
-	private static Field parseIndividualEntity(JSONObject fobj) {
+	private static Field parseIndividualEntityField(JSONObject fobj) {
 		Field f = new Field();
 		f.setName((String) fobj.get("name"));
 		f.setLowerCamelCaseName(CaseFormat.UPPER_UNDERSCORE.to(CaseFormat.LOWER_CAMEL, (String) fobj.get("name")));
@@ -358,7 +358,16 @@ public class CodeGenerator {
 
 	private static void processRelationShip(UserStoryDefinition usd) {
 		List<RelationShip> rspList = usd.getRelationshipList();
-		for (RelationShip relationShip : rspList) {
+		for (int i =0;i<rspList.size();i++) {
+			RelationShip relationShip = rspList.get(i);
+			String type = relationShip.getType();
+			if ("many-to-many".equalsIgnoreCase(type)) {
+				establishManyToManyRelationShip(usd, relationShip);
+				rspList.remove(relationShip);
+			}
+		}
+		for (int i =0;i<rspList.size();i++) {
+			RelationShip relationShip = rspList.get(i);
 			String type = relationShip.getType();
 			if ("one-to-one".equalsIgnoreCase(type)) {
 				establishOneToOneRelationShip(usd, relationShip);
@@ -369,7 +378,7 @@ public class CodeGenerator {
 			else if ("many-to-one".equalsIgnoreCase(type)) {
 				establishManyToOneRelationShip(usd, relationShip);
 			}
-		}
+		}	
 	}
 
 	@SuppressWarnings("unchecked")
@@ -383,7 +392,7 @@ public class CodeGenerator {
 		jsonObj.put("sql_type", "INT");
 		jsonObj.put("comment", "foreign key relationship");
 		jsonObj.put("is_mandatory", true);
-		Field f = parseIndividualEntity(jsonObj);
+		Field f = parseIndividualEntityField(jsonObj);
 		secondaryEntity.addDataFields(f);
 	}
 	
@@ -398,7 +407,7 @@ public class CodeGenerator {
 		jsonObj.put("sql_type", "INT");
 		jsonObj.put("comment", "foreign key relationship");
 		jsonObj.put("is_mandatory", true);
-		Field f = parseIndividualEntity(jsonObj);
+		Field f = parseIndividualEntityField(jsonObj);
 		secondaryEntity.addDataFields(f);
 	}
 	
@@ -413,7 +422,47 @@ public class CodeGenerator {
 		jsonObj.put("sql_type", "INT");
 		jsonObj.put("comment", "foreign key relationship");
 		jsonObj.put("is_mandatory", true);
-		Field f = parseIndividualEntity(jsonObj);
+		Field f = parseIndividualEntityField(jsonObj);
 		secondaryEntity.addDataFields(f);
+	}
+	
+	@SuppressWarnings("unchecked")
+	private static void establishManyToManyRelationShip(UserStoryDefinition usd, RelationShip relationShip) {
+		Entity secondaryEntity = usd.getEntity(relationShip.getSecondaryEntity());
+		Entity primaryEntity = usd.getEntity(relationShip.getPrimaryEntity());
+		
+		JSONObject entityObj = new JSONObject();
+		entityObj.put("entity", primaryEntity.getLowerSnakeCaseEntityName()+"__"+secondaryEntity.getLowerSnakeCaseEntityName()+"__mapping");
+		entityObj.put("table_comment", "Mapping table for "+primaryEntity.getLowerSnakeCaseEntityName()+" and "+secondaryEntity.getLowerSnakeCaseEntityName());
+		entityObj.put("audit_fields_required", false);
+		
+		JSONArray fieldArray = new JSONArray();
+		JSONObject fieldObj = new JSONObject();
+		fieldObj.put("name", "id");
+		fieldObj.put("java_type", "Integer");
+		fieldObj.put("sql_type", "INT");
+		fieldObj.put("is_mandatory", true);
+		fieldObj.put("is_primaryKey", true);
+		fieldObj.put("is_list_element", true);
+		fieldObj.put("map_to", primaryEntity.getLowerSnakeCaseEntityName()+"_"+secondaryEntity.getLowerSnakeCaseEntityName()+"_id");
+		fieldObj.put("comment", "Auto generated unique identifier. Will be the primary key of the table.");
+		fieldArray.add(fieldObj);
+		
+		entityObj.put("fields", fieldArray);
+		
+		usd.addEntity(getEntity(entityObj));
+		
+		RelationShip primaryToMappingTableRsp = new RelationShip();
+		primaryToMappingTableRsp.setPrimaryEntity(primaryEntity.getEntity());
+		primaryToMappingTableRsp.setSecondaryEntity(primaryEntity.getLowerSnakeCaseEntityName()+"__"+secondaryEntity.getLowerSnakeCaseEntityName()+"__mapping");
+		primaryToMappingTableRsp.setType("one-to-many");
+		usd.getRelationshipList().add(primaryToMappingTableRsp);
+		
+		RelationShip secondaryToMappingTableRsp = new RelationShip();
+		secondaryToMappingTableRsp.setPrimaryEntity(secondaryEntity.getEntity());
+		secondaryToMappingTableRsp.setSecondaryEntity(primaryEntity.getLowerSnakeCaseEntityName()+"__"+secondaryEntity.getLowerSnakeCaseEntityName()+"__mapping");
+		secondaryToMappingTableRsp.setType("one-to-many");
+		usd.getRelationshipList().add(secondaryToMappingTableRsp);
+		
 	}
 }
