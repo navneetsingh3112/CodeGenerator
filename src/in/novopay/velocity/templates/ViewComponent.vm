@@ -1,27 +1,24 @@
-<div class="clearfix">
-    <div class="pull-right">
-        <button type="button" (click)="cancelForm()" class="btn btn-default btn-rounded">{{'form-btn-back' |
-            translate}}
-        </button>
-        <button *ngIf="permissionForDelete" type="submit" (click)="deleteRecord()" class="btn btn-danger btn-rounded ">
-            {{'form-btn-delete' |
-            translate}}
-        </button>
-        <button *ngIf="permissionForEdit" type="submit" (click)="editRecord()" class="btn btn-primary btn-rounded">
-            {{'form-btn-edit' |
-            translate}}
-        </button>
-    </div>
-
-    <h1 class="page-title"><span
-            class="fw-semi-bold">{{'${entity.lowerTrainCaseClassName}-view-page-header' | translate}}</span></h1>
-
-</div>
-
-
 <form id="${entity.lowerTrainCaseClassName}-view-form" class="parsleyjs" method="post"
-      data-parsley-priority-enabled="false"
-      novalidate="novalidate" [ngBusy]="busy">
+             data-parsley-priority-enabled="false"
+             novalidate="novalidate" [ngBusy]="busy">
+    <div class="clearfix">
+        <div class="pull-right">
+            <button type="button" (click)="cancelForm()" class="btn btn-default btn-rounded">{{'form-btn-back' |
+                translate}}
+            </button>
+            <button *ngIf="permissionForDelete" type="submit" (click)="deleteRecord()"
+                    class="btn btn-danger btn-rounded ">
+                {{'form-btn-delete' |
+                translate}}
+            </button>
+            <button *ngIf="permissionForEdit" type="submit" (click)="editRecord()" class="btn btn-primary btn-rounded">
+                {{'form-btn-edit' |
+                translate}}
+            </button>
+        </div>
+        <h1 class="page-title"><span
+                class="fw-semi-bold">{{'${entity.lowerTrainCaseClassName}-view-page-header' | translate}}</span></h1>
+    </div>
     <div class="row">
         <div class="col-lg-12">
             <section class="widget" widget [ngBusy]="busy">
