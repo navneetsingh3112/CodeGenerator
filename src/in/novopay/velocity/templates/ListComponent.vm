@@ -123,6 +123,11 @@
                                     title="{{'edit-button-tooltip' | translate}}">
                                 <i class="fa fa-pencil"></i></button>
                         	#end
+                        	#if($StringUtils.equalsIgnoreCase(${actionButton.type} ,"delete"))
+                        	<button type="button" class="btn btn-success" (click)="deleteComponent(item.$entity.fetchApiKey)"
+                                    title="{{'delete-button-tooltip' | translate}}">
+                                <i class="fa fa-trash"></i></button>
+                        	#end
                         #end
                         </div>
                     </td>

@@ -21,13 +21,13 @@ encapsulation: ViewEncapsulation.None,
 export class ${entity.upperCamelCaseClassName}EditComponent extends BaseEditComponent {
 
 constructor(private location:Location,
-private mainApp: App,
-private appConstants: AppConstants,
-private commonHttpService:CommonHttpService,
-private commonUtilityService:CommonUtilityService,
-private baseService: BaseService,
-private router:Router,
-private route:ActivatedRoute,
+protected mainApp: App,
+protected appConstants: AppConstants,
+protected commonHttpService:CommonHttpService,
+protected commonUtilityService:CommonUtilityService,
+protected baseService: BaseService,
+protected router:Router,
+protected route:ActivatedRoute,
 protected resourceFactoryConstants:ResourceFactoryConstants) {
 super(location, mainApp, appConstants, commonHttpService, commonUtilityService,
 baseService, router, route, resourceFactoryConstants);

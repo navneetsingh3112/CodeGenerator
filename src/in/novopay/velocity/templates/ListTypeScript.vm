@@ -20,13 +20,13 @@ declare var jQuery:any;
 })
 export class ${entity.upperCamelCaseClassName}ListComponent extends BaseListComponent {
     constructor(private router:Router,
-                private location:Location,
-                private mainApp: App,
-                private commonUtilityService: CommonUtilityService,
-                private appConstants: AppConstants,
-                private baseService: BaseService,
-                private commonHttpService:CommonHttpService,
-                private resourceFactoryConstants: ResourceFactoryConstants) {
+                protected location:Location,
+                protected mainApp: App,
+                protected commonUtilityService: CommonUtilityService,
+                protected appConstants: AppConstants,
+                protected baseService: BaseService,
+                protected commonHttpService:CommonHttpService,
+                protected resourceFactoryConstants: ResourceFactoryConstants) {
         super(router, location, mainApp, commonUtilityService, appConstants,
             baseService, commonHttpService,resourceFactoryConstants);
 
@@ -112,7 +112,18 @@ export class ${entity.upperCamelCaseClassName}ListComponent extends BaseListComp
           #end
         ];
         
-        super.setComponentProperties("${entity.lowerTrainCaseClassName}",searchModel,dropDownList,"${entity.table}_list","${entity.table}_details",this.resourceFactoryConstants.constants.${entity.lowerCamelCaseClassName}.getList);
+        let property: IListComponentProperty = {
+            moduleName: "${entity.lowerTrainCaseClassName}",
+            searchModels: searchModel,
+            dropDownList: dropDownList,
+            apiKeyList: "${entity.table}_list",
+            apiKeyDetails: "${entity.table}_details",
+            fetchListUrl: this.resourceFactoryConstants.constants.${entity.lowerCamelCaseClassName}.getList,
+            componentIdRequestBodyKey: "${entity.fetchApiKey}",
+            deleteComponentAPI: this.resourceFactoryConstants.constants.${entity.lowerCamelCaseClassName}.delete
+        };
+
+        super.setComponentProperties(property);
     }
     ngOnInit(): void {
         super.ngOnInit();
