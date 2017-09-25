@@ -29,7 +29,11 @@ public class ${entity.upperCamelCaseEntityName}Entity #if($entity.auditFieldList
 	private Integer id;
 #end	
 #foreach ($field in $entity.dataFieldList)
+#if( $StringUtils.equalsIgnoreCase(${field.javaType}, "Boolean"))
+	private boolean ${field.lowerCamelCaseName};
+#else
 	private ${field.javaType} ${field.lowerCamelCaseName};
+#end
 #end
 #if( $StringUtils.equalsIgnoreCase(${usd.deleteMode}, "LOGICAL"))
 	private boolean isDeleted;
@@ -45,12 +49,22 @@ public class ${entity.upperCamelCaseEntityName}Entity #if($entity.auditFieldList
 #end
 
 #foreach ($field in $entity.dataFieldList)
+#if( $StringUtils.equalsIgnoreCase(${field.javaType}, "Boolean"))
+	public void set${field.upperCamelCaseName}(boolean ${field.lowerCamelCaseName}){
+		this.${field.lowerCamelCaseName}=${field.lowerCamelCaseName};
+	}
+	public boolean get${field.upperCamelCaseName}(){
+		return ${field.lowerCamelCaseName};
+	}
+
+#else
 	public void set${field.upperCamelCaseName}(${field.javaType} ${field.lowerCamelCaseName}){
 		this.${field.lowerCamelCaseName}=${field.lowerCamelCaseName};
 	}
 	public ${field.javaType} get${field.upperCamelCaseName}(){
 		return ${field.lowerCamelCaseName};
 	}
+#end
 #end
 #if( $StringUtils.equalsIgnoreCase(${usd.deleteMode}, "LOGICAL"))
 	public boolean getIsDeleted() {

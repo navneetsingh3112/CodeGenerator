@@ -11,6 +11,8 @@ CREATE TABLE `${entity.entity}` (
 #elseif($StringUtils.equalsIgnoreCase(${field.sqlType}, "DECIMAL" ))
   `${field.name}` DECIMAL(20,6)$field.getNotNullConstraint()$field.getComment(),
 #end
+#elseif($StringUtils.equalsIgnoreCase(${field.sqlType}, "TINYINT" ))
+  `${field.name}` TINYINT(1)$field.getNotNullConstraint()$field.getComment(),
 #end
 #foreach ($field in $entity.auditFieldList)
 #if($StringUtils.equalsIgnoreCase(${field.sqlType}, "VARCHAR"))
