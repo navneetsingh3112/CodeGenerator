@@ -135,9 +135,6 @@ dropdownEntity: {
         #if (${field.isCodeIncludedInDisplay})
         isCodeIncludedInDisplay: ${field.isCodeIncludedInDisplay},
         #end
-        #if (${field.isCodeIncludedInDisplay})
-        isCodeIncludedInDisplay: ${field.isCodeIncludedInDisplay},
-        #end
         #if (${field.inputApi})
         inputApi: "${field.inputApi}",
         #end

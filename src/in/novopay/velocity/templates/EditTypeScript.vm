@@ -68,7 +68,9 @@ radioEntity: {
     populateFromMasterData: ${field.populateFromMasterData},
     masterDataType: '${field.masterDataType}',
     masterDataSubType: null,
-    isCodeIncludedInDisplay: ${field.isCodeIncludedInDisplay},
+        #if (${field.isCodeIncludedInDisplay})
+        isCodeIncludedInDisplay: ${field.isCodeIncludedInDisplay},
+        #end
         #if (${field.inputApi})
         inputApi: "${field.inputApi}",
         #end
@@ -123,9 +125,6 @@ dropdownEntity: {
         #end
         #if (${field.masterDataSubType})
         masterDataSubType: '${field.masterDataSubType}',
-        #end
-        #if (${field.isCodeIncludedInDisplay})
-        isCodeIncludedInDisplay: ${field.isCodeIncludedInDisplay},
         #end
         #if (${field.isCodeIncludedInDisplay})
         isCodeIncludedInDisplay: ${field.isCodeIncludedInDisplay},
