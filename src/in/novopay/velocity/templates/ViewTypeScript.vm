@@ -47,7 +47,8 @@ export class ${entity.upperCamelCaseClassName}ViewComponent extends BaseViewComp
                     value: '',
                     displayName: '${field.displayName}',
                     apiKey: '${field.apiKey}',
-                     parentApiKey: '${field.parentApiKey}'
+                     parentApiKey: '${field.parentApiKey}',
+                     type:  '${field.webType}'
                 },
             #end
             },
