@@ -19,7 +19,11 @@ templateUrl: './${entity.lowerTrainCaseClassName}-edit.component.html',
 encapsulation: ViewEncapsulation.None,
 })
 export class ${entity.upperCamelCaseClassName}EditComponent extends BaseEditComponent {
-
+#foreach ($field in $entity.fieldList)
+    #if($field.IsAutoPopulate)
+    private ${field.apiKey}: string = '';
+    #end
+#end
 constructor(private location:Location,
 private mainApp: App,
 private appConstants: AppConstants,

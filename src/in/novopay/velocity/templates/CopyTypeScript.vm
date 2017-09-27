@@ -19,8 +19,12 @@ templateUrl: './${entity.lowerTrainCaseClassName}-copy.component.html',
 encapsulation: ViewEncapsulation.None,
 })
 export class ${entity.upperCamelCaseClassName}CopyComponent extends BaseCopyComponent {
-
-constructor(private location:Location,
+#foreach ($field in $entity.fieldList)
+    #if($field.IsAutoPopulate)
+    private ${field.apiKey}: string = '';
+    #end
+#end
+constructor(protected location:Location,
 protected mainApp: App,
 protected appConstants: AppConstants,
 protected commonHttpService:CommonHttpService,
@@ -39,7 +43,8 @@ createComponentAPI: this.resourceFactoryConstants.constants.${entity.lowerCamelC
 listComponentUrl: '/app/${entity.lowerTrainCaseClassName}/list',
 entity: {
 #foreach ($field in $entity.fieldList)
-    #if ($field.webType.equals('Textbox') || $field.webType.equals('Textarea')  || $field.webType.equals('Date') || $field.webType.equals('Datetime'))
+    #if (($field.webType.equals('Textbox') || $field.webType.equals('Textarea')  || $field.webType.equals(
+        'Date')) && !$field.IsAutoPopulate)
         ${field.lowerCamelCaseName}: {
         #if (${field.minDate})
         minDate: '${field.minDate}',

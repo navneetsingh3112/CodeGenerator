@@ -46,7 +46,11 @@
                                                     #if ($field.validationPattern)
                                                        data-parsley-pattern="${field.validationPattern}"
                                                     #end
+                                                    #if ($field.IsAutoPopulate)
+                                                       [(ngModel)]="${field.lowerCamelCaseName}"
+                                                    #else
                                                        [(ngModel)]="entity.${field.lowerCamelCaseName}.value"
+                                                    #end
                                                     #if ($field.minLength)
                                                        minLength="${field.minLength}"
                                                     #end
@@ -67,8 +71,18 @@
 
                                                 <label *ngIf="readOnly"
                                                        for="${entity.lowerTrainCaseClassName}-${field.lowerTrainCaseName}"
+                                                    #if ($field.IsAutoPopulate)
+                                                       title="{{${field.lowerCamelCaseName}}}"
+                                                    #else
                                                        title="{{entity.${field.lowerCamelCaseName}.value}}"
-                                                       class="read-only-view-label col-form-label wrap-long-text">{{entity.${field.lowerCamelCaseName}.value}}</label>
+                                                    #end
+                                                       class="read-only-view-label col-form-label wrap-long-text">
+                                                    #if ($field.IsAutoPopulate)
+                                                        {{${field.lowerCamelCaseName}}}
+                                                    #else
+                                                        {{entity.${field.lowerCamelCaseName}.value}}
+                                                #end
+                                                </label>
                                             </div>
 
                                         </div>
@@ -91,7 +105,11 @@
                                         #if ($field.validationPattern)
                                               data-parsley-pattern="${field.validationPattern}"
                                         #end
+                                        #if ($field.IsAutoPopulate)
+                                              [(ngModel)]="${field.lowerCamelCaseName}"
+                                        #else
                                               [(ngModel)]="entity.${field.lowerCamelCaseName}.value"
+                                        #end
                                         #if ($field.minLength)
                                               minLength="${field.minLength}"
                                         #end
@@ -113,8 +131,17 @@
 
                                                 <label *ngIf="readOnly"
                                                        for="${entity.lowerTrainCaseClassName}-${field.lowerTrainCaseName}"
+                                                    #if ($field.IsAutoPopulate)
+                                                       title="{{${field.lowerCamelCaseName}}}"
+                                                    #else
                                                        title="{{entity.${field.lowerCamelCaseName}.value}}"
-                                                       class="read-only-view-label col-form-label wrap-long-text">{{entity.${field.lowerCamelCaseName}.value}}</label>
+                                                    #end
+                                                       class="read-only-view-label col-form-label wrap-long-text">
+                                                    #if ($field.IsAutoPopulate)
+                                                        {{${field.lowerCamelCaseName}}}
+                                                     #else
+                                                        {{entity.${field.lowerCamelCaseName}.value}}
+                                                #end</label>
                                             </div>
                                         </div>
 
@@ -233,9 +260,9 @@
                                                             </span>
                                                     #set($counter = $counter + 1)
                                                 #end
-                                        #if ($field.dataList.equals([]) )
-                                                <span class="abc-radio"
-                                                      *ngFor=" let data of radioList.${field.lowerCamelCaseName}.dataList ; let i = index">
+                                                #if ($field.dataList.equals([]) )
+                                                    <span class="abc-radio"
+                                                          *ngFor=" let data of radioList.${field.lowerCamelCaseName}.dataList ; let i = index">
                                                                 <input type="radio"
                                                                        name="${field.lowerTrainCaseName}-grp"
                                                                        id="${field.lowerTrainCaseName}-{{data.code}}"
@@ -254,7 +281,7 @@
                                                                     {{radioList.${field.lowerCamelCaseName}.dataList[i].text}}
                                                                 </label>
                                                             </span>
-                                            #end
+                                                #end
                                             </div>
                                             #if ($counter == 0 && $field.isMandatory)
                                                 <div id="${field.lowerTrainCaseName}-error"></div>

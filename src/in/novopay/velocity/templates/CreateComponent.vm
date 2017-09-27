@@ -46,7 +46,11 @@
                                                     #if ($field.validationPattern)
                                                        data-parsley-pattern="${field.validationPattern}"
                                                     #end
+                                                    #if ($field.IsAutoPopulate)
+                                                       [(ngModel)]="${field.lowerCamelCaseName}"
+                                                    #else
                                                        [(ngModel)]="entity.${field.lowerCamelCaseName}.value"
+                                                    #end
                                                     #if ($field.minLength)
                                                        minLength="${field.minLength}"
                                                     #end
@@ -66,9 +70,18 @@
                                                 >
 
                                                 <label *ngIf="readOnly"
-                                                       for="${entity.lowerTrainCaseClassName}-${field.lowerTrainCaseName}"
+                                                    #if ($field.IsAutoPopulate)
+                                                       title="{{${field.lowerCamelCaseName}}}"
+                                                    #else
                                                        title="{{entity.${field.lowerCamelCaseName}.value}}"
-                                                       class="read-only-view-label col-form-label wrap-long-text">{{entity.${field.lowerCamelCaseName}.value}}</label>
+                                                    #end
+                                                       title="{{entity.${field.lowerCamelCaseName}.value}}"
+                                                       class="read-only-view-label col-form-label wrap-long-text">
+                                                    #if ($field.IsAutoPopulate)
+                                                    {{${field.lowerCamelCaseName}}}
+                                                #else
+                                                    {{entity.${field.lowerCamelCaseName}.value}}
+                                                #end</label>
                                             </div>
                                         </div>
 
@@ -92,7 +105,11 @@
                                         #if ($field.validationPattern)
                                               data-parsley-pattern="${field.validationPattern}"
                                         #end
+                                        #if ($field.IsAutoPopulate)
+                                              [(ngModel)]="${field.lowerCamelCaseName}"
+                                        #else
                                               [(ngModel)]="entity.${field.lowerCamelCaseName}.value"
+                                        #end
                                         #if ($field.minLength)
                                               minLength="${field.minLength}"
                                         #end
@@ -114,8 +131,18 @@
 
                                                 <label *ngIf="readOnly"
                                                        for="${entity.lowerTrainCaseClassName}-${field.lowerTrainCaseName}"
+                                                    #if ($field.IsAutoPopulate)
+                                                       title="{{${field.lowerCamelCaseName}}}"
+                                                    #else
                                                        title="{{entity.${field.lowerCamelCaseName}.value}}"
-                                                       class="read-only-view-label col-form-label wrap-long-text">{{entity.${field.lowerCamelCaseName}.value}}</label>
+                                                    #end
+                                                       class="read-only-view-label col-form-label wrap-long-text">
+                                                        #if ($field.IsAutoPopulate)
+                                                        {{${field.lowerCamelCaseName}}}
+                                                    #else
+                                                        {{entity.${field.lowerCamelCaseName}.value}}
+                                                    #end
+                                                </label>
                                             </div>
                                         </div>
 
@@ -360,9 +387,9 @@
                                                                    name="${field.lowerTrainCaseName}-${element.code}"
                                                                    [(ngModel)]="checkboxList.${field.lowerCamelCaseName}.dataList[$counter].isChecked"
                                                                    (click)="checkBoxClick('${field.lowerCamelCaseName}')"
-                                                                    #if ($field.IsAutoPopulate)
-                                                                       disabled="disabled"
-                                                                    #end
+                                                                #if ($field.IsAutoPopulate)
+                                                                   disabled="disabled"
+                                                                #end
                                                             >
                                                             <label for="${field.lowerTrainCaseName}-${element.code}">
                                                                 ${element.text}
@@ -378,9 +405,9 @@
                                                                    name="${field.lowerTrainCaseName}-{{data.code}}"
                                                                    [(ngModel)]="checkboxList.${field.lowerCamelCaseName}.dataList[i].isChecked"
                                                                    (click)="checkBoxClick('${field.lowerCamelCaseName}')"
-                                                                    #if ($field.IsAutoPopulate)
-                                                                       disabled="disabled"
-                                                                    #end
+                                                                #if ($field.IsAutoPopulate)
+                                                                   disabled="disabled"
+                                                                #end
                                                             >
                                                             <label for="${field.lowerTrainCaseName}-{{data.code}}">
                                                                 {{data.text}}
