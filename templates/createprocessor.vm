@@ -55,11 +55,11 @@ public class Create${entity.upperCamelCaseEntityName}Processor extends AbstractP
 		}
 #elseif( ${field.javaType} == "Boolean")
 		if(StringUtils.isNoneBlank(${field.lowerCamelCaseName})) {
-			Boolean b${field.upperCamelCaseName} = Boolean.valueOf("${field.lowerCamelCaseName}");
+			Boolean b${field.upperCamelCaseName} = Boolean.valueOf(${field.lowerCamelCaseName});
 			${entity.lowerCamelCaseEntityName}Entity.set${field.upperCamelCaseName}(b${field.upperCamelCaseName});
 		}
 #else		
-		${entity.lowerCamelCaseEntityName}Entity.set${field.upperCamelCaseName}(${field.lowerCamelCaseName});	
+		${entity.lowerCamelCaseEntityName}Entity.set${field.upperCamelCaseName}(${field.lowerCamelCaseName});
 #end
 #end
 #end
