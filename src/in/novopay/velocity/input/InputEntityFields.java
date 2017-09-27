@@ -37,7 +37,16 @@ public class InputEntityFields {
 	private String minDate;
 	private String maxDate;
 	private String searchType;
+	private Boolean isAutoPopulate;
 	private ArrayList<DataList> dataList = new ArrayList<>();
+
+	public Boolean getIsAutoPopulate() {
+		return isAutoPopulate;
+	}
+
+	public void setIsAutoPopulate(Boolean isAutoPopulate) {
+		this.isAutoPopulate = isAutoPopulate;
+	}
 
 	public String getParentApiKey() {
 		return parentApiKey;

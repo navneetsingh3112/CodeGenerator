@@ -152,6 +152,10 @@ public class Main {
                     f.setInputApi((String) fobj.get("input_api"));
                 }
 
+                if (null != fobj.get("is_auto_populate")) {
+                    f.setIsAutoPopulate((Boolean) fobj.get("is_auto_populate"));
+                }
+
                 if (null == fobj.get("input_api_list_key")) {
                     f.setInputApiListKey("");
                 } else {
