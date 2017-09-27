@@ -102,7 +102,7 @@ public class Field {
 	}
 
 	public void setComment(String comment) {
-		this.comment = comment;
+		this.comment = comment.replaceAll("'", "''");
 	}
 
 	public String getNotNullConstraint() {

@@ -63,7 +63,7 @@ public class Entity {
 	}
 
 	public void setTableComment(String tableComment) {
-		this.tableComment = tableComment;
+		this.tableComment = tableComment.replaceAll("'", "''");
 	}
 
 	public List<Field> getDataFieldList() {
