@@ -6,7 +6,8 @@
                     (click)="toggleShowSearchBlocks()"
                     title="{{'filter-button-tooltip' | translate}}">
                 <i class="fa fa-search"></i></button>
-            <button *ngIf="permissionForCreate" class="btn btn-primary width-100 mb-xs" role="button" [routerLink]="['../create']">
+            <button *ngIf="permissionForCreate" class="btn btn-primary width-100 mb-xs" role="button"
+                    [routerLink]="['../create']">
                 {{'list-btn-add' | translate}}
             </button>
         </div>
@@ -21,51 +22,53 @@
                     #set($textSearchCounter = 0)
                     #set($dropdownSearchCounter = 0)
                     #foreach ($field in $entity.fieldList)
-                    #if($field.isListElement)
-                    	<th *ngIf="showSearchBlocks">
-                    	#if(${field.Searchable} && $field.searchType == "Textbox")
-                            <div class="list-view-search-div">
-                                <div>
-                                    <div class="input-group input-group-sm input-group-transparent input-group-rounded">
-                                            <span *ngIf="!searchModels[$textSearchCounter].isSelected" class="input-group-addon">
+                        #if($field.isListElement)
+                            <th *ngIf="showSearchBlocks">
+                                #if(${field.Searchable} && $field.searchType == "Textbox")
+                                    <div class="list-view-search-div">
+                                        <div>
+                                            <div class="input-group input-group-sm input-group-transparent input-group-rounded">
+                                            <span *ngIf="!searchModels[$textSearchCounter].isSelected"
+                                                  class="input-group-addon">
                                                 <i class="fa fa-search"></i>
                                             </span>
-                                        <span (click)="cancelSearchAttribute($textSearchCounter)" *ngIf="searchModels[$textSearchCounter].isSelected"
-                                              class="input-group-addon">
+                                                <span (click)="cancelSearchAttribute($textSearchCounter)"
+                                                      *ngIf="searchModels[$textSearchCounter].isSelected"
+                                                      class="input-group-addon">
                                                 <i class="fa fa-times"></i>
                                             </span>
-                                        <input (keypress)="changeSearchModel($event.keyCode,$textSearchCounter)"
-                                               [(ngModel)]="searchModels[$textSearchCounter].value"
-                                               (ngModelChange)="onSearchFieldChange($textSearchCounter)"
-                                               maxlength="16"
-                                               class="form-control form-control-sm"
-                                               type="text" placeholder="${field.placeholder}">
+                                                <input (keypress)="changeSearchModel($event.keyCode,$textSearchCounter)"
+                                                       [(ngModel)]="searchModels[$textSearchCounter].value"
+                                                       (ngModelChange)="onSearchFieldChange($textSearchCounter)"
+                                                       maxlength="16"
+                                                       class="form-control form-control-sm"
+                                                       type="text" placeholder="${field.placeholder}">
+                                            </div>
+                                        </div>
                                     </div>
-                                </div>
-                            </div>
+                                    #set($textSearchCounter = $textSearchCounter+1)
+                                #end
+                                #if(${field.Searchable} && $field.isListElement && $field.searchType == "Dropdown")
+                                    <div *ngIf="dropDownList[$dropdownSearchCounter].dataList.length>0">
+                                        <div class="list-view-status-dropdown-div">
+                                            <div>
+                                                <select2
+                                                        (valueChanged)="setDropdownAndSearch($event,$dropdownSearchCounter)"
+                                                        [value]="dropDownList[$dropdownSearchCounter].initialValues"
+                                                        [options]="dropDownList[$dropdownSearchCounter].options"
+                                                        [data]="dropDownList[$dropdownSearchCounter].dataList">
+                                                </select2>
+                                            </div>
+                                            <div *ngIf="dropDownList[$dropdownSearchCounter].selectedFlag">
+                                                <a (click)="cancelDropdown($dropdownSearchCounter)"><i
+                                                        class="glyphicon glyphicon-remove list-view-status-icon"></i></a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    #set($dropdownSearchCounter = $dropdownSearchCounter+1)
+                                #end
+                            </th>
                         #end
-                        #if(${field.Searchable} && $field.isListElement && $field.searchType == "Dropdown")
-                                <div *ngIf="dropDownList[$dropdownSearchCounter].dataList.length>0">
-                            		<div class="list-view-status-dropdown-div">
-                               			<div>
-                                    		<select2
-                                            	(valueChanged)="setDropdownAndSearch($event,$dropdownSearchCounter)"
-                                            	[value]="dropDownList[$dropdownSearchCounter].initialValues"
-                                            	[options]="dropDownList[$dropdownSearchCounter].options"
-                                            	[data]="dropDownList[$dropdownSearchCounter].dataList">
-                                    		</select2>
-                                		</div>
-                                <div *ngIf="dropDownList[$dropdownSearchCounter].selectedFlag">
-                                    <a (click)="cancelDropdown($dropdownSearchCounter)"><i
-                                            class="glyphicon glyphicon-remove list-view-status-icon"></i></a>
-                                </div>
-                            </div>
-                            </div>
-                            #set($dropdownSearchCounter = $dropdownSearchCounter+1)
-                        #end
-                        </th>
-                    #end
-                        #set($textSearchCounter = $textSearchCounter+1)
                     #end
 
                     <th *ngIf="showSearchBlocks">
@@ -79,19 +82,23 @@
                 </tr>
                 <tr>
                     #set($counter = 0)
-                #foreach ($field in $entity.fieldList)
-                    #if(${field.isListElement})
-                    	#if(${field.Sortable})
-                    	<th>
-                        <mfDefaultSorter (click)="sortFormData($counter)" by="${field.apiKey}1">{{'${entity.lowerTrainCaseClassName}-list-header-${field.lowerTrainCaseName}' | translate}}</mfDefaultSorter>
-                    	</th>
-                    	#else
-                        <th>
-                            {{'${entity.lowerTrainCaseClassName}-list-header-${field.lowerTrainCaseName}' | translate}}
-                        </th>
-                    	#end
-                    #set($counter = $counter+1)
-                    #end
+                    #foreach ($field in $entity.fieldList)
+                        #if(${field.isListElement})
+                            #if(${field.Sortable})
+                                <th>
+                                    <mfDefaultSorter (click)="sortFormData($counter)" by="${field.apiKey}1">
+                                        {{'${entity.lowerTrainCaseClassName}-list-header-${field.lowerTrainCaseName}' |
+                                        translate}}
+                                    </mfDefaultSorter>
+                                </th>
+                            #else
+                                <th>
+                                    {{'${entity.lowerTrainCaseClassName}-list-header-${field.lowerTrainCaseName}' |
+                                    translate}}
+                                </th>
+                            #end
+                            #set($counter = $counter+1)
+                        #end
                     #end
                     <th class="no-sort">
                         {{'${entity.lowerTrainCaseClassName}-list-header-actions' | translate}}
@@ -100,30 +107,34 @@
                 </thead>
                 <tbody>
                 <tr class="table-row" *ngFor="let item of mf.data" (click)="viewFormData(item.$entity.fetchApiKey)">
-                #foreach ($field in $entity.fieldList)
-                #if($field.isListElement)
-                    #if ($field.webType.equals('Date'))
-                        <td class="wrap-long-text" title="{{item.${field.apiKey}  | date: 'dd-MM-yyyy'}}"><span class="fw-semi-bold">{{item.${field.apiKey}  | date: 'dd-MM-yyyy'}}</span></td>
-                    #else
-                        <td class="wrap-long-text" title="{{item.${field.apiKey}}}"><span class="fw-semi-bold">{{item.${field.apiKey}}}</span></td>
-                	#end
-                #end
+                    #foreach ($field in $entity.fieldList)
+                        #if($field.isListElement)
+                            #if ($field.webType.equals('Date'))
+                                <td class="wrap-long-text" title="{{item.${field.apiKey}  | date: 'dd-MM-yyyy'}}"><span
+                                        class="fw-semi-bold">{{item.${field.apiKey}  | date: 'dd-MM-yyyy'}}</span></td>
+                            #else
+                                <td class="wrap-long-text" title="{{item.${field.apiKey}}}"><span class="fw-semi-bold">{{item.${field.apiKey}}}</span>
+                                </td>
+                            #end
+                        #end
 
-                #end
+                    #end
                     <td>
                         <div class="input-group-btn action-button-group">
-                        #foreach ($actionButton in $entity.listViewActionButtonList)
-                        	#if($StringUtils.equalsIgnoreCase(${actionButton.type} ,"copy"))
-                        	<button type="button" class="btn btn-success" (click)="copyComponent(item.$entity.fetchApiKey)"
-                                    title="{{'copy-button-tooltip' | translate}}">
-                                <i class="fa fa-clone"></i></button>
-                        	#end
-                        	#if($StringUtils.equalsIgnoreCase(${actionButton.type} ,"edit"))
-                        	<button type="button" class="btn btn-success" (click)="editComponent(item.$entity.fetchApiKey)"
-                                    title="{{'edit-button-tooltip' | translate}}">
-                                <i class="fa fa-pencil"></i></button>
-                        	#end
-                        #end
+                            #foreach ($actionButton in $entity.listViewActionButtonList)
+                                #if($StringUtils.equalsIgnoreCase(${actionButton.type} ,"copy"))
+                                    <button type="button" class="btn btn-success"
+                                            (click)="copyComponent(item.$entity.fetchApiKey)"
+                                            title="{{'copy-button-tooltip' | translate}}">
+                                        <i class="fa fa-clone"></i></button>
+                                #end
+                                #if($StringUtils.equalsIgnoreCase(${actionButton.type} ,"edit"))
+                                    <button type="button" class="btn btn-success"
+                                            (click)="editComponent(item.$entity.fetchApiKey)"
+                                            title="{{'edit-button-tooltip' | translate}}">
+                                        <i class="fa fa-pencil"></i></button>
+                                #end
+                            #end
                         </div>
                     </td>
                 </tr>
