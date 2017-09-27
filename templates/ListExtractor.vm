@@ -33,7 +33,7 @@ public class ${usd.upperCamelCaseName}ListExtractor extends AbstractResultSetExt
 #set($select_creteria = "SELECT ${usd.columnListForList()}")
 #set($query = " FROM ${usd.getJoinStatement()}")
 		executionContext.put("select_creteria", "${select_creteria}");
-		executionContext.put("query", "${query}");
+		executionContext.put("query", "${query} WHERE 1=1 ");
 	}
 
 	@Override
