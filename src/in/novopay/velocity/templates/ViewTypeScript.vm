@@ -14,52 +14,54 @@ import {ResourceFactoryConstants} from "../../services/resource-factory.constant
 declare var jQuery:any;
 
 @Component({
-    selector: '[${entity.lowerTrainCaseClassName}-view]',
-    templateUrl: './${entity.lowerTrainCaseClassName}-view.component.html',
-    encapsulation: ViewEncapsulation.None,
+selector: '[${entity.lowerTrainCaseClassName}-view]',
+templateUrl: './${entity.lowerTrainCaseClassName}-view.component.html',
+encapsulation: ViewEncapsulation.None,
 })
 export class ${entity.upperCamelCaseClassName}ViewComponent extends BaseViewComponent {
-    constructor(private location:Location,
-                private mainApp: App,
-                private appConstants: AppConstants,
-                private commonHttpService:CommonHttpService,
-                private baseService: BaseService,
-                private commonUtilityService:CommonUtilityService,
-                private router:Router,
-                private route:ActivatedRoute,
-                private resourceFactoryConstants:ResourceFactoryConstants) {
-        super(location, mainApp, appConstants, commonHttpService, baseService,
-            commonUtilityService, router, route);
+constructor(private location:Location,
+private mainApp: App,
+private appConstants: AppConstants,
+private commonHttpService:CommonHttpService,
+private baseService: BaseService,
+private commonUtilityService:CommonUtilityService,
+private router:Router,
+private route:ActivatedRoute,
+private resourceFactoryConstants:ResourceFactoryConstants) {
+super(location, mainApp, appConstants, commonHttpService, baseService,
+commonUtilityService, router, route);
 
-        let componentProperty : IViewComponentProperty = {
-        	moduleName: "${entity.lowerTrainCaseClassName}",
-            componentPermissionKey: "PERMISSION_KEY",
-            componentDeletePermissionKey: "DELETE_PERMISSION_KEY",
-            componentEditPermissionKey: "EDIT_PERMISSION_KEY",
-            componentIdRequestBodyKey: "${entity.fetchApiKey}",
-            componentDetailsResponseBodyKey: "${entity.table}_details",
-            viewComponentAPI: this.resourceFactoryConstants.constants.${entity.lowerCamelCaseClassName}.getDetails,
-            deleteComponentAPI: this.resourceFactoryConstants.constants.${entity.lowerCamelCaseClassName}.delete,
-            editComponentAPI: "/edit",
-            entity: {
-            #foreach ($field in $entity.fieldList)
-                "${field.lowerCamelCaseName}": {
-                    value: '',
-                    displayName: '${field.displayName}',
-                    apiKey: '${field.apiKey}',
-                     parentApiKey: '${field.parentApiKey}',
-                     type:  '${field.webType}'
-                },
-            #end
-            },
+let componentProperty : IViewComponentProperty = {
+moduleName: "${entity.lowerTrainCaseClassName}",
+componentPermissionKey: "PERMISSION_KEY",
+componentDeletePermissionKey: "DELETE_PERMISSION_KEY",
+componentEditPermissionKey: "EDIT_PERMISSION_KEY",
+componentIdRequestBodyKey: "${entity.fetchApiKey}",
+componentDetailsResponseBodyKey: "${entity.table}_details",
+viewComponentAPI: this.resourceFactoryConstants.constants.${entity.lowerCamelCaseClassName}.getDetails,
+deleteComponentAPI: this.resourceFactoryConstants.constants.${entity.lowerCamelCaseClassName}.delete,
+editComponentAPI: "/edit",
+entity: {
+#foreach ($field in $entity.fieldList)
+"${field.lowerCamelCaseName}": {
+value: '',
+displayName: '${field.displayName}',
+    #if ($field.webType.equals('Radio') || $field.webType.equals('Checkbox') || $field.webType.equals('Dropdown'))
+    apiKey: '${field.apiKey}_value',
+    #else apiKey: '${field.apiKey}',
+    #end
+parentApiKey: '${field.parentApiKey}'
+},
+#end
+},
 parentKeyList: {
 #foreach ($parent in $entity.parentApiList)
 '${parent.name}' : {},
 #end
 }};
-        super.setComponentProperties(componentProperty);
-    }
-    ngOnInit(): void {
-        super.ngOnInit();
-    }
+super.setComponentProperties(componentProperty);
+}
+ngOnInit(): void {
+super.ngOnInit();
+}
 }
