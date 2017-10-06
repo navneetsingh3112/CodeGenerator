@@ -1,0 +1,92 @@
+{
+	"userStory": {
+		"name": "internal_account_definition",
+		"service": "accounting",
+		"author": "Abhinava",
+		"delete_mode": "LOGICAL",
+		"primary_entity": "internal_account_definition"
+	},
+	"entities": [
+		{
+			"entity": "internal_account_definition",
+			"table_comment": "Internal Account Definition Entity",
+			"audit_fields_required": true,
+			"fields": [
+				{
+					"name": "id",
+					"java_type": "Integer",
+					"sql_type": "INT",
+					"is_mandatory": true,
+					"is_primaryKey": true,
+					"is_list_element": true,
+					"comment": "Auto generated unique identifier. Will be the primary key of the table."
+				},
+				{
+					"name": "name",
+					"java_type": "String",
+					"sql_type": "VARCHAR",
+					"min_length": 3,
+					"max_length": 32,
+					"is_mandatory": true,
+					"is_searchable": true,
+					"is_sortable": false,
+					"is_list_element": true,
+					"comment": "Name of Internal Account Definition."
+				},
+				{
+					"name": "description",
+					"java_type": "String",
+					"sql_type": "VARCHAR",
+					"min_length": 3,
+					"max_length": 256,
+					"is_mandatory": false,
+					"is_list_element": false,
+					"comment": "Internal Account Definition description."
+				},
+				{
+					"name": "direct_posting_allowed",
+					"java_type": "Boolean",
+					"sql_type": "TINYINT",
+					"is_mandatory": true,
+					"is_searchable": true,
+					"is_sortable": false,
+					"is_list_element": true,
+					"comment": "Manual posting allowed for the internal account."
+				},
+				{
+					"name": "general_ledger_code",
+					"java_type": "String",
+					"sql_type": "VARCHAR",
+					"min_length": 1,
+					"max_length": 32,
+					"is_mandatory": true,
+					"is_searchable": true,
+					"is_sortable": true,
+					"is_list_element": true,
+					"comment": "General Ledger code and name to be linked."
+				},
+				{
+					"name": "offset_account_type",
+					"java_type": "String",
+					"sql_type": "VARCHAR",
+					"min_length": 1,
+					"max_length": 32,
+					"is_mandatory": false,
+					"comment": "Offset account type."
+				},
+				{
+					"name": "code",
+					"java_type": "String",
+					"sql_type": "VARCHAR",
+					"min_length": 1,
+					"max_length": 32,
+					"is_mandatory": false,
+					"is_searchable": true,
+					"is_sortable": true,
+					"is_list_element": true,
+					"comment": "Internal account definition code."
+				}
+			]
+		}
+	]
+}
