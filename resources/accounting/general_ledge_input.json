@@ -1,0 +1,112 @@
+{
+	"userStory": {
+		"name": "general_ledger",
+		"service": "accounting",
+		"author": "Navaneet",
+		"delete_mode": "LOGICAL",
+		"primary_entity": "general_ledger"
+	},
+	"entities": [
+		{
+			"entity": "general_ledger",
+			"table_comment": "It contains all the accounts for recording transactions relating to an organisation's Assets, Liabilities, Income, and Expenses",
+			"audit_fields_required": true,
+			"fields": [
+				{
+					"name": "id",
+					"java_type": "Integer",
+					"sql_type": "INT",
+					"is_mandatory": true,
+					"is_primaryKey": true,
+					"is_list_element": true,
+					"comment": "Auto generated unique identifier. Will be the primary key of the table."
+				},
+				{
+					"name": "code",
+					"java_type": "String",
+					"sql_type": "VARCHAR",
+					"min_length": 4,
+					"max_length": 8,
+					"is_mandatory": true,
+					"is_searchable": true,
+					"is_sortable": true,
+					"is_list_element": true,
+					"comment": "GL code."
+				},
+				{
+					"name": "name",
+					"java_type": "String",
+					"sql_type": "VARCHAR",
+					"min_length": 3,
+					"max_length": 32,
+					"is_mandatory": true,
+					"is_searchable": true,
+					"is_sortable": true,
+					"is_list_element": true,
+					"comment": "GL name."
+				},
+				{
+					"name": "description",
+					"java_type": "String",
+					"sql_type": "VARCHAR",
+					"min_length": 3,
+					"max_length": 256,
+					"is_mandatory": true,
+					"comment": "GL Description."
+				},
+				{
+					"name": "external_reference_number",
+					"java_type": "String",
+					"sql_type": "VARCHAR",
+					"min_length": 1,
+					"max_length": 8,
+					"comment": "Any External Reference Number to correlate the GL account."
+				},
+				{
+					"name": "currency",
+					"java_type": "String",
+					"sql_type": "VARCHAR",
+					"min_length": 1,
+					"max_length": 32,
+					"is_mandatory": true,
+					"is_searchable": true,
+					"is_sortable": true,
+					"is_list_element": true,
+					"comment": "GL Currency."
+				},
+				{
+					"name": "category",
+					"java_type": "String",
+					"sql_type": "VARCHAR",
+					"min_length": 1,
+					"max_length": 32,
+					"is_mandatory": true,
+					"is_searchable": true,
+					"is_sortable": true,
+					"is_list_element": true,
+					"comment": "GL Category."
+				},
+				{
+					"name": "balance_type",
+					"java_type": "String",
+					"sql_type": "VARCHAR",
+					"min_length": 1,
+					"max_length": 32,
+					"is_mandatory": true,
+					"is_list_element": true,
+					"comment": "GL Balance type."
+				},
+				{
+					"name": "allowed_transaction_type",
+					"java_type": "String",
+					"sql_type": "VARCHAR",
+					"min_length": 1,
+					"max_length": 32,
+					"is_mandatory": true,
+					"is_list_element": true,
+					"comment": "Allowed transaction type of the GL."
+				}
+			]
+		}
+	]
+}
