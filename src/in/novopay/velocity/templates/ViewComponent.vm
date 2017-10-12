@@ -1,19 +1,21 @@
 <form id="${entity.lowerTrainCaseClassName}-view-form" class="parsleyjs" method="post"
-             data-parsley-priority-enabled="false"
-             novalidate="novalidate" [ngBusy]="busy">
+      data-parsley-priority-enabled="false"
+      novalidate="novalidate" [ngBusy]="busy">
     <div class="clearfix">
         <div class="pull-right">
-            <button type="button" (click)="cancelForm()" class="btn btn-default btn-rounded">{{'form-btn-back' |
-                translate}}
+            <button type="button" (click)="cancelForm()" class="btn btn-default btn-rounded">
+                {{'form-btn-back' | translate}}
             </button>
             <button *ngIf="permissionForDelete" type="submit" (click)="deleteRecord()"
-                    class="btn btn-danger btn-rounded ">
-                {{'form-btn-delete' |
-                translate}}
+                    class="btn btn-danger btn-rounded">
+                {{'form-btn-delete' | translate}}
+            </button>
+            <button *ngIf="permissionForCopy" type="submit" (click)="copyRecord()"
+                    class="btn btn-danger btn-rounded">
+                {{'form-btn-copy' | translate}}
             </button>
             <button *ngIf="permissionForEdit" type="submit" (click)="editRecord()" class="btn btn-primary btn-rounded">
-                {{'form-btn-edit' |
-                translate}}
+                {{'form-btn-edit' | translate}}
             </button>
         </div>
         <h1 class="page-title"><span

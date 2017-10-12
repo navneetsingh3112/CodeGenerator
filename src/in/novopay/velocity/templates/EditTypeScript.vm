@@ -39,7 +39,7 @@ baseService, router, route, resourceFactoryConstants);
 let createComponentProperty : ICreateComponentProperty = {
 componentPermissionKey: 'PERMISSION_KEY',
 formHtmlId: '${entity.lowerTrainCaseClassName}-edit-form',
-createComponentAPI: this.resourceFactoryConstants.constants.${entity.lowerCamelCaseClassName}.create,
+createComponentAPI: this.resourceFactoryConstants.constants.${entity.lowerCamelCaseClassName}.update,
 listComponentUrl: '/app/${entity.lowerTrainCaseClassName}/list',
 entity: {
 #foreach ($field in $entity.fieldList)

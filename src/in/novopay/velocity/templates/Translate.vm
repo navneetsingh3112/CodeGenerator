@@ -10,6 +10,7 @@ export const ${entity.upperCamelCaseClassName}_LANG_EN_TRANS = {
   #end
   'form-btn-create-cancel-${entity.lowerTrainCaseClassName}': 'Cancel',
   'form-btn-create-save-${entity.lowerTrainCaseClassName}': 'Save',
+  'form-btn-create-new-${entity.lowerTrainCaseClassName}': 'Create',,
   '${entity.lowerTrainCaseClassName}-edit-page-header': 'Edit ${entity.displayName}',
   '${entity.lowerTrainCaseClassName}-edit-form-header-basic': 'Basic',
   '${entity.lowerTrainCaseClassName}-edit-form-header-details': 'Details',
