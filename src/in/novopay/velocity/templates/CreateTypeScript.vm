@@ -39,7 +39,7 @@ super(location, mainApp, appConstants, commonHttpService, commonUtilityService,
 baseService, router, route,resourceFactoryConstants);
 
 let componentProperty : ICreateComponentProperty = {
-componentPermissionKey: 'PERMISSION_KEY',
+moduleName: "${entity.lowerTrainCaseClassName}",
 formHtmlId: '${entity.lowerTrainCaseClassName}-create-form',
 createComponentAPI: this.resourceFactoryConstants.constants.${entity.lowerCamelCaseClassName}.create,
 listComponentUrl: '/app/${entity.lowerTrainCaseClassName}/list',
@@ -66,7 +66,6 @@ radioEntity: {
 #foreach ($field in $entity.fieldList)
     #if ($field.webType.equals('Radio'))
         ${field.lowerCamelCaseName}: {
-    displayName: '${field.displayName}',
     value: '',
     groupName: '${field.lowerTrainCaseName}-grp',
     apiKey: '${field.apiKey}',
@@ -120,7 +119,6 @@ dropdownEntity: {
 #foreach ($field in $entity.fieldList)
     #if ($field.webType.equals('Dropdown'))
         ${field.lowerCamelCaseName}: {
-    displayName: '${field.displayName}',
     isValid: true,
     selectedValue: '',
     initialValues: [],
@@ -179,7 +177,6 @@ checkboxEntity: {
 #foreach ($field in $entity.fieldList)
     #if ($field.webType.equals('Checkbox'))
         ${field.lowerCamelCaseName}: {
-    displayName: '${field.displayName}',
     apiKey: '${field.apiKey}',
     parentApiKey: '${field.parentApiKey}',
     checkUncheckAllCheckboxesModel: false,

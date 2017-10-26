@@ -3,35 +3,33 @@
       novalidate="novalidate" [ngBusy]="busy">
     <div class="clearfix">
         <div *ngIf="!reviewMode" class="pull-right">
-            <button type="button" (click)="cancelForm()" class="btn btn-default">
-                {{'form-btn-create-cancel-${entity.lowerTrainCaseClassName}' |
+            <button type="button" (click)="cancelForm()" class="button button-primary">
+                {{'form-btn-cancel' |
                 translate}}
             </button>
-            <button type="submit" (click)="submitForm()" class="btn btn-primary">
-                {{'form-btn-create-save-${entity.lowerTrainCaseClassName}' |
+            <button type="submit" (click)="submitForm()" class="button button-primary">
+                {{'form-btn-save' |
                 translate}}
             </button>
         </div>
-        <h1 class="page-title"><span
-                class="fw-semi-bold">{{'${entity.lowerTrainCaseClassName}-create-page-header' | translate}}</span></h1>
+        <h1 class="page-title">{{'${entity.lowerTrainCaseClassName}-create-page-header' | translate}}</h1>
     </div>
     <div class="row">
         <div class="col-lg-12">
-            <section class="widget" widget [ngBusy]="busy">
+            <section class="widget" [ngBusy]="busy">
                 <div class="widget-body">
                     <form class="form-horizontal" role="form">
                         <fieldset>
-                            <legend><strong>{{'${entity.lowerTrainCaseClassName}-create-form-header-basic' |
-                                translate}}</strong>
-                                {{'${entity.lowerTrainCaseClassName}-create-form-header-details' | translate}}
+                            <legend><span class="section-label">{{'form-basic' |
+                                translate}}</span>
                             </legend>
                             <div class="row">
                                 #foreach ($field in $entity.fieldList)
                                     #if ($field.webType.equals('Textbox'))
                                         <!-- Textbox -->
-                                        <div class="form-group col-lg-3 col-sm-4">
+                                        <div class="form-group col-lg-3 col-sm-4 field-type">
                                             <label for="${entity.lowerTrainCaseClassName}-${field.lowerTrainCaseName}"
-                                                   class="col-form-label">{{'${entity.lowerTrainCaseClassName}-create-field-${field.lowerTrainCaseName}'
+                                                   class="label-name">{{'${entity.lowerTrainCaseClassName}-create-field-${field.lowerTrainCaseName}'
                                                 | translate}}
                                                 #if ($field.isMandatory)
                                                     *
@@ -39,35 +37,36 @@
                                             </label>
 
                                             <div>
-                                                <input *ngIf="!readOnly" type="text"
-                                                       name="${entity.lowerTrainCaseClassName}-${field.lowerTrainCaseName}"
-                                                       id="${entity.lowerTrainCaseClassName}-${field.lowerTrainCaseName}"
-                                                       class="form-control"
-                                                    #if ($field.validationPattern)
-                                                       data-parsley-pattern="${field.validationPattern}"
-                                                    #end
-                                                    #if ($field.IsAutoPopulate)
-                                                       [(ngModel)]="${field.lowerCamelCaseName}"
-                                                    #else
-                                                       [(ngModel)]="entity.${field.lowerCamelCaseName}.value"
-                                                    #end
-                                                    #if ($field.minLength)
-                                                       minLength="${field.minLength}"
-                                                    #end
-                                                    #if ($field.maxLength)
-                                                       maxlength="${field.maxLength}"
-                                                    #end
-                                                    #if ($field.placeholder)
-                                                       placeholder="${field.placeholder}"
-                                                    #end
-                                                       data-parsley-trigger="change"
-                                                    #if ($field.isMandatory)
-                                                       required
-                                                       data-parsley-required-message="Required"
-                                                    #end
+                                            <input *ngIf="!readOnly" type="text"
+                                                   name="${entity.lowerTrainCaseClassName}-${field.lowerTrainCaseName}"
+                                                   id="${entity.lowerTrainCaseClassName}-${field.lowerTrainCaseName}"
+                                                   class="form-control textbox"
+                                                #if ($field.validationPattern)
+                                                   data-parsley-pattern="${field.validationPattern}"
+                                                #end
+                                                #if ($field.IsAutoPopulate)
+                                                   [(ngModel)]="${field.lowerCamelCaseName}"
+                                                #else
+                                                   [(ngModel)]="entity.${field.lowerCamelCaseName}.value"
+                                                #end
+                                                #if ($field.minLength)
+                                                   minLength="${field.minLength}"
+                                                #end
+                                                #if ($field.maxLength)
+                                                   maxlength="${field.maxLength}"
+                                                #end
+                                                #if ($field.placeholder)
+                                                   placeholder="${field.placeholder}"
+                                                #end
+                                                   data-parsley-trigger="change"
+                                                #if ($field.isMandatory)
+                                                   required
+                                                   data-parsley-required-message="Required Field"
+                                                   data-parsley-length-message="Minimum length of ${field.minLength} characters"
+                                                #end
                                                     #if ($field.IsAutoPopulate)
                                                        disabled="disabled"
-                                                    #end
+                                            #end
                                                 >
 
                                                 <label *ngIf="readOnly"
@@ -76,7 +75,7 @@
                                                     #else
                                                        title="{{entity.${field.lowerCamelCaseName}.value}}"
                                                     #end
-                                                       class="read-only-view-label col-form-label wrap-long-text">
+                                                       class="read-only-view-label break-long-text">
                                                     #if ($field.IsAutoPopulate)
                                                         {{${field.lowerCamelCaseName}}}
                                                     #else
@@ -87,9 +86,9 @@
 
                                     #elseif ($field.webType.equals('Textarea'))
                                         <!-- TextArea -->
-                                        <div class="form-group col-lg-3 col-sm-4">
+                                        <div class="form-group col-lg-3 col-sm-4 field-type">
                                             <label for="${entity.lowerTrainCaseClassName}-${field.lowerTrainCaseName}"
-                                                   class="col-form-label">{{'${entity.lowerTrainCaseClassName}-create-field-${field.lowerTrainCaseName}'
+                                                   class="label-name">{{'${entity.lowerTrainCaseClassName}-create-field-${field.lowerTrainCaseName}'
                                                 | translate}}
                                                 #if ($field.isMandatory)
                                                     *
@@ -100,7 +99,7 @@
                                     <textarea *ngIf="!readOnly" type="text"
                                               name="${entity.lowerTrainCaseClassName}-${field.lowerTrainCaseName}"
                                               id="${entity.lowerTrainCaseClassName}-${field.lowerTrainCaseName}"
-                                              class="form-control"
+                                              class="form-control textarea"
                                               rows="4"
                                         #if ($field.validationPattern)
                                               data-parsley-pattern="${field.validationPattern}"
@@ -122,7 +121,8 @@
                                               data-parsley-trigger="change"
                                         #if ($field.isMandatory)
                                               required
-                                              data-parsley-required-message="Required"
+                                              data-parsley-required-message="Required Field"
+                                              data-parsley-length-message="Minimum length of ${field.minLength} characters"
                                         #end
                                         #if ($field.IsAutoPopulate)
                                               disabled="disabled"
@@ -137,7 +137,7 @@
                                                     #else
                                                        title="{{entity.${field.lowerCamelCaseName}.value}}"
                                                     #end
-                                                       class="read-only-view-label col-form-label wrap-long-text">
+                                                       class="read-only-view-label break-long-text">
                                                     #if ($field.IsAutoPopulate)
                                                         {{${field.lowerCamelCaseName}}}
                                                     #else
@@ -149,8 +149,8 @@
 
                                     #elseif ($field.webType.equals('Dropdown'))
                                         <!-- Dropdown -->
-                                        <div class="form-group col-lg-3 col-sm-4">
-                                            <label class="col-form-label">
+                                        <div class="form-group col-lg-3 col-sm-4 field-type">
+                                            <label class="label-name">
                                                 {{'${entity.lowerTrainCaseClassName}-create-field-${field.lowerTrainCaseName}'
                                                 | translate}}
                                                 #if ($field.isMandatory)
@@ -186,15 +186,15 @@
 
                                                 <label *ngIf="readOnly"
                                                        title="{{dropDownList.${field.lowerCamelCaseName}.selectedValue}}"
-                                                       class="read-only-view-label col-form-label wrap-long-text">{{dropDownList.${field.lowerCamelCaseName}.selectedValue}}</label>
+                                                       class="read-only-view-label break-long-text">{{dropDownList.${field.lowerCamelCaseName}.selectedValue}}</label>
                                             </div>
                                         </div>
 
                                     #elseif ($field.webType.equals('Date'))
                                         <!-- Date -->
-                                        <div class="form-group col-lg-3 col-sm-4">
+                                        <div class="form-group col-lg-3 col-sm-4 field-type">
                                             <label for="${entity.lowerTrainCaseClassName}-${field.lowerTrainCaseName}"
-                                                   class="col-form-label">{{'${entity.lowerTrainCaseClassName}-create-field-${field.lowerTrainCaseName}'
+                                                   class="label-name">{{'${entity.lowerTrainCaseClassName}-create-field-${field.lowerTrainCaseName}'
                                                 | translate}}
                                                 #if ($field.isMandatory)
                                                     *
@@ -217,11 +217,11 @@
                                                        max="9999-12-31"
                                                     #end
                                                        [(ngModel)]="entity.${field.lowerCamelCaseName}.value"
-                                                       class="form-control"
+                                                       class="form-control date"
                                                        data-parsley-trigger="change"
                                                     #if ($field.isMandatory)
                                                        required
-                                                       data-parsley-required-message="Required"
+                                                       data-parsley-required-message="Required Field"
                                                     #end
                                                     #if ($field.IsAutoPopulate)
                                                        disabled="disabled"
@@ -230,15 +230,15 @@
 
                                                 <label *ngIf="readOnly"
                                                        title="{{entity.${field.lowerCamelCaseName}.value}}"
-                                                       class="read-only-view-label col-form-label wrap-long-text">{{entity.${field.lowerCamelCaseName}.value}}</label>
+                                                       class="read-only-view-label break-long-text">{{entity.${field.lowerCamelCaseName}.value}}</label>
                                             </div>
                                         </div>
 
                                     #elseif ($field.webType.equals('Datetime'))
                                         <!-- DateTime -->
-                                        <div class="form-group col-lg-3 col-sm-4">
+                                        <div class="form-group col-lg-3 col-sm-4 field-type">
                                             <label for="${entity.lowerTrainCaseClassName}-${field.lowerTrainCaseName}"
-                                                   class="col-form-label">{{'${entity.lowerTrainCaseClassName}-create-field-${field.lowerTrainCaseName}'
+                                                   class="label-name">{{'${entity.lowerTrainCaseClassName}-create-field-${field.lowerTrainCaseName}'
                                                 | translate}}
                                                 #if ($field.isMandatory)
                                                     *
@@ -261,11 +261,11 @@
                                                        max="9999-12-31"
                                                     #end
                                                        [(ngModel)]="entity.${field.lowerCamelCaseName}.value"
-                                                       class="form-control"
+                                                       class="form-control date"
                                                        data-parsley-trigger="change"
                                                     #if ($field.isMandatory)
                                                        required
-                                                       data-parsley-required-message="Required"
+                                                       data-parsley-required-message="Required Field"
                                                     #end
                                                     #if ($field.IsAutoPopulate)
                                                        disabled="disabled"
@@ -274,25 +274,25 @@
 
                                                 <label *ngIf="readOnly"
                                                        title="{{entity.${field.lowerCamelCaseName}.value}}"
-                                                       class="read-only-view-label col-form-label wrap-long-text">{{entity.${field.lowerCamelCaseName}.value}}</label>
+                                                       class="read-only-view-label break-long-text">{{entity.${field.lowerCamelCaseName}.value}}</label>
                                             </div>
                                         </div>
 
                                     #elseif ($field.webType.equals('Radio'))
                                         <!-- Radio -->
-                                        <div class="form-group col-lg-3 col-sm-4">
-                                            <label class="col-form-label">{{radioList.${field.lowerCamelCaseName}.displayName
+                                        <div class="form-group col-lg-3 col-sm-4 field-type">
+                                            <label class="label-name">{{'${entity.lowerTrainCaseClassName}-create-field-${field.lowerTrainCaseName}'
                                                 | translate}}#if ($field.isMandatory)
                                                     *
                                                 #end
                                             </label>
                                             <div *ngIf="!readOnly && radioList.${field.lowerCamelCaseName}.dataList.length>0"
-                                            #if ($field.isMandatory)
-                                                id="${field.lowerTrainCaseName}-error">
-                                            #end
+                                                #if ($field.isMandatory)
+                                                 id="${field.lowerTrainCaseName}-error">
+                                                #end
                                                 #set($counter = 0)
                                                 #foreach ($element in $field.dataList)
-                                                    <span class="abc-radio">
+                                                    <span class="abc-radio radiobox">
                                                             <input type="radio" name="${field.lowerTrainCaseName}-grp"
                                                                    id="${field.lowerTrainCaseName}-${element.code}"
                                                                    value="{{radioList.${field.lowerCamelCaseName}.dataList[$counter].code}}"
@@ -302,7 +302,7 @@
                                                                    data-parsley-class-handler="#${field.lowerTrainCaseName}-error"
                                                                    data-parsley-errors-container="#${field.lowerTrainCaseName}-error-message"
                                                                    required
-                                                                   data-parsley-required-message="Required"
+                                                                   data-parsley-required-message="Required Field"
                                                                 #end
                                                                 #if ($field.IsAutoPopulate)
                                                                    disabled="disabled"
@@ -315,7 +315,7 @@
                                                     #set($counter = $counter + 1)
                                                 #end
                                                 #if ($field.dataList.equals([]) )
-                                                    <span class="abc-radio"
+                                                    <span class="abc-radio radiobox"
                                                           *ngFor=" let data of radioList.${field.lowerCamelCaseName}.dataList ; let i = index">
                                                             <input type="radio" name="${field.lowerTrainCaseName}-grp"
                                                                    id="${field.lowerTrainCaseName}-{{data.code}}"
@@ -326,7 +326,7 @@
                                                                    data-parsley-class-handler="#${field.lowerTrainCaseName}-error"
                                                                    data-parsley-errors-container="#${field.lowerTrainCaseName}-error-message"
                                                                    required
-                                                                   data-parsley-required-message="Required"
+                                                                   data-parsley-required-message="Required Field"
                                                                 #end
                                                                 #if ($field.IsAutoPopulate)
                                                                    disabled="disabled"
@@ -343,7 +343,7 @@
                                             #end
                                             <span *ngIf="readOnly"
                                                   [ngSwitch]="radioList.${field.lowerCamelCaseName}.value"
-                                                  class="read-only-view-label col-form-label wrap-long-text">
+                                                  class="read-only-view-label break-long-text">
                                                 #set($counter = 0)
                                                 #foreach ($element in $field.dataList)
                                                     <span *ngSwitchCase="radioList.${field.lowerCamelCaseName}.dataList[$counter].code">
@@ -352,7 +352,7 @@
                                                 #end
                                                 #if ($field.dataList.equals([]) )
                                                     <span *ngFor=" let data of radioList.${field.lowerCamelCaseName}.dataList ; let i = index">
-                                                        <label class="read-only-view-label col-form-label wrap-long-text"
+                                                        <label class="read-only-view-label break-long-text"
                                                                *ngSwitchCase="radioList.${field.lowerCamelCaseName}.dataList[i].code">
                                                             {{radioList.${field.lowerCamelCaseName}.dataList[i].text}}</label></span>
                                                 #end
@@ -362,7 +362,7 @@
 
                                     #elseif ($field.webType.equals('Checkbox'))
                                         <!-- CheckBox -->
-                                        <div class="form-group col-lg-3 col-sm-4">
+                                        <div class="form-group col-lg-3 col-sm-4 field-type">
                                             <label class="col-form-label">{{checkboxList.${field.lowerCamelCaseName}.displayName
                                                 | translate}}#if ($field.isMandatory)
                                                     *
@@ -389,7 +389,7 @@
                                                 <div class="abc-checkbox abc-checkbox-primary">
                                                     #set($counter = 0)
                                                     #foreach ($element in $field.dataList)
-                                                        <div >
+                                                        <div>
                                                             <input id="${field.lowerTrainCaseName}-${element.code}"
                                                                    type="checkbox"
                                                                    name="${field.lowerTrainCaseName}-${element.code}"
