@@ -37,36 +37,36 @@
                                             </label>
 
                                             <div>
-                                            <input *ngIf="!readOnly" type="text"
-                                                   name="${entity.lowerTrainCaseClassName}-${field.lowerTrainCaseName}"
-                                                   id="${entity.lowerTrainCaseClassName}-${field.lowerTrainCaseName}"
-                                                   class="form-control textbox"
-                                                #if ($field.validationPattern)
-                                                   data-parsley-pattern="${field.validationPattern}"
-                                                #end
-                                                #if ($field.IsAutoPopulate)
-                                                   [(ngModel)]="${field.lowerCamelCaseName}"
-                                                #else
-                                                   [(ngModel)]="entity.${field.lowerCamelCaseName}.value"
-                                                #end
-                                                #if ($field.minLength)
-                                                   minLength="${field.minLength}"
-                                                #end
-                                                #if ($field.maxLength)
-                                                   maxlength="${field.maxLength}"
-                                                #end
-                                                #if ($field.placeholder)
-                                                   placeholder="${field.placeholder}"
-                                                #end
-                                                   data-parsley-trigger="change"
-                                                #if ($field.isMandatory)
-                                                   required
-                                                   data-parsley-required-message="Required Field"
-                                                   data-parsley-length-message="Minimum length of ${field.minLength} characters"
-                                                #end
+                                                <input *ngIf="!readOnly" type="text"
+                                                       name="${entity.lowerTrainCaseClassName}-${field.lowerTrainCaseName}"
+                                                       id="${entity.lowerTrainCaseClassName}-${field.lowerTrainCaseName}"
+                                                       class="form-control textbox"
+                                                    #if ($field.validationPattern)
+                                                       data-parsley-pattern="${field.validationPattern}"
+                                                    #end
+                                                    #if ($field.IsAutoPopulate)
+                                                       [(ngModel)]="${field.lowerCamelCaseName}"
+                                                    #else
+                                                       [(ngModel)]="entity.${field.lowerCamelCaseName}.value"
+                                                    #end
+                                                    #if ($field.minLength)
+                                                       minLength="${field.minLength}"
+                                                    #end
+                                                    #if ($field.maxLength)
+                                                       maxlength="${field.maxLength}"
+                                                    #end
+                                                    #if ($field.placeholder)
+                                                       placeholder="${field.placeholder}"
+                                                    #end
+                                                       data-parsley-trigger="change"
+                                                    #if ($field.isMandatory)
+                                                       required
+                                                       data-parsley-required-message="Required Field"
+                                                       data-parsley-length-message="Minimum length of ${field.minLength} characters"
+                                                    #end
                                                     #if ($field.IsAutoPopulate)
                                                        disabled="disabled"
-                                            #end
+                                                    #end
                                                 >
 
                                                 <label *ngIf="readOnly"
@@ -363,7 +363,7 @@
                                     #elseif ($field.webType.equals('Checkbox'))
                                         <!-- CheckBox -->
                                         <div class="form-group col-lg-3 col-sm-4 field-type">
-                                            <label class="col-form-label">{{checkboxList.${field.lowerCamelCaseName}.displayName
+                                            <label class="label-name">{{'${entity.lowerTrainCaseClassName}-create-field-${field.lowerTrainCaseName}'
                                                 | translate}}#if ($field.isMandatory)
                                                     *
                                                 #end
@@ -371,7 +371,7 @@
 
                                             <div *ngIf="!readOnly && checkboxList.${field.lowerCamelCaseName}.dataList.length>0"
                                                  [ngClass]="{'parsley-error': !checkboxList.${field.lowerCamelCaseName}.isValidAllowedCheckboxes}">
-                                                <div class="abc-checkbox abc-checkbox-primary">
+                                                <div class="abc-checkbox checkbox">
                                                     <input id="${field.lowerTrainCaseName}-check-uncheck-all-allowed-checkboxes"
                                                            type="checkbox"
                                                            name="check-uncheck-all-allowed-${field.lowerTrainCaseName}-checkboxes"
@@ -382,47 +382,46 @@
                                                         #end
                                                     >
                                                     <label for="${field.lowerTrainCaseName}-check-uncheck-all-allowed-checkboxes">
-                                                        {{'savings-product-create-check-uncheck-all' | translate}}
+                                                        {{'check-uncheck-all' | translate}}
                                                     </label>
                                                 </div>
 
-                                                <div class="abc-checkbox abc-checkbox-primary">
-                                                    #set($counter = 0)
-                                                    #foreach ($element in $field.dataList)
-                                                        <div>
-                                                            <input id="${field.lowerTrainCaseName}-${element.code}"
-                                                                   type="checkbox"
-                                                                   name="${field.lowerTrainCaseName}-${element.code}"
-                                                                   [(ngModel)]="checkboxList.${field.lowerCamelCaseName}.dataList[$counter].isChecked"
-                                                                   (click)="checkBoxClick('${field.lowerCamelCaseName}')"
-                                                                #if ($field.IsAutoPopulate)
-                                                                   disabled="disabled"
-                                                                #end
-                                                            >
-                                                            <label for="${field.lowerTrainCaseName}-${element.code}">
-                                                                ${element.text}
-                                                            </label>
-                                                        </div>
-                                                        #set($counter = $counter + 1)
-                                                    #end
-                                                    #if ($field.dataList.equals([]) )
-                                                        <div class="abc-checkbox abc-checkbox-primary"
-                                                             *ngFor=" let data of checkboxList.${field.lowerCamelCaseName}.dataList ; let i = index">
-                                                            <input id="${field.lowerTrainCaseName}-{{data.code}}"
-                                                                   type="checkbox"
-                                                                   name="${field.lowerTrainCaseName}-{{data.code}}"
-                                                                   [(ngModel)]="checkboxList.${field.lowerCamelCaseName}.dataList[i].isChecked"
-                                                                   (click)="checkBoxClick('${field.lowerCamelCaseName}')"
-                                                                #if ($field.IsAutoPopulate)
-                                                                   disabled="disabled"
-                                                                #end
-                                                            >
-                                                            <label for="${field.lowerTrainCaseName}-{{data.code}}">
-                                                                {{data.text}}
-                                                            </label>
-                                                        </div>
-                                                    #end
-                                                </div>
+
+                                                #set($counter = 0)
+                                                #foreach ($element in $field.dataList)
+                                                    <div class="abc-checkbox checkbox">
+                                                        <input id="${field.lowerTrainCaseName}-${element.code}"
+                                                               type="checkbox"
+                                                               name="${field.lowerTrainCaseName}-${element.code}"
+                                                               [(ngModel)]="checkboxList.${field.lowerCamelCaseName}.dataList[$counter].isChecked"
+                                                               (click)="checkBoxClick('${field.lowerCamelCaseName}')"
+                                                            #if ($field.IsAutoPopulate)
+                                                               disabled="disabled"
+                                                            #end
+                                                        >
+                                                        <label for="${field.lowerTrainCaseName}-${element.code}">
+                                                            ${element.text}
+                                                        </label>
+                                                    </div>
+                                                    #set($counter = $counter + 1)
+                                                #end
+                                                #if ($field.dataList.equals([]) )
+                                                    <div class="abc-checkbox checkbox"
+                                                         *ngFor=" let data of checkboxList.${field.lowerCamelCaseName}.dataList ; let i = index">
+                                                        <input id="${field.lowerTrainCaseName}-{{data.code}}"
+                                                               type="checkbox"
+                                                               name="${field.lowerTrainCaseName}-{{data.code}}"
+                                                               [(ngModel)]="checkboxList.${field.lowerCamelCaseName}.dataList[i].isChecked"
+                                                               (click)="checkBoxClick('${field.lowerCamelCaseName}')"
+                                                            #if ($field.IsAutoPopulate)
+                                                               disabled="disabled"
+                                                            #end
+                                                        >
+                                                        <label for="${field.lowerTrainCaseName}-{{data.code}}">
+                                                            {{data.text}}
+                                                        </label>
+                                                    </div>
+                                                #end
 
                                                 <div *ngIf="readOnly">
                                                     #set($counter = 0)
@@ -452,7 +451,7 @@
                                                 #if ($field.isMandatory)
                                                     <ul class="parsley-errors-list filled">
                                                         <li class="parsley-pattern">
-                                                            {{'form-error-atleast-one-required-msg' | translate}}
+                                                            {{'field-error-required-msg' | translate}}
                                                         </li>
                                                     </ul>
                                                 #end
