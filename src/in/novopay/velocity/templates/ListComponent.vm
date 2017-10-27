@@ -130,9 +130,14 @@
                             </div>
                         </td>
                     </tr>
-                    <tr *ngIf="mf.data.length === 0">
-                        <td colspan="100">
-                            {{'form-no-record-msg' | translate}}
+                    <tr *ngIf="mf.data.length === 0 && isSearchClear">
+                        <td><span
+                                class="text-field">{{'form-no-record-msg' | translate}}</span>
+                        </td>
+                    </tr>
+                    <tr *ngIf="mf.data.length === 0 && !isSearchClear">
+                        <td><span
+                                class="text-field">{{'form-no-record-msg-with-search' | translate}}</span>
                         </td>
                     </tr>
                     </tbody>
