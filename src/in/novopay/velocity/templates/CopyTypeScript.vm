@@ -8,17 +8,19 @@ import {App} from "../../app.component";
 import {AppConstants} from "../../app.constants";
 import {BaseComponent} from "../../base-module/create/base-create.component";
 import {BaseService} from "../../base-module/base.service";
-import {ResourceFactoryConstants} from "../../services/resource-factory.constants";
-import {BaseCopyComponent} from "../../base-module/copy/base-copy.component";
+import {ResourceFactoryConstants} from "../../services/resource-factory.constants"
 
 declare var jQuery:any;
-
+/**
+* ${entity.lowerTrainCaseClassName} Copy component
+* @author ${entity.author}
+*/
 @Component({
 selector: '[${entity.lowerTrainCaseClassName}-copy]',
 templateUrl: './${entity.lowerTrainCaseClassName}-copy.component.html',
 encapsulation: ViewEncapsulation.None,
 })
-export class ${entity.upperCamelCaseClassName}CopyComponent extends BaseCopyComponent {
+export class ${entity.upperCamelCaseClassName}CreateComponent extends BaseComponent {
 #foreach ($field in $entity.fieldList)
     #if($field.IsAutoPopulate)
     private ${field.apiKey}: string = '';
@@ -34,10 +36,10 @@ protected router:Router,
 protected route:ActivatedRoute,
 protected resourceFactoryConstants:ResourceFactoryConstants) {
 super(location, mainApp, appConstants, commonHttpService, commonUtilityService,
-baseService, router, route, resourceFactoryConstants);
+baseService, router, route,resourceFactoryConstants);
 
-let createComponentProperty : ICreateComponentProperty = {
-componentPermissionKey: 'PERMISSION_KEY',
+let componentProperty : ICreateComponentProperty = {
+moduleName: "${entity.lowerTrainCaseClassName}",
 formHtmlId: '${entity.lowerTrainCaseClassName}-copy-form',
 createComponentAPI: this.resourceFactoryConstants.constants.${entity.lowerCamelCaseClassName}.create,
 listComponentUrl: '/app/${entity.lowerTrainCaseClassName}/list',
@@ -64,26 +66,47 @@ radioEntity: {
 #foreach ($field in $entity.fieldList)
     #if ($field.webType.equals('Radio'))
         ${field.lowerCamelCaseName}: {
-    displayName: '${field.displayName}',
     value: '',
     groupName: '${field.lowerTrainCaseName}-grp',
     apiKey: '${field.apiKey}',
     parentApiKey: '${field.parentApiKey}',
-    populateFromMasterData: ${field.populateFromMasterData},
-    masterDataType: '${field.masterDataType}',
-    masterDataSubType: null,
-    isCodeIncludedInDisplay: ${field.isCodeIncludedInDisplay},
-        #if ($field.dataList.equals([]) )
-        input: {
-        inputApi: "${field.inputApi}" },
+        #if (${field.populateFromMasterData})
+        populateFromMasterData: ${field.populateFromMasterData},
+        #end
+        #if (${field.masterDataType})
+        masterDataType: '${field.masterDataType}',
+        #end
+        #if (${field.masterDataSubType})
+        masterDataSubType: '${field.masterDataSubType}',
+        #end
+        #if (${field.isCodeIncludedInDisplay})
+        isCodeIncludedInDisplay: ${field.isCodeIncludedInDisplay},
+        #end
+        #if (${field.inputApi})
+        inputApi: "${field.inputApi}",
+        #end
+        #if (${field.inputApiListKey})
+        inputApiListKey: "${field.inputApiListKey}",
+        #end
+        #if (${field.inputApiDetailsKey})
+        inputApiDetailsKey: "${field.inputApiDetailsKey}",
+        #end
+        #if (${field.inputApiIdKey})
+        inputApiIdKey: "${field.inputApiIdKey}",
+        #end
+        #if (${field.inputApiCodeKey})
+        inputApiCodeKey: "${field.inputApiCodeKey}",
+        #end
+        #if (${field.inputApiValueKey})
+        inputApiValueKey: "${field.inputApiValueKey}",
         #end
     dataList : [
         #if ($!{field.dataList} )
             #foreach ($element in $field.dataList)
             {
-            "id": "${element.id}",
-            "code": "${element.code}",
-            "text": "${element.text}"
+            id: "${element.id}",
+            code: "${element.code}",
+            text: "${element.text}"
             },
             #end
         ]
@@ -96,71 +119,12 @@ dropdownEntity: {
 #foreach ($field in $entity.fieldList)
     #if ($field.webType.equals('Dropdown'))
         ${field.lowerCamelCaseName}: {
-    displayName: '${field.displayName}',
     isValid: true,
     selectedValue: '',
     initialValues: [],
-    ready: false,
     options: {
-                        placeholder: '${field.placeholder}'
-                    },
-    required: ${field.isMandatory},
-    #if (${field.populateFromMasterData})
-    	populateFromMasterData: ${field.populateFromMasterData},
-    #end
-    #if (${field.masterDataType})
-    	masterDataType: '${field.masterDataType}',
-    #end
-    #if (${field.masterDataSubType})
-    	masterDataSubType: '${field.masterDataSubType}',
-    #end
-    #if (${field.isCodeIncludedInDisplay})
-    	isCodeIncludedInDisplay: ${field.isCodeIncludedInDisplay},
-    #end
-    #if (${field.inputApi})
-    	inputApi: "${field.inputApi}",
-    #end
-    #if (${field.inputApiListKey})
-    	inputApiListKey: "${field.inputApiListKey}",
-    #end
-    #if (${field.inputApiDetailsKey})
-    	inputApiDetailsKey: "${field.inputApiDetailsKey}",
-    #end
-    #if (${field.inputApiIdKey})
-    	inputApiIdKey: "${field.inputApiIdKey}",
-    #end
-    #if (${field.inputApiCodeKey})
-    	inputApiCodeKey: "${field.inputApiCodeKey}",
-    #end
-    #if (${field.inputApiValueKey})
-    	inputApiValueKey: "${field.inputApiValueKey}",
-    #end
-    apiKey: '${field.apiKey}',
-    parentApiKey: '${field.parentApiKey}',
-    dataList : [
-        #if ($!{field.dataList} )
-            #foreach ($element in $field.dataList)
-            {
-            "id": "${element.id}",
-            "code": "${element.code}",
-            "text": "${element.text}"
-            },
-            #end
-        ]
-        #end
+    placeholder: '${field.placeholder}'
     },
-    #end
-#end
-},
-checkboxEntity: {
-#foreach ($field in $entity.fieldList)
-    #if ($field.webType.equals('Checkbox'))
-        ${field.lowerCamelCaseName}: {
-    displayName: '${field.displayName}',
-    apiKey: '${field.apiKey}',
-    parentApiKey: '${field.parentApiKey}',
-    checkUncheckAllChannelsModel: false,
-    isValidAllowedChannels: true,
     required: ${field.isMandatory},
         #if (${field.populateFromMasterData})
         populateFromMasterData: ${field.populateFromMasterData},
@@ -174,9 +138,79 @@ checkboxEntity: {
         #if (${field.isCodeIncludedInDisplay})
         isCodeIncludedInDisplay: ${field.isCodeIncludedInDisplay},
         #end
-        #if ($field.dataList.equals([]) )
-        input: {
-        inputApi: "${field.inputApi}" },
+        #if (${field.inputApi})
+        inputApi: "${field.inputApi}",
+        #end
+        #if (${field.inputApiListKey})
+        inputApiListKey: "${field.inputApiListKey}",
+        #end
+        #if (${field.inputApiDetailsKey})
+        inputApiDetailsKey: "${field.inputApiDetailsKey}",
+        #end
+        #if (${field.inputApiIdKey})
+        inputApiIdKey: "${field.inputApiIdKey}",
+        #end
+        #if (${field.inputApiCodeKey})
+        inputApiCodeKey: "${field.inputApiCodeKey}",
+        #end
+        #if (${field.inputApiValueKey})
+        inputApiValueKey: "${field.inputApiValueKey}",
+        #end
+    apiKey: '${field.apiKey}',
+    parentApiKey: '${field.parentApiKey}',
+    dataList : [
+        #if ($!{field.dataList} )
+            #foreach ($element in $field.dataList)
+            {
+            id: "${element.id}",
+            code: "${element.code}",
+            text: "${element.text}"
+            },
+            #end
+        ]
+        #end
+    },
+    #end
+#end
+},
+checkboxEntity: {
+#foreach ($field in $entity.fieldList)
+    #if ($field.webType.equals('Checkbox'))
+        ${field.lowerCamelCaseName}: {
+    apiKey: '${field.apiKey}',
+    parentApiKey: '${field.parentApiKey}',
+    checkUncheckAllCheckboxesModel: false,
+    isValidAllowedCheckboxes: true,
+    required: ${field.isMandatory},
+        #if (${field.populateFromMasterData})
+        populateFromMasterData: ${field.populateFromMasterData},
+        #end
+        #if (${field.masterDataType})
+        masterDataType: '${field.masterDataType}',
+        #end
+        #if (${field.masterDataSubType})
+        masterDataSubType: '${field.masterDataSubType}',
+        #end
+        #if (${field.isCodeIncludedInDisplay})
+        isCodeIncludedInDisplay: ${field.isCodeIncludedInDisplay},
+        #end
+        #if (${field.inputApi})
+        inputApi: "${field.inputApi}",
+        #end
+        #if (${field.inputApiListKey})
+        inputApiListKey: "${field.inputApiListKey}",
+        #end
+        #if (${field.inputApiDetailsKey})
+        inputApiDetailsKey: "${field.inputApiDetailsKey}",
+        #end
+        #if (${field.inputApiIdKey})
+        inputApiIdKey: "${field.inputApiIdKey}",
+        #end
+        #if (${field.inputApiCodeKey})
+        inputApiCodeKey: "${field.inputApiCodeKey}",
+        #end
+        #if (${field.inputApiValueKey})
+        inputApiValueKey: "${field.inputApiValueKey}",
         #end
     dataList : [
         #if ($!{field.dataList} )
@@ -185,8 +219,71 @@ checkboxEntity: {
             id: "${element.id}",
             code: "${element.code}",
             text: "${element.text}",
-            unCheckedValue: "N",
             isChecked: false,
+            },
+            #end
+        ]
+        #end
+    },
+    #end
+#end
+},
+multiselectEntity: {
+#foreach ($field in $entity.fieldList)
+    #if ($field.webType.equals('Multiselect'))
+        ${field.lowerCamelCaseName}: {
+    isValid: true,
+    selectedList: [],
+    initialValues: [],
+    dropdownSettings :{
+    singleSelection: false,
+    text:"Select Countries",
+    selectAllText:'Select All',
+    unSelectAllText:'UnSelect All',
+    enableSearchFilter: true,
+    classes:"custom-form-control",
+    badgeShowLimit: 2
+    },
+    required: ${field.isMandatory},
+        #if (${field.populateFromMasterData})
+        populateFromMasterData: ${field.populateFromMasterData},
+        #end
+        #if (${field.masterDataType})
+        masterDataType: '${field.masterDataType}',
+        #end
+        #if (${field.masterDataSubType})
+        masterDataSubType: '${field.masterDataSubType}',
+        #end
+        #if (${field.isCodeIncludedInDisplay})
+        isCodeIncludedInDisplay: ${field.isCodeIncludedInDisplay},
+        #end
+        #if (${field.inputApi})
+        inputApi: "${field.inputApi}",
+        #end
+        #if (${field.inputApiListKey})
+        inputApiListKey: "${field.inputApiListKey}",
+        #end
+        #if (${field.inputApiDetailsKey})
+        inputApiDetailsKey: "${field.inputApiDetailsKey}",
+        #end
+        #if (${field.inputApiIdKey})
+        inputApiIdKey: "${field.inputApiIdKey}",
+        #end
+        #if (${field.inputApiCodeKey})
+        inputApiCodeKey: "${field.inputApiCodeKey}",
+        #end
+        #if (${field.inputApiValueKey})
+        inputApiValueKey: "${field.inputApiValueKey}",
+        #end
+    apiKey: '${field.apiKey}',
+    parentApiKey: '${field.parentApiKey}',
+    dataList : [
+        #if ($!{field.dataList} )
+            #foreach ($element in $field.dataList)
+            {
+            id: "${element.id}",
+            code: "${element.code}",
+            itemName: "${element.text}"
             },
             #end
         ]
@@ -200,13 +297,9 @@ requestBody: {
 '${parent.name}' : {},
 #end
 }};
-
-let editComponentProperty : IEditComponentProperty = {
-            componentIdRequestBodyKey : "${entity.fetchApiKey}",
-            componentDetailsAPI : this.resourceFactoryConstants.constants.${entity.lowerCamelCaseClassName}.getDetails,
-            createComponentProperty : createComponentProperty
-        };
-
-        super.setEditComponentProperties(editComponentProperty);
+super.setComponentProperties(componentProperty);
+}
+ngOnInit(): void {
+super.ngOnInit();
 }
 }

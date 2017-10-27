@@ -1,40 +1,35 @@
-<form id="${entity.lowerTrainCaseClassName}-view-form" class="parsleyjs" method="post"
-      data-parsley-priority-enabled="false"
-      novalidate="novalidate" [ngBusy]="busy">
+<form id="form-basic" novalidate="novalidate" [ngBusy]="busy">
     <div class="clearfix">
         <div class="pull-right">
-            <button type="button" (click)="cancelForm()" class="btn btn-default btn-rounded">
-                {{'form-btn-back' | translate}}
+            <button type="button" (click)="cancelForm()" class="button button-basic">
+                {{'form-btn-back' |
+                translate}}
             </button>
-            <button *ngIf="permissionForDelete" type="submit" (click)="deleteRecord()"
-                    class="btn btn-danger btn-rounded">
-                {{'form-btn-delete' | translate}}
+            <button *ngIf="permissionForDelete" type="button" (click)=showDeleteConfirm() class="button button-danger">
+                {{'form-btn-delete' |
+                translate}}
             </button>
-            <button *ngIf="permissionForCopy" type="submit" (click)="copyRecord()"
-                    class="btn btn-danger btn-rounded">
-                {{'form-btn-copy' | translate}}
-            </button>
-            <button *ngIf="permissionForEdit" type="submit" (click)="editRecord()" class="btn btn-primary btn-rounded">
-                {{'form-btn-edit' | translate}}
+            <button *ngIf="permissionForEdit" type="submit" (click)="editRecord()" class="button button-primary">
+                {{'form-btn-edit' |
+                translate}}
             </button>
         </div>
-        <h1 class="page-title"><span
-                class="fw-semi-bold">{{'${entity.lowerTrainCaseClassName}-view-page-header' | translate}}</span></h1>
+        <h1 class="page-title">{{'${entity.lowerTrainCaseClassName}-view-page-header' | translate}}</h1>
     </div>
     <div class="row">
         <div class="col-lg-12">
-            <section class="widget" widget [ngBusy]="busy">
+            <section class="widget" [ngBusy]="busy">
                 <div class="widget-body">
                     <form class="form-horizontal" role="form">
                         <fieldset>
-                            <legend><strong>{{'${entity.lowerTrainCaseClassName}-create-form-basic' |
-                                translate}}</strong>
-                                {{'${entity.lowerTrainCaseClassName}-create-form-details' | translate}}
+                            <legend><span class="section-label">{{'form-basic' |
+                                translate}}</span>
                             </legend>
                             <div class="row">
                                 #foreach ($field in $entity.fieldList)
-                                    <div class="form-group col-md-3">
-                                        <label class="col-form-label">{{entity.${field.lowerCamelCaseName}.displayName}}
+                                    <div class="form-group col-md-3 field-type">
+                                        <label class="label-name">{{'${entity.lowerTrainCaseClassName}-create-field-${field.lowerTrainCaseName}'
+                                            | translate}}
                                             #if ($field.isMandatory)
                                                 *
                                             #end
@@ -42,12 +37,12 @@
                                         <div>
                                             #if ($field.webType.equals('Date'))
                                                 <label title="{{entity.${field.lowerCamelCaseName}.value | date:'dd-MM-yyyy'}}"
-                                                       class="read-only-view-label col-form-label wrap-long-text">{{entity.${field.lowerCamelCaseName}.value
+                                                       class="read-only-view-label break-long-text">{{entity.${field.lowerCamelCaseName}.value
                                                     | date:'dd-MM-yyyy'}}</label>
 
                                             #else
                                                 <label title="{{entity.${field.lowerCamelCaseName}.value}}"
-                                                       class="read-only-view-label col-form-label wrap-long-text">{{entity.${field.lowerCamelCaseName}.value}}</label>
+                                                       class="read-only-view-label break-long-text">{{entity.${field.lowerCamelCaseName}.value}}</label>
                                             #end
                                         </div>
                                     </div>
