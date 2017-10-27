@@ -1,4 +1,4 @@
-<form id="form-basic" novalidate="novalidate" [ngBusy]="busy">
+<div [ngBusy]="busy">
     <div class="clearfix">
         <div class="pull-right">
             <button type="button" (click)="cancelForm()" class="button button-basic">
@@ -54,4 +54,4 @@
             </section>
         </div>
     </div>
-</form>
+</div>
