@@ -3,46 +3,44 @@
       novalidate="novalidate" [ngBusy]="busy">
     <div class="clearfix">
         <div *ngIf="!reviewMode" class="pull-right">
-            <button type="button" (click)="cancelForm()" class="btn btn-default">
-                {{'form-btn-create-cancel-${entity.lowerTrainCaseClassName}' |
+            <button type="button" (click)="cancelForm()" class="button button-basic">
+                {{'form-btn-back' |
                 translate}}
             </button>
-            <button type="submit" (click)="submitForm()" class="btn btn-primary">
-                {{'form-btn-create-save-${entity.lowerTrainCaseClassName}' |
+            <button type="submit" (click)="submitForm()" class="button button-primary">
+                {{'form-btn-save' |
                 translate}}
             </button>
         </div>
-
-        <h1 class="page-title"><span
-                class="fw-semi-bold">{{'${entity.lowerTrainCaseClassName}-edit-page-header' | translate}}</span></h1>
+        <h1 class="page-title">{{'${entity.lowerTrainCaseClassName}-edit-page-header' | translate}}</h1>
     </div>
     <div class="row">
         <div class="col-lg-12">
-            <section class="widget" widget [ngBusy]="busy">
+            <section class="widget" [ngBusy]="busy">
                 <div class="widget-body">
                     <form class="form-horizontal" role="form">
                         <fieldset>
-                            <legend><strong>{{'${entity.lowerTrainCaseClassName}-edit-form-header-basic' |
-                                translate}}</strong>
-                                {{'${entity.lowerTrainCaseClassName}-edit-form-header-details' | translate}}
+                            <legend><span class="section-label">{{'form-basic' |
+                                translate}}</span>
                             </legend>
                             <div class="row">
                                 #foreach ($field in $entity.fieldList)
                                     #if ($field.webType.equals('Textbox'))
                                         <!-- Textbox -->
-                                        <div class="form-group col-lg-3 col-sm-4">
-                                            <label #if (!${field.isNotEditable})
-                                                    for="${entity.lowerTrainCaseClassName}-${field.lowerTrainCaseName}"
-                                            #end
-                                                    class="col-form-label">{{'${entity.lowerTrainCaseClassName}-create-field-${field.lowerTrainCaseName}'
+                                        <div class="form-group col-lg-3 col-sm-4 field-type">
+                                            <label for="${entity.lowerTrainCaseClassName}-${field.lowerTrainCaseName}"
+                                                   class="label-name">{{'${entity.lowerTrainCaseClassName}-create-field-${field.lowerTrainCaseName}'
                                                 | translate}}
                                                 #if ($field.isMandatory)
                                                     *
                                                 #end
                                             </label>
+
                                             <div>
                                                 <input *ngIf="!readOnly" type="text"
                                                        name="${entity.lowerTrainCaseClassName}-${field.lowerTrainCaseName}"
+                                                       id="${entity.lowerTrainCaseClassName}-${field.lowerTrainCaseName}"
+                                                       class="form-control textbox"
                                                     #if ($field.validationPattern)
                                                        data-parsley-pattern="${field.validationPattern}"
                                                     #end
@@ -57,51 +55,51 @@
                                                     #if ($field.maxLength)
                                                        maxlength="${field.maxLength}"
                                                     #end
-                                                       id="${entity.lowerTrainCaseClassName}-${field.lowerTrainCaseName}"
-                                                       class="form-control"
                                                     #if ($field.placeholder)
                                                        placeholder="${field.placeholder}"
                                                     #end
                                                        data-parsley-trigger="change"
                                                     #if ($field.isMandatory)
                                                        required
-                                                       data-parsley-required-message="Required"
+                                                       data-parsley-required-message="Required Field"
+                                                       data-parsley-length-message="Minimum length of ${field.minLength} characters"
                                                     #end
-                                                    #if (${field.isNotEditable}) disabled="disabled" #end
+                                                    #if ($field.IsAutoPopulate)
+                                                       disabled="disabled"
+                                                    #end
                                                 >
 
                                                 <label *ngIf="readOnly"
-                                                       for="${entity.lowerTrainCaseClassName}-${field.lowerTrainCaseName}"
                                                     #if ($field.IsAutoPopulate)
                                                        title="{{${field.lowerCamelCaseName}}}"
                                                     #else
                                                        title="{{entity.${field.lowerCamelCaseName}.value}}"
                                                     #end
-                                                       class="read-only-view-label col-form-label wrap-long-text">
+                                                       class="read-only-view-label break-long-text">
                                                     #if ($field.IsAutoPopulate)
                                                         {{${field.lowerCamelCaseName}}}
                                                     #else
                                                         {{entity.${field.lowerCamelCaseName}.value}}
-                                                    #end
-                                                </label>
+                                                    #end</label>
                                             </div>
-
                                         </div>
 
                                     #elseif ($field.webType.equals('Textarea'))
                                         <!-- TextArea -->
-                                        <div class="form-group col-lg-3 col-sm-4">
-                                            <label #if (!${field.isNotEditable})
-                                                    for="${entity.lowerTrainCaseClassName}-${field.lowerTrainCaseName}" #end
-                                                    class="col-form-label">{{'${entity.lowerTrainCaseClassName}-create-field-${field.lowerTrainCaseName}'
+                                        <div class="form-group col-lg-3 col-sm-4 field-type">
+                                            <label for="${entity.lowerTrainCaseClassName}-${field.lowerTrainCaseName}"
+                                                   class="label-name">{{'${entity.lowerTrainCaseClassName}-create-field-${field.lowerTrainCaseName}'
                                                 | translate}}
                                                 #if ($field.isMandatory)
                                                     *
                                                 #end
                                             </label>
+
                                             <div>
                                     <textarea *ngIf="!readOnly" type="text"
                                               name="${entity.lowerTrainCaseClassName}-${field.lowerTrainCaseName}"
+                                              id="${entity.lowerTrainCaseClassName}-${field.lowerTrainCaseName}"
+                                              class="form-control textarea"
                                               rows="4"
                                         #if ($field.validationPattern)
                                               data-parsley-pattern="${field.validationPattern}"
@@ -117,17 +115,18 @@
                                         #if ($field.maxLength)
                                               maxlength="${field.maxLength}"
                                         #end
-                                              id="${entity.lowerTrainCaseClassName}-${field.lowerTrainCaseName}"
-                                              class="form-control"
                                         #if ($field.placeholder)
                                               placeholder="${field.placeholder}"
                                         #end
                                               data-parsley-trigger="change"
                                         #if ($field.isMandatory)
                                               required
-                                              data-parsley-required-message="Required"
+                                              data-parsley-required-message="Required Field"
+                                              data-parsley-length-message="Minimum length of ${field.minLength} characters"
                                         #end
-                                        #if (${field.isNotEditable}) disabled="disabled" #end
+                                        #if ($field.IsAutoPopulate)
+                                              disabled="disabled"
+                                        #end
                                     >
                                     </textarea>
 
@@ -138,19 +137,20 @@
                                                     #else
                                                        title="{{entity.${field.lowerCamelCaseName}.value}}"
                                                     #end
-                                                       class="read-only-view-label col-form-label wrap-long-text">
+                                                       class="read-only-view-label break-long-text">
                                                     #if ($field.IsAutoPopulate)
                                                         {{${field.lowerCamelCaseName}}}
                                                     #else
                                                         {{entity.${field.lowerCamelCaseName}.value}}
-                                                    #end</label>
+                                                    #end
+                                                </label>
                                             </div>
                                         </div>
 
                                     #elseif ($field.webType.equals('Dropdown'))
                                         <!-- Dropdown -->
-                                        <div class="form-group col-lg-3 col-sm-4">
-                                            <label class="col-form-label">
+                                        <div class="form-group col-lg-3 col-sm-4 field-type">
+                                            <label class="label-name">
                                                 {{'${entity.lowerTrainCaseClassName}-create-field-${field.lowerTrainCaseName}'
                                                 | translate}}
                                                 #if ($field.isMandatory)
@@ -168,179 +168,235 @@
                                                          ngDefaultControl
                                                     #if ($field.isMandatory)
                                                          required
-                                                         data-parsley-required-message="Required"
-                                                         [ngClass]="{'parsley-error': !dropDownList.${field.lowerCamelCaseName}.isValid}"
+                                                         [ngClass]="{'parsley-dropdown-error': !dropDownList.${field.lowerCamelCaseName}.isValid}"
                                                     #end
-                                                    #if (${field.isNotEditable}) disabled="disabled" #end
+                                                    #if ($field.IsAutoPopulate)
+                                                         disabled="disabled"
+                                                    #end
                                                 >
                                                 </select2>
 
                                                 <ul *ngIf="!dropDownList.${field.lowerCamelCaseName}.isValid"
                                                     class="parsley-errors-list filled">
-                                                    <li class="parsley-pattern">{{'form-error-required-msg' |
+                                                    <li class="parsley-pattern">{{'field-error-required-msg' |
                                                         translate}}
                                                     </li>
                                                 </ul>
 
                                                 <label *ngIf="readOnly"
                                                        title="{{dropDownList.${field.lowerCamelCaseName}.selectedValue}}"
-                                                       class="read-only-view-label col-form-label wrap-long-text">{{dropDownList.${field.lowerCamelCaseName}.selectedValue}}</label>
+                                                       class="read-only-view-label break-long-text">{{dropDownList.${field.lowerCamelCaseName}.selectedValue}}</label>
                                             </div>
-
                                         </div>
 
                                     #elseif ($field.webType.equals('Date'))
                                         <!-- Date -->
-                                        <div class="form-group col-lg-3 col-sm-4">
-                                            <label #if (!${field.isNotEditable})
-                                                    for="${entity.lowerTrainCaseClassName}-${field.lowerTrainCaseName}" #end
-                                                    class="col-form-label">{{'${entity.lowerTrainCaseClassName}-create-field-${field.lowerTrainCaseName}'
+                                        <div class="form-group col-lg-3 col-sm-4 field-type">
+                                            <label for="${entity.lowerTrainCaseClassName}-${field.lowerTrainCaseName}"
+                                                   class="label-name">{{'${entity.lowerTrainCaseClassName}-create-field-${field.lowerTrainCaseName}'
                                                 | translate}}
                                                 #if ($field.isMandatory)
                                                     *
                                                 #end
                                             </label>
+
                                             <div>
                                                 <input *ngIf="!readOnly"
                                                        name="${entity.lowerTrainCaseClassName}-${field.lowerTrainCaseName}"
                                                        id="${entity.lowerTrainCaseClassName}-${field.lowerTrainCaseName}"
                                                        type="date"
                                                     #if (${field.minDate})
-                                                       min="{{entity.${field.lowerCamelCaseName}.minDate | date: 'yyyy-MM-dd'}}"
+                                                       min="{{entity.${field.lowerCamelCaseName}.minDate | date: 'dd-MM-yyyy'}}"
                                                     #else
                                                        min="{{todayDate}}"
                                                     #end
                                                     #if (${field.maxDate})
-                                                       max="{{entity.${field.lowerCamelCaseName}.maxDate | date:'yyyy-MM-dd'}}"
+                                                       max="{{entity.${field.lowerCamelCaseName}.maxDate | date: 'dd-MM-yyyy'}}"
                                                     #else
                                                        max="9999-12-31"
                                                     #end
-                                                       [ngModel]="entity.${field.lowerCamelCaseName}.value | date: 'yyyy-MM-dd'"
-                                                       (ngModelChange)="entity.${field.lowerCamelCaseName}.value = $event"
-                                                       class="form-control"
+                                                       [(ngModel)]="entity.${field.lowerCamelCaseName}.value"
+                                                       class="form-control date"
                                                        data-parsley-trigger="change"
                                                     #if ($field.isMandatory)
                                                        required
-                                                       data-parsley-required-message="Required"
+                                                       data-parsley-required-message="Required Field"
                                                     #end
-                                                    #if (${field.isNotEditable}) disabled="disabled" #end
+                                                    #if ($field.IsAutoPopulate)
+                                                       disabled="disabled"
+                                                    #end
                                                 >
 
                                                 <label *ngIf="readOnly"
                                                        title="{{entity.${field.lowerCamelCaseName}.value}}"
-                                                       class="read-only-view-label col-form-label wrap-long-text">{{entity.${field.lowerCamelCaseName}.value}}</label>
+                                                       class="read-only-view-label break-long-text">{{entity.${field.lowerCamelCaseName}.value}}</label>
+                                            </div>
+                                        </div>
+
+                                    #elseif ($field.webType.equals('Datetime'))
+                                        <!-- DateTime -->
+                                        <div class="form-group col-lg-3 col-sm-4 field-type">
+                                            <label for="${entity.lowerTrainCaseClassName}-${field.lowerTrainCaseName}"
+                                                   class="label-name">{{'${entity.lowerTrainCaseClassName}-create-field-${field.lowerTrainCaseName}'
+                                                | translate}}
+                                                #if ($field.isMandatory)
+                                                    *
+                                                #end
+                                            </label>
+
+                                            <div>
+                                                <input *ngIf="!readOnly"
+                                                       name="${entity.lowerTrainCaseClassName}-${field.lowerTrainCaseName}"
+                                                       id="${entity.lowerTrainCaseClassName}-${field.lowerTrainCaseName}"
+                                                       type="datetime-local"
+                                                    #if (${field.minDate})
+                                                       min="{{entity.${field.lowerCamelCaseName}.minDate | date: 'dd-MM-yyyy'}}"
+                                                    #else
+                                                       min="{{todayDate}}"
+                                                    #end
+                                                    #if (${field.maxDate})
+                                                       max="{{entity.${field.lowerCamelCaseName}.maxDate | date: 'dd-MM-yyyy'}}"
+                                                    #else
+                                                       max="9999-12-31"
+                                                    #end
+                                                       [(ngModel)]="entity.${field.lowerCamelCaseName}.value"
+                                                       class="form-control date"
+                                                       data-parsley-trigger="change"
+                                                    #if ($field.isMandatory)
+                                                       required
+                                                       data-parsley-required-message="Required Field"
+                                                    #end
+                                                    #if ($field.IsAutoPopulate)
+                                                       disabled="disabled"
+                                                    #end
+                                                >
+
+                                                <label *ngIf="readOnly"
+                                                       title="{{entity.${field.lowerCamelCaseName}.value}}"
+                                                       class="read-only-view-label break-long-text">{{entity.${field.lowerCamelCaseName}.value}}</label>
                                             </div>
                                         </div>
 
                                     #elseif ($field.webType.equals('Radio'))
                                         <!-- Radio -->
-                                        <div class="form-group col-lg-3 col-sm-4">
-                                            <label class="col-form-label">{{radioList.${field.lowerCamelCaseName}.displayName
+                                        <div class="form-group col-lg-3 col-sm-4 field-type">
+                                            <label class="label-name">{{'${entity.lowerTrainCaseClassName}-create-field-${field.lowerTrainCaseName}'
                                                 | translate}}#if ($field.isMandatory)
                                                     *
                                                 #end
                                             </label>
-                                            <div *ngIf="!readOnly && radioList.${field.lowerCamelCaseName}.dataList.length>0">
+                                            <div *ngIf="!readOnly && radioList.${field.lowerCamelCaseName}.dataList.length>0"
+                                                #if ($field.isMandatory)
+                                                 id="${field.lowerTrainCaseName}-error">
+                                                #end
                                                 #set($counter = 0)
                                                 #foreach ($element in $field.dataList)
-                                                    <span class="abc-radio">
-                                                                <input type="radio"
-                                                                       name="${field.lowerTrainCaseName}-grp"
-                                                                       id="${field.lowerTrainCaseName}-${element.code}"
-                                                                       value="{{radioList.${field.lowerCamelCaseName}.dataList[$counter].code}}"
-                                                                       [(ngModel)]="radioList.${field.lowerCamelCaseName}.value"
-                                                                       data-parsley-trigger="change"
-                                                                    #if ($counter == 0 && $field.isMandatory)
-                                                                       data-parsley-class-handler="#${field.lowerTrainCaseName}-error"
-                                                                       data-parsley-errors-container="#${field.lowerTrainCaseName}-error-message"
-                                                                       required
-                                                                       data-parsley-required-message="Required"
-                                                                    #end
-                                                                    #if (${field.isNotEditable})
-                                                                       disabled="disabled" #end>
-                                                                <label for="${field.lowerTrainCaseName}-${element.code}">
-                                                                    {{radioList.${field.lowerCamelCaseName}.dataList[$counter].text}}
-                                                                </label>
-                                                            </span>
+                                                    <span class="abc-radio radiobox">
+                                                            <input type="radio" name="${field.lowerTrainCaseName}-grp"
+                                                                   id="${field.lowerTrainCaseName}-${element.code}"
+                                                                   value="{{radioList.${field.lowerCamelCaseName}.dataList[$counter].code}}"
+                                                                   [(ngModel)]="radioList.${field.lowerCamelCaseName}.value"
+                                                                   data-parsley-trigger="change"
+                                                                #if ($counter == 0 && $field.isMandatory)
+                                                                   data-parsley-class-handler="#${field.lowerTrainCaseName}-error"
+                                                                   data-parsley-errors-container="#${field.lowerTrainCaseName}-error-message"
+                                                                   required
+                                                                   data-parsley-required-message="Required Field"
+                                                                #end
+                                                                #if ($field.IsAutoPopulate)
+                                                                   disabled="disabled"
+                                                                #end
+                                                            >
+                                                            <label for="${field.lowerTrainCaseName}-${element.code}">
+                                                                {{radioList.${field.lowerCamelCaseName}.dataList[$counter].text}}
+                                                            </label>
+                                                        </span>
                                                     #set($counter = $counter + 1)
                                                 #end
                                                 #if ($field.dataList.equals([]) )
-                                                    <span class="abc-radio"
+                                                    <span class="abc-radio radiobox"
                                                           *ngFor=" let data of radioList.${field.lowerCamelCaseName}.dataList ; let i = index">
-                                                                <input type="radio"
-                                                                       name="${field.lowerTrainCaseName}-grp"
-                                                                       id="${field.lowerTrainCaseName}-{{data.code}}"
-                                                                       value="{{radioList.${field.lowerCamelCaseName}.dataList[i].code}}"
-                                                                       [(ngModel)]="radioList.${field.lowerCamelCaseName}.value"
-                                                                       data-parsley-trigger="change"
-                                                                    #if ($counter == 0 && $field.isMandatory)
-                                                                       data-parsley-class-handler="#${field.lowerTrainCaseName}-error"
-                                                                       data-parsley-errors-container="#${field.lowerTrainCaseName}-error-message"
-                                                                       required
-                                                                       data-parsley-required-message="Required"
-                                                                    #end
-                                                                    #if (${field.isNotEditable})
-                                                                       disabled="disabled" #end>
-                                                                <label for="${field.lowerTrainCaseName}-{{data.code}}">
-                                                                    {{radioList.${field.lowerCamelCaseName}.dataList[i].text}}
-                                                                </label>
-                                                            </span>
+                                                            <input type="radio" name="${field.lowerTrainCaseName}-grp"
+                                                                   id="${field.lowerTrainCaseName}-{{data.code}}"
+                                                                   value="{{radioList.${field.lowerCamelCaseName}.dataList[i].code}}"
+                                                                   [(ngModel)]="radioList.${field.lowerCamelCaseName}.value"
+                                                                   data-parsley-trigger="change"
+                                                                #if ($counter == 0 && $field.isMandatory)
+                                                                   data-parsley-class-handler="#${field.lowerTrainCaseName}-error"
+                                                                   data-parsley-errors-container="#${field.lowerTrainCaseName}-error-message"
+                                                                   required
+                                                                   data-parsley-required-message="Required Field"
+                                                                #end
+                                                                #if ($field.IsAutoPopulate)
+                                                                   disabled="disabled"
+                                                                #end
+                                                            >
+                                                            <label for="${field.lowerTrainCaseName}-{{data.code}}">
+                                                                {{radioList.${field.lowerCamelCaseName}.dataList[i].text}}
+                                                            </label>
+                                                        </span>
                                                 #end
                                             </div>
                                             #if ($field.isMandatory)
                                                 <div id="${field.lowerTrainCaseName}-error-message"></div>
                                             #end
                                             <span *ngIf="readOnly"
-                                                  [ngSwitch]="radioList.${field.lowerCamelCaseName}.value">
-                                                    #set($counter = 0)
+                                                  [ngSwitch]="radioList.${field.lowerCamelCaseName}.value"
+                                                  class="read-only-view-label break-long-text">
+                                                #set($counter = 0)
                                                 #foreach ($element in $field.dataList)
-                                                    <label class="read-only-view-label col-form-label wrap-long-text"
-                                                           *ngSwitchCase="radioList.${field.lowerCamelCaseName}.dataList[$counter].code">
-                                                            {{radioList.${field.lowerCamelCaseName}.dataList[$counter].text}}</label>
+                                                    <span *ngSwitchCase="radioList.${field.lowerCamelCaseName}.dataList[$counter].code">
+                                                        {{radioList.${field.lowerCamelCaseName}.dataList[$counter].text}}</span>
                                                     #set($counter = $counter + 1)
                                                 #end
                                                 #if ($field.dataList.equals([]) )
                                                     <span *ngFor=" let data of radioList.${field.lowerCamelCaseName}.dataList ; let i = index">
-                                                        <label class="read-only-view-label col-form-label wrap-long-text"
+                                                        <label class="read-only-view-label break-long-text"
                                                                *ngSwitchCase="radioList.${field.lowerCamelCaseName}.dataList[i].code">
                                                             {{radioList.${field.lowerCamelCaseName}.dataList[i].text}}</label></span>
                                                 #end
                                             </span>
                                         </div>
 
+
                                     #elseif ($field.webType.equals('Checkbox'))
                                         <!-- CheckBox -->
-                                        <div class="form-group col-lg-3 col-sm-4">
+                                        <div class="form-group col-lg-3 col-sm-4 field-type">
                                             <label class="col-form-label">{{checkboxList.${field.lowerCamelCaseName}.displayName
                                                 | translate}}#if ($field.isMandatory)
                                                     *
                                                 #end
                                             </label>
+
                                             <div *ngIf="!readOnly && checkboxList.${field.lowerCamelCaseName}.dataList.length>0"
                                                  [ngClass]="{'parsley-error': !checkboxList.${field.lowerCamelCaseName}.isValidAllowedCheckboxes}">
-                                                >
                                                 <div class="abc-checkbox abc-checkbox-primary">
                                                     <input id="${field.lowerTrainCaseName}-check-uncheck-all-allowed-checkboxes"
                                                            type="checkbox"
                                                            name="check-uncheck-all-allowed-${field.lowerTrainCaseName}-checkboxes"
                                                            [(ngModel)]="checkboxList.${field.lowerCamelCaseName}.checkUncheckAllCheckboxesModel"
                                                            (click)="checkUncheckAllCheckboxesModel('${field.lowerCamelCaseName}')"
-                                                        #if (${field.isNotEditable}) disabled="disabled" #end>
+                                                        #if ($field.IsAutoPopulate)
+                                                           disabled="disabled"
+                                                        #end
+                                                    >
                                                     <label for="${field.lowerTrainCaseName}-check-uncheck-all-allowed-checkboxes">
                                                         {{'savings-product-create-check-uncheck-all' | translate}}
                                                     </label>
                                                 </div>
 
-                                                <div>
+                                                <div class="abc-checkbox abc-checkbox-primary">
                                                     #set($counter = 0)
                                                     #foreach ($element in $field.dataList)
-                                                        <div class="abc-checkbox abc-checkbox-primary">
+                                                        <div>
                                                             <input id="${field.lowerTrainCaseName}-${element.code}"
                                                                    type="checkbox"
                                                                    name="${field.lowerTrainCaseName}-${element.code}"
                                                                    [(ngModel)]="checkboxList.${field.lowerCamelCaseName}.dataList[$counter].isChecked"
                                                                    (click)="checkBoxClick('${field.lowerCamelCaseName}')"
-                                                                #if (${field.isNotEditable}) disabled="disabled" #end
+                                                                #if ($field.IsAutoPopulate)
+                                                                   disabled="disabled"
+                                                                #end
                                                             >
                                                             <label for="${field.lowerTrainCaseName}-${element.code}">
                                                                 ${element.text}
@@ -356,7 +412,9 @@
                                                                    name="${field.lowerTrainCaseName}-{{data.code}}"
                                                                    [(ngModel)]="checkboxList.${field.lowerCamelCaseName}.dataList[i].isChecked"
                                                                    (click)="checkBoxClick('${field.lowerCamelCaseName}')"
-                                                                #if (${field.isNotEditable}) disabled="disabled" #end
+                                                                #if ($field.IsAutoPopulate)
+                                                                   disabled="disabled"
+                                                                #end
                                                             >
                                                             <label for="${field.lowerTrainCaseName}-{{data.code}}">
                                                                 {{data.text}}
@@ -393,11 +451,43 @@
                                                 #if ($field.isMandatory)
                                                     <ul class="parsley-errors-list filled">
                                                         <li class="parsley-pattern">
-                                                            {{'form-error-atleast-one-required-msg' |
-                                                            translate}}
+                                                            {{'form-error-atleast-one-required-msg' | translate}}
                                                         </li>
                                                     </ul>
                                                 #end
+                                            </div>
+                                        </div>
+
+                                    #elseif ($field.webType.equals('Multiselect'))
+                                        <!-- Multiselect -->
+                                        <div class="form-group col-lg-3 col-sm-4">
+                                            <label class="col-form-label">
+                                                {{'${entity.lowerTrainCaseClassName}-create-field-${field.lowerTrainCaseName}'
+                                                | translate}}
+                                                #if ($field.isMandatory)
+                                                    *
+                                                #end
+                                            </label>
+
+                                            <div *ngIf="multiselectEntity.${field.lowerCamelCaseName}.dataList.length>0">
+                                                <angular2-multiselect *ngIf="!readOnly"
+                                                                      id="${entity.lowerTrainCaseClassName}-${field.lowerTrainCaseName}"
+                                                                      name="${entity.lowerTrainCaseClassName}-${field.lowerTrainCaseName}"
+                                                                      [data]="multiselectEntity.${field.lowerCamelCaseName}.dataList"
+                                                                      [(ngModel)]="multiselectEntity.${field.lowerCamelCaseName}.selectedList"
+                                                                      [settings]="multiselectEntity.${field.lowerCamelCaseName}.dropdownSettings"
+                                                                      (onSelect)="onItemSelect($event)"
+                                                                      (onDeSelect)="OnItemDeSelect($event)"
+                                                                      (onSelectAll)="onSelectAll($event)"
+                                                                      (onDeSelectAll)="onDeSelectAll($event)">
+                                                </angular2-multiselect>
+
+                                                <ul *ngIf="!multiselectEntity.${field.lowerCamelCaseName}.isValid"
+                                                    class="parsley-errors-list filled">
+                                                    <li class="parsley-pattern">{{'form-error-required-msg' |
+                                                        translate}}
+                                                    </li>
+                                                </ul>
                                             </div>
                                         </div>
                                     #end
