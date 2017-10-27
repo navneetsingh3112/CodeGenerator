@@ -9,10 +9,7 @@ public class InputEntityFields {
 	private String lowerTrainCaseName;
 	private Integer length;
 	private Boolean isMandatory;
-	private String javaType;
 	private String webType;
-	private String sqlType;
-	private String comment;
 	private String placeholder;
 	private String displayName;
 	private Long minLength;
@@ -104,36 +101,12 @@ public class InputEntityFields {
 		this.isMandatory = isMandatory;
 	}
 
-	public String getSqlType() {
-		return sqlType;
-	}
-
-	public void setSqlType(String sqlType) {
-		this.sqlType = sqlType;
-	}
-
-	public String getJavaType() {
-		return javaType;
-	}
-
-	public void setJavaType(String javaType) {
-		this.javaType = javaType;
-	}
-
 	public String getWebType() {
 		return webType;
 	}
 
 	public void setWebType(String webType) {
 		this.webType = webType;
-	}
-
-	public String getComment() {
-		return comment;
-	}
-
-	public void setComment(String comment) {
-		this.comment = comment;
 	}
 
 	public String addNotNull(){
@@ -150,11 +123,6 @@ public class InputEntityFields {
         if(null != this.length) return this.length.toString();
         else return "10";
     }
-	
-	public String addComment(){
-		if(StringUtils.isNotBlank(comment)) return " COMMENT '"+ comment + "'";
-        else return "";
-	}
 
 	public Boolean getMandatory() {
 		return isMandatory;

@@ -11,10 +11,11 @@ public class InputEntity {
 	private String upperCamelCaseClassName;
 	private String lowerTrainCaseClassName;
 	private String service;
-	private String userStory;
 	private String tableComment;
 	private String fetchApiKey;
 	private String displayName;
+	private String toUpperCaseWithUnderscore;
+	private String toUpperCaseWithHyphen;
 
 	ArrayList<InputEntityFields> fieldList = new ArrayList<>();
 	ArrayList<InputEntityButtons> buttonList = new ArrayList<>();
@@ -67,14 +68,6 @@ public class InputEntity {
 
 	public void setService(String service) {
 		this.service = service;
-	}
-
-	public String getUserStory() {
-		return userStory;
-	}
-
-	public void setUserStory(String userStory) {
-		this.userStory = userStory;
 	}
 
 	public String getLowerCamelCaseClassName() {
@@ -136,5 +129,21 @@ public class InputEntity {
 
 	public void setDisplayName(String displayName) {
 		this.displayName = displayName;
+	}
+
+	public String getToUpperCaseWithUnderscore() {
+		return toUpperCaseWithUnderscore;
+	}
+
+	public void setToUpperCaseWithUnderscore(String toUpperCaseWithUnderscore) {
+		this.toUpperCaseWithUnderscore = toUpperCaseWithUnderscore;
+	}
+
+	public String getToUpperCaseWithHyphen() {
+		return toUpperCaseWithHyphen;
+	}
+
+	public void setToUpperCaseWithHyphen(String toUpperCaseWithHyphen) {
+		this.toUpperCaseWithHyphen = toUpperCaseWithHyphen;
 	}
 }

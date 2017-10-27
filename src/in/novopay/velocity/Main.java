@@ -44,7 +44,7 @@ public class Main {
         // -----------------------------------
         String[] inputTemplateFileArray = {"CreateComponent.vm", "CreateTypeScript.vm", "ListComponent.vm",
                 "ListTypeScript.vm", "ViewComponent.vm", "ViewTypeScript.vm", "EditComponent.vm", "EditTypeScript.vm",
-                "Module.vm", "Translate.vm", "ResourceFactoryConstants.vm", "CopyComponent.vm", "CopyTypeScript.vm"};
+                "Module.vm", "Translate.vm", "ResourceFactoryConstants.vm", "CopyComponent.vm", "CopyTypeScript.vm","PermissionKeys.vm"};
 
         String[] outputDir = {"app/" + entity.getLowerTrainCaseClassName() + "/create",
                 "app/" + entity.getLowerTrainCaseClassName() + "/create",
@@ -58,11 +58,12 @@ public class Main {
                 "app/" + entity.getLowerTrainCaseClassName(), 
                 "app/" + entity.getLowerTrainCaseClassName(),
                 "app/" + entity.getLowerTrainCaseClassName() + "/copy", 
-                "app/" + entity.getLowerTrainCaseClassName() + "/copy"};
+                "app/" + entity.getLowerTrainCaseClassName() + "/copy",
+                "app/" + entity.getLowerTrainCaseClassName()};
 
         String[] outputFileExtentionArray = {"-create.component.html", "-create.component.ts", "-list.component.html",
                 "-list.component.ts", "-view.component.html", "-view.component.ts", "-edit.component.html",
-                "-edit.component.ts", ".module.ts", ".translate.ts", "-resource-factory.constants.ts","-copy.component.html","-copy.component.ts"};
+                "-edit.component.ts", ".module.ts", ".translate.ts", "-resource-factory.constants.ts","-copy.component.html","-copy.component.ts","-permissionkeys.ts"};
         // -----------------------------------
         // -----------------------------------
 
@@ -114,16 +115,14 @@ public class Main {
             String author = (String) jsonObject.get("author");
             entity.setAuthor(author);
 
-            String userStory = (String) jsonObject.get("userStory");
-            entity.setUserStory(userStory);
-
             String service = (String) jsonObject.get("service");
             entity.setService(service);
 
             entity.setTableComment((String) jsonObject.get("table_comment"));
             entity.setFetchApiKey((String) jsonObject.get("fetch_api_key"));
             entity.setDisplayName((String) jsonObject.get("display_name"));
-
+            entity.setToUpperCaseWithHyphen(entity.getDisplayName().replace(' ', '-').toUpperCase());
+            entity.setToUpperCaseWithUnderscore(entity.getDisplayName().replace(' ', '_').toUpperCase());
             JSONArray fields = (JSONArray) jsonObject.get("fields");
             Iterator<JSONObject> iterator = fields.iterator();
             while (iterator.hasNext()) {
@@ -136,9 +135,7 @@ public class Main {
                         CaseFormat.UPPER_UNDERSCORE.to(CaseFormat.UPPER_CAMEL, (String) fobj.get("name")));
                 f.setLowerTrainCaseName(
                         CaseFormat.LOWER_UNDERSCORE.to(CaseFormat.LOWER_HYPHEN, (String) fobj.get("name")));
-                f.setJavaType((String) fobj.get("java_type"));
                 f.setWebType((String) fobj.get("web_type"));
-                f.setSqlType((String) fobj.get("sql_type"));
 
                 if (null == fobj.get("search_type")) {
                     f.setSearchType("Textbox");
@@ -183,8 +180,6 @@ public class Main {
                 } else {
                     f.setIsMandatory(false);
                 }
-                f.setComment((String) fobj.get("comment"));
-
                 f.setPlaceholder((String) fobj.get("placeholder"));
                 f.setDisplayName((String) fobj.get("display_name"));
                 f.setMinLength((Long) fobj.get("min_length"));

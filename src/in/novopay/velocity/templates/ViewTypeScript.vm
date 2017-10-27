@@ -6,7 +6,6 @@ import {CommonHttpService} from "../../services/common-http.service";
 import {CommonUtilityService} from "../../services/common-utility.service";
 import {App} from "../../app.component";
 import {AppConstants} from "../../app.constants";
-import {BaseComponent} from "../../base-module/create/base-create.component";
 import {BaseService} from "../../base-module/base.service";
 import {BaseViewComponent} from "../../base-module/view/base-view.component";
 import {ResourceFactoryConstants} from "../../services/resource-factory.constants";
