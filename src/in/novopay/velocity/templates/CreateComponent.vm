@@ -388,65 +388,71 @@
 
 
                                                 #set($counter = 0)
-                                                #foreach ($element in $field.dataList)
+                                                #if ($field.dataList.size()>0 )
                                                     <div class="abc-checkbox checkbox">
-                                                        <input id="${field.lowerTrainCaseName}-${element.code}"
-                                                               type="checkbox"
-                                                               name="${field.lowerTrainCaseName}-${element.code}"
-                                                               [(ngModel)]="checkboxList.${field.lowerCamelCaseName}.dataList[$counter].isChecked"
-                                                               (click)="checkBoxClick('${field.lowerCamelCaseName}')"
-                                                            #if ($field.IsAutoPopulate)
-                                                               disabled="disabled"
-                                                            #end
-                                                        >
-                                                        <label for="${field.lowerTrainCaseName}-${element.code}">
-                                                            ${element.text}
-                                                        </label>
+                                                        #foreach ($element in $field.dataList)
+                                                            <div class="checkbox-chunk">
+                                                                <input id="${field.lowerTrainCaseName}-${element.code}"
+                                                                       type="checkbox"
+                                                                       name="${field.lowerTrainCaseName}-${element.code}"
+                                                                       [(ngModel)]="checkboxList.${field.lowerCamelCaseName}.dataList[$counter].isChecked"
+                                                                       (click)="checkBoxClick('${field.lowerCamelCaseName}')"
+                                                                    #if ($field.IsAutoPopulate)
+                                                                       disabled="disabled"
+                                                                    #end
+                                                                >
+                                                                <label for="${field.lowerTrainCaseName}-${element.code}">
+                                                                    ${element.text}
+                                                                </label>
+                                                            </div>
+                                                            #set($counter = $counter + 1)
+                                                        #end
                                                     </div>
-                                                    #set($counter = $counter + 1)
-                                                #end
-                                                #if ($field.dataList.equals([]) )
+                                                #else
                                                     <div class="abc-checkbox checkbox"
-                                                         *ngFor=" let data of checkboxList.${field.lowerCamelCaseName}.dataList ; let i = index">
-                                                        <input id="${field.lowerTrainCaseName}-{{data.code}}"
-                                                               type="checkbox"
-                                                               name="${field.lowerTrainCaseName}-{{data.code}}"
-                                                               [(ngModel)]="checkboxList.${field.lowerCamelCaseName}.dataList[i].isChecked"
-                                                               (click)="checkBoxClick('${field.lowerCamelCaseName}')"
-                                                            #if ($field.IsAutoPopulate)
-                                                               disabled="disabled"
-                                                            #end
-                                                        >
-                                                        <label for="${field.lowerTrainCaseName}-{{data.code}}">
-                                                            {{data.text}}
-                                                        </label>
+                                                         *ngFor=" let data of checkboxList.${field.lowerCamelCaseName}.chunkList">
+                                                        <div class="checkbox-chunk" *ngFor=" let chunk of data">
+                                                            <input id="${field.lowerTrainCaseName}-{{chunk.code}}"
+                                                                   type="checkbox"
+                                                                   name="${field.lowerTrainCaseName}-{{chunk.code}}"
+                                                                   [(ngModel)]="chunk.isChecked"
+                                                                   (click)="checkBoxClick('${field.lowerCamelCaseName}')"
+                                                                #if ($field.IsAutoPopulate)
+                                                                   disabled="disabled"
+                                                                #end
+                                                            >
+                                                            <label for="${field.lowerTrainCaseName}-{{chunk.code}}">
+                                                                {{chunk.text}}
+                                                            </label>
+                                                        </div>
                                                     </div>
                                                 #end
-
-                                                <div *ngIf="readOnly">
-                                                    #set($counter = 0)
-                                                    #foreach ($element in $field.dataList)
-                                                        <div class="abc-checkbox abc-checkbox-primary">
+                                            </div>
+                                            <div *ngIf="readOnly">
+                                                #set($counter = 0)
+                                                #if ($field.dataList.size()>0 )
+                                                    <div class="checkbox">
+                                                        #foreach ($element in $field.dataList)
                                                             <label *ngIf="checkboxList.${field.lowerCamelCaseName}.dataList[$counter].isChecked"
                                                                    title="${element.text}"
-                                                                   class="read-only-view-label col-form-label wrap-long-text"> ${element.text}
+                                                                   class="read-only-view-label break-long-text checkbox-chunk"> ${element.text}
                                                             </label>
+                                                        #end
+                                                    </div>
+                                                    #set($counter = $counter + 1)
+                                                #else
+                                                    <div *ngFor="let data of checkboxList.${field.lowerCamelCaseName}.chunkList"
+                                                         class="checkbox">
+                                                        <div class="checkbox-chunk" *ngFor=" let chunk of data">
+                                                        <label *ngIf="chunk.isChecked"
+                                                               title="{{chunk.text}}"
+                                                               class="read-only-view-label break-long-text">
+                                                            {{chunk.text}}
+                                                        </label>
                                                         </div>
-                                                        #set($counter = $counter + 1)
-                                                    #end
-                                                    #if ($field.dataList.equals([]) )
-                                                        <div *ngFor=" let data of checkboxList.${field.lowerCamelCaseName}.dataList ; let i = index"
-                                                             class="abc-checkbox abc-checkbox-primary">
-                                                            <label *ngIf="checkboxList.${field.lowerCamelCaseName}.dataList[i].isChecked"
-                                                                   title="{{data.text}}"
-                                                                   class="read-only-view-label col-form-label wrap-long-text">
-                                                                {{data.text}}
-                                                            </label>
-                                                        </div>
-                                                    #end
-                                                </div>
+                                                    </div>
+                                                #end
                                             </div>
-
                                             <div *ngIf="!checkboxList.${field.lowerCamelCaseName}.isValidAllowedCheckboxes">
                                                 #if ($field.isMandatory)
                                                     <ul class="parsley-errors-list filled">

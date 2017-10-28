@@ -115,10 +115,6 @@ public class Main {
             String author = (String) jsonObject.get("author");
             entity.setAuthor(author);
 
-            String service = (String) jsonObject.get("service");
-            entity.setService(service);
-
-            entity.setTableComment((String) jsonObject.get("table_comment"));
             entity.setFetchApiKey((String) jsonObject.get("fetch_api_key"));
             entity.setDisplayName((String) jsonObject.get("display_name"));
             entity.setToUpperCaseWithHyphen(entity.getDisplayName().replace(' ', '-').toUpperCase());

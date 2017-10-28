@@ -10,8 +10,6 @@ public class InputEntity {
 	private String lowerCamelCaseClassName;
 	private String upperCamelCaseClassName;
 	private String lowerTrainCaseClassName;
-	private String service;
-	private String tableComment;
 	private String fetchApiKey;
 	private String displayName;
 	private String toUpperCaseWithUnderscore;
@@ -62,14 +60,6 @@ public class InputEntity {
 		this.table = table;
 	}
 
-	public String getService() {
-		return service;
-	}
-
-	public void setService(String service) {
-		this.service = service;
-	}
-
 	public String getLowerCamelCaseClassName() {
 		return lowerCamelCaseClassName;
 	}
@@ -101,20 +91,6 @@ public class InputEntity {
 	public void setAuthor(String author) {
 		this.author = author;
 	}
-
-	public String getTableComment() {
-		return tableComment;
-	}
-
-	public void setTableComment(String tableComment) {
-		this.tableComment = tableComment;
-	}
-	
-	public String addTableComment(){
-		if(StringUtils.isNotBlank(tableComment)) return " COMMENT = '"+ tableComment + "'";
-        else return "";
-	}
-
 	public String getFetchApiKey() {
 		return fetchApiKey;
 	}
