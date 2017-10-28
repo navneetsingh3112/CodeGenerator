@@ -12,7 +12,7 @@ import {CommonUtilityService} from "../services/common-utility.service";
 import {CommonHttpService} from "../services/common-http.service";
 import {BaseService} from "../base-module/base.service";
 import 'parsleyjs';
-
+import { AngularMultiSelectModule } from 'angular2-multiselect-dropdown/angular2-multiselect-dropdown';
 import {${entity.upperCamelCaseClassName}CreateComponent} from "./create/${entity.lowerTrainCaseClassName}-create.component";
 import {${entity.upperCamelCaseClassName}ListComponent} from "./list/${entity.lowerTrainCaseClassName}-list.component";
 import {${entity.upperCamelCaseClassName}ViewComponent} from "./view/${entity.lowerTrainCaseClassName}-view.component";
@@ -44,7 +44,8 @@ Select2Module,
 RouterModule.forChild(routes),
 PaginationModule.forRoot(),
 DataTableModule,
-TranslateModule
+TranslateModule,
+AngularMultiSelectModule
 ],
 providers: [CommonHttpService, CommonUtilityService, ResourceFactoryConstants, BaseService]
 })
