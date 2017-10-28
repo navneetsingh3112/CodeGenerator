@@ -212,6 +212,9 @@ checkboxEntity: {
         #if (${field.inputApiValueKey})
         inputApiValueKey: "${field.inputApiValueKey}",
         #end
+        #if (${field.chunkSize})
+        chunkSize: ${field.chunkSize}
+        #end
     dataList : [
         #if ($!{field.dataList} )
             #foreach ($element in $field.dataList)

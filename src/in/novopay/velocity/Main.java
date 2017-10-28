@@ -219,6 +219,10 @@ public class Main {
                             f.addFields(dataListJson);
                         }
                     }
+                    Long chunkSize = (Long) fobj.get("chunk_size");
+                    if (chunkSize != null) {
+                        f.setChunkSize(chunkSize.intValue());
+                    }
                 } else if (f.getWebType().equals("Date")) {
                     if (fobj.get("min_date") != null) {
                         f.setMinDate((String) fobj.get("min_date"));

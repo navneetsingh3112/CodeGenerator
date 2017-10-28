@@ -35,6 +35,7 @@ public class InputEntityFields {
 	private String maxDate;
 	private String searchType;
 	private Boolean isAutoPopulate;
+	private Integer chunkSize;
 	private ArrayList<DataList> dataList = new ArrayList<>();
 
 	public Boolean getIsAutoPopulate() {
@@ -323,5 +324,12 @@ public class InputEntityFields {
 	public void setSearchType(String searchType) {
 		this.searchType = searchType;
 	}
-	
+
+	public Integer getChunkSize() {
+		return chunkSize;
+	}
+
+	public void setChunkSize(Integer chunkSize) {
+		this.chunkSize = chunkSize;
+	}
 }
