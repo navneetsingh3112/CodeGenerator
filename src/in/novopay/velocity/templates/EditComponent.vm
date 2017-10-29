@@ -465,31 +465,42 @@
 
                                     #elseif ($field.webType.equals('Multiselect'))
                                         <!-- Multiselect -->
-                                        <div class="form-group col-lg-3 col-sm-4">
-                                            <label class="col-form-label">
-                                                {{'${entity.lowerTrainCaseClassName}-create-field-${field.lowerTrainCaseName}'
-                                                | translate}}
-                                                #if ($field.isMandatory)
+                                        <div class="form-group col-lg-3 col-sm-4 field-type">
+                                            <label class="label-name">{{'${entity.lowerTrainCaseClassName}-create-field-${field.lowerTrainCaseName}'
+                                                | translate}}#if ($field.isMandatory)
                                                     *
                                                 #end
                                             </label>
 
-                                            <div *ngIf="multiselectEntity.${field.lowerCamelCaseName}.dataList.length>0">
+                                            <div *ngIf="multiselectList.${field.lowerCamelCaseName}.ready">
                                                 <angular2-multiselect *ngIf="!readOnly"
                                                                       id="${entity.lowerTrainCaseClassName}-${field.lowerTrainCaseName}"
                                                                       name="${entity.lowerTrainCaseClassName}-${field.lowerTrainCaseName}"
-                                                                      [data]="multiselectEntity.${field.lowerCamelCaseName}.dataList"
-                                                                      [(ngModel)]="multiselectEntity.${field.lowerCamelCaseName}.selectedList"
-                                                                      [settings]="multiselectEntity.${field.lowerCamelCaseName}.dropdownSettings"
-                                                                      (onSelect)="onItemSelect($event)"
-                                                                      (onDeSelect)="OnItemDeSelect($event)"
-                                                                      (onSelectAll)="onSelectAll($event)"
-                                                                      (onDeSelectAll)="onDeSelectAll($event)">
+                                                                      [data]="multiselectList.${field.lowerCamelCaseName}.dataList"
+                                                                      [(ngModel)]="multiselectList.${field.lowerCamelCaseName}.initialValues"
+                                                                      [settings]="multiselectList.${field.lowerCamelCaseName}.dropdownSettings"
+                                                                      (onSelect)="onItemSelect('${field.lowerCamelCaseName}')"
+                                                                      (onDeSelect)="OnItemDeSelect('${field.lowerCamelCaseName}')"
+                                                                      (onSelectAll)="onSelectAll('${field.lowerCamelCaseName}')"
+                                                                      (onDeSelectAll)="onDeSelectAll('${field.lowerCamelCaseName}')"
+                                                    #if ($field.isMandatory)
+                                                                      [ngClass]="{'parsley-dropdown-error': !multiselectList.${field.lowerCamelCaseName}.isValid}"
+                                                    #end
+                                                    #if ($field.IsAutoPopulate)
+                                                                      disabled="disabled"
+                                                    #end>
                                                 </angular2-multiselect>
-
-                                                <ul *ngIf="!multiselectEntity.${field.lowerCamelCaseName}.isValid"
+                                                <span *ngIf="readOnly"
+                                                      class="read-only-view-label break-long-text">
+                                        <span *ngFor=" let data of multiselectList.${field.lowerCamelCaseName}.initialValues">
+                                                        <label class="read-only-view-label break-long-text">
+                                                            {{data.itemName}}
+                                                        </label>
+                                        </span>
+                                        </span>
+                                                <ul *ngIf="!multiselectList.${field.lowerCamelCaseName}.isValid"
                                                     class="parsley-errors-list filled">
-                                                    <li class="parsley-pattern">{{'form-error-required-msg' |
+                                                    <li class="parsley-pattern">{{'field-error-required-msg' |
                                                         translate}}
                                                     </li>
                                                 </ul>

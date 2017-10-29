@@ -232,6 +232,71 @@ checkboxEntity: {
     #end
 #end
 },
+multiselectEntity: {
+#foreach ($field in $entity.fieldList)
+    #if ($field.webType.equals('Multiselect'))
+        ${field.lowerCamelCaseName}: {
+    isValid: true,
+    ready: false,
+    selectedList: [],
+    initialValues: [],
+    dropdownSettings :{
+    singleSelection: false,
+    text:"Select Countries",
+    selectAllText:'Select All',
+    unSelectAllText:'UnSelect All',
+    enableSearchFilter: true,
+    classes:"custom-form-control",
+    badgeShowLimit: 2
+    },
+    required: ${field.isMandatory},
+        #if (${field.populateFromMasterData})
+        populateFromMasterData: ${field.populateFromMasterData},
+        #end
+        #if (${field.masterDataType})
+        masterDataType: '${field.masterDataType}',
+        #end
+        #if (${field.masterDataSubType})
+        masterDataSubType: '${field.masterDataSubType}',
+        #end
+        #if (${field.isCodeIncludedInDisplay})
+        isCodeIncludedInDisplay: ${field.isCodeIncludedInDisplay},
+        #end
+        #if (${field.inputApi})
+        inputApi: "${field.inputApi}",
+        #end
+        #if (${field.inputApiListKey})
+        inputApiListKey: "${field.inputApiListKey}",
+        #end
+        #if (${field.inputApiDetailsKey})
+        inputApiDetailsKey: "${field.inputApiDetailsKey}",
+        #end
+        #if (${field.inputApiIdKey})
+        inputApiIdKey: "${field.inputApiIdKey}",
+        #end
+        #if (${field.inputApiCodeKey})
+        inputApiCodeKey: "${field.inputApiCodeKey}",
+        #end
+        #if (${field.inputApiValueKey})
+        inputApiValueKey: "${field.inputApiValueKey}",
+        #end
+    apiKey: '${field.apiKey}',
+    parentApiKey: '${field.parentApiKey}',
+    dataList : [
+        #if ($!{field.dataList} )
+            #foreach ($element in $field.dataList)
+            {
+            id: "${element.id}",
+            code: "${element.code}",
+            itemName: "${element.text}"
+            },
+            #end
+        ]
+        #end
+    },
+    #end
+#end
+},
 requestBody: {
 #foreach ($parent in $entity.parentApiList)
 '${parent.name}' : {},
