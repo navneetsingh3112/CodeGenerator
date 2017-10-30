@@ -39,7 +39,15 @@
                                                 <label title="{{entity.${field.lowerCamelCaseName}.value | date:'dd-MM-yyyy'}}"
                                                        class="read-only-view-label break-long-text">{{entity.${field.lowerCamelCaseName}.value
                                                     | date:'dd-MM-yyyy'}}</label>
-
+                                                #elseif ($field.webType.equals('Multiselect'))
+                                                <span *ngIf="readOnly"
+                                                      class="read-only-view-label break-long-text">
+                                                    <span *ngFor=" let data of entity.${field.lowerCamelCaseName}.value">
+                                                        <label class="read-only-view-label break-long-text">
+                                                            {{data}}
+                                                        </label>
+                                                    </span>
+                                                </span>
                                             #else
                                                 <label title="{{entity.${field.lowerCamelCaseName}.value}}"
                                                        class="read-only-view-label break-long-text">{{entity.${field.lowerCamelCaseName}.value}}</label>

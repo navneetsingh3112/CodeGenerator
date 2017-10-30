@@ -41,7 +41,7 @@ entity: {
 #foreach ($field in $entity.fieldList)
 "${field.lowerCamelCaseName}": {
 value: '',
-    #if ($field.webType.equals('Radio') || $field.webType.equals('Checkbox') || $field.webType.equals('Dropdown'))
+    #if ($field.webType.equals('Radio') || $field.webType.equals('Checkbox') || $field.webType.equals('Dropdown')|| $field.webType.equals('Multiselect'))
     apiKey: '${field.apiKey}_value',
     #else apiKey: '${field.apiKey}',
     #end
