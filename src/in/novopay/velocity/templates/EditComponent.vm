@@ -184,8 +184,7 @@
                                                 </ul>
 
                                                 <label *ngIf="readOnly"
-                                                       title="{{dropDownList.${field.lowerCamelCaseName}.selectedValue}}"
-                                                       class="read-only-view-label break-long-text">{{dropDownList.${field.lowerCamelCaseName}.selectedValue}}</label>
+                                                       class="read-only-view-label break-long-text">{{dropDownList.${field.lowerCamelCaseName}.initialValues}}</label>
                                             </div>
                                         </div>
 
