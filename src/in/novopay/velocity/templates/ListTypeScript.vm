@@ -1,6 +1,6 @@
 import {Component, ViewEncapsulation} from '@angular/core';
 import {Location} from "@angular/common";
-import {Router} from '@angular/router';
+import {ActivatedRoute, Router} from '@angular/router';
 import {CommonHttpService} from "../../services/common-http.service";
 import {CommonUtilityService} from "../../services/common-utility.service";
 import {App} from "../../app.component";
@@ -9,120 +9,450 @@ import {BaseService} from "../../base-module/base.service";
 import {BaseListComponent} from "../../base-module/list/base-list.component";
 import {ResourceFactoryConstants} from "../../services/resource-factory.constants";
 import {DialogService} from "ng2-bootstrap-modal";
+import {RequestBodyHeaders} from '../../models/request-body-headers';
+import {BaseListTypes} from "../../base-module/list/base-list-types"
+
 declare var jQuery: any;
 
-@Component({
-selector: '[${entity.lowerTrainCaseClassName}-list]',
-templateUrl: './${entity.lowerTrainCaseClassName}-list.component.html',
-encapsulation: ViewEncapsulation.None,
-})
-export class ${entity.upperCamelCaseClassName}ListComponent extends BaseListComponent {
-constructor(protected router:Router,
-protected location:Location,
-protected mainApp: App,
-protected commonUtilityService: CommonUtilityService,
-protected appConstants: AppConstants,
-protected baseService: BaseService,
-protected commonHttpService:CommonHttpService,
-protected resourceFactoryConstants: ResourceFactoryConstants,
-protected dialogService: DialogService) {
-super(router, location, mainApp, commonUtilityService, appConstants,
-baseService, commonHttpService,resourceFactoryConstants,dialogService);
 
-let listComponentProperty: IListComponentProperty = {
-moduleName: "${entity.lowerTrainCaseClassName}",
-searchModels : [
+@Component({
+	selector: '[${entity.lowerTrainCaseClassName}-list]',
+	templateUrl: './${entity.lowerTrainCaseClassName}-list.component.html',
+	encapsulation: ViewEncapsulation.None,
+})
+
+export class ${entity.upperCamelCaseClassName}ListComponent extends BaseListComponent {
+
+	constructor(protected router:Router,
+                protected location:Location,
+                protected mainApp:App,
+                protected commonUtilityService:CommonUtilityService,
+                protected appConstants:AppConstants,
+                protected baseService:BaseService,
+                protected commonHttpService:CommonHttpService,
+                protected resourceFactoryConstants:ResourceFactoryConstants,
+                protected dialogService:DialogService,
+                protected route: ActivatedRoute) {
+        super(router, location, mainApp, commonUtilityService, appConstants,
+            baseService, commonHttpService, resourceFactoryConstants, dialogService,route);
+	}
+	
+	ngOnInit(): void {
+        this.listType = this.route.snapshot.params['listType'];
+        let listViewComponent = this.getListViewComponent(this.listType);
+        super.setComponentProperties(listViewComponent);
+        this.useCaseList = [];
+        this.permissionList = [];
+        super.getApplicationsCount();
+        super.ngOnInit();
+	}
+	
+	protected loadListView(viewName:string):void {
+        if (viewName != this.listType) {
+            this.listType = viewName;
+            let listViewComponent = this.getListViewComponent(this.listType);
+            super.setComponentProperties(listViewComponent);
+            super.ngOnInit();
+            this.router.navigate(['/app/' + this.moduleName + '/list/' + this.listType]);
+        }
+    }
+
+    private getListViewComponent(viewName:string):IListComponentProperty {
+        if (viewName == BaseListTypes.APPROVED_LIST) {
+            return this.getApprovedListView();
+        } else if (viewName == BaseListTypes.DRAFT_LIST) {
+            return this.getDraftListView();
+        }else if (viewName == BaseListTypes.APPROVAL_LIST) {
+            return this.getApprovalListView();
+        }else if (viewName == BaseListTypes.PENDING_LIST) {
+            return this.getPendingListView();
+        }    
+    }
+	
+    private getApprovedListView():IListComponentProperty {
+    	let listComponentProperty: IListComponentProperty = {
+			moduleName: "${entity.lowerTrainCaseClassName}",
+			searchModels : [
 #set($counter=1)
 #foreach ($field in $entity.fieldList)
-    #if($field.isListElement)
-    {
-    id: '${counter}',
-    type: '${field.lowerCamelCaseName}',
-    field: '${field.apiKey}',
-    parentApiKey: '${field.parentApiKey}',
-    value: '',
-    placeholder: '${field.placeholder}',
-    isSelected: false,
-    isSorted: false,
-    currentSortingOrder: ''
-    },
-    #end
-    #set($counter=$counter+1)
+#if($field.isListElement)
+    			{
+				    id: '${counter}',
+				    type: '${field.lowerCamelCaseName}',
+				    field: '${field.apiKey}',
+				    parentApiKey: '${field.parentApiKey}',
+				    value: '',
+				    placeholder: '${field.placeholder}',
+				    isSelected: false,
+				    isSorted: false,
+				    currentSortingOrder: ''
+			    },
 #end
-],
-dropDownList : [
+#set($counter=$counter+1)
+#end
+		],		
+		dropDownList : [
 #set($fieldCounter=0)
 #set($dropdownCounter=1)
 #foreach ($field in $entity.fieldList)
-    #if($field.isListElement)
-        #if($field.webType=="Dropdown" || $field.webType=="Radio" || $field.webType=="Checkbox")
-        {
-        id: '${dropdownCounter}',
-        initialValues: [],
-        options: {
-        placeholder: '${field.placeholder}'
-        },
-        dataList: [
-            #if ($!{field.dataList} )
-                #foreach ($element in $field.dataList)
-                {
-                id: "${element.id}",
-                code: "${element.code}",
-                text: "${element.text}"
-                },
-                #end
-            #end
-        ],
-        selectedFlag: false,
-        searchModelIndex: $fieldCounter,
-            #if (${field.populateFromMasterData})
-            populateFromMasterData: ${field.populateFromMasterData},
-            #end
-            #if (${field.masterDataType})
-            masterDataType: '${field.masterDataType}',
-            #end
-            #if (${field.masterDataSubType})
-            masterDataSubType: '${field.masterDataSubType}',
-            #end
-            #if (${field.isCodeIncludedInDisplay})
-            isCodeIncludedInDisplay: ${field.isCodeIncludedInDisplay},
-            #end
-            #if (${field.inputApi})
-            inputApi: "${field.inputApi}",
-            #end
-            #if (${field.inputApiListKey})
-            inputApiListKey: "${field.inputApiListKey}",
-            #end
-            #if (${field.inputApiDetailsKey})
-            inputApiDetailsKey: "${field.inputApiDetailsKey}",
-            #end
-            #if (${field.inputApiIdKey})
-            inputApiIdKey: "${field.inputApiIdKey}",
-            #end
-            #if (${field.inputApiCodeKey})
-            inputApiCodeKey: "${field.inputApiCodeKey}",
-            #end
-            #if (${field.inputApiValueKey})
-            inputApiValueKey: "${field.inputApiValueKey}",
-            #end
-        },
-            #set($dropdownCounter=$dropdownCounter+1)
-        #end
-        #set($fieldCounter=$fieldCounter+1)
-    #end
+#if($field.isListElement)
+#if($field.webType=="Dropdown" || $field.webType=="Radio" || $field.webType=="Checkbox")
+        	{
+		        id: '${dropdownCounter}',
+		        initialValues: [],
+		        options: {
+		        	placeholder: '${field.placeholder}'
+	       		},
+        		dataList: [
+#if ($!{field.dataList} )
+#foreach ($element in $field.dataList)
+					{
+						id: "${element.id}",
+						code: "${element.code}",
+						text: "${element.text}"
+					},
 #end
-],listComponentAPI: this.resourceFactoryConstants.constants.${entity.lowerCamelCaseClassName}.getList,
-deleteComponentAPI: this.resourceFactoryConstants.constants.${entity.lowerCamelCaseClassName}.delete,
-apiKeyList: "${entity.table}_list",
-parentKeyList : {
+#end
+	        	],
+        		selectedFlag: false,
+        		searchModelIndex: $fieldCounter,
+#if (${field.populateFromMasterData})
+            	populateFromMasterData: ${field.populateFromMasterData},
+#end
+#if (${field.masterDataType})
+            	masterDataType: '${field.masterDataType}',
+#end
+#if (${field.masterDataSubType})
+            	masterDataSubType: '${field.masterDataSubType}',
+#end
+#if (${field.isCodeIncludedInDisplay})
+            	isCodeIncludedInDisplay: ${field.isCodeIncludedInDisplay},
+#end
+#if (${field.inputApi})
+            	inputApi: "${field.inputApi}",
+#end
+#if (${field.inputApiListKey})
+            	inputApiListKey: "${field.inputApiListKey}",
+#end
+#if (${field.inputApiDetailsKey})
+            	inputApiDetailsKey: "${field.inputApiDetailsKey}",
+#end
+#if (${field.inputApiIdKey})
+            	inputApiIdKey: "${field.inputApiIdKey}",
+#end
+#if (${field.inputApiCodeKey})
+            	inputApiCodeKey: "${field.inputApiCodeKey}",
+#end
+#if (${field.inputApiValueKey})
+            	inputApiValueKey: "${field.inputApiValueKey}",
+#end
+            },
+#set($dropdownCounter=$dropdownCounter+1)
+#end
+#set($fieldCounter=$fieldCounter+1)
+#end
+#end
+        	],
+        	listComponentAPI: this.resourceFactoryConstants.constants.${entity.lowerCamelCaseClassName}.getList,
+        	deleteComponentAPI: this.resourceFactoryConstants.constants.${entity.lowerCamelCaseClassName}.delete,
+        	apiKeyList: "${entity.table}_list",
+        	parentKeyList : {
 #foreach ($parent in $entity.parentApiList)
-'${parent.name}' : {},
+            	'${parent.name}' : {},
 #end
-}};
+			}
+        };   
+        return listComponentProperty; 	
+    }
+    
+    private getDraftListView():IListComponentProperty {
+    	let listComponentProperty: IListComponentProperty = {
+			moduleName: "${entity.lowerTrainCaseClassName}",
+			searchModels : [
+#set($counter=1)
+#foreach ($field in $entity.fieldList)
+#if($field.isListElement)
+    			{
+				    id: '${counter}',
+				    type: '${field.lowerCamelCaseName}',
+				    field: '${field.apiKey}',
+				    parentApiKey: '${field.parentApiKey}',
+				    value: '',
+				    placeholder: '${field.placeholder}',
+				    isSelected: false,
+				    isSorted: false,
+				    currentSortingOrder: ''
+			    },
+#end
+#set($counter=$counter+1)
+#end
+			],		
+			dropDownList : [
+#set($fieldCounter=0)
+#set($dropdownCounter=1)
+#foreach ($field in $entity.fieldList)
+#if($field.isListElement)
+#if($field.webType=="Dropdown" || $field.webType=="Radio" || $field.webType=="Checkbox")
+	        	{
+			        id: '${dropdownCounter}',
+			        initialValues: [],
+			        options: {
+			        	placeholder: '${field.placeholder}'
+		       		},
+	        		dataList: [
+#if ($!{field.dataList} )
+#foreach ($element in $field.dataList)
+						{
+							id: "${element.id}",
+							code: "${element.code}",
+							text: "${element.text}"
+						},
+#end
+#end
+	        		],
+        			selectedFlag: false,
+        			searchModelIndex: $fieldCounter,
+#if (${field.populateFromMasterData})
+					populateFromMasterData: ${field.populateFromMasterData},
+#end
+#if (${field.masterDataType})
+					masterDataType: '${field.masterDataType}',
+#end
+#if (${field.masterDataSubType})
+	            	masterDataSubType: '${field.masterDataSubType}',
+#end
+#if (${field.isCodeIncludedInDisplay})
+					isCodeIncludedInDisplay: ${field.isCodeIncludedInDisplay},
+#end
+#if (${field.inputApi})
+            		inputApi: "${field.inputApi}",
+#end
+#if (${field.inputApiListKey})
+            		inputApiListKey: "${field.inputApiListKey}",
+#end
+#if (${field.inputApiDetailsKey})
+            		inputApiDetailsKey: "${field.inputApiDetailsKey}",
+#end
+#if (${field.inputApiIdKey})
+            		inputApiIdKey: "${field.inputApiIdKey}",
+#end
+#if (${field.inputApiCodeKey})
+            		inputApiCodeKey: "${field.inputApiCodeKey}",
+#end
+#if (${field.inputApiValueKey})
+	            	inputApiValueKey: "${field.inputApiValueKey}",
+#end
+	            },
+#set($dropdownCounter=$dropdownCounter+1)
+#end
+#set($fieldCounter=$fieldCounter+1)
+#end
+#end
+	        	],
+	        listComponentAPI: this.resourceFactoryConstants.constants.approval.getApplicationList,
+	        deleteComponentAPI: this.resourceFactoryConstants.constants.approval.deleteDraftApplication,
+	        apiKeyList: "application_list",
+	        parentKeyList : {'data': {}},
+	        applicationKeyList: {
+#foreach ($parent in $entity.parentApiList)
+            	'${parent.name}' : {},
+#end
+	        }
+	    };   
+        return listComponentProperty; 	
+    }
 
-super.setComponentProperties(listComponentProperty);
-}
-ngOnInit(): void {
-super.ngOnInit();
-}
+    private getApprovalListView():IListComponentProperty {
+    	let listComponentProperty: IListComponentProperty = {
+			moduleName: "${entity.lowerTrainCaseClassName}",
+			searchModels : [
+#set($counter=1)
+#foreach ($field in $entity.fieldList)
+#if($field.isListElement)
+    			{
+				    id: '${counter}',
+				    type: '${field.lowerCamelCaseName}',
+				    field: '${field.apiKey}',
+				    parentApiKey: '${field.parentApiKey}',
+				    value: '',
+				    placeholder: '${field.placeholder}',
+				    isSelected: false,
+				    isSorted: false,
+				    currentSortingOrder: ''
+			    },
+#end
+#set($counter=$counter+1)
+#end
+			],		
+			dropDownList : [
+#set($fieldCounter=0)
+#set($dropdownCounter=1)
+#foreach ($field in $entity.fieldList)
+#if($field.isListElement)
+#if($field.webType=="Dropdown" || $field.webType=="Radio" || $field.webType=="Checkbox")
+	        	{
+			        id: '${dropdownCounter}',
+			        initialValues: [],
+			        options: {
+			        	placeholder: '${field.placeholder}'
+		       		},
+	        		dataList: [
+#if ($!{field.dataList} )
+#foreach ($element in $field.dataList)
+						{
+							id: "${element.id}",
+							code: "${element.code}",
+							text: "${element.text}"
+						},
+#end
+#end
+	        		],
+        			selectedFlag: false,
+        			searchModelIndex: $fieldCounter,
+#if (${field.populateFromMasterData})
+					populateFromMasterData: ${field.populateFromMasterData},
+#end
+#if (${field.masterDataType})
+					masterDataType: '${field.masterDataType}',
+#end
+#if (${field.masterDataSubType})
+	            	masterDataSubType: '${field.masterDataSubType}',
+#end
+#if (${field.isCodeIncludedInDisplay})
+					isCodeIncludedInDisplay: ${field.isCodeIncludedInDisplay},
+#end
+#if (${field.inputApi})
+            		inputApi: "${field.inputApi}",
+#end
+#if (${field.inputApiListKey})
+            		inputApiListKey: "${field.inputApiListKey}",
+#end
+#if (${field.inputApiDetailsKey})
+            		inputApiDetailsKey: "${field.inputApiDetailsKey}",
+#end
+#if (${field.inputApiIdKey})
+            		inputApiIdKey: "${field.inputApiIdKey}",
+#end
+#if (${field.inputApiCodeKey})
+            		inputApiCodeKey: "${field.inputApiCodeKey}",
+#end
+#if (${field.inputApiValueKey})
+	            	inputApiValueKey: "${field.inputApiValueKey}",
+#end
+	            },
+#set($dropdownCounter=$dropdownCounter+1)
+#end
+#set($fieldCounter=$fieldCounter+1)
+#end
+#end
+	        	],
+	        listComponentAPI: this.resourceFactoryConstants.constants.approval.getApplicationList,
+	        deleteComponentAPI: this.resourceFactoryConstants.constants.approval.deleteDraftApplication,
+	        apiKeyList: "application_list",
+	        parentKeyList : {'data': {}},
+	        applicationKeyList: {
+#foreach ($parent in $entity.parentApiList)
+            	'${parent.name}' : {},
+#end
+	        }
+	    };   
+        return listComponentProperty; 	
+    }    
+
+        private getPendingListView():IListComponentProperty {
+    	let listComponentProperty: IListComponentProperty = {
+			moduleName: "${entity.lowerTrainCaseClassName}",
+			searchModels : [
+#set($counter=1)
+#foreach ($field in $entity.fieldList)
+#if($field.isListElement)
+    			{
+				    id: '${counter}',
+				    type: '${field.lowerCamelCaseName}',
+				    field: '${field.apiKey}',
+				    parentApiKey: '${field.parentApiKey}',
+				    value: '',
+				    placeholder: '${field.placeholder}',
+				    isSelected: false,
+				    isSorted: false,
+				    currentSortingOrder: ''
+			    },
+#end
+#set($counter=$counter+1)
+#end
+			],		
+			dropDownList : [
+#set($fieldCounter=0)
+#set($dropdownCounter=1)
+#foreach ($field in $entity.fieldList)
+#if($field.isListElement)
+#if($field.webType=="Dropdown" || $field.webType=="Radio" || $field.webType=="Checkbox")
+	        	{
+			        id: '${dropdownCounter}',
+			        initialValues: [],
+			        options: {
+			        	placeholder: '${field.placeholder}'
+		       		},
+	        		dataList: [
+#if ($!{field.dataList} )
+#foreach ($element in $field.dataList)
+						{
+							id: "${element.id}",
+							code: "${element.code}",
+							text: "${element.text}"
+						},
+#end
+#end
+	        		],
+        			selectedFlag: false,
+        			searchModelIndex: $fieldCounter,
+#if (${field.populateFromMasterData})
+					populateFromMasterData: ${field.populateFromMasterData},
+#end
+#if (${field.masterDataType})
+					masterDataType: '${field.masterDataType}',
+#end
+#if (${field.masterDataSubType})
+	            	masterDataSubType: '${field.masterDataSubType}',
+#end
+#if (${field.isCodeIncludedInDisplay})
+					isCodeIncludedInDisplay: ${field.isCodeIncludedInDisplay},
+#end
+#if (${field.inputApi})
+            		inputApi: "${field.inputApi}",
+#end
+#if (${field.inputApiListKey})
+            		inputApiListKey: "${field.inputApiListKey}",
+#end
+#if (${field.inputApiDetailsKey})
+            		inputApiDetailsKey: "${field.inputApiDetailsKey}",
+#end
+#if (${field.inputApiIdKey})
+            		inputApiIdKey: "${field.inputApiIdKey}",
+#end
+#if (${field.inputApiCodeKey})
+            		inputApiCodeKey: "${field.inputApiCodeKey}",
+#end
+#if (${field.inputApiValueKey})
+	            	inputApiValueKey: "${field.inputApiValueKey}",
+#end
+	            },
+#set($dropdownCounter=$dropdownCounter+1)
+#end
+#set($fieldCounter=$fieldCounter+1)
+#end
+#end
+	        	],
+	        listComponentAPI: this.resourceFactoryConstants.constants.approval.getApplicationList,
+	        deleteComponentAPI: this.resourceFactoryConstants.constants.approval.deleteDraftApplication,
+	        apiKeyList: "application_list",
+	        parentKeyList : {'data': {}},
+	        applicationKeyList: {
+#foreach ($parent in $entity.parentApiList)
+            	'${parent.name}' : {},
+#end
+	        }
+	    };   
+        return listComponentProperty; 	
+    }
 }

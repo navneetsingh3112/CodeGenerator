@@ -52,10 +52,10 @@
       "max_length": 16,
       "api_key": "description",
       "parent_api_key": "general_ledger_details",
-      "is_mandatory": true,
-      "is_searchable": true,
-      "is_sortable": true,
-      "is_list_element": true,
+      "is_mandatory": false,
+      "is_searchable": false,
+      "is_sortable": false,
+      "is_list_element": false,
       "comment": "Code that uniquely identifies a product."
     },
     {
@@ -68,9 +68,9 @@
       "api_key": "external_reference_number",
       "parent_api_key": "general_ledger_details",
       "is_mandatory": true,
-      "is_searchable": true,
-      "is_sortable": true,
-      "is_list_element": true,
+      "is_searchable": false,
+      "is_sortable": false,
+      "is_list_element": false,
       "comment": "Code that uniquely identifies a product."
     },
     {
@@ -79,7 +79,7 @@
 			"sql_type": "VARCHAR",
 			"length": 256,
 			"is_mandatory": true,
-			"is_list_element": false,
+			"is_list_element": true,
 			"comment": "Type of heirarchy level",
 			"web_type": "Dropdown",
 			"placeholder": "eg. Administrative",
@@ -99,7 +99,7 @@
 			"sql_type": "VARCHAR",
 			"length": 256,
 			"is_mandatory": true,
-			"is_list_element": false,
+			"is_list_element": true,
 			"comment": "Type of heirarchy level",
 			"web_type": "Dropdown",
 			"placeholder": "eg. Administrative",
@@ -163,6 +163,9 @@
 		}
   ],
   "list_view_action_button_list": [
+    {
+      "type": "delete"
+    },
     {
       "type": "copy"
     },

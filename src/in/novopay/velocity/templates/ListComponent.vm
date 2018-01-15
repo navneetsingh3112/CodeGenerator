@@ -1,7 +1,7 @@
 <div class="clearfix" [ngBusy]="busy">
     <div class="pull-right">
         <button *ngIf="permissionForCreate" class="button button-primary " role="button"
-                [routerLink]="['../create']">
+                [routerLink]="['../../create']">
             {{'${entity.lowerTrainCaseClassName}-create-page-header' | translate}}
         </button>
     </div>
@@ -12,137 +12,288 @@
 <div class="row">
     <div class="col-lg-12">
         <section class="widget" [ngBusy]="busy">
-            <div class="clearfix widget-action">
-                <div class="pull-right">
-                    <button *ngIf="showSearchBlocks"
-                            [ngClass]="isSearchClear ?  'button-disabled' : 'button-enabled'" type="button"
-                            class="button"
-                            (click)="clearAllSearch()"
-                            title="{{'block-button-tooltip' | translate}}">
-                        {{'list-btn-clear-search' | translate}}
-                    </button>
-                    <button type="button" [ngClass]="{'button-search-active': showSearchBlocks}"
-                            class="button button-search-inactive"
-                            (click)="toggleShowSearchBlocks()"
-                            title="{{'filter-button-tooltip' | translate}}">
-                        <i class="icons fa fa-tree"></i></button>
+            <div class="list-nav-bar">
+                <div (click)="loadListView('approvedlist')" class="list-tab"
+                     [ngClass]="{'list-tab-highlight':listType == 'approvedlist'}">
+                    <span>{{'approved-list-view' | translate}}</span>
+                </div>
+                <div (click)="loadListView('draftlist')" class="list-tab"
+                     [ngClass]="{'list-tab-highlight':listType == 'draftlist'}">
+                    <span>{{'drafts-list-view' | translate}}<span class="list-count" *ngIf="draftCount">{{draftCount}}</span></span>
+                </div>
+                <div (click)="loadListView('approvallist')" class="list-tab"
+                     [ngClass]="{'list-tab-highlight':listType == 'approvallist'}">
+                    <span>{{'submitted-for-approval-list-view' | translate}}</span>
+                </div>
+                <div class="list-divider list-tab"><p></p></div>
+                <div (click)="loadListView('pendinglist')" class="list-tab"
+                     [ngClass]="{'list-tab-highlight':listType == 'pendinglist'}">
+                    <span>{{'pending-actions-list-view' | translate}}
+                        <span class="list-crtitical-count" *ngIf="pendingActionsCount">{{pendingActionsCount}}</span>
+                    </span>
                 </div>
             </div>
-            <div class="scroll-table">
-                <table class="table table-hover search-enabled" [ngBusy]="busy" [mfData]="masterData"
-                       #mf="mfDataTable"
-                       [mfRowsOnPage]="tableItemsPerPage">
-                    <thead>
-                    <tr>
-                        #set($counter = 0)
-                        #set($textSearchCounter = 0)
-                        #foreach ($field in $entity.fieldList)
-                            #if(${field.isListElement})
-                                #if(${field.Sortable})
-                                    <th (click)="sortFormData($counter)">
-                                        {{'${entity.lowerTrainCaseClassName}-create-field-${field.lowerTrainCaseName}' |
-                                        translate}}
-                                        <i class="fa"
-                                           [ngClass]="{'fa-sort':!searchModels[$textSearchCounter].isSorted, 'fa-sort-desc':searchModels[$textSearchCounter].currentSortingOrder === 'DESC', 'fa-sort-asc':searchModels[$textSearchCounter].currentSortingOrder === 'ASC'}"></i>
-                                    </th>
-                                    #set($textSearchCounter = $textSearchCounter+1)
-                                #else
-                                    <th>
-                                        {{'${entity.lowerTrainCaseClassName}-create-field-${field.lowerTrainCaseName}' |
-                                        translate}}
-                                    </th>
-                                #end
-                                #set($counter = $counter+1)
-                            #end
-                        #end
-                        <th class="no-sort">
-                            {{'list-header-actions' | translate}}
-                        </th>
-                    </tr>
-                    <tr>
-                        #set($textSearchCounter = 0)
-                        #set($dropdownSearchCounter = 0)
-                        #foreach ($field in $entity.fieldList)
-                            #if($field.isListElement)
-                                <th *ngIf="showSearchBlocks">
-                                    #if(${field.Searchable} && $field.webType == "Textbox")
-                                        <input (keypress)="changeSearchModel($event.keyCode,$textSearchCounter)"
-                                               [(ngModel)]="searchModels[$textSearchCounter].value"
-                                               (ngModelChange)="onSearchFieldChange($textSearchCounter)"
-                                               maxlength="${field.maxLength}"
-                                               class="form-control form-control-sm search-field"
-                                               type="text" placeholder="${field.placeholder}">
-                                        #set($textSearchCounter = $textSearchCounter+1)
-                                    #elseif(${field.Searchable} && $field.isListElement && ($field.webType ==
-                                        "Dropdown" || $field.webType == "Radio" ||$field.webType ==
-                                        "Checkbox" ))
-                                        <div *ngIf="dropDownList[$dropdownSearchCounter].dataList.length>0">
-                                            <select2
-                                                    (valueChanged)="setDropdownAndSearch($event,$dropdownSearchCounter)"
-                                                    [value]="dropDownList[$dropdownSearchCounter].initialValues"
-                                                    [options]="dropDownList[$dropdownSearchCounter].options"
-                                                    [data]="dropDownList[$dropdownSearchCounter].dataList">
-                                            </select2>
-                                        </div>
-                                        #set($dropdownSearchCounter = $dropdownSearchCounter+1)
-                                    #end
-                                </th>
-                            #end
-                        #end
-                        <th *ngIf="showSearchBlocks"></th>
-                    </tr>
-                    </thead>
-                    <tbody>
-                    <tr class="table-row" *ngFor="let item of mf.data"
-                        (click)="viewFormData(item.$entity.fetchApiKey)">
-                        #foreach ($field in $entity.fieldList)
-                            #if($field.isListElement)
-                                #if ($field.webType.equals('Date'))
-                                    <td><span
-                                            class="text-field">{{item.${field.apiKey}  | date: 'dd-MM-yyyy'}}</span>
-                                    </td>
-                                #else
-                                    <td><span
-                                            class="text-field">{{item.${field.apiKey}}}</span>
-                                    </td>
-                                #end
-                            #end
-                        #end
-                        <td>
-                            <div class="input-group-btn action-button-group">
-                                #foreach ($actionButton in $entity.listViewActionButtonList)
-                                    #if($StringUtils.equalsIgnoreCase(${actionButton.type} ,"delete"))
-                                        <i *ngIf="permissionForDelete" class="fa fa-trash-o"
-                                           (click)=showDeleteConfirm(item.id)
-                                           title="{{'delete-button-tooltip' | translate}}"></i>
-                                    #end
-                                    #if($StringUtils.equalsIgnoreCase(${actionButton.type} ,"copy"))
-                                        <i *ngIf="permissionForCopy" class="fa fa-clone"
-                                           (click)="copyComponent(item.id)"
-                                           title="{{'copy-button-tooltip' | translate}}"></i>
-                                    #end
-                                    #if($StringUtils.equalsIgnoreCase(${actionButton.type} ,"edit"))
-                                        <i *ngIf="permissionForEdit" class="fa fa-pencil"
-                                           (click)="editComponent(item.id)"
-                                           title="{{'edit-button-tooltip' | translate}}"></i>
-                                    #end
-                                #end
-                            </div>
-                        </td>
-                    </tr>
-                    <tr *ngIf="mf.data.length === 0 && isSearchClear">
-                        <td><span
-                                class="text-field">{{'form-no-record-msg' | translate}}</span>
-                        </td>
-                    </tr>
-                    <tr *ngIf="mf.data.length === 0 && !isSearchClear">
-                        <td><span
-                                class="text-field">{{'form-no-record-msg-with-search' | translate}}</span>
-                        </td>
-                    </tr>
-                    </tbody>
-                </table>
-            </div>
+            <hr class="list-hr">
+			<ng-template [ngIf]="listType == 'approvedlist' ">
+                <div class="clearfix widget-action">
+                    <div class="pull-right">
+                        <button *ngIf="showSearchBlocks"
+                                [ngClass]="isSearchClear ?  'button-disabled' : 'button-enabled'" type="button"
+                                class="button"
+                                (click)="clearAllSearch()"
+                                title="{{'block-button-tooltip' | translate}}">
+                            {{'list-btn-clear-search' | translate}}
+                        </button>
+                        <button type="button" [ngClass]="{'button-search-active': showSearchBlocks}"
+                                class="button button-search-inactive"
+                                (click)="toggleShowSearchBlocks()"
+                                title="{{'filter-button-tooltip' | translate}}">
+                            <i class="np np-Search"></i>
+                        </button>
+                    </div>
+                </div>
+	            <div class="scroll-table">
+	                <table class="table table-hover search-enabled" [ngBusy]="busy" [mfData]="masterData"
+	                       #mf="mfDataTable"
+	                       [mfRowsOnPage]="tableItemsPerPage">
+	                    <thead>
+	                    <tr>
+#set($counter = 0)
+#set($textSearchCounter = 0)
+#foreach ($field in $entity.fieldList)
+#if(${field.isListElement})
+#if(${field.Sortable})
+                            <th (click)="sortFormData($counter)" class="np-pointer">
+                                {{'${entity.lowerTrainCaseClassName}-field-${field.lowerTrainCaseName}' | translate}}
+	                             <i class="fa" [ngClass]="{'fa-sort np-pointer':!searchModels[$textSearchCounter].isSorted, 'fa-sort-desc':searchModels[$textSearchCounter].currentSortingOrder === 'DESC', 'fa-sort-asc':searchModels[$textSearchCounter].currentSortingOrder === 'ASC'}"></i>
+	                        </th>
+#set($textSearchCounter = $textSearchCounter+1)
+#else
+                            <th>{{'${entity.lowerTrainCaseClassName}-field-${field.lowerTrainCaseName}' | translate}} </th>
+#end
+#set($counter = $counter+1)
+#end
+#end
+	                        <th class="no-sort"> {{'list-header-actions' | translate}}</th>
+	                    </tr>
+	                    <tr>
+#set($textSearchCounter = 0)
+#set($dropdownSearchCounter = 0)
+#foreach ($field in $entity.fieldList)
+#if($field.isListElement)
+	                        <th *ngIf="showSearchBlocks">
+#if(${field.Searchable} && $field.webType == "Textbox")
+                                <input (keypress)="changeSearchModel($event.keyCode,$textSearchCounter)"
+                                       [(ngModel)]="searchModels[$textSearchCounter].value"
+                                       (ngModelChange)="onSearchFieldChange($textSearchCounter)"
+                                       maxlength="${field.maxLength}"
+                                       class="form-control form-control-sm search-field"
+                                       type="text" placeholder="${field.placeholder}">
+#set($textSearchCounter = $textSearchCounter+1)
+#elseif(${field.Searchable} && $field.isListElement && ($field.webType ==
+"Dropdown" || $field.webType == "Radio" ||$field.webType ==
+"Checkbox" ))
+	                                <div *ngIf="dropDownList[$dropdownSearchCounter].dataList.length>0">
+                                        <select2
+                                                (valueChanged)="setDropdownAndSearch($event,$dropdownSearchCounter)"
+                                                [value]="dropDownList[$dropdownSearchCounter].initialValues"
+                                                [options]="dropDownList[$dropdownSearchCounter].options"
+                                                [data]="dropDownList[$dropdownSearchCounter].dataList">
+                                        </select2>
+                                    </div>
+#set($dropdownSearchCounter = $dropdownSearchCounter+1)
+#end
+	                        </th>
+#end
+#end
+	                        <th *ngIf="showSearchBlocks"></th>
+	                    </tr>
+	                    </thead>
+	                    <tbody>
+		                    <tr class="table-row" *ngFor="let item of mf.data"
+		                        (click)="viewFormData(item.$entity.fetchApiKey)">
+#foreach ($field in $entity.fieldList)
+#if($field.isListElement)
+#if ($field.webType.equals('Date'))
+	                            <td><spanclass="text-field">{{item.${field.apiKey}  | date: 'dd-MM-yyyy'}}</span></td>
+#else
+					            <td><span class="text-field">{{item.${field.apiKey}}}</span></td>
+#end
+#end
+#end
+	    	                    <td>
+	        	                    <div class="input-group-btn action-button-group">
+#foreach ($actionButton in $entity.listViewActionButtonList)
+#if($StringUtils.equalsIgnoreCase(${actionButton.type} ,"delete"))
+										<i *ngIf="permissionForDelete" class="np np-delete-icon m-right-8"
+											(click)=showDeleteConfirm(item.id) title="{{'delete-button-tooltip' | translate}}"></i>
+#end
+#if($StringUtils.equalsIgnoreCase(${actionButton.type} ,"copy"))
+	                                    <i *ngIf="permissionForCopy" class="np np-Copy m-right-8"
+	                                       (click)="copyComponent(item.id)"
+	                                       title="{{'copy-button-tooltip' | translate}}"></i>
+#end
+#if($StringUtils.equalsIgnoreCase(${actionButton.type} ,"edit"))
+	                                    <i *ngIf="permissionForEdit" class="np np-Edit"
+	                                       (click)="editComponent(item.id)"
+	                                       title="{{'edit-button-tooltip' | translate}}"></i>
+#end
+#end
+		                            </div>
+		                        </td>
+	    	                </tr>
+		                    <tr *ngIf="mf.data.length === 0 && isSearchClear">
+		                        <td><span class="text-field">{{'form-no-record-msg' | translate}}</span> </td>
+							</tr>
+			                <tr *ngIf="mf.data.length === 0 && !isSearchClear"> 
+			                	<td><span class="text-field">{{'form-no-record-msg-with-search' | translate}}</span> </td>
+			                </tr>
+						</tbody>
+					</table>
+				</div>
+			</ng-template>
+			<br>
+            
+			<ng-template [ngIf]="listType == 'draftlist' ">
+            	<div class="scroll-table">
+ 	                <table class="table table-hover search-enabled" [ngBusy]="busy" [mfData]="masterData"
+	                       #mf="mfDataTable"
+	                       [mfRowsOnPage]="tableItemsPerPage">
+	                    <thead>
+	                    <tr>
+#set($counter = 0)
+#set($textSearchCounter = 0)
+#foreach ($field in $entity.fieldList)
+#if(${field.isListElement})
+	                        <th class="no-sort">
+								{{'${entity.lowerTrainCaseClassName}-field-${field.lowerTrainCaseName}' | translate}}
+							</th>
+#set($textSearchCounter = $textSearchCounter+1)
+#end
+#set($counter = $counter+1)
+#end
+							<th class="no-sort"> {{'list-header-actions' | translate}} </th>
+						</tr>
+	                    </thead>
+	                    
+	                    <tbody>
+	                    <tr class="table-row" *ngFor="let item of mf.data"
+	                        (click)="editDraftComponent(item)">
+#foreach ($field in $entity.fieldList)
+#if($field.isListElement)
+#if ($field.webType.equals('Date'))
+                            <td><span class="text-field">{{item.${field.apiKey}  | date: 'dd-MM-yyyy'}}</span> </td>
+#else
+                                <td><span class="text-field">{{item.${field.apiKey}}}</span> </td>
+#end
+#end
+#end
+		                        <td>
+		                            <div class="input-group-btn action-button-group">
+#foreach ($actionButton in $entity.listViewActionButtonList)
+#if($StringUtils.equalsIgnoreCase(${actionButton.type} ,"delete"))
+			                            <i *ngIf="permissionForDelete" class="np np-delete-icon m-right-8"
+											(click)=showDeleteConfirm(item.id)
+											title="{{'delete-button-tooltip' | translate}}"></i>
+#end
+#if($StringUtils.equalsIgnoreCase(${actionButton.type} ,"edit"))
+	                                    <i *ngIf="permissionForEdit" class="np np-Edit"
+	                                       (click)="editComponent(item.id)"
+	                                       title="{{'edit-button-tooltip' | translate}}"></i>
+#end
+#end
+	                            	</div>
+								</td>
+	                    	</tr>
+	                    	<tr *ngIf="mf.data.length === 0"> <td><span class="text-field">{{'form-no-record-msg' | translate}}</span></td> </tr>
+						</tbody>
+					</table>           		
+				</div>			
+			</ng-template>
+            <br>	
+            
+            <ng-template [ngIf]="listType == 'approvallist' ">
+            	<div class="scroll-table">
+ 	                <table class="table table-hover search-enabled" [ngBusy]="busy" [mfData]="masterData"
+	                       #mf="mfDataTable" [mfRowsOnPage]="tableItemsPerPage">
+	                    <thead>
+		                    <tr>
+#set($counter = 0)
+#set($textSearchCounter = 0)
+#foreach ($field in $entity.fieldList)
+#if(${field.isListElement})
+	    	                    <th class="no-sort">
+									{{'${entity.lowerTrainCaseClassName}-field-${field.lowerTrainCaseName}' | translate}}
+								</th>
+#set($textSearchCounter = $textSearchCounter+1)
+#end
+#set($counter = $counter+1)
+#end
+		                    </tr>	                    
+	                    </thead>
+	                    <tbody>
+	                    <tr class="table-row" *ngFor="let item of mf.data"
+	                        (click)="viewApprovalFormData(item)">
+#foreach ($field in $entity.fieldList)
+#if($field.isListElement)
+#if ($field.webType.equals('Date'))
+							<td><span class="text-field">{{item.${field.apiKey}  | date: 'dd-MM-yyyy'}}</span> </td>
+#else
+							<td><span class="text-field">{{item.${field.apiKey}}}</span> </td>
+#end
+#end
+#end
+	                    </tr>
+	                    <tr *ngIf="mf.data.length === 0">
+	                        <td><span class="text-field">{{'form-no-record-msg' | translate}}</span></td>
+	                    </tr>
+	                    </tbody>
+	                </table>           		
+            	</div>
+            </ng-template>
+            <br>	
+
+            <ng-template [ngIf]="listType == 'pendinglist' ">
+            	<div class="scroll-table">
+ 	                <table class="table table-hover search-enabled" [ngBusy]="busy" [mfData]="masterData"
+	                       #mf="mfDataTable" [mfRowsOnPage]="tableItemsPerPage">
+	                    <thead>
+	                    	<tr>
+#set($counter = 0)
+#set($textSearchCounter = 0)
+#foreach ($field in $entity.fieldList)
+#if(${field.isListElement})
+	                        	<th class="no-sort">
+									{{'${entity.lowerTrainCaseClassName}-field-${field.lowerTrainCaseName}' | translate}}
+                            	</th>
+#set($textSearchCounter = $textSearchCounter+1)
+#end
+#set($counter = $counter+1)
+#end
+	                    	</tr>	                    
+						</thead>
+	                    <tbody>
+	                    	<tr class="table-row" *ngFor="let item of mf.data"
+	                        	(click)="viewApprovalFormData(item)">
+#foreach ($field in $entity.fieldList)
+#if($field.isListElement)
+#if ($field.webType.equals('Date'))
+                            	<td><span class="text-field">{{item.${field.apiKey}  | date: 'dd-MM-yyyy'}}</span> </td>
+#else
+	                            <td><span class="text-field">{{item.${field.apiKey}}}</span> </td>
+#end
+#end
+#end
+	                    	</tr>
+	                    	<tr *ngIf="mf.data.length === 0">
+	                        	<td><span class="text-field">{{'form-no-record-msg' | translate}}</span></td>
+	                    	</tr>
+	                    </tbody>
+	                </table>           		
+            	</div>
+            </ng-template>
+            
+            
             <div class="clearfix table-size">
                 <pagination class="pull-right"
                             [(ngModel)]="pageNumber"

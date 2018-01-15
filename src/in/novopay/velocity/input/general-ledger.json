@@ -106,7 +106,7 @@
 			"input_api_details_key": "product_scheme_details",
 			"input_api_id_key": "scheme_id",
 			"input_api_code_key": "scheme_code",
-			"input_api_value_key": "name",
+			"input_api_value_key": "name"
 		},
 		{
 			"name": "currency",
