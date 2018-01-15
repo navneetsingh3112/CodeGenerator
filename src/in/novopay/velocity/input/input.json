@@ -26,6 +26,7 @@
       "is_searchable": true,
       "is_sortable": true,
       "is_list_element": true,
+      "is_not_editable": true,
       "comment": "Type of the product."
     },
     {
@@ -90,8 +91,7 @@
 			"api_key": "category",
 			"parent_api_key": "general_ledger_details",
 			"is_searchable": true,
-			"is_sortable": true,
-			"is_editable": true
+			"is_sortable": true
 		},
     {
 			"name": "currency",
@@ -111,7 +111,7 @@
 			"parent_api_key": "general_ledger_details",
 			"is_searchable": true,
 			"is_sortable": true,
-			"is_editable": true
+			"is_not_editable": true
 		},
     {
 			"name": "balance_type",
@@ -132,7 +132,7 @@
 			"api_key": "balance_type",
 			"is_searchable": true,
 			"is_sortable": true,
-			"is_editable": true,
+			"is_not_editable": true,
 			"input_api": "",
             "input_api_list_key": "",
 			"populate_from_master_data": true
@@ -156,7 +156,6 @@
 			"api_key": "allowed_transaction_type",
 			"is_searchable": true,
 			"is_sortable": true,
-			"is_editable": true,
 			"input_api": "",
             "input_api_list_key": "",
 			"populate_from_master_data": true

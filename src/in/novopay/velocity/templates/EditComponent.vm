@@ -3,19 +3,21 @@
       novalidate="novalidate" [ngBusy]="busy">
     <div class="clearfix">
         <div *ngIf="!reviewMode" class="pull-right">
-            <button type="button" (click)="cancelForm()" class="button button-basic">
-                {{'form-btn-back' |
+            <button type="button" (click)="cancelForm()" class="button button-basic m-right-8">
+                {{'form-btn-cancel' |
+                translate}}
+            </button>
+            <button type="submit" (click)="submitDraftForm()" class="button button-primary m-right-8">
+                {{'form-btn-save-as-draft' |
                 translate}}
             </button>
             <button type="submit" (click)="submitForm()" class="button button-primary">
-                {{'form-btn-save' |
+                {{'form-btn-submit' |
                 translate}}
             </button>
         </div>
         <h1 class="page-title">{{'${entity.lowerTrainCaseClassName}-edit-page-header' | translate}}</h1>
     </div>
-    <div class="row">
-        <div class="col-lg-12">
             <section class="widget" [ngBusy]="busy">
                 <div class="widget-body">
                     <form class="form-horizontal" role="form">
@@ -66,6 +68,9 @@
                                                     #end
                                                     #if ($field.IsAutoPopulate)
                                                        disabled="disabled"
+                                                    #end
+                                                    #if ($field.isNotEditable)
+                                                       [disabled]="isDisabledFlag"
                                                     #end
                                                 >
 
@@ -173,6 +178,9 @@
                                                     #if ($field.IsAutoPopulate)
                                                          disabled="disabled"
                                                     #end
+                                                    #if ($field.isNotEditable)
+                                                       [disabled]="isDisabledFlag"
+                                                    #end
                                                 >
                                                 </select2>
 
@@ -275,7 +283,6 @@
                                                        class="read-only-view-label break-long-text">{{entity.${field.lowerCamelCaseName}.value}}</label>
                                             </div>
                                         </div>
-
                                     #elseif ($field.webType.equals('Radio'))
                                         <!-- Radio -->
                                         <div class="form-group col-lg-3 col-sm-4 field-type">
@@ -296,6 +303,9 @@
                                                                    value="{{radioList.${field.lowerCamelCaseName}.dataList[$counter].code}}"
                                                                    [(ngModel)]="radioList.${field.lowerCamelCaseName}.value"
                                                                    data-parsley-trigger="change"
+                                                                #if ($field.isNotEditable)
+                                                                   [attr.disabled]="isDisabledFlag"
+                                                                #end
                                                                 #if ($counter == 0 && $field.isMandatory)
                                                                    data-parsley-class-handler="#${field.lowerTrainCaseName}-error"
                                                                    data-parsley-errors-container="#${field.lowerTrainCaseName}-error-message"
@@ -512,6 +522,62 @@
                     </form>
                 </div>
             </section>
+            
+            <br>
+    <div class="row">
+        <div class="col-lg-12">
+            <section class="widget" [ngBusy]="busy">
+                <div class="widget-body">
+                    <form class="form-horizontal" role="form">
+                        <fieldset>
+                            <div class="row">
+                                <!-- TextArea -->
+                                <div class="form-group col-lg-6 col-sm-6 field-type">
+                                    <label for="${entity.lowerTrainCaseClassName}-edit-notes"
+                                           class="label-name">{{'${entity.lowerTrainCaseClassName}-edit-field-edit-notes'
+                                        | translate}}
+                                    </label>
+
+                                    <div>
+                                    <textarea *ngIf="!readOnly" type="text"
+                                              name="${entity.lowerTrainCaseClassName}-edit-notes"
+                                              id="${entity.lowerTrainCaseClassName}-edit-notes"
+                                              class="form-control textarea"
+                                              rows="4"
+                                              [(ngModel)]="editNotes"
+                                              maxlength="256"
+                                              placeholder=""
+                                              data-parsley-trigger="change"
+                                    >
+                                    </textarea>
+
+                                        <label *ngIf="readOnly"
+                                               for="${entity.lowerTrainCaseClassName}-description"
+                                               title="{{entity.description.value}}"
+                                               class="read-only-view-label break-long-text">
+                                            {{entity.description.value}}
+                                        </label>
+                                    </div>
+                                </div>
+
+                                <!-- Textbox -->
+                                <div class="form-group col-lg-6 col-sm-6">
+                                    <label for="general-ledger-edit-notes"
+                                           class="label-name">{{'${entity.lowerTrainCaseClassName}-edit-field-attachments'
+                                        | translate}}
+                                    </label>
+                                    <div class="document-wizard-container-div">
+                                        <form-documents-wizard [document_ids]="editAttachmentDocumentIds"
+                                                               (docsUploadedEvent)="docsUploadedEventHandler($event)"
+                                                               class="col-lg-6"></form-documents-wizard>
+                                    </div>
+                                </div>
+                            </div>
+                        </fieldset>
+                    </form>
+                </div>
+            </section>
         </div>
     </div>
+            
 </form>
