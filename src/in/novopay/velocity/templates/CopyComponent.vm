@@ -3,19 +3,21 @@
       novalidate="novalidate" [ngBusy]="busy">
     <div class="clearfix">
         <div *ngIf="!reviewMode" class="pull-right">
-            <button type="button" (click)="cancelForm()" class="button button-primary">
+            <button type="button" (click)="cancelForm()" class="button button-basic m-right-8">
                 {{'form-btn-cancel' |
                 translate}}
             </button>
+            <button type="submit" (click)="submitDraftForm()" class="button button-primary m-right-8">
+                {{'form-btn-save-as-draft' |
+                translate}}
+            </button>
             <button type="submit" (click)="submitForm()" class="button button-primary">
-                {{'form-btn-save' |
+                {{'form-btn-submit' |
                 translate}}
             </button>
         </div>
         <h1 class="page-title">{{'${entity.lowerTrainCaseClassName}-create-page-header' | translate}}</h1>
     </div>
-    <div class="row">
-        <div class="col-lg-12">
             <section class="widget" [ngBusy]="busy">
                 <div class="widget-body">
                     <form class="form-horizontal" role="form">
@@ -513,6 +515,9 @@
                     </form>
                 </div>
             </section>
-        </div>
+            <div [hidden]="true">
+        <form-documents-wizard [document_ids]="editAttachmentDocumentIds"
+                               (docsUploadedEvent)="docsUploadedEventHandler($event)"
+                               class="col-lg-6"></form-documents-wizard>
     </div>
 </form>

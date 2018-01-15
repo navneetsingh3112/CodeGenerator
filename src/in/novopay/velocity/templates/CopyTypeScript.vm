@@ -9,6 +9,7 @@ import {AppConstants} from "../../app.constants";
 import {BaseService} from "../../base-module/base.service";
 import {ResourceFactoryConstants} from "../../services/resource-factory.constants";
 import {BaseCopyComponent} from "../../base-module/copy/base-copy.component";
+import {BaseListTypes} from '../../base-module/list/base-list-types';
 
 declare var jQuery:any;
 /**
@@ -41,8 +42,10 @@ baseService, router, route,resourceFactoryConstants);
 let createComponentProperty : ICreateComponentProperty = {
 moduleName: "${entity.lowerTrainCaseClassName}",
 formHtmlId: '${entity.lowerTrainCaseClassName}-copy-form',
+draftListUrl:'/app/${entity.lowerTrainCaseClassName}/list/'+BaseListTypes.DRAFT_LIST,
 createComponentAPI: this.resourceFactoryConstants.constants.${entity.lowerCamelCaseClassName}.create,
-listComponentUrl: '/app/${entity.lowerTrainCaseClassName}/list',
+listComponentUrl: '/app/${entity.lowerTrainCaseClassName}/list/'+BaseListTypes.APPROVED_LIST,
+useCase : "${entity.useCase}",
 entity: {
 #foreach ($field in $entity.fieldList)
     #if (($field.webType.equals('Textbox') || $field.webType.equals('Textarea')  || $field.webType.equals(
