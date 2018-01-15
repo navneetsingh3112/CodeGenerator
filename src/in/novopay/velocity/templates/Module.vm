@@ -11,8 +11,10 @@ import {BusyModule} from 'angular2-busy';
 import {CommonUtilityService} from "../services/common-utility.service";
 import {CommonHttpService} from "../services/common-http.service";
 import {BaseService} from "../base-module/base.service";
+import {FormWizardModule} from "../components/wizards/form-wizards/form-wizards.module";
+import {DocumentsWizardService} from "../components/wizards/form-wizards/documents/documents-wizard.service";
 import 'parsleyjs';
-import { AngularMultiSelectModule } from 'angular2-multiselect-dropdown/angular2-multiselect-dropdown';
+
 import {${entity.upperCamelCaseClassName}CreateComponent} from "./create/${entity.lowerTrainCaseClassName}-create.component";
 import {${entity.upperCamelCaseClassName}ListComponent} from "./list/${entity.lowerTrainCaseClassName}-list.component";
 import {${entity.upperCamelCaseClassName}ViewComponent} from "./view/${entity.lowerTrainCaseClassName}-view.component";
@@ -20,11 +22,13 @@ import {${entity.upperCamelCaseClassName}EditComponent} from "./edit/${entity.lo
 import {${entity.upperCamelCaseClassName}CopyComponent} from "./copy/${entity.lowerTrainCaseClassName}-copy.component";
 
 export const routes = [
-{path: '', redirectTo: 'list', pathMatch: 'full'},
+{path: '', redirectTo: 'list/approvedlist', pathMatch: 'full'},
 {path: 'create', component: ${entity.upperCamelCaseClassName}CreateComponent},
-{path: 'list', component: ${entity.upperCamelCaseClassName}ListComponent},
-{path: 'view/:id', component: ${entity.upperCamelCaseClassName}ViewComponent},
-{path: 'edit/:id', component: ${entity.upperCamelCaseClassName}EditComponent},
+{path: 'list/:listType', component: ${entity.upperCamelCaseClassName}ListComponent},
+{path: 'view/:type/:id', component: ${entity.upperCamelCaseClassName}ViewComponent},
+{path: 'view/:type', component: ${entity.upperCamelCaseClassName}ViewComponent},
+{path: 'edit/:type/:id', component: ${entity.upperCamelCaseClassName}EditComponent},
+{path: 'edit/:type', component: ${entity.upperCamelCaseClassName}EditComponent},
 {path: 'copy/:id', component: ${entity.upperCamelCaseClassName}CopyComponent}
 ];
 
@@ -45,9 +49,9 @@ RouterModule.forChild(routes),
 PaginationModule.forRoot(),
 DataTableModule,
 TranslateModule,
-AngularMultiSelectModule
+FormWizardModule
 ],
-providers: [CommonHttpService, CommonUtilityService, ResourceFactoryConstants, BaseService]
+providers: [CommonHttpService, CommonUtilityService, ResourceFactoryConstants, BaseService, DocumentsWizardService]
 })
 export class ${entity.upperCamelCaseClassName}Module {
 static routes = routes;
