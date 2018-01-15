@@ -14,6 +14,7 @@ public class InputEntity {
 	private String displayName;
 	private String toUpperCaseWithUnderscore;
 	private String toUpperCaseWithHyphen;
+	private String useCase;
 
 	ArrayList<InputEntityFields> fieldList = new ArrayList<>();
 	ArrayList<InputEntityButtons> buttonList = new ArrayList<>();
@@ -121,5 +122,13 @@ public class InputEntity {
 
 	public void setToUpperCaseWithHyphen(String toUpperCaseWithHyphen) {
 		this.toUpperCaseWithHyphen = toUpperCaseWithHyphen;
+	}
+	
+	public String getUseCase() {
+		return useCase;
+	}
+
+	public void setUseCase(String useCase) {
+		this.useCase = useCase;
 	}
 }

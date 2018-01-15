@@ -117,6 +117,7 @@ public class Main {
 
             entity.setFetchApiKey((String) jsonObject.get("fetch_api_key"));
             entity.setDisplayName((String) jsonObject.get("display_name"));
+            entity.setUseCase((String) jsonObject.get("use_case"));
             entity.setToUpperCaseWithHyphen(entity.getDisplayName().replace(' ', '-').toUpperCase());
             entity.setToUpperCaseWithUnderscore(entity.getDisplayName().replace(' ', '_').toUpperCase());
             JSONArray fields = (JSONArray) jsonObject.get("fields");

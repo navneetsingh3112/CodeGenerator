@@ -1,0 +1,107 @@
+{
+  "table": "product_management",
+  "userStory": "productManagement",
+  "display_name": "Product Management",
+  "table_comment": "Heirarchy level information for various purposes spanning various departments",
+  "author": "Abhishek",
+  "fetch_api_key": "id",
+  "parent_api_key_list": [
+    {
+      "name": "product_details"
+    },
+    {
+      "name": "savings_product_details"
+    }
+  ],
+  "fields": [
+    {
+      "name": "type",
+      "web_type": "Textbox",
+      "placeholder": "eg. Country",
+      "display_name": "Product Type",
+      "min_length": 2,
+      "max_length": 16,
+      "validation_pattern": "^[a-zA-Z0-9_]*$",
+      "api_key": "type",
+      "parent_api_key": "product_details",
+      "is_mandatory": true,
+      "is_searchable": true,
+      "is_sortable": true,
+      "is_list_element": true,
+      "comment": "Type of the product."
+    },
+    {
+      "name": "product_code",
+      "web_type": "Textbox",
+      "placeholder": "eg. PP1",
+      "display_name": "Product Code",
+      "min_length": 2,
+      "max_length": 16,
+      "api_key": "product_code",
+      "parent_api_key": "product_details",
+      "is_mandatory": true,
+      "is_searchable": true,
+      "is_sortable": true,
+      "is_list_element": true,
+      "comment": "Code that uniquely identifies a product."
+    },
+    {
+      "name": "start_date",
+      "web_type": "Textbox",
+      "placeholder": "eg. 01/11/1991",
+      "display_name": "Start Date",
+      "api_key": "start_date",
+      "parent_api_key": "product_details",
+      "comment": "Start Date Of The Product.",
+      "is_mandatory": true
+    },
+    {
+      "name": "end_date",
+      "web_type": "Textbox",
+      "placeholder": "eg. 01/11/1991",
+      "display_name": "End Date",
+      "api_key": "end_date",
+      "parent_api_key": "product_details",
+      "comment": "End Date Of The Product.",
+      "is_mandatory": true
+    },
+    {
+      "name": "cheque_allowed",
+      "web_type": "Textbox",
+      "placeholder": "eg. 01/11/1991",
+      "display_name": "Cheque Allowed",
+      "api_key": "cheque_allowed",
+      "parent_api_key": "savings_product_details",
+      "comment": "Whether cheque is allowed.",
+      "is_mandatory": true,
+      "is_list_element": true
+    },
+    {
+      "name": "debit_card_type",
+      "web_type": "Textbox",
+      "placeholder": "eg. 01/11/1991",
+      "display_name": "Debit Card Type",
+      "api_key": "debit_card_type",
+      "parent_api_key": "savings_product_details",
+      "comment": "Type of the debit card.",
+      "is_mandatory": true,
+      "is_list_element": true
+    }
+  ],
+  "list_view_action_button_list": [
+    {
+      "type": "copy"
+    },
+    {
+      "type": "edit"
+    }
+  ],
+  "buttons": [
+    {
+      "name": "save"
+    },
+    {
+      "name": "cancel"
+    }
+  ]
+}

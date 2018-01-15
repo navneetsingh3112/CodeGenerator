@@ -1,0 +1,13 @@
+/* add to app.constants.ts */
+module = {
+"${entity.lowerTrainCaseClassName}": "${entity.toUpperCaseWithUnderscore}",
+};
+
+/* add to permission-utility.service.ts*/
+private apiKeyMapping = {
+"${entity.toUpperCaseWithUnderscore}_MANAGEMENT": "${entity.toUpperCaseWithUnderscore}_MANAGEMENT",
+"${entity.toUpperCaseWithHyphen}_CREATE": "${entity.toUpperCaseWithUnderscore}_CREATE",
+"${entity.toUpperCaseWithHyphen}_READ": "${entity.toUpperCaseWithUnderscore}_READ",
+"${entity.toUpperCaseWithHyphen}_UPDATE": "${entity.toUpperCaseWithUnderscore}_UPDATE",
+"${entity.toUpperCaseWithHyphen}_DELETE": "${entity.toUpperCaseWithUnderscore}_DELETE"
+};

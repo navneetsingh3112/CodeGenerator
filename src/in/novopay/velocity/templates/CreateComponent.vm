@@ -3,19 +3,21 @@
       novalidate="novalidate" [ngBusy]="busy">
     <div class="clearfix">
         <div *ngIf="!reviewMode" class="pull-right">
-            <button type="button" (click)="cancelForm()" class="button button-primary">
+            <button type="button" (click)="cancelForm()" class="button button-basic m-right-8">
                 {{'form-btn-cancel' |
                 translate}}
             </button>
+            <button type="submit" (click)="submitDraftForm()" class="button button-primary m-right-8">
+                {{'form-btn-save-as-draft' |
+                translate}}
+            </button>
             <button type="submit" (click)="submitForm()" class="button button-primary">
-                {{'form-btn-save' |
+                {{'form-btn-submit' |
                 translate}}
             </button>
         </div>
         <h1 class="page-title">{{'${entity.lowerTrainCaseClassName}-create-page-header' | translate}}</h1>
     </div>
-    <div class="row">
-        <div class="col-lg-12">
             <section class="widget" [ngBusy]="busy">
                 <div class="widget-body">
                     <form class="form-horizontal" role="form">
@@ -35,7 +37,6 @@
                                                     *
                                                 #end
                                             </label>
-
                                             <div>
                                                 <input *ngIf="!readOnly" type="text"
                                                        name="${entity.lowerTrainCaseClassName}-${field.lowerTrainCaseName}"
@@ -68,7 +69,6 @@
                                                        disabled="disabled"
                                                     #end
                                                 >
-
                                                 <label *ngIf="readOnly"
                                                     #if ($field.IsAutoPopulate)
                                                        title="{{${field.lowerCamelCaseName}}}"
@@ -83,7 +83,6 @@
                                                     #end</label>
                                             </div>
                                         </div>
-
                                     #elseif ($field.webType.equals('Textarea'))
                                         <!-- TextArea -->
                                         <div class="form-group col-lg-3 col-sm-4 field-type">
@@ -94,7 +93,6 @@
                                                     *
                                                 #end
                                             </label>
-
                                             <div>
                                     <textarea *ngIf="!readOnly" type="text"
                                               name="${entity.lowerTrainCaseClassName}-${field.lowerTrainCaseName}"
@@ -129,7 +127,6 @@
                                         #end
                                     >
                                     </textarea>
-
                                                 <label *ngIf="readOnly"
                                                        for="${entity.lowerTrainCaseClassName}-${field.lowerTrainCaseName}"
                                                     #if ($field.IsAutoPopulate)
@@ -146,7 +143,6 @@
                                                 </label>
                                             </div>
                                         </div>
-
                                     #elseif ($field.webType.equals('Dropdown'))
                                         <!-- Dropdown -->
                                         <div class="form-group col-lg-3 col-sm-4 field-type">
@@ -157,7 +153,6 @@
                                                     *
                                                 #end
                                             </label>
-
                                             <div *ngIf="dropDownList.${field.lowerCamelCaseName}.dataList.length>0">
                                                 <select2 *ngIf="!readOnly"
                                                          id="${entity.lowerTrainCaseClassName}-${field.lowerTrainCaseName}"
@@ -175,19 +170,16 @@
                                                     #end
                                                 >
                                                 </select2>
-
                                                 <ul *ngIf="!dropDownList.${field.lowerCamelCaseName}.isValid"
                                                     class="parsley-errors-list filled">
                                                     <li class="parsley-pattern">{{'field-error-required-msg' |
                                                         translate}}
                                                     </li>
                                                 </ul>
-
                                                 <label *ngIf="readOnly"
                                                        class="read-only-view-label break-long-text">{{dropDownList.${field.lowerCamelCaseName}.initialValues}}</label>
                                             </div>
                                         </div>
-
                                     #elseif ($field.webType.equals('Date'))
                                         <!-- Date -->
                                         <div class="form-group col-lg-3 col-sm-4 field-type">
@@ -198,7 +190,6 @@
                                                     *
                                                 #end
                                             </label>
-
                                             <div>
                                                 <input *ngIf="!readOnly"
                                                        name="${entity.lowerTrainCaseClassName}-${field.lowerTrainCaseName}"
@@ -225,13 +216,11 @@
                                                        disabled="disabled"
                                                     #end
                                                 >
-
                                                 <label *ngIf="readOnly"
                                                        title="{{entity.${field.lowerCamelCaseName}.value}}"
                                                        class="read-only-view-label break-long-text">{{entity.${field.lowerCamelCaseName}.value}}</label>
                                             </div>
                                         </div>
-
                                     #elseif ($field.webType.equals('Datetime'))
                                         <!-- DateTime -->
                                         <div class="form-group col-lg-3 col-sm-4 field-type">
@@ -242,7 +231,6 @@
                                                     *
                                                 #end
                                             </label>
-
                                             <div>
                                                 <input *ngIf="!readOnly"
                                                        name="${entity.lowerTrainCaseClassName}-${field.lowerTrainCaseName}"
@@ -269,13 +257,11 @@
                                                        disabled="disabled"
                                                     #end
                                                 >
-
                                                 <label *ngIf="readOnly"
                                                        title="{{entity.${field.lowerCamelCaseName}.value}}"
                                                        class="read-only-view-label break-long-text">{{entity.${field.lowerCamelCaseName}.value}}</label>
                                             </div>
                                         </div>
-
                                     #elseif ($field.webType.equals('Radio'))
                                         <!-- Radio -->
                                         <div class="form-group col-lg-3 col-sm-4 field-type">
@@ -356,8 +342,6 @@
                                                 #end
                                             </span>
                                         </div>
-
-
                                     #elseif ($field.webType.equals('Checkbox'))
                                         <!-- CheckBox -->
                                         <div class="form-group col-lg-3 col-sm-4 field-type">
@@ -366,7 +350,6 @@
                                                     *
                                                 #end
                                             </label>
-
                                             <div *ngIf="!readOnly && checkboxList.${field.lowerCamelCaseName}.dataList.length>0"
                                                  [ngClass]="{'parsley-error': !checkboxList.${field.lowerCamelCaseName}.isValidAllowedCheckboxes}">
                                                 <div class="abc-checkbox checkbox">
@@ -383,8 +366,6 @@
                                                         {{'check-uncheck-all' | translate}}
                                                     </label>
                                                 </div>
-
-
                                                 #set($counter = 0)
                                                 #if ($field.dataList.size()>0 )
                                                     <div class="abc-checkbox checkbox">
@@ -461,7 +442,6 @@
                                                 #end
                                             </div>
                                         </div>
-
                                     #elseif ($field.webType.equals('Multiselect'))
                                         <!-- Multiselect -->
                                         <div class="form-group col-lg-3 col-sm-4 field-type">
@@ -512,6 +492,4 @@
                     </form>
                 </div>
             </section>
-        </div>
-    </div>
 </form>
