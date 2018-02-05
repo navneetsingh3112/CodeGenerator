@@ -1,0 +1,136 @@
+{
+	"table": "internal_account_definition",
+	"userStory": "internalAccountDefinition",
+	"display_name": "Internal Account Definition",
+	"table_comment": "Internal Account Definition",
+	"author": "Abhinava Mishra",
+	"fetch_api_key": "id",
+	"use_case": "FIN-IAD-UC001",
+	"parent_api_key_list": [{
+		"name": "internal_account_definition_details"
+	}],
+	"fields": [{
+			"name": "name",
+			"web_type": "Textbox",
+			"placeholder": "eg. Registration Fee",
+			"display_name": "Name",
+			"min_length": 3,
+			"max_length": 32,
+			"validation_pattern": "^[a-zA-Z][a-zA-Z0-9 ]*$",
+			"api_key": "name",
+			"parent_api_key": "internal_account_definition_details",
+			"is_mandatory": true,
+			"is_searchable": true,
+			"is_sortable": false,
+			"is_list_element": true,
+			"is_not_editable": false,
+			"comment": "Name of internal account."
+		},
+		{
+			"name": "description",
+			"web_type": "Textarea",
+			"placeholder": "eg. Registration fee for loans",
+			"display_name": "Description",
+			"min_length": 3,
+			"max_length": 256,
+			"api_key": "description",
+			"parent_api_key": "internal_account_definition_details",
+			"is_mandatory": false,
+			"is_searchable": true,
+			"is_sortable": false,
+			"is_list_element": false,
+			"comment": "Description of internal account."
+		},
+		{
+			"name": "direct_posting_allowed",
+			"is_mandatory": true,
+			"web_type": "Radio",
+			"master_data_type": "DIR_POSTING",
+			"master_data_sub_type": "DEFAULT",
+			"is_code_included_in_display": false,
+			"placeholder": "eg. Yes",
+			"parent_api_key": "internal_account_definition_details",
+			"display_name": "Direct Posting Allowed",
+			"min_length": 2,
+			"max_length": 8,
+			"api_key": "direct_posting_allowed",
+			"is_searchable": true,
+			"is_sortable": false,
+			"populate_from_master_data": true
+		},
+		{
+			"name": "general_ledger_code",
+			"is_mandatory": true,
+			"is_list_element": true,
+			"comment": "General Ledger Code",
+			"web_type": "Dropdown",
+			"placeholder": "eg. Fee Income",
+			"display_name": "General Code Ledger & Code",
+			"populate_from_master_data": false,
+			"input_api": "getGeneralLedgerList",
+			"input_api_id_key": "id",
+			"input_api_list_key": "general_ledger_list",
+			"input_api_details_key": "general_ledger_details",
+			"input_api_code_key": "code",
+			"input_api_value_key": "name",
+			"is_code_included_in_display": false,
+			"api_key": "general_ledger_code",
+			"parent_api_key": "internal_account_definition_details",
+			"is_searchable": true,
+			"is_sortable": true
+		},
+		{
+			"name": "general_ledger_category",
+			"web_type": "Textbox",
+			"placeholder": "eg. Income",
+			"display_name": "General Ledger Category",
+			"api_key": "general_ledger_category",
+			"parent_api_key": "internal_account_definition_details",
+			"is_searchable": true,
+			"is_sortable": true,
+			"is_list_element": true
+		},
+		{
+			"name": "general_ledger_currency",
+			"web_type": "Textbox",
+			"placeholder": "eg. INR",
+			"display_name": "Currency",
+			"api_key": "general_ledger_currency",
+			"parent_api_key": "internal_account_definition_details",
+			"is_searchable": true,
+			"is_sortable": false,
+			"is_list_element": true
+		},
+		{
+			"name": "offset_account_type",
+			"is_mandatory": false,
+			"web_type": "Dropdown",
+			"populate_from_master_data": true,
+			"master_data_type": "OFFSET_ACCOUNT_TYPE",
+			"master_data_sub_type": "DEFAULT",
+			"is_code_included_in_display": false,
+			"placeholder": "eg. Originating Credit Offset",
+			"parent_api_key": "internal_account_definition_details",
+			"display_name": "Offset Account Type",
+			"api_key": "offset_account_type",
+			"is_list_element": false
+		}
+	],
+	"list_view_action_button_list": [{
+			"type": "delete"
+		},
+		{
+			"type": "copy"
+		},
+		{
+			"type": "edit"
+		}
+	],
+	"buttons": [{
+			"name": "save"
+		},
+		{
+			"name": "cancel"
+		}
+	]
+}

@@ -29,7 +29,7 @@ protected route:ActivatedRoute,
 protected resourceFactoryConstants:ResourceFactoryConstants,
 protected dialogService: DialogService) {
 super(location, mainApp, appConstants, commonHttpService, baseService,
-commonUtilityService, router, route,dialogService);
+commonUtilityService, router, route,resourceFactoryConstants,dialogService);
 
 let componentProperty : IViewComponentProperty = {
 moduleName: "${entity.lowerTrainCaseClassName}",
