@@ -11,8 +11,8 @@ import {BaseViewComponent} from "../../base-module/view/base-view.component";
 import {ResourceFactoryConstants} from "../../services/resource-factory.constants";
 import {DialogService} from "ng2-bootstrap-modal";
 
-declare var jQuery:any;
 declare var Dropzone:any;
+declare var jQuery:any;
 
 @Component({
 selector: '[${entity.lowerTrainCaseClassName}-view]',
@@ -28,6 +28,8 @@ export class ${entity.upperCamelCaseClassName}ViewComponent extends BaseViewComp
 protected arrayOfEntityKeys:any = [];
 protected rejectDocumentDialogueId:string = "reject-document-dialogue";
 
+protected downloadDocumentApi: string = "";
+protected tenantCode: string = "";
 constructor(protected location:Location,
 protected mainApp: App,
 protected appConstants: AppConstants,
@@ -43,6 +45,7 @@ commonUtilityService, router, route,resourceFactoryConstants,dialogService);
 
 let componentProperty : IViewComponentProperty = {
 moduleName: "${entity.lowerTrainCaseClassName}",
+apiNameForApproval: "createOrUpdate${entity.upperCamelCaseClassName}",
 componentIdRequestBodyKey: "${entity.fetchApiKey}",
 viewComponentAPI: this.resourceFactoryConstants.constants.${entity.lowerCamelCaseClassName}.getDetails,
 deleteComponentAPI: this.resourceFactoryConstants.constants.${entity.lowerCamelCaseClassName}.delete,
@@ -81,7 +84,11 @@ htmlTranslator: '${entity.lowerTrainCaseClassName}-field-${field.lowerTrainCaseN
     apiKey: '${field.apiKey}_value',
     #else apiKey: '${field.apiKey}',
     #end
-parentApiKey: '${field.parentApiKey}'
+parentApiKey: '${field.parentApiKey}',
+beforeValue: '',
+isValueChanged: false,
+highlightStyle: false,
+htmlTranslator: '${entity.lowerTrainCaseClassName}-field-${field.lowerTrainCaseName}',
 },
 #end
 },
@@ -96,8 +103,14 @@ for (let et in this.entity) {
         this.arrayOfEntityKeys.push(et);
     }
 }
+if (this.entity[et].hasOwnProperty('htmlTranslator')) {
+this.arrayOfEntityKeys.push(et);
 }
-ngOnInit(): void {
+}
+}
+ngOnInit():void {
+this.downloadDocumentApi = this.resourceFactoryConstants.constants.document.downloadDocument;
+this.tenantCode = this.mainApp.getTenantCode();
 super.ngOnInit();
 }
 rejectApplication():void {

@@ -1,9 +1,10 @@
 <div [ngBusy]="busy" xmlns="http://www.w3.org/1999/html">
     <div class="container-fluid">
         <div class="row">
-            <h1 class="page-title col-lg-3">{{'office-view-page-header' | translate}}</h1>
+            <h1 class="page-title col-lg-3">{{'${entity.lowerTrainCaseClassName}-view-page-header' | translate}}</h1>
             <div class="col-lg-9">
                 <div class="pull-right">
+
                     <button type="button" (click)="cancelForm()" class="button button-basic" style="margin-right: 8px;">
                         {{'form-btn-back' |
                         translate}}
@@ -19,7 +20,7 @@
                             [disabled]="viewType==='SUBMITTED_APPROVAL' || viewType==='PENDING_CLARIFICATION'"
                             type="button"
                             (click)=showDeleteConfirm() class="button button-danger" style="margin-right: 8px;">
-                        {{'form-btn-delete-office' |
+                        {{'form-btn-delete-${entity.lowerTrainCaseClassName}' |
                         translate}}
                     </button>
                     <button *ngIf="viewType==='DEFAULT' || viewType==='SUBMITTED_APPROVAL' || viewType==='PENDING_CLARIFICATION'"
@@ -27,7 +28,7 @@
                             [disabled]="viewType==='SUBMITTED_APPROVAL' || viewType==='PENDING_CLARIFICATION'"
                             type="button"
                             (click)=copyComponent() class="button button-basic" style="margin-right: 8px;">
-                        {{'form-btn-copy-office' |
+                        {{'form-btn-copy-${entity.lowerTrainCaseClassName}' |
                         translate}}
                     </button>
                     <button *ngIf="viewType==='PENDING_APPROVAL'" type="submit" class="button button-primary"
@@ -45,7 +46,7 @@
                             [ngClass]="{'button-disabled': viewType==='SUBMITTED_APPROVAL'}"
                             [disabled]="viewType==='SUBMITTED_APPROVAL'"
                             class="button button-primary" style="margin-right: 8px;">
-                        {{'form-btn-edit-office' |
+                        {{'form-btn-edit-${entity.lowerTrainCaseClassName}' |
                         translate}}
                     </button>
                     <div class="button-divider"><p></p></div>
@@ -72,38 +73,29 @@
                     <div class="widget-body">
                         <form class="form-horizontal" role="form">
                             <fieldset>
-								<legend> <span class="section-label">{{'form-basic' | translate}}</span> </legend>
-                                #foreach ($field in $entity.fieldList)
-                                    <div class="form-group field-type"
-                                    	[ngClass]="{'col-md-6':showAuditSection==true,'col-md-4':showAuditSection==false}">
-                                        <label class="label-name">{{'${entity.lowerTrainCaseClassName}-field-${field.lowerTrainCaseName}'
-                                            | translate}}
-                                            #if ($field.isMandatory)
-                                                *
-                                            #end
-                                        </label>
-                                        <div>
-                                            #if ($field.webType.equals('Date'))
-                                                <label title="{{entity.${field.lowerCamelCaseName}.value | date:'dd-MM-yyyy'}}"
-                                                       class="read-only-view-label break-long-text">{{entity.${field.lowerCamelCaseName}.value
-                                                    | date:'dd-MM-yyyy'}}</label>
-                                                #elseif ($field.webType.equals('Multiselect'))
-                                                <span *ngIf="readOnly"
-                                                      class="read-only-view-label break-long-text">
-                                                    <span *ngFor=" let data of entity.${field.lowerCamelCaseName}.value">
-                                                        <label class="read-only-view-label break-long-text">
-                                                            {{data}}
-                                                        </label>
-                                                    </span>
-                                                </span>
-                                            #else
-                                                <label title="{{entity.${field.lowerCamelCaseName}.value}}"
-                                                       class="read-only-view-label break-long-text">{{entity.${field.lowerCamelCaseName}.value}}</label>
+                                <legend><span class="section-label">{{'form-basic' |
+                                translate}}</span>
+                                </legend>
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <div class="row">
+                                            
+                                            #foreach ($field in $entity.fieldList)
+                                            <div class="form-group field-type"
+                                                 [ngClass]="{'col-md-4':showAuditSection==true,'col-md-3':showAuditSection==false}">
+                                                <label class="label-name">{{'${entity.lowerTrainCaseClassName}-field-${field.lowerTrainCaseName}'
+                                                    | translate}}
+                                                </label>
+                                                <div>
+                                                    <label title="{{entity.${field.lowerCamelCaseName}.value}}"
+                                                           class="read-only-view-label break-long-text">{{entity.${field.lowerCamelCaseName}.value}}</label>
+                                                </div>
+                                            </div>
                                             #end
                                         </div>
                                     </div>
-                                #end
-                           <fieldset>
+                                </div>
+                            </fieldset>
                         </form>
                     </div>
                 </section>
@@ -198,13 +190,15 @@
                                    class="fa fa-times" aria-hidden="true"></i>
                             </div>
                             <div *ngFor="let attachement of item.attachements">
-                                <a target="_self" style="display: inline-block"
-                                   (click)="downloadDocument(attachement.document_id)">{{attachement.document_name}}</a>
+                                <a href="{{downloadDocumentApi + '?tenant=' + tenantCode + '&document_code=' + attachement.document_id}}"
+                                   target="_self" style="display: inline-block">{{attachement.document_name}}</a>
                             </div>
                         </div>
                     </li>
                 </ul>
             </div>
+
+            
             <div class="col-lg-3 widget" *ngIf="showChangeSection">
                 <div class="row">
                     <div class="col-lg-12">
@@ -231,12 +225,13 @@
                     </li>
                 </ul>
             </div>
+            
         </div>
     </div>
 </div>
 
 
-
+<!-- Modal -->
 <div id="reject-modal-dialogue" class="modal fade" role="dialog">
     <div class="modal-dialog-reject reject">
 
@@ -287,34 +282,33 @@
                                             </div>
 
                                             <div>
-                                                <label for="approval-dialog-form-field-edit-notes"
-                                                       id="approval-dialog-form-field-edit-notes"
-                                                       class="label-name">{{'approval-dialog-form-field-edit-notes'
+                                                <label for="${entity.lowerTrainCaseClassName}-reject-notes"
+                                                       class="label-name">{{'view-reject-label-notes'
                                                     | translate}}
                                                 </label>
 
                                                 <div>
-                                                    <textarea *ngIf="!readOnly" type="text"
-                                                              name="general-ledger-edit-notes"
-                                                              id="general-ledger-edit-notes"
-                                                              class="form-control textarea"
-                                                              rows="4"
-                                                              data-parsley-pattern="^[a-zA-Z0-9_]*$"
-                                                              [(ngModel)]="approvalNotes"
-                                                              maxlength="256"
-                                                              placeholder="eg. Registration Fee for Sarjapur Branch"
-                                                              data-parsley-trigger="change"
-                                                    >
-                                                    </textarea>
+                                    <textarea *ngIf="!readOnly" type="text"
+                                              name="${entity.lowerTrainCaseClassName}-reject-notes"
+                                              id="${entity.lowerTrainCaseClassName}-reject-notes"
+                                              class="form-control textarea"
+                                              rows="4"
+                                              data-parsley-pattern="^[a-zA-Z0-9_]*$"
+                                              [(ngModel)]="approvalNotes"
+                                              maxlength="256"
+                                              data-parsley-trigger="change"
+                                    >
+                                    </textarea>
+
                                                 </div>
                                             </div>
                                         </div>
 
                                         <!-- Textbox -->
                                         <div class="form-group col-lg-7 col-sm-7">
-                                            <label for="approval-dialog-form-field-edit-attachments"
-                                                   id="approval-dialog-form-field-edit-attachments"
-                                                   class="label-name">{{'approval-dialog-form-field-edit-attachments' | translate}}
+                                            <label for="${entity.lowerTrainCaseClassName}-reject-attachments"
+                                                   class="label-name">{{'view-document-label-reject-attachments'
+                                                | translate}}
                                             </label>
                                             <div class="document-wizard-container-div">
                                                 <form-documents-wizard [document_ids]="approvalDocumentIds"
@@ -361,29 +355,31 @@
                                     <div class="row">
 
                                         <div>
-                                            <label for="approval-dialog-form-field-edit-notes"
-                                                   class="label-name">{{'approval-dialog-form-field-edit-notes'
+                                            <label for="${entity.lowerTrainCaseClassName}-clarification-notes"
+                                                   class="label-name">{{'view-clarification-label-notes'
                                                 | translate}}
                                             </label>
 
                                             <div>
-			                                    <textarea *ngIf="!readOnly" type="text"
-			                                              name="general-ledger-clarification-notes"
-			                                              id="general-ledger-clarification-notes"
-			                                              class="form-control textarea"
-			                                              rows="4"
-			                                              data-parsley-pattern="^[a-zA-Z0-9_]*$"
-			                                              [(ngModel)]="clarificationNotes"
-			                                              maxlength="256"
-			                                              placeholder="eg. Registration Fee for Sarjapur Branch"
-			                                              data-parsley-trigger="change">
-			                                    </textarea>
+                                    <textarea *ngIf="!readOnly" type="text"
+                                              name="${entity.lowerTrainCaseClassName}-clarification-notes"
+                                              id="${entity.lowerTrainCaseClassName}-clarification-notes"
+                                              class="form-control textarea"
+                                              rows="4"
+                                              data-parsley-pattern="^[a-zA-Z0-9_]*$"
+                                              [(ngModel)]="clarificationNotes"
+                                              maxlength="256"
+                                              data-parsley-trigger="change">
+                                    </textarea>
+
                                             </div>
                                         </div>
+
+
                                         <!-- Textbox -->
                                         <div class="form-group col-lg-7 col-sm-7">
-                                            <label for="approval-dialog-form-field-edit-attachments"
-                                                   class="label-name">{{'approval-dialog-form-field-edit-attachments'
+                                            <label for="${entity.lowerTrainCaseClassName}-clarification-document"
+                                                   class="label-name">{{'view-document-label-attachments'
                                                 | translate}}
                                             </label>
                                             <div class="document-wizard-container-div">

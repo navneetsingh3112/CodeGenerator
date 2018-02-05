@@ -6,6 +6,9 @@ export const ${entity.upperCamelCaseClassName}_LANG_EN_TRANS = {
 '${entity.lowerTrainCaseClassName}-edit-page-header' : 'Edit ${entity.displayName}',
 '${entity.lowerTrainCaseClassName}-list-page-header' : '${entity.displayName}',
 '${entity.lowerTrainCaseClassName}-view-page-header' : '${entity.displayName} Details',
+'form-btn-delete-${entity.lowerTrainCaseClassName}' : 'Delete ${entity.displayName}',
+'form-btn-copy-${entity.lowerTrainCaseClassName}' : 'Copy ${entity.displayName}',
+'form-btn-edit-${entity.lowerTrainCaseClassName}' : 'Edit ${entity.displayName}',
 #foreach ($field in $entity.fieldList)
 '${entity.lowerTrainCaseClassName}-field-${field.lowerTrainCaseName}': '${field.displayName}',
 #end
