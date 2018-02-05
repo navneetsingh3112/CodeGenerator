@@ -1,0 +1,285 @@
+{
+	"table": "office",
+	"userStory": "office",
+	"display_name": "Office",
+	"author": "Navaneet",
+	"fetch_api_key": "id",
+	"parent_api_key_list": [
+		{
+			"name": "office_details"
+		},
+		{
+			"name": "contact_details"
+		}
+	],
+	"fields": [
+		{
+			"api_key": "office_code",
+			"parent_api_key": "office_details",
+			"display_name": "Code",
+			"name": "code",
+			"web_type": "Textbox",
+			"is_list_element": true,
+			"placeholder": "Code",
+			"is_mandatory": true,
+			"min_length": 3,
+			"max_length": 6,
+			"validation_pattern": "^[a-zA-Z0-9_]*$",
+			"is_searchable": true,
+			"is_sortable": true,
+			"is_editable": true
+		},
+		{
+			"api_key": "name",
+			"parent_api_key": "office_details",
+			"display_name": "Name",
+			"name": "name",
+			"web_type": "Textbox",
+			"is_list_element": true,
+			"placeholder": "Name",
+			"is_mandatory": true,
+			"min_length": 3,
+			"max_length": 32,
+			"validation_pattern": "^[a-zA-Z0-9_ ]*$",
+			"is_searchable": true,
+			"is_sortable": true,
+			"is_editable": true
+		},
+		{
+			"api_key": "description",
+			"parent_api_key": "office_details",
+			"display_name": "Description",
+			"name": "description",
+			"web_type": "Textarea",
+			"is_list_element": false,
+			"placeholder": "Description",
+			"validation_pattern": "^[a-zA-Z0-9_ ]*$",
+			"is_mandatory": false,
+			"min_length": 3,
+			"max_length": 256,
+			"is_editable": true
+		},
+		{
+			"api_key": "office_level",
+			"parent_api_key": "office_details",
+			"display_name": "Office Level",
+			"name": "office_level",
+			"web_type": "Dropdown",
+			"is_list_element": true,
+			"is_code_included_in_display": false,
+			"placeholder": "Office Level",
+			"max_length": 256,
+			"is_mandatory": true,
+			"is_editable": true,
+			"is_searchable": true,
+			"is_sortable": true,
+			"populate_from_master_data": true,
+			"master_data_type": "OFFICE_HIERARCHY_LEVEL",
+			"master_data_sub_type": "DEFAULT"
+		},
+		{
+			"api_key": "parent_id",
+			"parent_api_key": "office_details",
+			"display_name": "Parent Office",
+			"name": "parent_office",
+			"web_type": "Dropdown",
+			"is_list_element": true,
+			"is_code_included_in_display": false,
+			"placeholder": "Parent Office",
+			"max_length": 32,
+			"is_mandatory": true,
+			"is_editable": true,
+			"is_searchable": true,
+			"is_sortable": true,
+			"input_api": "getOfficeList",
+			"input_api_list_key": "office_list",
+			"input_api_id_key": "id",
+			"input_api_code_key": "office_code",
+			"input_api_value_key": "name"
+		},
+		{
+			"api_key": "opened_on",
+			"parent_api_key": "office_details",
+			"display_name": "Opened on",
+			"name": "opened_on",
+			"web_type": "Date",
+			"is_list_element": false,
+			"placeholder": "Opened On",
+			"is_mandatory": false,
+			"is_editable": true
+		},
+		{
+			"api_key": "external_code",
+			"parent_api_key": "office_details",
+			"display_name": "External Reference Code",
+			"name": "external_code",
+			"web_type": "Textbox",
+			"is_list_element": false,
+			"placeholder": "External Reference Code",
+			"validation_pattern": "^[a-zA-Z0-9_]*$",
+			"is_mandatory": false,
+			"min_length": 1,
+			"max_length": 16,
+			"is_editable": true
+		},
+		{
+			"api_key": "name",
+			"parent_api_key": "contact_details",
+			"display_name": "Contact Name",
+			"name": "contact_name",
+			"web_type": "Textbox",
+			"is_list_element": true,
+			"placeholder": "Contact Name",
+			"validation_pattern": "^[a-zA-Z0-9_]*$",
+			"is_mandatory": false,
+			"min_length": 3,
+			"max_length": 32,
+			"is_editable": true
+		},
+		{
+			"api_key": "mobile_country_code",
+			"parent_api_key": "contact_details",
+			"display_name": "Mobile Number",
+			"name": "mobile_country_code",
+			"web_type": "Textbox",
+			"is_list_element": false,
+			"placeholder": "+91",
+			"validation_pattern": "^[+0-9]*$",
+			"is_mandatory": false,
+			"min_length": 1,
+			"max_length": 3,
+			"is_editable": true
+		},
+		{
+			"api_key": "mobile_number",
+			"parent_api_key": "contact_details",
+			"display_name": "Mobile Number",
+			"name": "mobile_number",
+			"web_type": "Textbox",
+			"is_list_element": true,
+			"placeholder": "Mobile Number",
+			"validation_pattern": "^[0-9]*$",
+			"is_mandatory": false,
+			"min_length": 10,
+			"max_length": 10,
+			"is_editable": true
+		},
+		{
+			"api_key": "landline_country_code",
+			"parent_api_key": "contact_details",
+			"display_name": "Landline",
+			"name": "landline_country_code",
+			"web_type": "Textbox",
+			"is_list_element": false,
+			"placeholder": "+91",
+			"validation_pattern": "^[+0-9]*$",
+			"is_mandatory": false,
+			"min_length": 1,
+			"max_length": 3,
+			"is_editable": true
+		},
+		{
+			"api_key": "landline",
+			"parent_api_key": "contact_details",
+			"display_name": "Landline",
+			"name": "landline",
+			"web_type": "Textbox",
+			"is_list_element": false,
+			"placeholder": "Landline",
+			"validation_pattern": "^[0-9]*$",
+			"is_mandatory": false,
+			"min_length": 10,
+			"max_length": 10,
+			"is_editable": true
+		},
+		{
+			"api_key": "alternate_contact_country_code",
+			"parent_api_key": "contact_details",
+			"display_name": "Alternate Number",
+			"name": "alternate_contact_country_code",
+			"web_type": "Textbox",
+			"is_list_element": false,
+			"placeholder": "+91",
+			"validation_pattern": "^[+0-9]*$",
+			"is_mandatory": false,
+			"min_length": 1,
+			"max_length": 3,
+			"is_editable": true
+		},
+		{
+			"api_key": "alternate_contact_number",
+			"parent_api_key": "contact_details",
+			"display_name": "Alternate Number",
+			"name": "alternate_contact_number",
+			"web_type": "Textbox",
+			"is_list_element": false,
+			"placeholder": "Alternate Number",
+			"validation_pattern": "^[0-9]*$",
+			"is_mandatory": false,
+			"min_length": 10,
+			"max_length": 10,
+			"is_editable": true
+		},
+		{
+			"api_key": "fax_country_code",
+			"parent_api_key": "contact_details",
+			"display_name": "Fax Number",
+			"name": "fax_country_code",
+			"web_type": "Textbox",
+			"is_list_element": false,
+			"placeholder": "+91",
+			"validation_pattern": "^[+0-9]*$",
+			"is_mandatory": false,
+			"min_length": 1,
+			"max_length": 3,
+			"is_editable": true
+		},
+		{
+			"api_key": "fax",
+			"parent_api_key": "contact_details",
+			"display_name": "Fax Number",
+			"name": "fax",
+			"web_type": "Textbox",
+			"is_list_element": false,
+			"placeholder": "Fax Number",
+			"validation_pattern": "^[0-9]*$",
+			"is_mandatory": false,
+			"min_length": 10,
+			"max_length": 10,
+			"is_editable": true
+		},
+		{
+			"api_key": "primary_email",
+			"parent_api_key": "contact_details",
+			"display_name": "Email",
+			"name": "primary_email",
+			"web_type": "Textbox",
+			"is_list_element": false,
+			"placeholder": "Email",
+			"validation_pattern": "^[0-9]*$",
+			"is_mandatory": false,
+			"min_length": 3,
+			"max_length": 64,
+			"is_editable": true
+		}
+	],
+	"list_view_action_button_list": [
+		{
+			"type": "copy"
+		},
+		{
+			"type": "edit"
+		},
+		{
+			"type": "delete"
+		}
+	],
+	"buttons": [
+		{
+			"name": "save"
+		},
+		{
+			"name": "cancel"
+		}
+	]
+}
