@@ -31,7 +31,7 @@
                                         <!-- Textbox -->
                                         <div class="form-group col-lg-3 col-sm-4 field-type">
                                             <label for="${entity.lowerTrainCaseClassName}-${field.lowerTrainCaseName}"
-                                                   class="label-name">{{'${entity.lowerTrainCaseClassName}-create-field-${field.lowerTrainCaseName}'
+                                                   class="label-name">{{'${entity.lowerTrainCaseClassName}-field-${field.lowerTrainCaseName}'
                                                 | translate}}
                                                 #if ($field.isMandatory)
                                                     *
@@ -90,7 +90,7 @@
                                         <!-- TextArea -->
                                         <div class="form-group col-lg-3 col-sm-4 field-type">
                                             <label for="${entity.lowerTrainCaseClassName}-${field.lowerTrainCaseName}"
-                                                   class="label-name">{{'${entity.lowerTrainCaseClassName}-create-field-${field.lowerTrainCaseName}'
+                                                   class="label-name">{{'${entity.lowerTrainCaseClassName}-field-${field.lowerTrainCaseName}'
                                                 | translate}}
                                                 #if ($field.isMandatory)
                                                     *
@@ -153,7 +153,7 @@
                                         <!-- Dropdown -->
                                         <div class="form-group col-lg-3 col-sm-4 field-type">
                                             <label class="label-name">
-                                                {{'${entity.lowerTrainCaseClassName}-create-field-${field.lowerTrainCaseName}'
+                                                {{'${entity.lowerTrainCaseClassName}-field-${field.lowerTrainCaseName}'
                                                 | translate}}
                                                 #if ($field.isMandatory)
                                                     *
@@ -195,7 +195,7 @@
                                         <!-- Date -->
                                         <div class="form-group col-lg-3 col-sm-4 field-type">
                                             <label for="${entity.lowerTrainCaseClassName}-${field.lowerTrainCaseName}"
-                                                   class="label-name">{{'${entity.lowerTrainCaseClassName}-create-field-${field.lowerTrainCaseName}'
+                                                   class="label-name">{{'${entity.lowerTrainCaseClassName}-field-${field.lowerTrainCaseName}'
                                                 | translate}}
                                                 #if ($field.isMandatory)
                                                     *
@@ -239,7 +239,7 @@
                                         <!-- DateTime -->
                                         <div class="form-group col-lg-3 col-sm-4 field-type">
                                             <label for="${entity.lowerTrainCaseClassName}-${field.lowerTrainCaseName}"
-                                                   class="label-name">{{'${entity.lowerTrainCaseClassName}-create-field-${field.lowerTrainCaseName}'
+                                                   class="label-name">{{'${entity.lowerTrainCaseClassName}-field-${field.lowerTrainCaseName}'
                                                 | translate}}
                                                 #if ($field.isMandatory)
                                                     *
@@ -282,7 +282,7 @@
                                     #elseif ($field.webType.equals('Radio'))
                                         <!-- Radio -->
                                         <div class="form-group col-lg-3 col-sm-4 field-type">
-                                            <label class="label-name">{{'${entity.lowerTrainCaseClassName}-create-field-${field.lowerTrainCaseName}'
+                                            <label class="label-name">{{'${entity.lowerTrainCaseClassName}-field-${field.lowerTrainCaseName}'
                                                 | translate}}#if ($field.isMandatory)
                                                     *
                                                 #end
@@ -364,7 +364,7 @@
                                     #elseif ($field.webType.equals('Checkbox'))
                                         <!-- CheckBox -->
                                         <div class="form-group col-lg-3 col-sm-4 field-type">
-                                            <label class="label-name">{{'${entity.lowerTrainCaseClassName}-create-field-${field.lowerTrainCaseName}'
+                                            <label class="label-name">{{'${entity.lowerTrainCaseClassName}-field-${field.lowerTrainCaseName}'
                                                 | translate}}#if ($field.isMandatory)
                                                     *
                                                 #end
@@ -468,7 +468,7 @@
                                     #elseif ($field.webType.equals('Multiselect'))
                                         <!-- Multiselect -->
                                         <div class="form-group col-lg-3 col-sm-4 field-type">
-                                            <label class="label-name">{{'${entity.lowerTrainCaseClassName}-create-field-${field.lowerTrainCaseName}'
+                                            <label class="label-name">{{'${entity.lowerTrainCaseClassName}-field-${field.lowerTrainCaseName}'
                                                 | translate}}#if ($field.isMandatory)
                                                     *
                                                 #end

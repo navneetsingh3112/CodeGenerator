@@ -28,7 +28,7 @@
                             <div class="row">
                                 #foreach ($field in $entity.fieldList)
                                     <div class="form-group col-md-3 field-type">
-                                        <label class="label-name">{{'${entity.lowerTrainCaseClassName}-create-field-${field.lowerTrainCaseName}'
+                                        <label class="label-name">{{'${entity.lowerTrainCaseClassName}-field-${field.lowerTrainCaseName}'
                                             | translate}}
                                             #if ($field.isMandatory)
                                                 *
