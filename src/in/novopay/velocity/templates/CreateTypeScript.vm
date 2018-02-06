@@ -53,7 +53,7 @@ let componentProperty : ICreateComponentProperty = {
 moduleName: "${entity.lowerTrainCaseClassName}",
 formHtmlId: '${entity.lowerTrainCaseClassName}-create-form',
 createComponentAPI: this.resourceFactoryConstants.constants.${entity.lowerCamelCaseClassName}.create,
-draftListUrl:'/app/general-ledger/list/'+BaseListTypes.DRAFT_LIST,
+draftListUrl:'/app/${entity.lowerTrainCaseClassName}/list/'+BaseListTypes.DRAFT_LIST,
 listComponentUrl: '/app/${entity.lowerTrainCaseClassName}/list/'+BaseListTypes.APPROVED_LIST,
 useCase : "${entity.useCase}",
 entity: {

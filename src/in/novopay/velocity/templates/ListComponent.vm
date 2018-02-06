@@ -198,7 +198,7 @@
 #end
 #if($StringUtils.equalsIgnoreCase(${actionButton.type} ,"edit"))
 	                                    <i *ngIf="permissionForEdit" class="np np-Edit"
-	                                       (click)="editComponent(item.id)"
+	                                       (click)="editDraftComponent(item)"
 	                                       title="{{'edit-button-tooltip' | translate}}"></i>
 #end
 #end

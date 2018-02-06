@@ -1,33 +1,81 @@
-<div [ngBusy]="busy">
-    <div class="clearfix">
-        <div class="pull-right">
-            <button type="button" (click)="cancelForm()" class="button button-basic">
-                {{'form-btn-back' |
-                translate}}
-            </button>
-            <button *ngIf="permissionForDelete" type="button" (click)=showDeleteConfirm() class="button button-danger">
-                {{'form-btn-delete' |
-                translate}}
-            </button>
-            <button *ngIf="permissionForEdit" type="submit" (click)="editRecord()" class="button button-primary">
-                {{'form-btn-edit' |
-                translate}}
-            </button>
+<div [ngBusy]="busy" xmlns="http://www.w3.org/1999/html">
+    <div class="container-fluid">
+        <div class="row">
+            <h1 class="page-title col-lg-3">{{'office-view-page-header' | translate}}</h1>
+            <div class="col-lg-9">
+                <div class="pull-right">
+                    <button type="button" (click)="cancelForm()" class="button button-basic" style="margin-right: 8px;">
+                        {{'form-btn-back' |
+                        translate}}
+                    </button>
+                    <button *ngIf="viewType==='PENDING_APPROVAL'" type="button" class="button button-danger"
+                            data-toggle="modal"
+                            data-target="#reject-modal-dialogue" style="margin-right: 8px;">
+                        {{'form-btn-reject' |
+                        translate}}
+                    </button>
+                    <button *ngIf="viewType==='DEFAULT' || viewType==='SUBMITTED_APPROVAL' || viewType==='PENDING_CLARIFICATION'"
+                            [ngClass]="{'button-disabled': viewType==='SUBMITTED_APPROVAL' || viewType==='PENDING_CLARIFICATION'}"
+                            [disabled]="viewType==='SUBMITTED_APPROVAL' || viewType==='PENDING_CLARIFICATION'"
+                            type="button"
+                            (click)=showDeleteConfirm() class="button button-danger" style="margin-right: 8px;">
+                        {{'form-btn-delete-office' |
+                        translate}}
+                    </button>
+                    <button *ngIf="viewType==='DEFAULT' || viewType==='SUBMITTED_APPROVAL' || viewType==='PENDING_CLARIFICATION'"
+                            [ngClass]="{'button-disabled': viewType==='SUBMITTED_APPROVAL' || viewType==='PENDING_CLARIFICATION'}"
+                            [disabled]="viewType==='SUBMITTED_APPROVAL' || viewType==='PENDING_CLARIFICATION'"
+                            type="button"
+                            (click)=copyComponent() class="button button-basic" style="margin-right: 8px;">
+                        {{'form-btn-copy-office' |
+                        translate}}
+                    </button>
+                    <button *ngIf="viewType==='PENDING_APPROVAL'" type="submit" class="button button-primary"
+                            data-toggle="modal" data-target="#clarification-modal-dialogue" style="margin-right: 8px;">
+                        {{'form-btn-clarification' |
+                        translate}}
+                    </button>
+                    <button *ngIf="viewType==='PENDING_APPROVAL'" (click)="approveApplication()" type="button"
+                            class="button button-primary" style="margin-right: 8px;">
+                        {{'form-btn-approve' |
+                        translate}}
+                    </button>
+                    <button *ngIf="viewType==='DEFAULT' ||  viewType==='PENDING_CLARIFICATION'  || viewType==='SUBMITTED_APPROVAL'"
+                            type="button" (click)="editRecord()"
+                            [ngClass]="{'button-disabled': viewType==='SUBMITTED_APPROVAL'}"
+                            [disabled]="viewType==='SUBMITTED_APPROVAL'"
+                            class="button button-primary" style="margin-right: 8px;">
+                        {{'form-btn-edit-office' |
+                        translate}}
+                    </button>
+                    <div class="button-divider"><p></p></div>
+                    <button id="comparisonButton" *ngIf="showEditApprovalView"
+                            style="height: 28px;margin-right: 8px;border-radius: 50%;background-color: #a09f9f;"
+                            type="submit" (click)="showUpdateApprovalKeysChanged()"
+                            class="button noOutlineButton">
+                        <i class="np np-Status_Info"></i>
+                    </button>
+                    <button id="auditButton"
+                            style="height: 28px;border-radius: 50%;background-color: #a09f9f;"
+                            type="submit" (click)="showTimeLine()" class="button noOutlineButton">
+                        <i class="np np-Status_Info"></i>
+                    </button>
+                </div>
+            </div>
         </div>
-        <h1 class="page-title">{{'${entity.lowerTrainCaseClassName}-view-page-header' | translate}}</h1>
     </div>
-    <div class="row">
-        <div class="col-lg-12">
-            <section class="widget" [ngBusy]="busy">
-                <div class="widget-body">
-                    <form class="form-horizontal" role="form">
-                        <fieldset>
-                            <legend><span class="section-label">{{'form-basic' |
-                                translate}}</span>
-                            </legend>
-                            <div class="row">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="" *ngIf="!showEditApprovalView"
+                 [ngClass]="{'col-lg-9':showAuditSection==true,'col-lg-12':showAuditSection==false}">
+                <section class="widget" [ngBusy]="busy">
+                    <div class="widget-body">
+                        <form class="form-horizontal" role="form">
+                            <fieldset>
+								<legend> <span class="section-label">{{'form-basic' | translate}}</span> </legend>
                                 #foreach ($field in $entity.fieldList)
-                                    <div class="form-group col-md-3 field-type">
+                                    <div class="form-group field-type"
+                                    	[ngClass]="{'col-md-6':showAuditSection==true,'col-md-4':showAuditSection==false}">
                                         <label class="label-name">{{'${entity.lowerTrainCaseClassName}-field-${field.lowerTrainCaseName}'
                                             | translate}}
                                             #if ($field.isMandatory)
@@ -55,11 +103,312 @@
                                         </div>
                                     </div>
                                 #end
+                           <fieldset>
+                        </form>
+                    </div>
+                </section>
+            </div>
+            <div *ngIf="showEditApprovalView"
+                 [ngClass]="{'col-lg-9':showAuditSection==true || showChangeSection == true,'col-lg-12':showAuditSection==false && showChangeSection == false}">
+                <section class="widget" [ngBusy]="busy">
+                    <div class="list-nav-bar">
+                        <div class="col-lg-6 np-h2 text-center"><span>{{'compare-header-before' | translate}}</span>
+                        </div>
+                        <div class="col-lg-6 np-h2 text-center"><span>{{'compare-header-after' | translate}}</span>
+                        </div>
+                    </div>
+                    <div *ngFor='let key of arrayOfEntityKeys; let i = index'>
+                        <div class="row height-32 np-no-gutters">
+                            <div class="col-lg-6"
+                                 [ngClass]="{'yellowBackground':entity[key].isValueChanged,'highLight':entity[key].highlightStyle,
+                                 'approval-list-border-1':i==0,'approval-list-border-2':i!=0}">
+                                <div class="row">
+                                    <div class="col-lg-6 approval-list-left-cell"><span>{{entity[key].htmlTranslator | translate}}:</span>
+                                    </div>
+                                    <div class="col-lg-6 approval-list-rigth-cell np-no-gutters"><span>{{entity[key].beforeValue}}</span>
+                                    </div>
+                                </div>
                             </div>
-                        </fieldset>
-                    </form>
+                            <div class="col-lg-6"
+                                 [ngClass]="{'yellowBackground':entity[key].isValueChanged,'highLight':entity[key].highlightStyle,
+                                 'approval-list-border-3':i==0,'approval-list-border-4':i!=0}">
+                                <div class="row">
+                                    <div class="col-lg-6 approval-list-left-cell"><span>{{entity[key].htmlTranslator | translate}}:</span>
+                                    </div>
+                                    <div class="col-lg-6 approval-list-rigth-cell np-no-gutters"><span>{{entity[key].value}}</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+            </div>
+
+            <div class="col-lg-3 widget" *ngIf="showAuditSection">
+                <div class="row">
+                    <div class="col-lg-12">
+                        <legend style="margin-top: 5px;">
+                            <span style="float: left;" class="section-label">Activity</span>
+                            <i (click)="showAuditSection = false" style="float: right;cursor: pointer;"
+                               class="fa fa-times"
+                               aria-hidden="true"></i>
+                        </legend>
+                    </div>
                 </div>
-            </section>
+                <br>
+                <ul *ngFor="let item of auditList; let i = index;">
+                    <li class="col-lg-12" style="padding: 0px 0px 20px 0px;">
+                        <p style="font-size: 11px;margin: 0px;">{{item.time}}</p>
+                        <p style="margin: 0px;">
+                            <span style="font-weight: 500;font-size: 14px;">{{item.type}}</span> by
+                        </p>
+                        <div>
+                            <p style="display: inline-block;margin: 0px;width: 40px;height: 40px;line-height:
+                            40px;border-radius: 50%;border: 1px solid;background-color: #EEEEEE;text-align:
+                            center;text-shadow: 1px 1px #999494;margin-bottom: 0px;">
+                                {{item.imagePlaceHolder}}
+                            </p><span style="font-weight: 500;font-size: 12px;margin-left: 10px;">{{item.name}}</span>
+                        </div>
+                        <i class="fa fa-file-o" aria-hidden="true" *ngIf="item.notes"
+                           style="padding-left: 3px;color: #218BC3;font-size: 12px;"></i>
+                        <p (click)="showNotes(item)" *ngIf="item.notes"
+                           style="font-size: 12px;padding-right: 5px;text-decoration:underline;color: #218BC3;
+                           display: inline-block;cursor: pointer;">Notes
+                        </p>
+                        <i class="fa fa-paperclip" aria-hidden="true" *ngIf="item.attachementsCount"
+                           style="padding-left: 2px;color: #218BC3;font-size: 12px;"></i>
+                        <p (click)="showAttachements(item)" *ngIf="item.attachementsCount"
+                           style="font-size: 12px;padding-left: 5px;text-decoration:underline;color: #218BC3;display: inline-block;cursor: pointer;">
+                            Attachements({{item.attachementsCount}})
+                        </p>
+                        <div style="border: 1px solid;margin-top: 5px;" *ngIf="item.showNotes">
+                            <div style="margin: 2px">
+                                <i style="float: right;margin-right: 2px;cursor: pointer"
+                                   (click)="item.showNotes=!item.showNotes"
+                                   class="fa fa-times" aria-hidden="true"></i>
+                            </div>
+                            <div style="margin: 2px;">
+                                <p style="font-size: 14px;margin: 2px;">{{item.notes}}</p>
+                            </div>
+                        </div>
+                        <div style="border: 1px solid;margin-top: 5px;" *ngIf="item.showAttachements">
+                            <div style="margin: 2px">
+                                <i style="float: right;margin-right: 2px;cursor: pointer"
+                                   (click)="item.showAttachements=!item.showAttachements"
+                                   class="fa fa-times" aria-hidden="true"></i>
+                            </div>
+                            <div *ngFor="let attachement of item.attachements">
+                                <a target="_self" style="display: inline-block"
+                                   (click)="downloadDocument(attachement.document_id)">{{attachement.document_name}}</a>
+                            </div>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+            <div class="col-lg-3 widget" *ngIf="showChangeSection">
+                <div class="row">
+                    <div class="col-lg-12">
+                        <legend style="margin-top: 5px;">
+                            <span style="float: left;" class="section-label">Changes</span>
+                            <i (click)="showChangeSection = false" style="float: right;cursor: pointer;"
+                               class="fa fa-times" aria-hidden="true"></i>
+                        </legend>
+                    </div>
+                </div>
+                <hr style="border-top: 2px solid rgba(0, 0, 0, 0.1);">
+                <ul>
+                    <li class="col-lg-12" *ngIf="noOfChangedColumns > 0">
+                        <p style="font-size: 14px;margin: 5px;">{{noOfChangedColumns}} changes to approve</p>
+                        <hr>
+                    </li>
+                    <li class="col-lg-12" *ngFor="let key of arrayOfEntityKeys; let i = index">
+                        <div *ngIf="entity[key].isValueChanged"
+                             (mouseover)="changeTableStyle($event,entity[key])"
+                             (mouseout)="changeTableStyle($event,entity[key])">
+                            <p style="font-size: 14px;margin: 5px;">{{entity[key].htmlTranslator | translate}}</p>
+                            <hr>
+                        </div>
+                    </li>
+                </ul>
+            </div>
         </div>
+    </div>
+</div>
+
+
+
+<div id="reject-modal-dialogue" class="modal fade" role="dialog">
+    <div class="modal-dialog-reject reject">
+
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title">{{'form-dialogue-header-reject' | translate}}</h4>
+            </div>
+            <div class="modal-body">
+                <div class="col-lg-12">
+                    <section class="widget" [ngBusy]="busy">
+                        <div class="widget-body">
+                            <form class="form-horizontal" role="form">
+                                <fieldset>
+                                    <div class="row">
+                                        <div class="form-group col-lg-5 col-sm-5 field-type column">
+                                            <div>
+                                                <label class="label-name">
+                                                    Reason
+                                                </label>
+
+                                                <div *ngIf="dropDownList.reason.dataList.length>0">
+                                                    <select2 *ngIf="!readOnly"
+                                                             id="reject-reason"
+                                                             name="reject-reason"
+                                                             (valueChanged)="dropDownValueChange($event,'reason','reject-reason')"
+                                                             [value]="dropDownList.reason.initialValues"
+                                                             [data]="dropDownList.reason.dataList"
+                                                             [options]="dropDownList.reason.options"
+                                                             ngDefaultControl
+                                                             required
+                                                             [ngClass]="{'parsley-dropdown-error': !dropDownList.reason.isValid}"
+                                                    >
+                                                    </select2>
+
+                                                    <ul *ngIf="!dropDownList.reason.isValid"
+                                                        class="parsley-errors-list filled">
+                                                        <li class="parsley-pattern">{{'field-error-required-msg' |
+                                                            translate}}
+                                                        </li>
+                                                    </ul>
+
+                                                    <label *ngIf="readOnly"
+                                                           title="{{dropDownList.reason.selectedValue}}"
+                                                           class="read-only-view-label break-long-text">{{dropDownList.reason.selectedValue}}</label>
+                                                </div>
+                                            </div>
+
+                                            <div>
+                                                <label for="edit-form-field-edit-notes"
+                                                       id="edit-form-field-edit-notes"
+                                                       class="label-name">{{'edit-form-field-edit-notes'
+                                                    | translate}}
+                                                </label>
+
+                                                <div>
+                                                    <textarea *ngIf="!readOnly" type="text"
+                                                              name="general-ledger-edit-notes"
+                                                              id="general-ledger-edit-notes"
+                                                              class="form-control textarea"
+                                                              rows="4"
+                                                              data-parsley-pattern="^[a-zA-Z0-9_]*$"
+                                                              [(ngModel)]="approvalNotes"
+                                                              maxlength="256"
+                                                              placeholder="eg. Registration Fee for Sarjapur Branch"
+                                                              data-parsley-trigger="change"
+                                                    >
+                                                    </textarea>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <!-- Textbox -->
+                                        <div class="form-group col-lg-7 col-sm-7">
+                                            <label for="edit-form-field-edit-attachments"
+                                                   id="edit-form-field-edit-attachments"
+                                                   class="label-name">{{'edit-form-field-edit-attachments'
+                                                | translate}}
+                                            </label>
+                                            <div class="document-wizard-container-div">
+                                                <form-documents-wizard [document_ids]="approvalDocumentIds"
+                                                                       (docsUploadedEvent)="docsUploadedEventHandler($event)"
+                                                                       class="col-lg-6"></form-documents-wizard>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </fieldset>
+                            </form>
+                        </div>
+                    </section>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-basic" data-dismiss="modal">{{'form-dialogue-btn-cancel' |
+                    translate}}
+                </button>
+                <button type="button" (click)="rejectApplication()" class="button button-danger" data-dismiss="modal">
+                    {{'form-dialogue-btn-reject' | translate}}
+                </button>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+
+<div id="clarification-modal-dialogue" class="modal fade" role="dialog">
+    <div class="modal-dialog-reject reject">
+
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title">{{'form-dialogue-header-clarification' | translate}}</h4>
+            </div>
+            <div class="modal-body">
+                <div class="col-lg-12">
+                    <section class="widget" [ngBusy]="busy">
+                        <div class="widget-body">
+                            <form class="form-horizontal" role="form">
+                                <fieldset>
+                                    <div class="row">
+
+                                        <div>
+                                            <label for="general-ledger-edit-notes"
+                                                   class="label-name">{{'general-ledger-edit-field-edit-notes'
+                                                | translate}}
+                                            </label>
+
+                                            <div>
+			                                    <textarea *ngIf="!readOnly" type="text"
+			                                              name="general-ledger-clarification-notes"
+			                                              id="general-ledger-clarification-notes"
+			                                              class="form-control textarea"
+			                                              rows="4"
+			                                              data-parsley-pattern="^[a-zA-Z0-9_]*$"
+			                                              [(ngModel)]="clarificationNotes"
+			                                              maxlength="256"
+			                                              placeholder="eg. Registration Fee for Sarjapur Branch"
+			                                              data-parsley-trigger="change">
+			                                    </textarea>
+                                            </div>
+                                        </div>
+                                        <!-- Textbox -->
+                                        <div class="form-group col-lg-7 col-sm-7">
+                                            <label for="general-ledger-edit-notes"
+                                                   class="label-name">{{'general-ledger-edit-field-attachments'
+                                                | translate}}
+                                            </label>
+                                            <div class="document-wizard-container-div">
+                                                <form-documents-wizard-2 [document_ids]="clarificationDocumentIds"
+                                                                         (docsUploadedEvent)="clarificationDocsUploadedEventHandle($event)"
+                                                                         class="col-lg-6"></form-documents-wizard-2>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </fieldset>
+                            </form>
+                        </div>
+                    </section>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-basic" data-dismiss="modal">{{'form-dialogue-btn-cancel' |
+                    translate}}
+                </button>
+                <button type="button" (click)="sendApplicationForClarification()" class="button button-primary"
+                        data-dismiss="modal">{{'form-dialogue-btn-clarification' | translate}}
+                </button>
+            </div>
+        </div>
+
     </div>
 </div>

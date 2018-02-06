@@ -10,14 +10,24 @@ import {BaseService} from "../../base-module/base.service";
 import {BaseViewComponent} from "../../base-module/view/base-view.component";
 import {ResourceFactoryConstants} from "../../services/resource-factory.constants";
 import {DialogService} from "ng2-bootstrap-modal";
+
 declare var jQuery:any;
+declare var Dropzone:any;
 
 @Component({
 selector: '[${entity.lowerTrainCaseClassName}-view]',
 templateUrl: './${entity.lowerTrainCaseClassName}-view.component.html',
 encapsulation: ViewEncapsulation.None,
+styles: [`
+	.highLight {
+		border: 3px solid #c6a729;
+}`]
+
 })
 export class ${entity.upperCamelCaseClassName}ViewComponent extends BaseViewComponent {
+protected arrayOfEntityKeys:any = [];
+protected rejectDocumentDialogueId:string = "reject-document-dialogue";
+
 constructor(protected location:Location,
 protected mainApp: App,
 protected appConstants: AppConstants,
@@ -37,10 +47,36 @@ componentIdRequestBodyKey: "${entity.fetchApiKey}",
 viewComponentAPI: this.resourceFactoryConstants.constants.${entity.lowerCamelCaseClassName}.getDetails,
 deleteComponentAPI: this.resourceFactoryConstants.constants.${entity.lowerCamelCaseClassName}.delete,
 editComponentAPI: "/edit",
+approvalCreateOrUpdateApiName: 'createOrUpdate${entity.upperCamelCaseClassName}',
+approvalDeleteApiName: 'delete${entity.upperCamelCaseClassName}',
+createUseCase: '',
+editUseCase: '',
+deleteUseCase: '',
+dropDownList: {
+    reason: {
+        isValid: true,
+        selectedValue: '',
+        initialValues: [],
+        options: {
+            placeholder: 'Reason'
+        },
+        required: true,
+        populateFromMasterData: true,
+        masterDataType: 'CHECKER_REJECT_REASON',
+        masterDataSubType: 'DEFAULT',
+        inputApi: "",
+        inputApiListKey: "",
+        apiKey: 'category',
+        parentApiKey: '',
+        dataList: []
+    }
+},
 entity: {
 #foreach ($field in $entity.fieldList)
 "${field.lowerCamelCaseName}": {
 value: '',
+isValueChanged: '',
+htmlTranslator: '${entity.lowerTrainCaseClassName}-field-${field.lowerTrainCaseName}',
     #if ($field.webType.equals('Radio') || $field.webType.equals('Checkbox') || $field.webType.equals('Dropdown')|| $field.webType.equals('Multiselect'))
     apiKey: '${field.apiKey}_value',
     #else apiKey: '${field.apiKey}',
@@ -55,8 +91,36 @@ parentKeyList: {
 #end
 }};
 super.setComponentProperties(componentProperty);
+for (let et in this.entity) {
+    if (this.entity[et].hasOwnProperty('htmlTranslator')) {
+        this.arrayOfEntityKeys.push(et);
+    }
+}
 }
 ngOnInit(): void {
 super.ngOnInit();
+}
+rejectApplication():void {
+    this.rejectReason = this.dropDownList.reason.selectedValue;
+    this.docUploadStatus = true;
+    if (Dropzone.forElement("#edit-document-dropzone").getQueuedFiles().length > 0) {
+        Dropzone.forElement("#edit-document-dropzone").processQueue();
+    } else {
+        super.rejectApplication();
+    }
+}
+
+
+sendApplicationForClarification():void {
+    this.clarificationDocUploadStatus = true;
+    if (Dropzone.forElement("#edit-document-dropzone-2").getQueuedFiles().length > 0) {
+        Dropzone.forElement("#edit-document-dropzone-2").processQueue();
+    } else {
+        super.sendApplicationForClarification();
+    }
+}
+
+changeTableStyle($event, element:any):void {
+    element.highlightStyle = $event.type == 'mouseover' ? true : false;
 }
 }

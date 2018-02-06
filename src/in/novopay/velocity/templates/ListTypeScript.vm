@@ -43,6 +43,8 @@ export class ${entity.upperCamelCaseClassName}ListComponent extends BaseListComp
         super.setComponentProperties(listViewComponent);
         this.useCaseList = [];
         this.permissionList = [];
+        this.createUseCase = '';
+		this.editUseCase = '';        
         super.getApplicationsCount();
         super.ngOnInit();
 	}

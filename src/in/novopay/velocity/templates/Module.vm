@@ -24,6 +24,7 @@ import {${entity.upperCamelCaseClassName}CopyComponent} from "./copy/${entity.lo
 export const routes = [
 {path: '', redirectTo: 'list/approvedlist', pathMatch: 'full'},
 {path: 'create', component: ${entity.upperCamelCaseClassName}CreateComponent},
+{path: 'create/:type', component: ${entity.upperCamelCaseClassName}CopyComponent}
 {path: 'list/:listType', component: ${entity.upperCamelCaseClassName}ListComponent},
 {path: 'view/:type/:id', component: ${entity.upperCamelCaseClassName}ViewComponent},
 {path: 'view/:type', component: ${entity.upperCamelCaseClassName}ViewComponent},
