@@ -287,9 +287,9 @@
                                             </div>
 
                                             <div>
-                                                <label for="edit-form-field-edit-notes"
-                                                       id="edit-form-field-edit-notes"
-                                                       class="label-name">{{'edit-form-field-edit-notes'
+                                                <label for="approval-dialog-form-field-edit-notes"
+                                                       id="approval-dialog-form-field-edit-notes"
+                                                       class="label-name">{{'approval-dialog-form-field-edit-notes'
                                                     | translate}}
                                                 </label>
 
@@ -312,10 +312,9 @@
 
                                         <!-- Textbox -->
                                         <div class="form-group col-lg-7 col-sm-7">
-                                            <label for="edit-form-field-edit-attachments"
-                                                   id="edit-form-field-edit-attachments"
-                                                   class="label-name">{{'edit-form-field-edit-attachments'
-                                                | translate}}
+                                            <label for="approval-dialog-form-field-edit-attachments"
+                                                   id="approval-dialog-form-field-edit-attachments"
+                                                   class="label-name">{{'approval-dialog-form-field-edit-attachments' | translate}}
                                             </label>
                                             <div class="document-wizard-container-div">
                                                 <form-documents-wizard [document_ids]="approvalDocumentIds"
@@ -362,8 +361,8 @@
                                     <div class="row">
 
                                         <div>
-                                            <label for="general-ledger-edit-notes"
-                                                   class="label-name">{{'general-ledger-edit-field-edit-notes'
+                                            <label for="approval-dialog-form-field-edit-notes"
+                                                   class="label-name">{{'approval-dialog-form-field-edit-notes'
                                                 | translate}}
                                             </label>
 
@@ -383,8 +382,8 @@
                                         </div>
                                         <!-- Textbox -->
                                         <div class="form-group col-lg-7 col-sm-7">
-                                            <label for="general-ledger-edit-notes"
-                                                   class="label-name">{{'general-ledger-edit-field-attachments'
+                                            <label for="approval-dialog-form-field-edit-attachments"
+                                                   class="label-name">{{'approval-dialog-form-field-edit-attachments'
                                                 | translate}}
                                             </label>
                                             <div class="document-wizard-container-div">
