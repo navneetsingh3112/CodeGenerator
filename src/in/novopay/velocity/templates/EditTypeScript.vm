@@ -314,7 +314,7 @@ requestBody: {
 
         let editComponentProperty : IEditComponentProperty = {
             componentIdRequestBodyKey : "id",
-            componentDetailsAPI : this.resourceFactoryConstants.constants.generalLedger.getDetails,
+            componentDetailsAPI : this.resourceFactoryConstants.constants.${entity.lowerCamelCaseClassName}.getDetails,
             createComponentProperty : createComponentProperty
         };
         return editComponentProperty;
